@@ -1,0 +1,24 @@
+# Python environments and generated caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Local credentials and operating-system files
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Model weights, checkpoints, and downloaded data
+.cache/
+checkpoints/
+data/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+pytorch_model*.bin

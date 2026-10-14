@@ -1,0 +1,40 @@
+2.1 第一块：配置、权重、模型代码怎样配合
+实际读取位置：/Users/guqun/.cache/huggingface/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e
+
+vocab_size       =  50257  词表行数
+n_positions      =   1024  位置表行数
+n_embd           =    768  每个位置的向量维度
+n_layer          =     12  Block 个数
+n_head           =     12  注意力头数
+每头维度 = 768 / 12 = 64
+
+实际参数名称 → 形状 → 所属环节
+transformer.wte.weight                    [50257, 768]       Token 向量表 E：按 Token ID 查行
+transformer.wpe.weight                    [1024, 768]        位置向量表 P：按位置编号查行
+transformer.h.0.ln_1.weight               [768]              第 1 个 Block 的 LN1 缩放系数 gamma
+transformer.h.0.ln_1.bias                 [768]              第 1 个 Block 的 LN1 平移系数 beta
+transformer.h.0.attn.c_attn.weight        [768, 2304]        Q/K/V 的合并投影权重
+transformer.h.0.attn.c_attn.bias          [2304]             Q/K/V 的合并投影偏置
+transformer.h.0.attn.c_proj.weight        [768, 768]         注意力输出投影权重
+transformer.h.0.mlp.c_fc.weight           [768, 3072]        MLP 扩展层：768 → 3072
+transformer.h.0.mlp.c_proj.weight         [3072, 768]        MLP 压回层：3072 → 768
+transformer.ln_f.weight                   [768]              所有 Block 之后的最终 LN 缩放系数
+lm_head.weight                            [50257, 768]       输出词表打分；与 Token 向量表共享
+
+注意：h.0 是第 1 个 Block。
+Hugging Face GPT-2 的这些投影使用 Conv1D 包装，权重按 [输入维, 输出维] 存；
+改用 PyTorch Linear 时存储方向相反，加载时需转置。这个细节后续再实现。
+
+E[220] 的前 8 个参数值（完整一行有 768 个）：
+[0.0964656, -0.0913478, 0.0852957, 0.0681185, 0.1236886, -0.1179547, -0.2217526, -0.0827238]
+
+独立可训练参数的个数：
+Token Embedding: 38,597,376
+Position Embedding: 786,432
+12 个 Block: 85,054,464
+最终 LayerNorm: 1,536
+合计：124,439,808，约 124.44M
+E 与 lm_head 是否为同一个参数对象：True
+权重加载检查：没有缺失项、多余项或形状冲突。
+本次仅检查配置和权重；尚未执行生成、训练或与自写模型对齐。
+检查报告：/Users/guqun/micrograd/gpt2_pretrain_lab/artifacts/lesson01-report.json
