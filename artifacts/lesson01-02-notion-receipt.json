@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-16",
+  "notes": {
+    "id": "3fbeaea3-1414-8152-94cd-ffb15d7404b0",
+    "url": "https://app.notion.com/p/3fbeaea31414815294cdffb15d7404b0?pvs=204",
+    "title": "🧩 GPT-2 预训练工程（一）：检查点、独立实现与前向对照"
+  },
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc?pvs=204",
+    "completed_segments": 4,
+    "total_segments": 32,
+    "unit_2_completed_segments": 0,
+    "unit_2_total_segments": 5,
+    "current": "2.1 进行中，前两个知识块已学习并归档",
+    "next": "2.1 第三个知识块：文本生成"
+  },
+  "validation": {
+    "note_sections": 15,
+    "note_tables": 13,
+    "image_attached": true,
+    "self_check_answer_toggle": true,
+    "progress_correct": true,
+    "unrelated_plan_content_preserved": true
+  },
+  "source_package": {
+    "local": "artifacts/lesson01-02-study-materials.zip",
+    "uploaded": false,
+    "reason": "Automatic approval review rejected upload of full source archive as outside the request to write learning notes."
+  },
+  "training_rerun": false,
+  "generation_rerun": false
+}

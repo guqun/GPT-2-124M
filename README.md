@@ -12,9 +12,33 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充，主课程仍停在下面的配置与权重检查。
+这部分作为知识补充。主课程现接续配置与权重检查，进入下方第二块的前向模型对照。
 
-## 当前：2.1 第一块，配置与权重
+## 当前进度：2.1 前两个知识块已归档
+
+已学习配置与权重检查、独立模型与前向对照，以及 `forward` 的逐层调用。复习见 [阶段笔记：检查点、独立实现与前向对照](docs/lesson01-02-notes.md)，包含本次追问、调用图和已有实验结果；掌握程度保留“理解中”。
+
+下一知识块是使用自己的模型生成文本。2.1 整节仍在进行中，生成、训练循环、单批次过拟合、数据加载与初始化专题尚未完成。
+
+## 2.1 第二块，独立模型与前向对照
+
+先看 [代码调用与计算逻辑对照图](docs/diagrams/gpt2-forward-call-map.md)：图中对应 `GPT.forward → Block.forward → Attention / MLP.forward` 的调用、计算与返回，并标注输入输出形状。
+
+![GPT-2 代码调用与计算逻辑对照图](docs/diagrams/gpt2-forward-call-map.png)
+
+先按 [本次学习操作单](lesson02.md) 运行一个实验，再跟踪主数据流：
+
+- `gpt2_model.py`：独立 GPT-2 实现；先看 `GPT.forward` 和 `Block.forward` 的输入输出。
+- `compare_forward.py`：加载同一份本地权重，与 Hugging Face 逐层比较，再检查因果遮罩。
+- `artifacts/lesson02-report.json`：运行后保存本次实际比较结果。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/compare_forward.py
+```
+
+本块先验证前向计算。2.1 中的生成、训练循环、单批次过拟合和初始化专题仍在后续学习，不据此把整节标记为完成。
+
+## 2.1 第一块，配置与权重
 
 文件 `inspect_checkpoint.py` 对应视频开头检查 GPT-2 参数的内容。读取本机已缓存的预训练配置和 safetensors 权重，使用 Hugging Face 的现有模型类检查名称、形状、参数值和权重共享。本块还没有开始自己实现 GPT-2。
 
