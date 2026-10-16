@@ -1,0 +1,2292 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Python 迁移教材 · Java / C++ / Dart 开发者版</title><style>:root{--paper:#fff;--ground:#f6f7f8;--ink:#1d2c38;--muted:#61717d;--accent:#216b71;--accent-wash:#e9f3f2;--line:#dce4e7;--font-size:18px;--sidebar:274px;--toolbar:64px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}a{color:var(--accent);text-underline-offset:4px}button,input{font:inherit}button,a,input,summary{outline-offset:4px}:focus-visible{outline:2px solid var(--accent)}button{cursor:pointer}button:disabled{cursor:default;opacity:.45}.skip-link{position:fixed;z-index:100;top:-80px;left:12px;background:var(--ink);color:#fff;padding:12px}.skip-link:focus{top:12px}.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);background:#f0f4f4;border-right:1px solid var(--line);padding:28px 18px 20px;display:flex;flex-direction:column;z-index:30}.brand{display:flex;align-items:center;gap:12px;padding:0 10px;text-decoration:none;color:var(--ink);font-size:19px;font-weight:700}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border:1px solid #a9c4c6;border-radius:12px;font-family:ui-monospace,monospace;color:var(--accent);background:var(--paper);font-size:18px}.brand-sub{display:block;font-size:12px;letter-spacing:1px;color:var(--muted);font-weight:400;margin-top:4px}.sidebar-intro{font-size:12px;color:var(--muted);margin:24px 10px 22px}.search-label{font-size:11px;margin:0 10px 6px;color:var(--muted)}#toc-search{width:100%;font-size:13px;border:1px solid #d2dfe0;border-radius:7px;background:#fff;padding:10px 11px;margin-bottom:14px;color:var(--ink)}.sidebar nav{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;flex:1;padding-right:3px}.toc-link{display:grid;grid-template-columns:23px 1fr;gap:8px;text-decoration:none;font-size:13px;line-height:1.55;padding:10px 9px;border-radius:6px;margin:2px 0;color:#43545e;border:1px solid transparent}.toc-link span:first-child{font-family:ui-monospace,monospace;font-size:12px;color:#7b8c95;padding-top:1px}.toc-link:hover{background:#e6eeed}.toc-link.active{background:#fff;color:#155b62;border-color:#c2d7d8;font-weight:600}.toc-link.active span:first-child{color:var(--accent)}.toc-link[hidden]{display:none}.toc-meta{display:block;color:var(--muted);font-size:12px;padding:10px;text-decoration:none}.sidebar-footer{font-size:12px;color:#506971;line-height:1.9;padding:16px 10px 0;border-top:1px solid var(--line);margin-top:15px}.sidebar-footer>span:last-child{color:#7a8a92;font-size:11px}.status-dot{display:inline-block;height:6px;width:6px;background:#508c7b;border-radius:50%;margin-right:6px;vertical-align:1px}.workspace{margin-left:var(--sidebar);min-width:0}.toolbar{height:var(--toolbar);position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 34px;background:rgba(246,247,248,.97);border-bottom:1px solid var(--line);gap:20px}.breadcrumb{font-size:13px;color:var(--muted);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.breadcrumb span{padding:0 11px;color:#a1afb5}.breadcrumb b{font-weight:500;color:#314955}.tools{display:flex;gap:4px;flex-shrink:0}.tools button,.menu-button{border:1px solid transparent;background:transparent;color:#516671;padding:8px 10px;border-radius:5px;font-size:12px;white-space:nowrap}.tools button:hover{background:#e8eeee;border-color:#d5e0e2}.menu-button{display:none}.reading-track{height:2px;background:transparent;position:sticky;top:var(--toolbar);z-index:21}#reading-progress{height:100%;width:0;background:#42858a;transition:width .15s linear}main{width:min(100%,1024px);margin:0 auto;padding:52px 56px 0;font-size:var(--font-size);line-height:1.9;overflow-wrap:anywhere}.eyebrow,.chapter-kicker{color:var(--accent);font-size:12px;font-weight:600;letter-spacing:1px;margin-bottom:18px}.intro{scroll-margin-top:90px;padding-bottom:40px}.intro h1{font-size:clamp(32px,3.2vw,46px);letter-spacing:-1.5px;line-height:1.32;color:#163344;margin:0 0 16px;font-weight:750}.intro h1+p{font-size:21px;color:#637b87;margin-bottom:40px}.intro>p{max-width:850px}.intro h2{font-size:23px;margin:42px 0 18px}.start-action{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:32px}.start-action>a:first-child{display:inline-flex;gap:30px;align-items:center;background:var(--accent);color:white;text-decoration:none;padding:11px 20px;border-radius:7px;font-size:15px;font-weight:500}.start-action .secondary-link{font-size:14px;color:#607a84;text-decoration:none}.chapter{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin:26px -18px 44px;padding:38px 38px 24px;box-shadow:0 3px 12px #23384204;scroll-margin-top:88px}.chapter>h2:first-of-type{font-size:29px;line-height:1.45;letter-spacing:-.5px;margin:0 0 25px;padding-bottom:24px;border-bottom:1px solid var(--line);color:#173748}.chapter>h2:first-of-type+p{background:var(--accent-wash);padding:16px 18px;border-left:3px solid #7bacaa;border-radius:0 6px 6px 0;font-size:16px;line-height:1.9;color:#365762;margin:24px 0}.chapter-kicker{margin-bottom:9px;font-size:11px}.chapter h3{font-size:21px;line-height:1.55;margin:38px 0 15px;font-weight:700;color:#244552}.chapter h2{font-size:26px;line-height:1.5;margin:42px 0 18px}p{margin:16px 0 20px}strong{font-weight:650;color:#213f4c}li{padding-left:3px;margin:8px 0}ul,ol{padding-left:25px;margin:18px 0 24px}li::marker{color:#668890}code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:.85em;font-variant-ligatures:none;background:#edf2f4;color:#244b62;padding:.14em .35em;border-radius:4px;overflow-wrap:anywhere}pre{position:relative;margin:20px 0 24px;padding:21px 23px;background:#182d3b;color:#e6edf1;border-radius:8px;font-size:14px;line-height:1.75;overflow-x:auto;tab-size:4;scrollbar-width:thin;overflow-wrap:normal}pre code{padding:0;background:transparent;color:inherit;font-size:inherit;white-space:pre;overflow-wrap:normal;display:block}pre:has(code.language-text){background:#f2f6f6;color:#324c59;border:1px solid #dbe5e5;font-size:13px}pre:has(code.language-bash){background:#243c47;color:#dcebee;font-size:13px}table{width:100%;border-collapse:collapse;font-size:.86em;line-height:1.75;margin:23px 0 28px;text-align:left;display:block;overflow-x:auto}th{background:#eff4f5;font-weight:600;color:#3e5c6a}th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;min-width:84px}tbody tr:nth-child(even){background:#fafcfc}td code{white-space:normal}blockquote{border-left:3px solid #82a6a9;padding:2px 20px;margin:25px 0;color:#486571;background:#f5f9f8}details{border:1px solid #d2e0df;border-radius:8px;margin:24px 0;background:#f8fbfa;overflow:hidden}summary{padding:15px 18px;cursor:pointer;color:#28686e;font-weight:600;font-size:15px;line-height:1.7;list-style-position:inside}summary:hover{background:#eef6f4}details[open]>summary{border-bottom:1px solid #dce8e5;margin-bottom:16px;background:#edf6f3}details> :not(summary){margin-left:20px;margin-right:20px}details>p:last-child,details>ul:last-child,details>ol:last-child{margin-bottom:20px}details pre{font-size:13px}details table{width:calc(100% - 40px)}.chapter-pager{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid var(--line);padding-top:22px;margin-top:36px}.chapter-pager a{font-size:13px;text-decoration:none;line-height:1.7;color:#425f6b}.chapter-pager a:last-child{text-align:right}.chapter-pager small{display:block;color:var(--accent);font-size:11px;margin-bottom:5px}.chapter-pager a:hover{text-decoration:underline}.appendix>h2:first-of-type+p{background:none;padding:0;border:0}.page-footer{max-width:1024px;margin:0 auto;padding:0 50px 36px;color:#85939b;font-size:12px;text-align:center}.mobile-shade{display:none}.copy-button{position:absolute;right:8px;top:8px;background:#35505e;color:#d5e4e9;border:1px solid #4b6470;border-radius:4px;font-size:11px;padding:3px 7px;opacity:0}.copy-button:focus,.copy-button:hover,pre:hover>.copy-button{opacity:1}pre:has(code.language-text) .copy-button{background:white;color:#55717c;border-color:#c7d8dc}
+@media(min-width:1550px){main{max-width:1100px;padding:64px 72px 0}.chapter{padding:44px 46px 28px;margin-left:-24px;margin-right:-24px}.intro h1{font-size:48px}.toolbar{padding-left:48px;padding-right:48px}}
+@media(max-width:1100px){:root{--sidebar:238px}main{padding:38px 30px 0}.chapter{margin-left:0;margin-right:0;padding:28px 25px 24px}.toolbar{padding:0 22px}.chapter>h2:first-of-type{font-size:26px}.toc-link{font-size:12px;gap:5px}.brand{font-size:17px}.sidebar{padding-left:12px;padding-right:12px}.breadcrumb{max-width:350px}}
+@media(max-width:820px){:root{--toolbar:58px;--font-size:17px}.sidebar{transform:translateX(-100%);transition:transform .2s;width:274px;z-index:50}.sidebar.open{transform:translateX(0)}.workspace{margin-left:0}.menu-button{display:block;background:white;border-color:var(--line)}.toolbar{padding:0 14px;gap:10px}.breadcrumb{flex:1;font-size:12px}.breadcrumb>span{padding:0 4px}.tools{gap:0}.tools button{padding:8px}.tools button:last-child{display:none}.mobile-shade:not([hidden]){display:block;position:fixed;inset:0;z-index:40;background:rgba(20,40,50,.32);border:0;width:100%;height:100%}main{padding:36px 20px 0}.intro h1{font-size:35px}.intro h1+p{font-size:18px;margin-bottom:28px}.chapter{padding:28px 23px 22px;margin-bottom:26px;border-radius:9px}.chapter>h2:first-of-type{font-size:25px}.chapter h3{font-size:20px}pre{padding:17px;font-size:13px}.copy-button{opacity:1}.page-footer{padding:6px 24px 30px;font-size:11px}table{font-size:14px}}
+@media(max-width:480px){main{padding:28px 12px 0}.intro{padding:0 8px 18px}.intro h1{font-size:31px;letter-spacing:-.8px}.chapter{padding:24px 17px 18px}.chapter>h2:first-of-type{font-size:23px}.chapter>h2:first-of-type+p{font-size:15px;padding:12px}.breadcrumb{font-size:11px}.tools button{font-size:11px;padding:6px}.eyebrow{font-size:10px;letter-spacing:.3px}.chapter-pager{gap:14px}.chapter-pager a{font-size:12px}pre{margin-left:-6px;margin-right:-6px}details> :not(summary){margin-left:14px;margin-right:14px}th,td{padding:10px;min-width:100px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{body{background:#fff;color:#000}.sidebar,.toolbar,.reading-track,.chapter-pager,.start-action,.copy-button,.page-footer,.skip-link{display:none!important}.workspace{margin:0}main{max-width:none;width:auto;padding:0;font-size:11pt;line-height:1.6}.intro{page-break-after:always}.intro h1{font-size:27pt}.chapter{border:0;box-shadow:none;border-radius:0;padding:0;margin:0;page-break-before:always}.chapter>h2:first-of-type{font-size:21pt}.chapter h3{font-size:14pt;break-after:avoid}.chapter-kicker{font-size:9pt}.chapter>h2:first-of-type+p{font-size:11pt}pre{white-space:pre-wrap;overflow:visible;color:#000!important;background:#f4f4f4!important;border:1px solid #ddd;font-size:8.5pt}pre code{white-space:pre-wrap;word-break:break-word}table{font-size:9pt;overflow:visible;display:table}tr{break-inside:avoid}details{border:1px solid #ccc}details:not([open])>*:not(summary){display:block!important}summary{font-size:10pt}a{color:#000;text-decoration:none}}
+
+/* 迁移教材：阅读级别与目录过滤，正文仍完整保留。 */
+.toc-link{grid-template-columns:22px minmax(0,1fr) auto;gap:7px}.level-tag{font-size:10px;line-height:1.6;font-weight:400;align-self:start;border:1px solid #d6e3e2;border-radius:4px;padding:0 4px;margin-top:2px;color:#6a858a;background:#f6faf9}.toc-filters{display:flex;gap:5px;margin:0 0 5px}.toc-filters button{flex:1;border:1px solid #d4e0df;background:transparent;color:#607a80;padding:6px 0;font-size:11px;border-radius:5px}.toc-filters button[aria-pressed=true]{background:#246b70;color:#fff;border-color:#246b70}.toc-counter{margin:5px 4px 9px;font-size:10px;color:#728890}.chapter-level{display:inline-block;margin-right:11px;padding:1px 8px;border:1px solid #bed4d4;border-radius:4px;background:#f2f8f6;letter-spacing:0}#toc-empty{font-size:12px;color:#71868e;padding:15px 9px}.intro h1{font-size:clamp(30px,3vw,43px)}@media(max-width:1100px) and (min-width:821px){.toc-link{grid-template-columns:20px 1fr}.level-tag{display:none}}@media(max-width:480px){.intro h1{font-size:29px}}@media print{.chapter-level{border:0;padding:0}}
+</style></head>
+<body><a class="skip-link" href="#main">跳到正文</a>
+<aside class="sidebar" id="sidebar"><a class="brand" href="#start"><span class="brand-mark" aria-hidden="true">Py</span><span>Python 迁移<span class="brand-sub">面向大模型工程</span></span></a>
+<p class="sidebar-intro">Java · C++ · Dart → Python</p><label class="search-label" for="toc-search">查找单元</label><input type="search" id="toc-search" placeholder="例如：函数、类、张量" autocomplete="off">
+<div class="toc-filters" role="group" aria-label="目录筛选"><button type="button" data-filter="all" aria-pressed="true">全部</button><button type="button" data-filter="core" aria-pressed="false">重点</button><button type="button" data-filter="practice" aria-pressed="false">实战</button></div><p class="toc-counter" id="toc-counter" aria-live="polite">17 / 17 个单元</p><nav aria-label="教材目录"><a class="toc-meta" href="#start">阅读说明与路线</a><a class="toc-link" href="#unit-00" data-level="reference" data-search="00 · 执行环境：解释器、依赖与启动方式"><span>00</span><span>执行环境：解释器、依赖与启动方式</span><span class="level-tag">速查</span></a><a class="toc-link" href="#unit-01" data-level="core" data-search="01 · 名称绑定、对象身份与可变性"><span>01</span><span>名称绑定、对象身份与可变性</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-02" data-level="reference" data-search="02 · 文本边界：str、bytes 与格式化"><span>02</span><span>文本边界：str、bytes 与格式化</span><span class="level-tag">速查</span></a><a class="toc-link" href="#unit-03" data-level="core" data-search="03 · 容器、切片与复制边界"><span>03</span><span>容器、切片与复制边界</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-04" data-level="core" data-search="04 · dict / set：缺失、顺序与哈希契约"><span>04</span><span>dict / set：缺失、顺序与哈希契约</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-05" data-level="core" data-search="05 · 真值、短路与作用域差异"><span>05</span><span>真值、短路与作用域差异</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-06" data-level="core" data-search="06 · 迭代协议、生成器与消费状态"><span>06</span><span>迭代协议、生成器与消费状态</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-07" data-level="core" data-search="07 · 参数绑定、默认值与返回协议"><span>07</span><span>参数绑定、默认值与返回协议</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-08" data-level="core" data-search="08 · 推导式、闭包与装饰器"><span>08</span><span>推导式、闭包与装饰器</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-09" data-level="core" data-search="09 · import、模块缓存与包上下文"><span>09</span><span>import、模块缓存与包上下文</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-10" data-level="core" data-search="10 · 对象协议、绑定方法与 dataclass"><span>10</span><span>对象协议、绑定方法与 dataclass</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-11" data-level="reference" data-search="11 · with、路径与序列化边界"><span>11</span><span>with、路径与序列化边界</span><span class="level-tag">速查</span></a><a class="toc-link" href="#unit-12" data-level="core" data-search="12 · 类型提示、异常链与输入契约"><span>12</span><span>类型提示、异常链与输入契约</span><span class="level-tag">重点</span></a><a class="toc-link" href="#unit-13" data-level="practice" data-search="13 · 实战：按对象与契约读懂检查脚本"><span>13</span><span>实战：按对象与契约读懂检查脚本</span><span class="level-tag">实战</span></a><a class="toc-link" href="#unit-14" data-level="practice" data-search="14 · tensor：形状、存储别名与 autograd"><span>14</span><span>Tensor：形状、存储别名与 autograd</span><span class="level-tag">实战</span></a><a class="toc-link" href="#unit-15" data-level="practice" data-search="15 · nn.module：注册、执行、更新与保存"><span>15</span><span>nn.Module：注册、执行、更新与保存</span><span class="level-tag">实战</span></a><a class="toc-link" href="#unit-16" data-level="practice" data-search="16 · 综合实战：实现并审查配置接口"><span>16</span><span>综合实战：实现并审查配置接口</span><span class="level-tag">实战</span></a><p id="toc-empty" hidden>没有匹配的单元</p><a class="toc-meta" href="#appendix">速查与官方参考</a></nav>
+<div class="sidebar-footer"><span class="status-dot"></span>离线阅读 · CPU 示例<br><span>Python 3.9 · PyTorch 2.2</span></div></aside>
+<div class="workspace"><header class="toolbar"><button class="menu-button" id="menu-toggle" aria-expanded="false" aria-controls="sidebar">目录</button><div class="breadcrumb">学习补充 <span>/</span> <b id="current-label">阅读说明</b></div><div class="tools"><button id="font-smaller" aria-label="缩小正文字号">A−</button><button id="font-larger" aria-label="放大正文字号">A＋</button><button id="print-book">打印 / PDF</button></div></header>
+<div class="reading-track" aria-hidden="true"><div id="reading-progress"></div></div>
+<main id="main"><section class="intro" id="start"><div class="eyebrow">资深开发者版 / 语义对照与实跑验证 / 17 个单元</div><h1>从 Java / C++ / Dart 迁移到 Python</h1>
+<p>面向资深程序员的大模型代码阅读与实作指南</p>
+<p>**读者前提：你熟悉 Java、C++、Dart，具备工程和算法经验，正在补 Python。**本版默认你理解变量、循环、函数、类、异常和基本数据结构；篇幅集中在 Python 的具体语法、运行语义与工程边界。遇到熟悉概念，用对照表定位差异，再用小实验验证。</p>
+<p>目标是回到 GPT-2 复现课程 2.1：读懂 <code>inspect_checkpoint.py</code>，能修改检查逻辑，并正确理解 PyTorch 模型的对象、张量和调用关系。主线仍暂停在“配置与权重检查”，这份材料是语言迁移补充。</p>
+<h2>先校准几种容易迁移错的经验</h2>
+<table>
+<thead>
+<tr>
+<th>已有经验</th>
+<th>Python 中需要重新确认的边界</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C++ 对象赋值可能有值拷贝语义</td>
+<td>名称赋值通常只建立绑定，不调用隐含的对象复制</td>
+</tr>
+<tr>
+<td>Java 对象的 <code>==</code> 判断身份</td>
+<td>Python 的 <code>==</code> 调用相等性语义；身份判断用 <code>is</code></td>
+</tr>
+<tr>
+<td>Java / Dart 的 <code>String.length</code></td>
+<td>Python <code>len(str)</code> 数码点；UTF-16 码元和 UTF-8 字节要另算</td>
+</tr>
+<tr>
+<td>静态类型与泛型检查</td>
+<td>Python 注解通常交给检查工具；解释器不会据此自动验证参数</td>
+</tr>
+<tr>
+<td>Dart 的命名参数、C++ 的默认参数</td>
+<td>Python 有 <code>/</code>、<code>*</code>、<code>*args</code>、<code>**kwargs</code>，默认对象在函数定义时创建</td>
+</tr>
+<tr>
+<td>Java 注解、C++ attribute</td>
+<td>Python 装饰器会实际调用代码，可能替换函数或类</td>
+</tr>
+<tr>
+<td>容器中的对象可被应用层访问</td>
+<td>PyTorch 普通 <code>list</code> 里的层不一定注册到 <code>nn.Module</code></td>
+</tr>
+<tr>
+<td>“复制了变量”或“拿到了 state”</td>
+<td>Python 别名、Tensor 共享存储、autograd 连接是三个不同维度</td>
+</tr>
+</tbody></table>
+<p>对照只用来定位差异，不把三门语言当成一种语义。各章会说明哪些能类比、哪些要以 Python 实际行为为准。</p>
+<h2>两条阅读路线</h2>
+<p><strong>快速迁移路线：</strong> <a href="#unit-01">01 对象绑定</a> → <a href="#unit-07">07 参数绑定</a> → <a href="#unit-09">09 模块</a> → <a href="#unit-10">10 对象协议</a> → <a href="#unit-13">13 真实脚本</a> → <a href="#unit-14">14 Tensor</a> → <a href="#unit-15">15 模型生命周期</a>。其余章节按读代码时遇到的问题查阅。</p>
+<p>**系统核对路线：**按 00—16 顺序。章节标记为“速查”“重点”“实战”，无需把每章投入相同时间。先做章末语义判断，能准确解释结果就跳过展开实验；不确定时运行后再回看规则。</p>
+<table>
+<thead>
+<tr>
+<th>阅读级别</th>
+<th>单元</th>
+<th>重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>速查</td>
+<td>00、02、11</td>
+<td>环境、文本、I/O 的 Python 写法与边界</td>
+</tr>
+<tr>
+<td>重点</td>
+<td>01、03—10、12</td>
+<td>绑定、可变性、协议、作用域、参数和动态类型</td>
+</tr>
+<tr>
+<td>实战</td>
+<td>13—16</td>
+<td>真实 GPT-2 检查脚本、PyTorch 与配置检查器</td>
+</tr>
+</tbody></table>
+<h2>教材的三层边界</h2>
+<ul>
+<li>**语言本身：**名称绑定、函数调用、索引、迭代、上下文管理协议。</li>
+<li><strong>标准库：</strong><code>pathlib</code>、<code>json</code>、<code>argparse</code>、<code>dataclasses</code> 等具体实现。</li>
+<li>**框架约定：**Transformers 的加载参数，PyTorch 的注册、梯度与存储行为。</li>
+</ul>
+<p>例如 <code>model(...)</code> 使用 Python 的可调用对象协议；如何注册层、进入 <code>forward</code> 和执行钩子，则由 <code>nn.Module</code> 实现。知道语法之后，仍需查看对象类型与 API 契约。</p>
+<h2>材料与验证</h2>
+<p>本教材是独立编写的迁移材料，不是 Karpathy 视频逐字稿。第 13 单元对照当前真实文件，其余例子以小数据验证语义，不替代完整 GPT-2 实现。</p>
+<ul>
+<li><a href="textbook.html">网页阅读版</a> / <a href="textbook.md">Markdown 版</a>：同步生成，示例默认折叠。</li>
+<li><a href="README.md">运行与文件说明</a>：已有项目环境，16 个可运行程序。</li>
+<li><a href="exercises/config_report.py">综合练习</a> / <a href="answers/config_report.py">参考答案</a>：用配置检查任务综合语法。</li>
+<li><a href="verification.json">验证记录</a>：保留实跑输出和源文件校验值。</li>
+</ul>
+<p>已有环境为 Python 3.9.6；涉及版本差异会明确标出。教材不要求为了语法学习升级环境或重新下载模型。</p>
+<div class="start-action"><a href="#unit-01">进入迁移路线 <span aria-hidden="true">→</span></a><a href="textbook.md" class="secondary-link">Markdown 版 ↗</a></div></section><section class="chapter" id="unit-00" data-chapter="0"><div class="chapter-kicker"><span class="chapter-level">速查</span>语言语义与数据</div><h2>00 · 执行环境：解释器、依赖与启动方式</h2>
+<p>**迁移目标：**建立“哪个解释器执行了哪个入口”的确定性。你已有终端与 IDE 使用经验，本章只保留 Python 环境定位。</p>
+<h3>一张定位表</h3>
+<table>
+<thead>
+<tr>
+<th>需要知道什么</th>
+<th>直接观察</th>
+<th>避免的误判</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>当前解释器</td>
+<td><code>sys.executable</code></td>
+<td>系统 <code>python</code>、Python 3.12 和项目 venv 是同一个环境</td>
+</tr>
+<tr>
+<td>是否在 venv</td>
+<td><code>sys.prefix != sys.base_prefix</code></td>
+<td>终端目录在项目里就自动使用项目环境</td>
+</tr>
+<tr>
+<td>包能否被找到</td>
+<td><code>importlib.util.find_spec(&quot;torch&quot;)</code></td>
+<td>找到包就代表它及原生依赖一定能导入成功</td>
+</tr>
+<tr>
+<td>脚本资源目录</td>
+<td><code>Path(__file__).resolve().parent</code></td>
+<td>当前工作目录就是脚本目录</td>
+</tr>
+<tr>
+<td>包安装归属</td>
+<td><code>指定解释器 -m pip ...</code></td>
+<td>裸 <code>pip</code> 一定对应正在运行的 Python</td>
+</tr>
+</tbody></table>
+<p>你之前的 <code>No module named &#39;torch&#39;</code> 发生在切换解释器之后，应首先检查环境绑定，而不是修改模型代码。本课程当前解释器：<code>/Users/guqun/micrograd/venv/bin/python</code>。</p>
+<h3>两种入口都要能识别</h3>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/inspect_checkpoint.py
+</code></pre>
+<p>这是按文件运行；<code>python -m package.module</code> 则按可导入模块运行，能建立包上下文。选择取决于项目组织，不是哪个写法更高级。相对导入和入口保护见第 09 单元。</p>
+<details><summary>运行环境定位实验</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/00_environment.py">examples/00_environment.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;00：解释器、环境与模块定位；诊断而非安装脚本。&quot;&quot;&quot;
+import importlib.util
+from pathlib import Path
+import sys
+
+print(&quot;解释器：&quot;, sys.executable)
+print(&quot;版本：&quot;, sys.version.split()[0])
+print(&quot;当前是虚拟环境：&quot;, sys.prefix != sys.base_prefix)
+print(&quot;脚本目录：&quot;, Path(__file__).resolve().parent)
+# 查找模块的入口，不导入 torch，不下载权重。
+spec = importlib.util.find_spec(&quot;torch&quot;)
+print(&quot;torch 可定位：&quot;, spec is not None)
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/00_environment.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">解释器： /Users/guqun/micrograd/venv/bin/python
+版本： 3.9.6
+当前是虚拟环境： True
+脚本目录： /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples
+torch 可定位： True
+</code></pre>
+</details>
+
+<details><summary>VS Code 解释器定位速查</summary>
+
+<p>命令面板选择 <strong>Python: Select Interpreter</strong>，指定 <code>/Users/guqun/micrograd/venv/bin/python</code>。实际执行后以 <code>sys.executable</code> 为准。需要核对安装位置时运行这个解释器的 <code>-m pip show torch</code>；本机依赖已经具备，无需再安装。</p>
+</details>
+
+<h3>语义自检</h3>
+<p>IDE 能补全 <code>torch</code>，运行却找不到它，优先核对哪两个环境？为什么“find_spec 成功”和“import 成功”不是同一件事？</p>
+<details><summary>核对答案</summary>
+
+<p>先核对 IDE 分析/运行配置与实际 <code>sys.executable</code>。定位模块只说明找到了导入入口；执行模块代码、解析传递依赖或加载原生扩展仍可能失败。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#start"><small>← 上一单元</small>阅读说明</a><a href="#unit-01"><small>下一单元 →</small>01 · 名称绑定、对象身份与可变性</a></nav></section>
+<section class="chapter" id="unit-01" data-chapter="1"><div class="chapter-kicker"><span class="chapter-level">重点</span>语言语义与数据</div><h2>01 · 名称绑定、对象身份与可变性</h2>
+<p>**迁移目标：**精准判断赋值和传参是否复制、是否修改调用者状态。先分“名字重新绑定”与“对象被修改”，后面再区分 Tensor 存储与梯度图。</p>
+<h3>传参共享对象，局部重绑定不回写调用者</h3>
+<pre><code class="language-python">def update(values):
+    values.append(30)
+    values = [999]
+    return values
+
+ids = [10, 20]
+other = update(ids)
+</code></pre>
+<p>结果：<code>ids == [10,20,30]</code>，<code>other == [999]</code>。调用时形参与实参名字可访问同一个列表；<code>append</code> 修改那个对象；后面的赋值只改变局部名字 <code>values</code>。</p>
+<p>可以借用 Java “对象引用值传递”的直觉理解这个例子，但 Python 对整数、函数、类等同样使用对象与名字的模型，也没有这里可对应的 C++ <code>T&amp;</code> 形参声明。称为“按对象共享传递”比笼统地说“全部按引用传递”更不易误读。</p>
+<h3>三种写法，三种契约</h3>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>判断/操作</th>
+<th>不能顺手推断什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>b = a</code></td>
+<td>新绑定到已有对象</td>
+<td>不意味着新建对象或复制数据</td>
+</tr>
+<tr>
+<td><code>a == b</code></td>
+<td>相等性比较，可由类型定义</td>
+<td>不保证两个引用相同；Tensor 甚至返回逐元素结果</td>
+</tr>
+<tr>
+<td><code>a is b</code></td>
+<td>对象身份相同</td>
+<td>不用来比较字符串、整数的内容</td>
+</tr>
+</tbody></table>
+<p>Java 对象的 <code>==</code> 与 Python 的 <code>is</code> 更接近。C++ 的运算符重载和 Dart 的 <code>operator ==</code> 更能提醒你：相等性要看对象类型的实现。不要用整数驻留或字符串复用的偶然结果推断 <code>is</code> 的内容比较规则。</p>
+<h3>数值语义也有几个差别</h3>
+<ul>
+<li>Python <code>int</code> 是任意精度整数，受资源限制；普通整数运算没有固定 32/64 位溢出回绕。</li>
+<li><code>/</code> 是普通除法；<code>//</code> 向负无穷取整：<code>-7 // 2 == -4</code>。别套用 Java/C++ 整数除法向零截断的结果。</li>
+<li><code>%</code> 与这个取整规则配套，<code>-7 % 2 == 1</code>；乘方用 <code>**</code>，<code>^</code> 是异或。</li>
+<li><code>bool</code> 是 <code>int</code> 的子类，<code>isinstance(True, int)</code> 成立；严格配置尺寸校验需要排除布尔值。</li>
+<li><code>x += y</code> 由类型决定：整数重新绑定，列表可能原地修改，Tensor 还涉及 autograd 约束。</li>
+</ul>
+<details><summary>实验：共享修改、重新绑定与整数边界</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/01_values.py">examples/01_values.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;01：对象绑定、共享修改与重新绑定。&quot;&quot;&quot;
+
+def mutate_then_rebind(values):
+    values.append(30)  # 修改调用者也能访问的同一个对象。
+    values = [999]    # 只改变本函数局部名字的绑定。
+    return values
+
+original = [10, 20]
+returned = mutate_then_rebind(original)
+print(&quot;调用者的列表：&quot;, original)
+print(&quot;函数返回的新列表：&quot;, returned)
+assert original == [10, 20, 30] and returned == [999]
+
+alias = original
+same_value = original.copy()
+print(&quot;alias is original：&quot;, alias is original)
+print(&quot;copy == original / copy is original：&quot;, same_value == original, same_value is original)
+
+integer = 1
+old_integer = integer
+integer += 1
+print(&quot;整数重新绑定：&quot;, old_integer, integer)
+print(&quot;普通除法 / 向下整除 / 余数：&quot;, 7 / 2, -7 // 2, -7 % 2)
+print(&quot;整数不固定为 64 位：&quot;, 2 ** 70)
+print(&quot;bool 是 int 的子类：&quot;, isinstance(True, int))
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/01_values.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">调用者的列表： [10, 20, 30]
+函数返回的新列表： [999]
+alias is original： True
+copy == original / copy is original： True False
+整数重新绑定： 1 2
+普通除法 / 向下整除 / 余数： 3.5 -4 1
+整数不固定为 64 位： 1180591620717411303424
+bool 是 int 的子类： True
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>cache = original</code> 可以当备份吗？如何解释 <code>wte.weight is lm_head.weight</code> 与“两个权重当前数值一样”的差别？</p>
+<details><summary>核对答案</summary>
+
+<p>前者只是别名。备份要选择符合对象类型的复制策略，嵌套容器和 Tensor 不能仅凭一个等号判断。共享权重检查比较参数对象身份；两个独立参数即使数值一致，也不会因此在后续更新中自动同步。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-00"><small>← 上一单元</small>00 · 执行环境：解释器、依赖与启动方式</a><a href="#unit-02"><small>下一单元 →</small>02 · 文本边界：str、bytes 与格式化</a></nav></section>
+<section class="chapter" id="unit-02" data-chapter="2"><div class="chapter-kicker"><span class="chapter-level">速查</span>语言语义与数据</div><h2>02 · 文本边界：str、bytes 与格式化</h2>
+<p>**迁移目标：**保留你已经理解的 Unicode/Tokenizer 概念，校准 Python 对字符串长度、索引和字节的实际定义。</p>
+<h3>同一个字符，三个不同计数</h3>
+<table>
+<thead>
+<tr>
+<th>文本</th>
+<th>Python <code>len(str)</code>：码点</th>
+<th>Java / Dart 字符串长度：UTF-16 码元</th>
+<th>UTF-8 字节数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>你</code></td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>😊</code></td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>e</code> 加组合重音 <code>\u0301</code></td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>Java 的字符串索引和 Dart <code>length</code> 使用 UTF-16 码元；Python 的 <code>str</code> 按码点访问。这些都不是用户感知字素簇的通用计数方式。<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">Java String 说明</a>、<a href="https://api.dart.dev/dart-core/String/length.html">Dart length 定义</a>。</p>
+<p>Python 没有独立的 <code>char</code> 类型：<code>text[0]</code> 仍是长度 1 的 <code>str</code>。<code>bytes[0]</code> 却是 0—255 的整数；<code>bytes[:1]</code> 仍是 <code>bytes</code>。这直接对应此前字节级 BPE 的输入处理。</p>
+<h3>只记几条 Python 特有的 API 习惯</h3>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>契约</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>text.encode(&quot;utf-8&quot;)</code> / <code>data.decode(&quot;utf-8&quot;)</code></td>
+<td><code>str ↔ bytes</code>，不是 Tokenizer 的词表编码</td>
+</tr>
+<tr>
+<td><code>&quot;a  b&quot;.split()</code></td>
+<td>合并连续空白、丢掉两端空白后的分段</td>
+</tr>
+<tr>
+<td><code>&quot;a  b&quot;.split(&quot; &quot;)</code></td>
+<td>按指定分隔符切，保留中间产生的空字符串</td>
+</tr>
+<tr>
+<td><code>&quot;a.b&quot;.split(&quot;.&quot;)</code></td>
+<td>分隔符是字面字符串；不像 Java <code>String.split</code> 默认接收正则</td>
+</tr>
+<tr>
+<td><code>&quot; &quot;.join(pieces)</code></td>
+<td>连接器是接收者，元素需要是字符串</td>
+</tr>
+<tr>
+<td><code>f&quot;{loss:.3f}&quot;</code></td>
+<td>在执行该表达式时格式化，不改变原数值</td>
+</tr>
+<tr>
+<td><code>f&quot;{value!r}&quot;</code></td>
+<td>使用 <code>repr</code> 表示；便于观察转义和边界</td>
+</tr>
+</tbody></table>
+<p>不要把 <code>str(bytes_object)</code> 当解码，它得到的是对象的显示表示。原始字符串 <code>r&quot;\d+&quot;</code> 减少 Python 对反斜杠的处理，但正则引擎随后仍会解释自己的语法。</p>
+<details><summary>实验：三种长度、字节索引与 split</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/02_strings.py">examples/02_strings.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;02：码点、UTF-16 码元、UTF-8 字节的计数对照。&quot;&quot;&quot;
+for text in (&quot;你&quot;, &quot;😊&quot;, &quot;e\u0301&quot;):
+    data = text.encode(&quot;utf-8&quot;)
+    utf16_units = len(text.encode(&quot;utf-16-le&quot;)) // 2
+    print(repr(text), &quot;码点&quot;, len(text), &quot;UTF-16 码元&quot;, utf16_units, &quot;UTF-8 字节&quot;, len(data))
+    assert data.decode(&quot;utf-8&quot;) == text
+
+raw = &quot;你&quot;.encode(&quot;utf-8&quot;)
+print(&quot;bytes 索引与切片类型：&quot;, type(raw[0]).__name__, type(raw[:1]).__name__)
+print(&quot;字节数值：&quot;, list(raw))
+print(&quot;空白拆分：&quot;, &quot;a  b&quot;.split())
+print(&quot;指定普通空格：&quot;, &quot;a  b&quot;.split(&quot; &quot;))
+print(&quot;字面分隔符不是正则：&quot;, &quot;a.b&quot;.split(&quot;.&quot;))
+loss = 2.34567
+print(f&quot;显示 {loss:.3f}；原值 {loss!r}；参数量 {50257 * 768:,}&quot;)
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/02_strings.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">&#39;你&#39; 码点 1 UTF-16 码元 1 UTF-8 字节 3
+&#39;😊&#39; 码点 1 UTF-16 码元 2 UTF-8 字节 4
+&#39;é&#39; 码点 2 UTF-16 码元 2 UTF-8 字节 3
+bytes 索引与切片类型： int bytes
+字节数值： [228, 189, 160]
+空白拆分： [&#39;a&#39;, &#39;b&#39;]
+指定普通空格： [&#39;a&#39;, &#39;&#39;, &#39;b&#39;]
+字面分隔符不是正则： [&#39;a&#39;, &#39;b&#39;]
+显示 2.346；原值 2.34567；参数量 38,597,376
+</code></pre>
+</details>
+
+<h3>语义自检</h3>
+<p>为什么“取字符串的前 8 项”和“取 UTF-8 的前 8 字节”可能无法互换？<code>repr(text)</code>、UTF-8 编码与 Token ID 序列分别解决什么问题？</p>
+<details><summary>核对答案</summary>
+
+<p>前者按码点，后者可能截断一个多字节字符，得到不能独立解码的片段。<code>repr</code> 用于观察对象；UTF-8 是字符到字节的编码；Token ID 还要经过具体 Tokenizer 的切分与词表映射。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-01"><small>← 上一单元</small>01 · 名称绑定、对象身份与可变性</a><a href="#unit-03"><small>下一单元 →</small>03 · 容器、切片与复制边界</a></nav></section>
+<section class="chapter" id="unit-03" data-chapter="3"><div class="chapter-kicker"><span class="chapter-level">重点</span>语言语义与数据</div><h2>03 · 容器、切片与复制边界</h2>
+<p>**迁移目标：**熟悉 Python 序列语法，并能区分“外层复制”“内部共享”“深复制”。后面 Tensor 的切片会再引入存储视图语义。</p>
+<h3>索引语法快速映射</h3>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>需要识别的结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ids[-1]</code></td>
+<td>最后一个元素</td>
+</tr>
+<tr>
+<td><code>ids[start:stop:step]</code></td>
+<td>左闭右开；步长可为负</td>
+</tr>
+<tr>
+<td><code>x, y = ids[:-1], ids[1:]</code></td>
+<td>两份列表切片，准备右移监督</td>
+</tr>
+<tr>
+<td><code>first, *middle, last = ids</code></td>
+<td>星号吸收中间项，<code>middle</code> 是列表</td>
+</tr>
+<tr>
+<td><code>(768,)</code></td>
+<td>单项元组；关键是逗号</td>
+</tr>
+<tr>
+<td><code>list.sort()</code> / <code>sorted(values)</code></td>
+<td>前者原地改并返回 <code>None</code>；后者产生新列表</td>
+</tr>
+</tbody></table>
+<p>列表切片创建新的外层列表，元素仍是原对象的引用。与 C++ <code>std::vector</code> 的按值复制经验对照时，要看 Python 容器里的元素对象是否继续共享。</p>
+<h3>两个高频反例</h3>
+<pre><code class="language-python">rows = [[1, 2], [3, 4]]
+backup = rows[:]
+backup[0].append(9)  # rows[0] 也改变
+
+matrix = [[0] * 2] * 3
+matrix[0][0] = 7     # 三行都看到 7
+</code></pre>
+<p>第一例只复制外层。第二例把同一个行对象的引用重复了三次；正确的独立构造是 <code>[[0] * 2 for _ in range(3)]</code>。</p>
+<p>标准库 <code>copy.copy</code> 与切片一样只做浅复制；<code>copy.deepcopy</code> 递归复制适用对象，并处理共享/循环引用。资源句柄、框架对象以及 Tensor 应按各自契约决定是否及怎样复制。<a href="https://docs.python.org/3.9/library/copy.html">copy 官方说明</a>。</p>
+<h3>不可变 tuple 不等于深不可变</h3>
+<p><code>record = (&quot;tokens&quot;, [1,2])</code> 不允许重新赋值 <code>record[1]</code>，但 <code>record[1].append(3)</code> 合法。<code>tuple</code> 固定的是容器槽位，不能类比为包含对象全都被深度冻结。</p>
+<p><code>append(value)</code> 把一个对象加入列表；<code>extend(values)</code> 消费一个可迭代对象。二者返回 <code>None</code>，不提供 fluent 风格链式调用。<code>ids = ids.append(1)</code> 会丢失原列表绑定。</p>
+<details><summary>实验：切片、浅复制、深复制与共享行</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/03_sequences.py">examples/03_sequences.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;03：列表切片复制外层；tuple 不保证内部对象不可变。&quot;&quot;&quot;
+import copy
+
+ids = [10, 20, 30, 40]
+x, y = ids[:-1], ids[1:]
+print(&quot;右移监督：&quot;, list(zip(x, y)))
+print(&quot;负索引与步长：&quot;, ids[-1], ids[::2], ids[::-1])
+first, *middle, last = ids
+print(&quot;星号拆包：&quot;, first, middle, last)
+
+rows = [[1, 2], [3, 4]]
+shallow = rows[:]
+deep = copy.deepcopy(rows)
+shallow[0].append(9)
+shallow.append([5, 6])
+print(&quot;原始 / 浅复制 / 深复制：&quot;, rows, shallow, deep)
+assert len(rows) == 2 and rows[0] == [1, 2, 9] and deep[0] == [1, 2]
+
+wrong = [[0] * 2] * 3
+wrong[0][0] = 7
+right = [[0] * 2 for _ in range(3)]
+right[0][0] = 7
+print(&quot;复用同一行：&quot;, wrong)
+print(&quot;独立创建每行：&quot;, right)
+
+record = (&quot;tokens&quot;, [1, 2])
+record[1].append(3)
+print(&quot;tuple 内的列表仍可变：&quot;, record)
+values = [3, 1, 2]
+returned = values.sort()
+print(&quot;原地排序结果 / 返回值：&quot;, values, returned)
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/03_sequences.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">右移监督： [(10, 20), (20, 30), (30, 40)]
+负索引与步长： 40 [10, 30] [40, 30, 20, 10]
+星号拆包： 10 [20, 30] 40
+原始 / 浅复制 / 深复制： [[1, 2, 9], [3, 4]] [[1, 2, 9], [3, 4], [5, 6]] [[1, 2], [3, 4]]
+复用同一行： [[7, 0], [7, 0], [7, 0]]
+独立创建每行： [[7, 0], [0, 0], [0, 0]]
+tuple 内的列表仍可变： (&#39;tokens&#39;, [1, 2, 3])
+原地排序结果 / 返回值： [1, 2, 3] None
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p>为每个 batch 保存 <code>history.append(batch[:])</code>，是否已取得稳定快照？tuple 包装一个列表后，能直接作为字典键吗？</p>
+<details><summary>核对答案</summary>
+
+<p>取决于内部元素：嵌套可变对象仍共享，Tensor 还要核对存储和梯度关系。包含列表的 tuple 不能哈希，因此不能直接作字典键；tuple 的每个元素都满足可哈希要求才行。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-02"><small>← 上一单元</small>02 · 文本边界：str、bytes 与格式化</a><a href="#unit-04"><small>下一单元 →</small>04 · dict / set：缺失、顺序与哈希契约</a></nav></section>
+<section class="chapter" id="unit-04" data-chapter="4"><div class="chapter-kicker"><span class="chapter-level">重点</span>语言语义与数据</div><h2>04 · dict / set：缺失、顺序与哈希契约</h2>
+<p>**迁移目标：**读词表与配置时，区分缺键、空值、覆盖与去重；审查代码不能只看容器名字像哪一种 Map。</p>
+<h3>常用行为对照</h3>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>精确语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mapping[key]</code></td>
+<td>不存在则 <code>KeyError</code>，不会插入默认值</td>
+</tr>
+<tr>
+<td><code>mapping.get(key, fallback)</code></td>
+<td>缺失才返回默认；存在但为 <code>None</code> 时保留 <code>None</code></td>
+</tr>
+<tr>
+<td><code>key in mapping</code></td>
+<td>检查键，不检查值</td>
+</tr>
+<tr>
+<td><code>mapping.keys()</code> / <code>.items()</code></td>
+<td>动态视图，后续改动可以反映出来</td>
+</tr>
+<tr>
+<td><code>{**base, **overrides}</code></td>
+<td>新外层字典；后面的同名键覆盖前面的，仍是浅组合</td>
+</tr>
+<tr>
+<td><code>set()</code> / <code>{}</code></td>
+<td>空集合 / 空字典</td>
+</tr>
+</tbody></table>
+<p>Python 3.7 起 dict 插入顺序是语言保证；覆盖已有键不把键移到末尾；删除后重新插入则是新的插入位置。它不是按键排序。set 不提供你可以依赖的插入次序，BPE 的合并优先级应来自 rank，不能来自集合遍历位置。</p>
+<h3>缺失与 None 要明确区分</h3>
+<pre><code class="language-python">sentinel = object()
+value = config.get(&quot;checkpoint&quot;, sentinel)
+if value is sentinel:
+    print(&quot;根本没提供这个字段&quot;)
+elif value is None:
+    print(&quot;提供了字段，并明确使用空值&quot;)
+</code></pre>
+<p>如果只 <code>.get(key)</code>，两种情况都会得到 <code>None</code>。<code>setdefault</code> 则会在缺键时插入值；并且传入的默认表达式会在调用前求值，不是惰性工厂。</p>
+<h3>键的相等与哈希会影响数据</h3>
+<p><code>{1: &quot;a&quot;, True: &quot;b&quot;, 1.0: &quot;c&quot;}</code> 最终只有一个键，因为它们相等且哈希一致。不要把配置中的布尔值直接放进要求严格整数的 ID/维度路径。</p>
+<p>像 <code>(&quot;a&quot;,&quot;b&quot;)</code> 这样的字符串元组可以作为 BPE pair 的键；列表不能哈希。自定义类若重定义 <code>__eq__</code>，也需要理解其 <code>__hash__</code> 契约，不能在作为键后再改变影响相等/哈希的状态。</p>
+<details><summary>实验：动态视图、哨兵与数值键合并</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/04_mappings.py">examples/04_mappings.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;04：字典顺序、缺失语义与哈希键。&quot;&quot;&quot;
+config = {&quot;width&quot;: 768, &quot;dropout&quot;: None}
+print(&quot;get 无法区分两种情况：&quot;, config.get(&quot;dropout&quot;), config.get(&quot;missing&quot;))
+sentinel = object()
+print(&quot;sentinel 检查缺键：&quot;, config.get(&quot;missing&quot;, sentinel) is sentinel)
+print(&quot;键存在但值为空：&quot;, &quot;dropout&quot; in config)
+
+keys = config.keys()
+config[&quot;heads&quot;] = 12
+print(&quot;keys 是动态视图：&quot;, list(keys))
+config[&quot;width&quot;] = 16
+print(&quot;覆盖值不改变既有顺序：&quot;, list(config.items()))
+print(&quot;仅构造新字典：&quot;, {**config, &quot;heads&quot;: 2})
+
+pairs = {(&quot;a&quot;, &quot;b&quot;), (&quot;a&quot;, &quot;b&quot;), (&quot;b&quot;, &quot;c&quot;)}
+print(&quot;去重的符号对：&quot;, sorted(pairs))
+print(&quot;相等的数值键合并：&quot;, len({1: &quot;整数&quot;, True: &quot;布尔&quot;, 1.0: &quot;浮点&quot;}))
+assert len({1, True, 1.0}) == 1
+try:
+    hash((&quot;tokens&quot;, [1, 2]))
+except TypeError as error:
+    print(&quot;含列表的 tuple 不可哈希：&quot;, type(error).__name__)
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/04_mappings.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">get 无法区分两种情况： None None
+sentinel 检查缺键： True
+键存在但值为空： True
+keys 是动态视图： [&#39;width&#39;, &#39;dropout&#39;, &#39;heads&#39;]
+覆盖值不改变既有顺序： [(&#39;width&#39;, 16), (&#39;dropout&#39;, None), (&#39;heads&#39;, 12)]
+仅构造新字典： {&#39;width&#39;: 16, &#39;dropout&#39;: None, &#39;heads&#39;: 2}
+去重的符号对： [(&#39;a&#39;, &#39;b&#39;), (&#39;b&#39;, &#39;c&#39;)]
+相等的数值键合并： 1
+含列表的 tuple 不可哈希： TypeError
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>decoder = {v:k for k,v in encoder.items()}</code> 在什么情况下会丢失映射？为什么 <code>config.get(&quot;width&quot;, 768)</code> 不一定返回 768 或一个合法整数？</p>
+<details><summary>核对答案</summary>
+
+<p>如果多个键对应同一个值，反向构造时会覆盖。<code>get</code> 只处理缺键，不做 schema 校验；已有值可能是 <code>None</code>、字符串、负数或布尔值。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-03"><small>← 上一单元</small>03 · 容器、切片与复制边界</a><a href="#unit-05"><small>下一单元 →</small>05 · 真值、短路与作用域差异</a></nav></section>
+<section class="chapter" id="unit-05" data-chapter="5"><div class="chapter-kicker"><span class="chapter-level">重点</span>语言语义与数据</div><h2>05 · 真值、短路与作用域差异</h2>
+<p>**迁移目标：**熟悉 Python 的控制流语义差异。<code>if/for</code> 的概念无需重学，但真值转换和作用域不能机械沿用 Java/C++/Dart 的习惯。</p>
+<h3>真值不是“只允许 bool”</h3>
+<p><code>None</code>、0、空字符串和空容器按假处理；非空 <code>[False]</code> 按真处理。<code>and/or</code> 短路，而且<strong>返回被选中的操作数，不必是布尔值</strong>。</p>
+<pre><code class="language-python">token_id = 0
+wrong = token_id or 220
+right = 220 if token_id is None else token_id
+</code></pre>
+<p><code>wrong</code> 为 220，<code>right</code> 为 0。<code>or</code> 不是 Dart <code>??</code> 那样只针对空值的回退操作。有效 ID 0、合法的空列表、<code>dropout=0.0</code> 都可能被错误覆盖。</p>
+<p><code>0 &lt;= token_id &lt; vocab_size</code> 是链式比较；中间表达式只求值一次。<code>&amp;</code>、<code>|</code> 是另一组可被类型定义的运算，不是通用的 <code>and/or</code> 替代品；张量逻辑到第 14 单元单独处理。</p>
+<h3>没有一般的 if / for 块作用域</h3>
+<pre><code class="language-python">for i in range(3):
+    pass
+print(i)  # 2
+</code></pre>
+<p>只要循环曾执行，绑定就留在所在作用域；空循环不会替你初始化名字。Python 3 的列表推导式则有自己的循环变量作用域，<code>[j for j in ...]</code> 不把 <code>j</code> 泄漏出去。</p>
+<h3>局部绑定由整个函数体决定</h3>
+<pre><code class="language-python">scale = 10
+
+def broken():
+    print(scale)
+    scale = 2
+</code></pre>
+<p>调用时抛出 <code>UnboundLocalError</code>：函数中存在 <code>scale</code> 的赋值，因而它在整个函数中都被视为局部名字，第一行读取时尚未绑定。不会因为读取写在赋值前，就先读外层同名变量。</p>
+<p>普通函数嵌套可用 LEGB 理解：Local、Enclosing function、Global(module)、Builtins。<code>global</code> 声明模块级绑定，<code>nonlocal</code> 声明外层函数的已有绑定；它们影响重新绑定的位置，不是修改列表内容的前提。类体等场景有额外规则，LEGB 不应当作全部 Python 名称解析的完整形式化定义。<a href="https://docs.python.org/3.9/reference/executionmodel.html">执行模型</a>。</p>
+<details><summary>实验：ID 0、真值和局部绑定</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/05_conditions.py">examples/05_conditions.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;05：真值规则、短路返回值与函数作用域。&quot;&quot;&quot;
+user_id = 0
+print(&quot;误用 or 提供默认值：&quot;, user_id or 220)
+print(&quot;只为 None 提供默认值：&quot;, 220 if user_id is None else user_id)
+print(&quot;空列表 / 非空列表 [False]：&quot;, bool([]), bool([False]))
+print(&quot;and/or 返回操作数：&quot;, [] and &quot;unused&quot;, &quot;ready&quot; or &quot;fallback&quot;)
+
+for i in range(3):
+    pass
+print(&quot;for 不新建块作用域：&quot;, i)
+_ = [j for j in range(3)]
+print(&quot;推导式的 j 未泄漏：&quot;, &quot;j&quot; not in globals())
+
+scale = 10
+
+def broken_scope():
+    print(scale)
+    scale = 2  # 这个绑定使 scale 在整个函数中被判定为局部名字。
+
+try:
+    broken_scope()
+except UnboundLocalError as error:
+    print(&quot;先读后赋的局部变量：&quot;, type(error).__name__)
+
+assert (user_id or 220) == 220
+assert (220 if user_id is None else user_id) == 0
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/05_conditions.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">误用 or 提供默认值： 220
+只为 None 提供默认值： 0
+空列表 / 非空列表 [False]： False True
+and/or 返回操作数： [] ready
+for 不新建块作用域： 2
+推导式的 j 未泄漏： True
+先读后赋的局部变量： UnboundLocalError
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>def add(x): cache.append(x)</code> 需要 <code>global cache</code> 吗？改成 <code>cache = cache + [x]</code> 呢？</p>
+<details><summary>核对答案</summary>
+
+<p>前者只读取外层绑定并修改对象，不因这一操作需要 <code>global</code>。后者在函数内赋值，名字被判定为局部，右侧先读时会失败；如果确实要改模块级绑定，应显式声明，但通常更清楚的设计是传入状态并返回结果。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-04"><small>← 上一单元</small>04 · dict / set：缺失、顺序与哈希契约</a><a href="#unit-06"><small>下一单元 →</small>06 · 迭代协议、生成器与消费状态</a></nav></section>
+<section class="chapter" id="unit-06" data-chapter="6"><div class="chapter-kicker"><span class="chapter-level">重点</span>语言语义与数据</div><h2>06 · 迭代协议、生成器与消费状态</h2>
+<p>**迁移目标：**把 Python 的循环看成协议调用，识别数据是可重复遍历的容器，还是已经消费到某个位置的迭代器。</p>
+<h3>Iterable 和 Iterator 不应混用</h3>
+<p><code>for x in source</code> 大致取得 <code>iter(source)</code>，然后反复 <code>next</code>，遇到 <code>StopIteration</code> 正常结束。可迭代对象能产生迭代器；迭代器本身保存遍历状态。</p>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>重复读取时要注意</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>list</code>、<code>tuple</code>、<code>range</code></td>
+<td>通常每次 <code>iter</code> 都能从头产生新迭代器</td>
+</tr>
+<tr>
+<td><code>iter(list)</code></td>
+<td>已经是有状态的迭代器，用完就结束</td>
+</tr>
+<tr>
+<td>生成器表达式、含 <code>yield</code> 的函数返回值</td>
+<td>惰性、通常只能消费一次</td>
+</tr>
+<tr>
+<td><code>zip</code>、<code>enumerate</code>、<code>map</code>、<code>filter</code></td>
+<td>Python 3 中返回迭代器，不是现成列表</td>
+</tr>
+</tbody></table>
+<p>默认 <code>zip</code> 以最短输入结束。如果这会静默丢掉标签，应显式检查长度或选择符合数据源约束的策略。Python 3.10 才加入 <code>zip(..., strict=True)</code>；本项目 3.9 不直接使用它。</p>
+<h3><code>yield</code> 把函数变成可恢复的生产过程</h3>
+<pre><code class="language-python">def batches(sequence, size):
+    for offset in range(0, len(sequence), size):
+        yield sequence[offset:offset + size]
+</code></pre>
+<p>调用 <code>batches(...)</code> 得到生成器，通常此时还没执行函数体；消费时执行到 <code>yield</code> 返回一批并保存现场，下次接着走。它与 Dart <code>sync*</code> 有相近的惰性生产直觉，但具体对象仍要区分“Iterable 工厂”与“这一个已生成的迭代器”。<code>yield</code> 本身不是 <code>await</code>。</p>
+<h3>训练循环中的直接后果</h3>
+<p>如果在 epoch 外只创建一次 <code>samples = (read(x) for x in paths)</code>，第一轮遍历耗尽后，第二轮可能没有数据。解决方式可以是每个 epoch 重新创建生成器，或者由数据集对象的 <code>__iter__</code> 提供新迭代器；不是一律把全量数据转成列表。</p>
+<p><code>any</code>/<code>all</code> 会短路，可能只消费迭代器的一部分；<code>sum</code> 通常消费到结束。打印调试时 <code>list(iterator)</code> 也会改变后续读取状态。</p>
+<details><summary>实验：zip 耗尽、any 短路与 yield 分批</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/06_loops.py">examples/06_loops.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;06：可迭代对象和有消费状态的迭代器。&quot;&quot;&quot;
+ids = [10, 20, 30]
+iterator = iter(ids)
+print(&quot;第一次 next：&quot;, next(iterator))
+print(&quot;消费剩余：&quot;, list(iterator))
+print(&quot;已耗尽：&quot;, list(iterator))
+print(&quot;原列表可重新迭代：&quot;, list(ids))
+
+pairs = zip(ids, [20, 30])
+print(&quot;zip 按最短输入结束：&quot;, list(pairs))
+print(&quot;zip 也只消费一次：&quot;, list(pairs))
+print(&quot;enumerate 起始编号：&quot;, list(enumerate(ids, start=1)))
+
+checks = iter([False, True, False])
+print(&quot;any 短路：&quot;, any(checks))
+print(&quot;any 没消费到最后：&quot;, list(checks))
+assert list(iterator) == []
+
+def batches(sequence, size):
+    if size &lt;= 0:
+        raise ValueError(&quot;size 必须为正&quot;)
+    for offset in range(0, len(sequence), size):
+        yield sequence[offset:offset + size]
+
+print(&quot;yield 分批：&quot;, list(batches(ids, 2)))
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/06_loops.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">第一次 next： 10
+消费剩余： [20, 30]
+已耗尽： []
+原列表可重新迭代： [10, 20, 30]
+zip 按最短输入结束： [(10, 20), (20, 30)]
+zip 也只消费一次： []
+enumerate 起始编号： [(1, 10), (2, 20), (3, 30)]
+any 短路： True
+any 没消费到最后： [False]
+yield 分批： [[10, 20], [30]]
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>print(list(model.parameters()))</code> 后再调用一次 <code>model.parameters()</code> 能否重新遍历？如果先保存 <code>params=model.parameters()</code>，连续消费 <code>params</code> 两次呢？</p>
+<details><summary>核对答案</summary>
+
+<p>再次调用该方法可以取得新的遍历过程；同一个已经耗尽的 <code>params</code> 迭代器则不会自动复位。区别在于“重新调用工厂”和“重复使用同一个消费对象”。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-05"><small>← 上一单元</small>05 · 真值、短路与作用域差异</a><a href="#unit-07"><small>下一单元 →</small>07 · 参数绑定、默认值与返回协议</a></nav></section>
+<section class="chapter" id="unit-07" data-chapter="7"><div class="chapter-kicker"><span class="chapter-level">重点</span>调用、协议与工程接口</div><h2>07 · 参数绑定、默认值与返回协议</h2>
+<p>**迁移目标：**读函数签名时准确还原参数绑定，不把 Python 当成“省略类型的 Java 方法”。这直接对应当前的 <code>from_pretrained(...)</code> 调用。</p>
+<h3>一次读全五种形参位置</h3>
+<pre><code class="language-python">def inspect(config, /, token_id=0, *extra, output_info=False, **options):
+    ...
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>契约</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/</code> 之前的 <code>config</code></td>
+<td>只能按位置传入</td>
+</tr>
+<tr>
+<td><code>token_id=0</code></td>
+<td>既可按位置，也可按名称，有默认值</td>
+</tr>
+<tr>
+<td><code>*extra</code></td>
+<td>收集额外位置实参，结果为 tuple</td>
+</tr>
+<tr>
+<td><code>output_info=False</code></td>
+<td>只能用名称传入；也可用单独 <code>*</code> 引入这一段</td>
+</tr>
+<tr>
+<td><code>**options</code></td>
+<td>收集未被前面形参接走的关键字实参，结果为 dict</td>
+</tr>
+</tbody></table>
+<p>这是签名识读示意，不要求把所有函数都写得如此通用。Dart 的命名参数经验可以迁移，但要按 Python 的 <code>/</code> 与 <code>*</code> 分界重新读；实参重复绑定同一个参数会报 <code>TypeError</code>。</p>
+<p>调用侧 <code>f(*values, **options)</code> 是展开，定义侧 <code>*args/**kwargs</code> 是收集。关键字名字属于 API 契约，传给库的名称必须匹配，而不是由调用者随便选。</p>
+<h3>默认值在执行 def 时求值</h3>
+<pre><code class="language-python">def collect(token_id, history=[]):
+    history.append(token_id)
+    return history
+</code></pre>
+<p>这里的默认列表在该次函数定义时创建，省略 <code>history</code> 的后续调用会复用它。字符串、整数等不可变默认值通常不产生这个共享修改问题，但其表达式也同样在定义时求值。</p>
+<p><code>history=None</code> 后在函数内新建列表是常见修正。如果 <code>None</code> 本身也是有意义的实参，则使用独立 sentinel。时间戳、随机数、配置对象也要检查“默认表达式何时执行”，不能只盯着列表。</p>
+<h3>返回两个结果不是声明两个返回槽</h3>
+<p><code>return model, info</code> 返回一个两项 tuple；<code>model, info = result</code> 消费并拆包该对象。数量不匹配会报错。调用左侧写两个名字，不会改变函数的返回契约。</p>
+<p>你当前的 <code>output_loading_info=True</code> 决定库返回两项；Python 只按这个实际返回值拆包。若函数根据标志返回不同结构，调用方必须跟标志一致，类型提示也应表达这种差别。</p>
+<h3>函数对象与重定义</h3>
+<p><code>key=rank_of</code> 传的是可调用对象，<code>key=rank_of()</code> 则先执行它。重复 <code>def f(...)</code> 通常会重新绑定名字、覆盖前一个定义，并不自动建立 Java/C++ 式重载集合。<code>typing.overload</code> 描述的是静态类型接口，不会自动完成运行时重载分派。</p>
+<details><summary>实验：位置专用参数、默认值时机与返回值拆包</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/07_functions.py">examples/07_functions.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;07：参数绑定、定义时求值、可变默认值与拆包。&quot;&quot;&quot;
+
+def inspect_config(config, /, token_id=0, *, output_info=False):
+    report = {&quot;valid&quot;: 0 &lt;= token_id &lt; config[&quot;vocab_size&quot;]}
+    info = {&quot;missing_keys&quot;: []}
+    return (report, info) if output_info else report
+
+config = {&quot;vocab_size&quot;: 50257}
+options = {&quot;token_id&quot;: 220, &quot;output_info&quot;: True}
+report, info = inspect_config(config, **options)
+print(&quot;返回值拆包：&quot;, report, info)
+try:
+    inspect_config(config=config)
+except TypeError as error:
+    print(&quot;位置专用参数拒绝关键字：&quot;, type(error).__name__)
+
+DEFAULT_WIDTH = 16
+
+def width(value=DEFAULT_WIDTH):
+    return value
+
+DEFAULT_WIDTH = 32
+print(&quot;默认值在定义时取得：&quot;, width())
+
+def bad_collect(token_id, values=[]):
+    values.append(token_id)
+    return values
+
+first = bad_collect(1)
+second = bad_collect(2)
+print(&quot;可变默认参数跨调用共享：&quot;, first, second, first is second)
+
+def collect(token_id, values=None):
+    if values is None:
+        values = []
+    values.append(token_id)
+    return values
+
+print(&quot;每次独立创建：&quot;, collect(1), collect(2))
+assert width() == 16 and first is second
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/07_functions.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">返回值拆包： {&#39;valid&#39;: True} {&#39;missing_keys&#39;: []}
+位置专用参数拒绝关键字： TypeError
+默认值在定义时取得： 16
+可变默认参数跨调用共享： [1, 2] [1, 2] True
+每次独立创建： [1] [2]
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>def load(options={}): ...</code> 与 <code>def load(options=None): options=options or {}</code> 各有什么问题？在默认参数中写 <code>dtype=DEFAULT_DTYPE</code> 后，再改全局 <code>DEFAULT_DTYPE</code>，默认值会跟着变吗？</p>
+<details><summary>核对答案</summary>
+
+<p>前者共享可变默认对象。后者虽然避开了默认对象共享，却会替换调用者明确传入的空字典；是否可接受要看 API 是否要保留原对象。通常使用 <code>if options is None:</code>。全局名字之后重新绑定，不会替换已保存的默认值；如果默认对象自身可变，它的内部修改则仍可见。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-06"><small>← 上一单元</small>06 · 迭代协议、生成器与消费状态</a><a href="#unit-08"><small>下一单元 →</small>08 · 推导式、闭包与装饰器</a></nav></section>
+<section class="chapter" id="unit-08" data-chapter="8"><div class="chapter-kicker"><span class="chapter-level">重点</span>调用、协议与工程接口</div><h2>08 · 推导式、闭包与装饰器</h2>
+<p>**迁移目标：**区分“表达式更短”与“执行时机改变”。重点看捕获了什么对象、什么时候调用、什么时候消费结果。</p>
+<h3>三种表达式的执行模型</h3>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>返回什么</th>
+<th>何时计算元素</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[f(x) for x in xs if keep(x)]</code></td>
+<td>list</td>
+<td>立即遍历并求值</td>
+</tr>
+<tr>
+<td><code>{k: f(v) for k,v in items}</code></td>
+<td>dict</td>
+<td>立即遍历，同键后写覆盖</td>
+</tr>
+<tr>
+<td><code>(f(x) for x in xs)</code></td>
+<td>generator</td>
+<td>元素表达式通常在消费时求值</td>
+</tr>
+</tbody></table>
+<p>推导式适合表达数据转换；包含多层副作用、异常恢复或复杂状态时，普通循环往往更清楚。生成器表达式最左侧的可迭代表达式在创建时求值，别把“惰性”理解为整个表达式的任何部分都不执行。</p>
+<h3>闭包读取绑定，不自动保存每轮值</h3>
+<pre><code class="language-python">late = [lambda: i for i in range(3)]
+snapshots = [lambda i=i: i for i in range(3)]
+</code></pre>
+<p>随后分别调用，得到 <code>[2,2,2]</code> 和 <code>[0,1,2]</code>。第一组闭包读取同一个外层绑定，调用时循环已经结束。第二组把当时的 <code>i</code> 作为默认实参保存。</p>
+<p>用 C++ lambda 经验类比时，要主动询问“我需要按值快照还是共享绑定”，但 Python 没有同样的捕获列表语法。<code>i=i</code> 保存的是当时对象的引用；如果该对象是可变列表，这并不是深复制。</p>
+<h3>装饰器会真正执行，不只是元数据标记</h3>
+<pre><code class="language-python">@decorate
+def forward(x):
+    return x
+</code></pre>
+<p>对单个简单函数，可以理解为先定义原函数，再执行 <code>forward = decorate(forward)</code>。装饰器在定义被执行时应用，返回值重新绑定到原名字。它可能返回包装函数、登记信息或改变行为。</p>
+<p><code>@torch.no_grad()</code> 中的括号先构造/取得装饰器，然后应用于函数。包装函数通常用 <code>*args, **kwargs</code> 转发参数，用 <code>functools.wraps</code> 保留名称、docstring 等元数据；这不等于静态语言中只被编译器读取的注解。</p>
+<h3>接回 BPE 与模型代码</h3>
+<p><code>min(pairs, key=lambda p: ranks.get(p, inf))</code> 用辅助值比较，返回原始候选对。模型代码中的 <code>@classmethod</code>、<code>@property</code>、<code>@dataclass</code> 则是不同装饰器的具体契约，不是可以互换的语法标签。</p>
+<details><summary>实验：晚绑定、默认参数快照与装饰时机</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/08_compact_syntax.py">examples/08_compact_syntax.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;08：推导式、闭包晚绑定与装饰器的实际执行。&quot;&quot;&quot;
+from functools import wraps
+
+ranks = {(&quot;a&quot;, &quot;b&quot;): 0, (&quot;b&quot;, &quot;c&quot;): 2}
+pairs = [(&quot;b&quot;, &quot;c&quot;), (&quot;c&quot;, &quot;a&quot;), (&quot;a&quot;, &quot;b&quot;)]
+print(&quot;按 key 选原对象：&quot;, min(pairs, key=lambda pair: ranks.get(pair, float(&quot;inf&quot;))))
+
+late = [lambda: i for i in range(3)]
+snapshots = [lambda i=i: i for i in range(3)]
+print(&quot;闭包读取同一个绑定：&quot;, [fn() for fn in late])
+print(&quot;默认参数保存当时的整数：&quot;, [fn() for fn in snapshots])
+assert [fn() for fn in late] == [2, 2, 2]
+assert [fn() for fn in snapshots] == [0, 1, 2]
+
+def trace(function):
+    print(&quot;装饰发生：&quot;, function.__name__)
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        print(&quot;调用发生：&quot;, function.__name__)
+        return function(*args, **kwargs)
+    return wrapper
+
+@trace
+def head_dim(width, heads):
+    return width // heads
+
+print(&quot;尚未显式调用，装饰已完成&quot;)
+print(&quot;计算结果：&quot;, head_dim(768, heads=12))
+print(&quot;wraps 保留函数名：&quot;, head_dim.__name__)
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/08_compact_syntax.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">按 key 选原对象： (&#39;a&#39;, &#39;b&#39;)
+闭包读取同一个绑定： [2, 2, 2]
+默认参数保存当时的整数： [0, 1, 2]
+装饰发生： head_dim
+尚未显式调用，装饰已完成
+调用发生： head_dim
+计算结果： 64
+wraps 保留函数名： head_dim
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p>在循环里创建多个 logging hook，全部最后打印同一个层编号，首先检查什么？为什么给 wrapper 加 <code>@wraps</code> 不等于让它自动做类型检查？</p>
+<details><summary>核对答案</summary>
+
+<p>检查闭包是否共享循环变量绑定，必要时用工厂函数或定义时参数绑定保存期望值。<code>wraps</code> 主要保留包装关系和元数据，不替你校验参数类型、返回类型或张量形状。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-07"><small>← 上一单元</small>07 · 参数绑定、默认值与返回协议</a><a href="#unit-09"><small>下一单元 →</small>09 · import、模块缓存与包上下文</a></nav></section>
+<section class="chapter" id="unit-09" data-chapter="9"><div class="chapter-kicker"><span class="chapter-level">重点</span>调用、协议与工程接口</div><h2>09 · import、模块缓存与包上下文</h2>
+<p>**迁移目标：**把模块导入当作运行时动作来审查，而不是 C++ 预处理 include 或单纯的编译期名称声明。</p>
+<h3>首次导入通常会执行模块顶层代码</h3>
+<p>Python 导入系统查找模块、建立模块对象、执行其顶层代码，并在 <code>sys.modules</code> 中缓存。后续普通导入通常复用同一模块对象。CPython 可以编译和缓存字节码，但这不消除模块初始化的运行时副作用。</p>
+<p>因此，把训练、下载或文件覆盖放在顶层，会使“别人 import 我”也触发这些动作。<code>if __name__ == &quot;__main__&quot;: main()</code> 将脚本入口与被导入时的定义分开，作用只覆盖它保护的部分。</p>
+<h3>import 两种形式的绑定差别</h3>
+<pre><code class="language-python">import module
+from module import factory
+</code></pre>
+<p>第一种取得模块对象，之后 <code>module.factory</code> 会再次读取其当前属性；第二种把当时取到的对象绑定到本地名字 <code>factory</code>。如果以后模块把属性重绑定为另一对象，本地名字不会自动跟随改变。导入语句不是“永久建立一个别名路径”。</p>
+<details><summary>实验：模块缓存与 from-import 的既有绑定</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/09_modules.py">examples/09_modules.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;09：模块缓存与 from-import 的名称绑定。&quot;&quot;&quot;
+import importlib
+from pathlib import Path
+import sys
+from mini_package import helpers
+from mini_package.helpers import make_xy
+
+
+def main():
+    again = importlib.import_module(&quot;mini_package.helpers&quot;)
+    print(&quot;两次导入取得同一模块：&quot;, helpers is again)
+    print(&quot;sys.modules 中的对象：&quot;, sys.modules[helpers.__name__] is helpers)
+    original = helpers.make_xy
+    try:
+        helpers.make_xy = lambda ids: ([&quot;replaced&quot;], [])
+        print(&quot;模块属性的新绑定：&quot;, helpers.make_xy([10, 20, 30]))
+        print(&quot;from-import 的既有绑定：&quot;, make_xy([10, 20, 30]))
+    finally:
+        helpers.make_xy = original
+    print(&quot;脚本名与模块名：&quot;, Path(__file__).name, __name__)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/09_modules.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">两次导入取得同一模块： True
+sys.modules 中的对象： True
+模块属性的新绑定： ([&#39;replaced&#39;], [])
+from-import 的既有绑定： ([10, 20], [20, 30])
+脚本名与模块名： 09_modules.py __main__
+</code></pre>
+</details>
+
+<h3>相对导入依赖包身份</h3>
+<p>本例目录：<code>examples/mini_package/{__init__.py, helpers.py, __main__.py}</code>。<code>from .helpers import make_xy</code> 里的点表示包内定位，不是任意脚本当前目录的文本替换。</p>
+<pre><code class="language-bash">cd /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples
+/Users/guqun/micrograd/venv/bin/python -m mini_package
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">包入口： __main__
+x、y： ([10, 20], [20, 30])
+</code></pre>
+<p>你以前直接运行包内 <code>demo.py</code> 得到 <code>attempted relative import with no known parent package</code>，应检查启动方式与包上下文；<code>No module named &#39;regex&#39;</code> 则要检查依赖是否在当前解释器搜索路径内。两种错误的修正位置不同。</p>
+<h3>项目工程边界</h3>
+<p>直接运行文件时，脚本所在目录通常加入 <code>sys.path</code>；<code>-m</code> 运行方式的搜索起点有所不同。应用目录里的 <code>torch.py</code>、<code>json.py</code> 可能遮住真正的库，诊断时查看模块的 <code>__file__</code>。</p>
+<p>包根下的 <code>__init__.py</code> 可以重新导出公开接口，也可能触发额外导入。阅读 <code>from transformers import GPT2LMHeadModel</code> 时，最终类的定义未必就在包根文件里。课程代码用固定目录和显式入口，比靠临时修改 <code>sys.path</code> 猜测导入结果更容易核对。</p>
+<h3>代码审查题</h3>
+<p>为什么改了一个模块全局常量，另一个文件 <code>from module import CONSTANT</code> 得到的名字可能还是旧值？Python 相对导入与当前工作目录是否是同一个概念？</p>
+<details><summary>核对答案</summary>
+
+<p>导入时形成的是本地绑定；原模块属性后续重绑定不自动重写该绑定。相对导入依据包上下文解析；工作目录只影响部分搜索路径与相对文件地址。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-08"><small>← 上一单元</small>08 · 推导式、闭包与装饰器</a><a href="#unit-10"><small>下一单元 →</small>10 · 对象协议、绑定方法与 dataclass</a></nav></section>
+<section class="chapter" id="unit-10" data-chapter="10"><div class="chapter-kicker"><span class="chapter-level">重点</span>调用、协议与工程接口</div><h2>10 · 对象协议、绑定方法与 dataclass</h2>
+<p>**迁移目标：**利用已有 OOP 经验快速读 Python 类，重点掌握动态成员、显式 self、工厂与协议，而不是重学封装和继承的概念。</p>
+<h3>与熟悉的类语法对照</h3>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>迁移时需要知道</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self</code></td>
+<td>显式写在实例方法签名里；通过实例调用时自动绑定</td>
+</tr>
+<tr>
+<td><code>__init__</code></td>
+<td>初始化实例，通常返回 <code>None</code>；分配/构造过程另有 <code>__new__</code></td>
+</tr>
+<tr>
+<td><code>@classmethod</code> / <code>cls</code></td>
+<td>绑定调用的类，适合多态工厂</td>
+</tr>
+<tr>
+<td><code>@staticmethod</code></td>
+<td>不自动传实例或类；只是放在类命名空间的函数</td>
+</tr>
+<tr>
+<td><code>@property</code></td>
+<td>属性读取可触发方法执行，不必是直接访问存储字段</td>
+</tr>
+<tr>
+<td><code>super()</code></td>
+<td>按 MRO 找下一站；单继承时常可按父类理解</td>
+</tr>
+<tr>
+<td><code>_name</code> / <code>__name</code></td>
+<td>前者是内部使用约定，后者有名字改写；不等同于 Java private</td>
+</tr>
+</tbody></table>
+<p><code>obj.method(x)</code> 对普通实例方法可按 <code>Type.method(obj,x)</code> 理解，self 类似显式写出的接收者。类实例通常可以动态增加属性，但有 <code>__slots__</code>、描述符和框架钩子等例外。</p>
+<h3>类属性与实例属性别混淆</h3>
+<pre><code class="language-python">class Cache:
+    entries = []
+</code></pre>
+<p>这张列表在类上共享，两个实例都可能通过属性查找到它。执行 <code>self.entries = []</code> 创建实例自己的绑定，和 <code>self.entries.append(...)</code> 修改已有共享列表不是一回事。无意共享训练历史、缓存、子层列表是常见错误。</p>
+<h3><code>model(...)</code> 属于可调用对象协议</h3>
+<p><code>__call__</code> 使实例可调用，<code>__getitem__</code> 支持索引，<code>__len__</code> 支持 <code>len</code>。这些“特殊方法”让框架对象接入 Python 语法。</p>
+<p>PyTorch 已在 <code>nn.Module</code> 提供调用流程，进入子类 <code>forward</code> 并处理相关钩子。正常使用 <code>model(inputs)</code>；直接调用 <code>model.forward(inputs)</code> 会绕过 Module 的调用入口。不要为了模仿普通函数而覆盖掉这层机制。</p>
+<p><code>from_pretrained</code> 是类方法工厂，和 <code>__init__</code>、<code>forward</code> 分别处于加载入口、实例初始化与输入计算三个层面。</p>
+<h3>dataclass 减少样板，不提供完整 schema</h3>
+<p><code>@dataclass</code> 可以生成初始化、显示与相等性等方法；<code>field(default_factory=list)</code> 为每个实例新建列表。<code>frozen=True</code> 阻止常规字段重新赋值，但不深度冻结字段指向的列表，也不自动验证类型和维度。</p>
+<p>它可以承担配置对象的角色，但不能直接等同于“编译器保证字段类型且整个对象图不可变”。</p>
+<details><summary>实验：多态工厂、属性协议与 frozen 的边界</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/10_objects.py">examples/10_objects.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;10：绑定方法、工厂、多态构造与 dataclass 的边界。&quot;&quot;&quot;
+from dataclasses import dataclass, field, FrozenInstanceError
+from typing import List
+
+
+@dataclass(frozen=True)
+class ModelConfig:
+    width: int = 16
+    notes: List[str] = field(default_factory=list)
+
+
+class TokenTable:
+    def __init__(self, rows):
+        self.rows = rows
+
+    def lookup(self, token_id):
+        return self.rows[token_id]
+
+    def __getitem__(self, token_id):
+        return self.lookup(token_id)
+
+    def __len__(self):
+        return len(self.rows)
+
+    @property
+    def width(self):
+        return len(self.rows[0]) if self.rows else 0
+
+    @classmethod
+    def zeros(cls, count, width):
+        return cls([[0.0] * width for _ in range(count)])
+
+    @staticmethod
+    def valid_id(token_id, count):
+        return 0 &lt;= token_id &lt; count
+
+
+class NamedTable(TokenTable):
+    pass
+
+
+table = NamedTable.zeros(3, 2)
+print(&quot;classmethod 沿用调用的子类：&quot;, type(table).__name__)
+print(&quot;绑定方法 / 显式传实例：&quot;, table.lookup(1), TokenTable.lookup(table, 1))
+print(&quot;协议访问 / property / staticmethod：&quot;, table[1], table.width, table.valid_id(2, len(table)))
+a, b = ModelConfig(), ModelConfig()
+a.notes.append(&quot;可以修改内部列表&quot;)
+print(&quot;独立的 default_factory：&quot;, a.notes, b.notes)
+try:
+    a.width = 32
+except FrozenInstanceError as error:
+    print(&quot;frozen 阻止字段重新赋值：&quot;, type(error).__name__)
+assert a.notes is not b.notes
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/10_objects.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">classmethod 沿用调用的子类： NamedTable
+绑定方法 / 显式传实例： [0.0, 0.0] [0.0, 0.0]
+协议访问 / property / staticmethod： [0.0, 0.0] 2 True
+独立的 default_factory： [&#39;可以修改内部列表&#39;] []
+frozen 阻止字段重新赋值： FrozenInstanceError
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>@classmethod def create(cls): return Base()</code> 会保留子类构造行为吗？配置设为 <code>frozen=True</code> 后，能否无条件假设适合做哈希键？</p>
+<details><summary>核对答案</summary>
+
+<p>写死 <code>Base()</code> 不会；合适情况下应使用 <code>cls(...)</code>，并保证子类构造契约兼容。frozen dataclass 可能生成哈希，但若字段包含列表等不可哈希对象，实际计算哈希仍会失败。冻结字段赋值不等于所有字段可哈希。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-09"><small>← 上一单元</small>09 · import、模块缓存与包上下文</a><a href="#unit-11"><small>下一单元 →</small>11 · with、路径与序列化边界</a></nav></section>
+<section class="chapter" id="unit-11" data-chapter="11"><div class="chapter-kicker"><span class="chapter-level">速查</span>调用、协议与工程接口</div><h2>11 · with、路径与序列化边界</h2>
+<p>**迁移目标：**将已有资源管理经验迁移到上下文管理协议，同时区分“地址”“文件内容”“解析后的对象”。</p>
+<h3>with 是可扩展的进入/退出协议</h3>
+<p><code>with resource as x:</code> 通过上下文管理器的 <code>__enter__</code> / <code>__exit__</code> 管理作用域；<code>x</code> 接收 <code>__enter__</code> 的返回结果，不一定就是原管理器对象。正常离开或异常离开都会执行退出逻辑；<code>__exit__</code> 还可以选择抑制异常。</p>
+<p>可以类比 C++ RAII 和 Java try-with-resources 的确定性清理目的，但 Python 的 <code>with</code> 不要求对象此时销毁，也不只用于文件资源。<code>torch.no_grad()</code> 临时改变梯度记录状态，就是相同语法下的另一种协议实现。不要依赖 <code>__del__</code> 的调用时机来代替确定性清理。</p>
+<h3>Path 与 JSON 的最小速查</h3>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>实际动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Path.home() / &quot;dir&quot; / name</code></td>
+<td>创建路径对象；<code>/</code> 被路径类型定义为拼接</td>
+</tr>
+<tr>
+<td><code>Path(__file__).resolve().parent</code></td>
+<td>定位脚本资源目录，不是 <code>cwd()</code></td>
+</tr>
+<tr>
+<td><code>.read_text(encoding=&quot;utf-8&quot;)</code></td>
+<td>磁盘数据 → str</td>
+</tr>
+<tr>
+<td><code>json.loads(text)</code> / <code>json.load(file)</code></td>
+<td>文本 / 文件流 → Python 对象</td>
+</tr>
+<tr>
+<td><code>json.dumps(obj)</code> / <code>json.dump(obj,file)</code></td>
+<td>Python 对象 → 文本 / 文件流</td>
+</tr>
+<tr>
+<td><code>.read_bytes()</code></td>
+<td>原始 bytes，不尝试文本解码</td>
+</tr>
+</tbody></table>
+<p>JSON 的 <code>true/false/null</code> 变为 Python <code>True/False/None</code>。解析只保证语法合法，不保证字段存在、维度合法或数据结构满足模型要求。</p>
+<h3>格式与所有权要分开</h3>
+<p><code>config.json</code> 给结构设置，权重文件给张量数值。Path 不下载数据，JSON 解析器不理解模型结构，safetensors 也不替你保存 Python 类的完整实现。</p>
+<p><code>data_offsets=[start,end]</code> 使用左闭右开区间；在 safetensors 中相对于数据区起点，不是整个文件第 0 字节。读格式库的契约比按熟悉的文件格式类比更可靠。</p>
+<details><summary>实验：JSON 往返与异常发生后的上下文退出</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/11_files.py">examples/11_files.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;11：路径对象、数据转换与上下文的异常退出。&quot;&quot;&quot;
+from contextlib import contextmanager
+import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+
+@contextmanager
+def session(label):
+    print(&quot;进入上下文：&quot;, label)
+    try:
+        yield {&quot;label&quot;: label}
+    finally:
+        print(&quot;退出上下文：&quot;, label)
+
+
+with TemporaryDirectory() as directory:
+    path = Path(directory) / &quot;config.json&quot;
+    config = {&quot;width&quot;: 16, &quot;checkpoint&quot;: None, &quot;training&quot;: False}
+    path.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding=&quot;utf-8&quot;)
+    loaded = json.loads(path.read_text(encoding=&quot;utf-8&quot;))
+    print(&quot;JSON 往返：&quot;, loaded == config)
+    print(&quot;JSON 与 Python 的空值写法：&quot;, json.dumps(None), repr(None))
+    binary = Path(directory) / &quot;data.bin&quot;
+    binary.write_bytes(bytes([10, 20, 30, 40]))
+    print(&quot;偏移 [1,3) 的字节：&quot;, list(binary.read_bytes()[1:3]))
+
+try:
+    with session(&quot;toy&quot;) as context:
+        print(&quot;拿到资源：&quot;, context)
+        raise ValueError(&quot;模拟块内失败&quot;)
+except ValueError:
+    print(&quot;外层捕获；清理已经执行&quot;)
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/11_files.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">JSON 往返： True
+JSON 与 Python 的空值写法： null None
+偏移 [1,3) 的字节： [20, 30]
+进入上下文： toy
+拿到资源： {&#39;label&#39;: &#39;toy&#39;}
+退出上下文： toy
+外层捕获；清理已经执行
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p>为什么 <code>with torch.no_grad(): ...</code> 结束后可以恢复先前状态，而不需要销毁模型？把报告 dict 写成 JSON，等不等于保存了可直接恢复的模型？</p>
+<details><summary>核对答案</summary>
+
+<p>上下文管理器控制的是临时状态的进入和恢复，与模型生命周期无关。报告是你主动组织的可序列化信息；模型还需要结构、参数、配置，以及恢复训练时可能需要的优化器和随机状态等。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-10"><small>← 上一单元</small>10 · 对象协议、绑定方法与 dataclass</a><a href="#unit-12"><small>下一单元 →</small>12 · 类型提示、异常链与输入契约</a></nav></section>
+<section class="chapter" id="unit-12" data-chapter="12"><div class="chapter-kicker"><span class="chapter-level">重点</span>调用、协议与工程接口</div><h2>12 · 类型提示、异常链与输入契约</h2>
+<p>**迁移目标：**保留静态语言中重视接口契约的习惯，同时明确 Python 解释器、类型检查器与运行时校验的职责。</p>
+<h3>类型提示不会自动执法</h3>
+<pre><code class="language-python">def identity(value: int) -&gt; int:
+    return value
+
+result = identity(&quot;text&quot;)
+</code></pre>
+<p>这段代码在解释器中可以运行并返回字符串；静态检查工具可以指出它违反注解。<code>list[int]</code>、<code>Optional[int]</code>、<code>TypedDict</code> 等也不会自动变成序列化框架或 schema 验证器。</p>
+<p><code>Optional[int]</code> 表示 <code>int</code> 或 <code>None</code>，不表示参数可以省略；能否省略由默认值决定。<code>Any</code> 表达类型检查中的动态逃生口，<code>object</code> 则仍要求使用对任意对象都合法的操作，二者不是同一含义。</p>
+<p>本项目 Python 3.9 支持 <code>list[int]</code>，但常用的 <code>int | None</code> 联合类型运行时写法从 3.10 开始；这里使用 <code>typing.Optional</code>。类型注解通常也不检查 Tensor 的 shape、dtype 或 device，这些仍需库契约与必要的显式检查。</p>
+<h3>错误类型与调用边界</h3>
+<p>Python 没有 Java checked exception 那样由调用签名强制处理的机制。异常沿调用栈传播，<code>except</code> 按类匹配。<code>raise NewError(...) from error</code> 保留因果链；<code>from None</code> 会抑制原异常上下文的展示，但不适合作为默认隐藏原因的做法。</p>
+<p><code>except Exception</code> 和裸 <code>except:</code> 不一样：后者连 <code>KeyboardInterrupt</code>、<code>SystemExit</code> 等也会捕获。只有在确有统一处理策略时才使用很宽的捕获范围。</p>
+<p><code>assert</code> 表达内部不变量，可在优化模式下被移除；外部配置校验要使用显式判断与异常。这与你审查边界输入时区分“契约校验”与“调试断言”的习惯一致。</p>
+<h3>argparse 只是 CLI 到对象的适配层</h3>
+<p><code>add_argument(&quot;--token-id&quot;, type=int, default=220)</code> 把终端字符串转成整数，<code>--token-id</code> 对应 <code>args.token_id</code>；<code>action=&quot;store_true&quot;</code> 提供布尔开关。<code>type=int</code> 只负责转换，不知道词表上界，仍需检查 <code>0 &lt;= token_id &lt; vocab_size</code>。</p>
+<details><summary>实验：类型提示不拦截、异常链与合法/非法 ID</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/12_errors_cli.py">examples/12_errors_cli.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;12：注解不做运行时校验；CLI 的边界显式验证。&quot;&quot;&quot;
+import argparse
+from typing import Optional
+
+
+def annotated(value: int) -&gt; int:
+    return value
+
+
+def validate_id(token_id: int, vocab_size: int) -&gt; int:
+    if type(token_id) is not int or not 0 &lt;= token_id &lt; vocab_size:
+        raise ValueError(&quot;token_id 必须是 0 到 vocab_size - 1 之间的整数&quot;)
+    return token_id
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(&quot;--token-id&quot;, type=int, default=220)
+    parser.add_argument(&quot;--all&quot;, action=&quot;store_true&quot;)
+    args = parser.parse_args()
+    try:
+        token_id = validate_id(args.token_id, 50257)
+    except ValueError as error:
+        parser.error(str(error))
+    print(&quot;已检查 ID：&quot;, token_id)
+    print(&quot;是否显示全部：&quot;, args.all)
+    result = annotated(&quot;仍然可以传入字符串&quot;)
+    print(&quot;注解没有拦截：&quot;, type(result).__name__)
+    maybe_id: Optional[int] = None
+    print(&quot;Optional 的运行时值：&quot;, maybe_id)
+    try:
+        try:
+            int(&quot;abc&quot;)
+        except ValueError as error:
+            raise RuntimeError(&quot;解析配置失败&quot;) from error
+    except RuntimeError as error:
+        print(&quot;保留异常链：&quot;, type(error).__name__, &quot;&lt;-&quot;, type(error.__cause__).__name__)
+    assert validate_id(0, 50257) == 0
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/12_errors_cli.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">已检查 ID： 220
+是否显示全部： False
+注解没有拦截： str
+Optional 的运行时值： None
+保留异常链： RuntimeError &lt;- ValueError
+</code></pre>
+<p>可再用 <code>--token-id 50256 --all</code> 运行；用 <code>--token-id -1</code> 验证拒绝路径。验证程序已覆盖这两种情况。</p>
+</details>
+
+<h3>代码审查题</h3>
+<p><code>def f(x: Optional[int])</code> 可以无参调用吗？一个 JSON 配置通过类型检查，是否就能保证运行时 <code>width % heads == 0</code>？</p>
+<details><summary>核对答案</summary>
+
+<p>不能，除非另有默认值。类型检查不能替代外部 JSON 校验，更不会仅凭两个 <code>int</code> 的注解证明整除约束；应在系统边界进行运行时检查。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-11"><small>← 上一单元</small>11 · with、路径与序列化边界</a><a href="#unit-13"><small>下一单元 →</small>13 · 实战：按对象与契约读懂检查脚本</a></nav></section>
+<section class="chapter" id="unit-13" data-chapter="13"><div class="chapter-kicker"><span class="chapter-level">实战</span>真实源码阅读</div><h2>13 · 实战：按对象与契约读懂检查脚本</h2>
+<p>**迁移目标：**把已有工程阅读能力直接用于 <a href="../inspect_checkpoint.py">inspect_checkpoint.py</a>：追踪对象类型、状态来源、返回契约和副作用。此处核对真实源码，不重新讲模型前向原理。</p>
+<h3>对象流先于逐行翻译</h3>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>类型/角色</th>
+<th>谁创建它</th>
+<th>它不包含什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>args</code></td>
+<td>argparse Namespace</td>
+<td>CLI 解析</td>
+<td>模型参数</td>
+</tr>
+<tr>
+<td><code>model_dir</code></td>
+<td>Path</td>
+<td>参数转换与路径解析</td>
+<td>目录内文件内容</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>dict</td>
+<td>JSON 解析</td>
+<td>训练后的完整权重</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>GPT2LMHeadModel 实例</td>
+<td>类方法工厂</td>
+<td>Tokenizer 的完整预处理流程</td>
+</tr>
+<tr>
+<td><code>loading_info</code></td>
+<td>dict</td>
+<td>模型加载器</td>
+<td>模型的计算图和模块结构</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>名称到 Tensor 的映射</td>
+<td><code>state_dict()</code></td>
+<td>独立冻结的参数副本</td>
+</tr>
+<tr>
+<td><code>report</code></td>
+<td>由程序组织的 dict</td>
+<td>统计与采样</td>
+<td>可恢复完整训练状态的 checkpoint</td>
+</tr>
+</tbody></table>
+<h3>核心调用：由库契约决定返回形状</h3>
+<pre><code class="language-python">model, loading_info = GPT2LMHeadModel.from_pretrained(
+    str(model_dir), local_files_only=True, use_safetensors=True,
+    output_loading_info=True,
+)
+</code></pre>
+<p>按层次拆：</p>
+<ol>
+<li><code>GPT2LMHeadModel</code> 是类；<code>from_pretrained</code> 是可经类访问的加载工厂。</li>
+<li><code>str(model_dir)</code> 在调用前求值；其余三个是命名实参。</li>
+<li>前两个开关限制文件来源与权重格式，第三个要求返回诊断信息。</li>
+<li>调用结果含模型和诊断两项；左侧只是 Python 拆包。</li>
+</ol>
+<p>因此 <code>output_loading_info=True</code> 是 Transformers API 行为，<code>model, loading_info = ...</code> 是语言行为。类型提示和赋值变量的数量都不会自行改变加载函数的返回值。</p>
+<h3>紧凑表达式需要还原的执行顺序</h3>
+<pre><code class="language-python">config = json.loads(config_path.read_text(encoding=&quot;utf-8&quot;))
+has_problem = any(loading_info.get(key) for key in
+                 (&quot;missing_keys&quot;, &quot;unexpected_keys&quot;, &quot;mismatched_keys&quot;, &quot;error_msgs&quot;))
+</code></pre>
+<p>第一行先 I/O，再解析；第二行创建惰性检查过程，任意列表非空即可短路。这些是加载结构匹配检查，不是模型质量评价。</p>
+<pre><code class="language-python">row = model.transformer.wte.weight[args.token_id, :8].detach().cpu().tolist()
+</code></pre>
+<p>属性链定位参数 → 基本索引取片段 → detach 梯度关系 → 放到 CPU → 转普通列表。<code>detach()</code> 自身不复制存储；最后 <code>.tolist()</code> 得到的才是用于输出的普通数值容器。这条链在查看少量参数时合理，不应把模型主计算搬到列表后期待 autograd 继续跟踪。</p>
+<h3>参数枚举与快照语义</h3>
+<pre><code class="language-python">state = model.state_dict()
+total = sum(p.numel() for p in model.parameters())
+tied = model.transformer.wte.weight is model.lm_head.weight
+</code></pre>
+<ul>
+<li><code>parameters()</code> 枚举注册参数，默认会对共享参数去重；参数是否冻结还要看 <code>requires_grad</code>。</li>
+<li><code>state_dict()</code> 还可包含持久 buffer；不能假定其所有条目都是独立可训练参数。</li>
+<li>返回状态映射不意味着底层 Tensor 存储已复制；保存“最佳模型”的内存快照需另行复制或立即序列化。</li>
+<li><code>is</code> 检查这里的 E 与输出层是否引用同一 Parameter，比数值相等更强。</li>
+</ul>
+<p>脚本把报告交给 <code>json.dumps</code>，保存的是统计资料。完整参数的保存与恢复由另一组 API 负责，见第 15 单元。</p>
+<h3>接口和副作用审查</h3>
+<p>这份脚本会读取本地配置和权重、创建模型、打印报告；启用 <code>--json</code> 时会写报告。它调用 <code>eval()</code>，但没有用输入执行前向，也没有 <code>backward()</code>、优化器更新或文本生成。</p>
+<p><code>REVISION</code> 的全大写只是一种常量命名惯例，解释器不会强制禁止重新赋值。固定缓存版本是复现实验选择，不是 Python 的特殊语法。</p>
+<details><summary>展开核对：当前真实源文件</summary>
+
+
+<pre><code class="language-python">&quot;&quot;&quot;2.1 第一块：实际读取 GPT-2 的配置和预训练参数。
+
+课程对应：Karpathy《Let&#39;s reproduce GPT-2 (124M)》开头的权重检查。
+本文件是独立教学脚本：打印实际数据，不训练、不生成，也不自动下载模型。
+在 VS Code 中选择项目 venv，打开此文件后运行，或使用对应的 F5 配置。
+&quot;&quot;&quot;
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+# 固定本机已经缓存的版本；避免之后 main 更新，课堂使用的参数也跟着改变。
+REVISION = &quot;607a30d783dfa663caf39e06633721c8d4cfcd7e&quot;
+DEFAULT_MODEL_DIR = (
+    Path.home() / &quot;.cache/huggingface/hub/models--gpt2/snapshots&quot; / REVISION
+)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(&quot;--model-dir&quot;, type=Path, default=DEFAULT_MODEL_DIR)
+    parser.add_argument(&quot;--token-id&quot;, type=int, default=220,
+                        help=&quot;查看哪一个 Token 的向量；默认 220 对应空格&quot;)
+    parser.add_argument(&quot;--all&quot;, action=&quot;store_true&quot;, help=&quot;列出全部独立参数&quot;)
+    parser.add_argument(&quot;--json&quot;, type=Path, help=&quot;额外保存本次实际读取的检查报告&quot;)
+    args = parser.parse_args()
+
+    # 第一步：直接读 JSON。它给出结构尺寸和计算设置，没有训练好的向量数值。
+    model_dir = args.model_dir.expanduser().resolve()
+    config_path = model_dir / &quot;config.json&quot;
+    weights_path = model_dir / &quot;model.safetensors&quot;
+    if not config_path.is_file() or not weights_path.is_file():
+        parser.error(&quot;目录中需要 config.json 和 model.safetensors；可用 --model-dir 指定。&quot;)
+    config = json.loads(config_path.read_text(encoding=&quot;utf-8&quot;))
+    expected = {&quot;model_type&quot;: &quot;gpt2&quot;, &quot;vocab_size&quot;: 50257, &quot;n_embd&quot;: 768,
+                &quot;n_layer&quot;: 12, &quot;n_head&quot;: 12, &quot;n_positions&quot;: 1024}
+    if any(config.get(key) != value for key, value in expected.items()):
+        parser.error(&quot;本课固定检查 GPT-2 124M；该目录中的配置与本课模型不匹配。&quot;)
+    if not 0 &lt;= args.token_id &lt; config[&quot;vocab_size&quot;]:
+        parser.error(&quot;--token-id 必须在 0 到 vocab_size - 1 之间。&quot;)
+
+    try:
+        import torch
+        from transformers import GPT2LMHeadModel
+    except ImportError as error:
+        raise SystemExit(
+            f&quot;无法导入课程依赖：{error}\n&quot;
+            f&quot;请在 VS Code 选择解释器：{PROJECT_DIR / &#39;venv/bin/python&#39;}&quot;
+        ) from error
+
+    # 第二步：库中的 GPT2LMHeadModel 类定义计算流程；配置决定各层尺寸；
+    # from_pretrained 将保存的权重填进这个结构。只读本地文件，使用 CPU。
+    model, loading_info = GPT2LMHeadModel.from_pretrained(
+        str(model_dir), local_files_only=True, use_safetensors=True,
+        output_loading_info=True,
+    )
+    model.eval()
+    if any(loading_info.get(key) for key in
+           (&quot;missing_keys&quot;, &quot;unexpected_keys&quot;, &quot;mismatched_keys&quot;, &quot;error_msgs&quot;)):
+        raise RuntimeError(f&quot;权重加载需要核对：{loading_info}&quot;)
+
+    # 第三步：state_dict 是「名称 → 张量」的映射。名称帮助定位模块；
+    # shape 说明存了多少行、多少列；张量中的数才是训练得到的参数值。
+    state = model.state_dict()
+    selected = {
+        &quot;transformer.wte.weight&quot;: &quot;Token 向量表 E：按 Token ID 查行&quot;,
+        &quot;transformer.wpe.weight&quot;: &quot;位置向量表 P：按位置编号查行&quot;,
+        &quot;transformer.h.0.ln_1.weight&quot;: &quot;第 1 个 Block 的 LN1 缩放系数 gamma&quot;,
+        &quot;transformer.h.0.ln_1.bias&quot;: &quot;第 1 个 Block 的 LN1 平移系数 beta&quot;,
+        &quot;transformer.h.0.attn.c_attn.weight&quot;: &quot;Q/K/V 的合并投影权重&quot;,
+        &quot;transformer.h.0.attn.c_attn.bias&quot;: &quot;Q/K/V 的合并投影偏置&quot;,
+        &quot;transformer.h.0.attn.c_proj.weight&quot;: &quot;注意力输出投影权重&quot;,
+        &quot;transformer.h.0.mlp.c_fc.weight&quot;: &quot;MLP 扩展层：768 → 3072&quot;,
+        &quot;transformer.h.0.mlp.c_proj.weight&quot;: &quot;MLP 压回层：3072 → 768&quot;,
+        &quot;transformer.ln_f.weight&quot;: &quot;所有 Block 之后的最终 LN 缩放系数&quot;,
+        &quot;lm_head.weight&quot;: &quot;输出词表打分；与 Token 向量表共享&quot;,
+    }
+
+    print(&quot;2.1 第一块：配置、权重、模型代码怎样配合&quot;)
+    print(f&quot;实际读取位置：{model_dir}\n&quot;)
+    for key, meaning in [
+        (&quot;vocab_size&quot;, &quot;词表行数&quot;), (&quot;n_positions&quot;, &quot;位置表行数&quot;),
+        (&quot;n_embd&quot;, &quot;每个位置的向量维度&quot;), (&quot;n_layer&quot;, &quot;Block 个数&quot;),
+        (&quot;n_head&quot;, &quot;注意力头数&quot;),
+    ]:
+        print(f&quot;{key:16s} = {config[key]:&gt;6}  {meaning}&quot;)
+    print(f&quot;每头维度 = {config[&#39;n_embd&#39;]} / {config[&#39;n_head&#39;]}&quot;
+          f&quot; = {config[&#39;n_embd&#39;] // config[&#39;n_head&#39;]}\n&quot;)
+
+    print(&quot;实际参数名称 → 形状 → 所属环节&quot;)
+    for name, meaning in selected.items():
+        print(f&quot;{name:41s} {str(list(state[name].shape)):18s} {meaning}&quot;)
+    print(&quot;\n注意：h.0 是第 1 个 Block。&quot;)
+    print(&quot;Hugging Face GPT-2 的这些投影使用 Conv1D 包装，权重按 [输入维, 输出维] 存；&quot;)
+    print(&quot;改用 PyTorch Linear 时存储方向相反，加载时需转置。这个细节后续再实现。&quot;)
+
+    # 第四步：只取一行的前 8 个真实数。它不是输入文本，而是参数表的一小部分。
+    row = model.transformer.wte.weight[args.token_id, :8].detach().cpu().tolist()
+    print(f&quot;\nE[{args.token_id}] 的前 8 个参数值（完整一行有 768 个）：&quot;)
+    print(&quot;[&quot; + &quot;, &quot;.join(f&quot;{x:.7f}&quot; for x in row) + &quot;]&quot;)
+
+    # 第五步：model.parameters() 默认对共享参数去重。
+    # 直接累加 state_dict 的所有条目会重复计算 E / lm_head 这一共享表。
+    tied = model.transformer.wte.weight is model.lm_head.weight
+    groups = {
+        &quot;Token Embedding&quot;: model.transformer.wte.weight.numel(),
+        &quot;Position Embedding&quot;: model.transformer.wpe.weight.numel(),
+        &quot;12 个 Block&quot;: sum(p.numel() for p in model.transformer.h.parameters()),
+        &quot;最终 LayerNorm&quot;: sum(p.numel() for p in model.transformer.ln_f.parameters()),
+    }
+    total = sum(p.numel() for p in model.parameters())
+    assert sum(groups.values()) == total
+    assert tied
+    print(&quot;\n独立可训练参数的个数：&quot;)
+    for label, count in groups.items():
+        print(f&quot;{label}: {count:,}&quot;)
+    print(f&quot;合计：{total:,}，约 {total / 1_000_000:.2f}M&quot;)
+    print(f&quot;E 与 lm_head 是否为同一个参数对象：{tied}&quot;)
+    print(&quot;权重加载检查：没有缺失项、多余项或形状冲突。&quot;)
+    print(&quot;本次仅检查配置和权重；尚未执行生成、训练或与自写模型对齐。&quot;)
+
+    parameters = [
+        {&quot;name&quot;: name, &quot;shape&quot;: list(p.shape), &quot;numel&quot;: p.numel(), &quot;dtype&quot;: str(p.dtype)}
+        for name, p in model.named_parameters()
+    ]
+    if args.all:
+        print(&quot;\n全部独立参数（共享项只列一次）：&quot;)
+        for item in parameters:
+            print(item[&quot;name&quot;], item[&quot;shape&quot;])
+    if args.json:
+        report = {
+            &quot;source&quot;: {&quot;model_dir&quot;: str(model_dir), &quot;snapshot_revision&quot;: model_dir.name,
+                       &quot;config_file&quot;: str(config_path), &quot;weights_file&quot;: str(weights_path)},
+            &quot;environment&quot;: {&quot;python&quot;: sys.version.split()[0], &quot;torch&quot;: torch.__version__},
+            &quot;config&quot;: config, &quot;loading_info&quot;: loading_info,
+            &quot;selected_shapes&quot;: {name: list(state[name].shape) for name in selected},
+            &quot;embedding_sample&quot;: {&quot;token_id&quot;: args.token_id, &quot;dimensions&quot;: [0, 8], &quot;values&quot;: row},
+            &quot;parameter_groups&quot;: groups, &quot;total_parameters&quot;: total,
+            &quot;embedding_and_head_same_parameter&quot;: tied, &quot;parameters&quot;: parameters,
+            &quot;forward_ran&quot;: False, &quot;training_ran&quot;: False,
+        }
+        args.json.parent.mkdir(parents=True, exist_ok=True)
+        args.json.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding=&quot;utf-8&quot;)
+        print(f&quot;检查报告：{args.json.resolve()}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+</details>
+
+<h3>代码审查题</h3>
+<p>把 <code>state = model.state_dict()</code> 存到变量后继续训练，是否拿到了训练前的稳定快照？<code>model.eval()</code> 为什么不能替代一次 <code>model(input_ids)</code>？</p>
+<details><summary>核对答案</summary>
+
+<p>没有保证快照独立，后续更新可能通过共享存储反映在 <code>state</code> 中。<code>eval</code> 修改模式；<code>model(input_ids)</code> 才进入具体前向。下一单元把 Python 对象、Tensor 存储和 autograd 三种关系分别验证。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-12"><small>← 上一单元</small>12 · 类型提示、异常链与输入契约</a><a href="#unit-14"><small>下一单元 →</small>14 · Tensor：形状、存储别名与 autograd</a></nav></section>
+<section class="chapter" id="unit-14" data-chapter="14"><div class="chapter-kicker"><span class="chapter-level">实战</span>PyTorch 语义边界</div><h2>14 · Tensor：形状、存储别名与 autograd</h2>
+<p>**迁移目标：**用你对数组、视图和内存的经验理解 Tensor，同时补上 autograd 这个独立维度。关键是分别询问对象身份、底层存储与梯度路径。</p>
+<h3>三种“相同”，互不等价</h3>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>Python 对象</th>
+<th>底层数据</th>
+<th>梯度关系</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>y = x</code></td>
+<td>同一个对象</td>
+<td>共享</td>
+<td>原样</td>
+</tr>
+<tr>
+<td><code>y = x.detach()</code></td>
+<td>新 Tensor 对象</td>
+<td>共享</td>
+<td>切断该结果的 autograd 连接</td>
+</tr>
+<tr>
+<td><code>y = x.clone()</code></td>
+<td>新 Tensor 对象</td>
+<td>复制</td>
+<td>可以保留到 x 的梯度路径</td>
+</tr>
+<tr>
+<td><code>y = x.detach().clone()</code></td>
+<td>新 Tensor 对象</td>
+<td>复制</td>
+<td>不再通过该结果跟踪到 x</td>
+</tr>
+</tbody></table>
+<p>所以“detach 后修改不会影响原参数”是错误推断。“clone 一定关闭梯度”同样错误。示例使用同起点张量的 <code>data_ptr</code> 辅助核对共享；一般带偏移视图不应只靠起始地址判断所有别名关系。</p>
+<h3>索引既影响 shape，也可能影响所有权</h3>
+<p>设 <code>X.shape=[B,T,C]=[2,3,4]</code>：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>shape</th>
+<th>读取语义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>X[:, -1, :]</code></td>
+<td><code>[2,4]</code></td>
+<td>整数索引移除位置轴，基本索引通常为视图</td>
+</tr>
+<tr>
+<td><code>X[:, -1:, :]</code></td>
+<td><code>[2,1,4]</code></td>
+<td>切片保留轴，基本索引通常为视图</td>
+</tr>
+<tr>
+<td><code>X[[0,1]]</code></td>
+<td><code>[2,3,4]</code></td>
+<td>这里是高级索引，读取产生副本</td>
+</tr>
+</tbody></table>
+<p>Python list 切片新建外层；Tensor 基本切片通常共享数据，规则不同。高级索引“读取产生副本”也不能推导出 <code>X[mask] = value</code> 不会修改 X：后者执行的是索引赋值。</p>
+<h3>算子与广播快速核对</h3>
+<p>手工 <code>W.shape=[4,2]</code> 时，<code>X @ W + bias</code> 输出 <code>[2,3,2]</code>，偏置 <code>[2]</code> 从尾部轴广播。<code>nn.Linear(4,2)</code> 保存的权重则为 <code>[2,4]</code>，内部按转置后的方向参与计算。</p>
+<p><code>*</code> 是逐元素乘，<code>@</code> 是矩阵乘法；<code>==</code> 返回逐元素布尔 Tensor。多个元素的 Tensor 不能直接作为 Python <code>if</code> 条件，需明确使用 <code>.any()</code>、<code>.all()</code> 等归约。逐元素逻辑常写 <code>(x &gt; 0) &amp; (x &lt; 1)</code>，不要把 Python <code>and</code> 当作按元素运算。</p>
+<h3>reshape 与 transpose 不是一个动作</h3>
+<p><code>transpose</code>/<code>permute</code> 重排轴，经常产生非连续视图。<code>view</code> 需要布局兼容；<code>reshape</code> 可在必要时复制，不能据方法名判断结果必然共享。<code>contiguous()</code> 也不是无条件复制：输入已经连续时可以复用。</p>
+<p>学习多头注意力代码时，同时写出语义轴 <code>[B,T,H,Dh]</code> 与实际内存布局；元素数匹配只证明能排出某种形状，不证明 Token、头和维度的对应关系正确。</p>
+<details><summary>实验：视图修改、布局与 detach/clone</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/14_tensors.py">examples/14_tensors.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;14：形状、基本索引的视图、复制与 autograd 边界。&quot;&quot;&quot;
+import torch
+
+x = torch.arange(24, dtype=torch.float32).reshape(2, 3, 4)
+weight = torch.tensor([[1.0, 0.0], [0.0, 1.0], [1.0, 0.0], [0.0, 1.0]])
+bias = torch.tensor([0.5, -0.5])
+print(&quot;X / W / Y：&quot;, tuple(x.shape), tuple(weight.shape), tuple((x @ weight + bias).shape))
+print(&quot;首位置投影结果：&quot;, (x @ weight + bias)[0, 0].tolist())
+print(&quot;整数索引消轴 / 切片留轴：&quot;, tuple(x[:, -1, :].shape), tuple(x[:, -1:, :].shape))
+
+base = torch.arange(6, dtype=torch.float32).reshape(2, 3)
+view = base[:, 1:]
+snapshot = base.clone()
+view[0, 0] = -10
+print(&quot;修改视图后原值改变：&quot;, base.tolist())
+print(&quot;clone 的独立快照：&quot;, snapshot.tolist())
+assert base[0, 1].item() == -10 and snapshot[0, 1].item() == 1
+
+transposed = x.transpose(1, 2)
+print(&quot;转置 shape / 连续性：&quot;, tuple(transposed.shape), transposed.is_contiguous())
+print(&quot;连续布局后 view：&quot;, tuple(transposed.contiguous().view(2, 12).shape))
+try:
+    bool(torch.tensor([1, 2]))
+except RuntimeError as error:
+    print(&quot;多元素张量真值不明确：&quot;, type(error).__name__)
+
+leaf = torch.tensor([2.0], requires_grad=True)
+detached = leaf.detach()
+cloned = leaf.clone()
+frozen = leaf.detach().clone()
+print(&quot;detach：共享存储 / 需要梯度：&quot;, detached.data_ptr() == leaf.data_ptr(), detached.requires_grad)
+print(&quot;clone：独立存储 / 有梯度路径：&quot;, cloned.data_ptr() != leaf.data_ptr(), cloned.grad_fn is not None)
+print(&quot;detach+clone：独立存储 / 需要梯度：&quot;, frozen.data_ptr() != leaf.data_ptr(), frozen.requires_grad)
+assert detached.data_ptr() == leaf.data_ptr() and cloned.grad_fn is not None
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/14_tensors.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">X / W / Y： (2, 3, 4) (4, 2) (2, 3, 2)
+首位置投影结果： [2.5, 3.5]
+整数索引消轴 / 切片留轴： (2, 4) (2, 1, 4)
+修改视图后原值改变： [[0.0, -10.0, 2.0], [3.0, 4.0, 5.0]]
+clone 的独立快照： [[0.0, 1.0, 2.0], [3.0, 4.0, 5.0]]
+转置 shape / 连续性： (2, 4, 3) False
+连续布局后 view： (2, 12)
+多元素张量真值不明确： RuntimeError
+detach：共享存储 / 需要梯度： True False
+clone：独立存储 / 有梯度路径： True True
+detach+clone：独立存储 / 需要梯度： True False
+</code></pre>
+</details>
+
+<h3>原地更新是另一个契约</h3>
+<p>PyTorch 常用末尾下划线表示原地操作，如 <code>add_</code>、<code>copy_</code>。在梯度跟踪过程中改动被后续反向依赖的数据，可能被版本检查拒绝。受控加载参数常在 <code>torch.no_grad()</code> 中执行 <code>copy_</code>，这仍是在修改原参数，不是创建新对象。</p>
+<p>Tensor 视图规则可核对 <a href="https://docs.pytorch.org/docs/2.14/tensor_view.html">PyTorch 官方视图说明</a>；本教材的具体例子在本机 PyTorch 2.2.2 上运行验证，升级文档不替代本地行为核对。</p>
+<h3>代码审查题</h3>
+<p><code>best = model.wte.weight.detach()</code> 能作为独立的最佳权重备份吗？<code>weights == other_weights</code> 能直接拿去 <code>if</code> 吗？</p>
+<details><summary>核对答案</summary>
+
+<p>前者仍共享存储，通常需要 <code>detach().clone()</code> 或序列化快照。后者为逐元素结果，需明确比较语义：如 <code>torch.equal</code> 做严格整体相等，或 <code>torch.allclose</code> 做浮点容差比较，不能让多元素结果隐式转 bool。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-13"><small>← 上一单元</small>13 · 实战：按对象与契约读懂检查脚本</a><a href="#unit-15"><small>下一单元 →</small>15 · nn.Module：注册、执行、更新与保存</a></nav></section>
+<section class="chapter" id="unit-15" data-chapter="15"><div class="chapter-kicker"><span class="chapter-level">实战</span>PyTorch 语义边界</div><h2>15 · nn.Module：注册、执行、更新与保存</h2>
+<p>**迁移目标：**理解框架如何建立对象图并发现参数。你已学过训练数学，本单元关注 Python 代码中的机制和生命周期边界。</p>
+<h3>注册不是“对象存在”就自动发生</h3>
+<pre><code class="language-python">class Network(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.visible = nn.Linear(4, 4)
+        self.hidden = [nn.Linear(4, 4)]
+        self.blocks = nn.ModuleList([nn.Linear(4, 4)])
+</code></pre>
+<p><code>self.visible</code> 与 <code>self.blocks</code> 及其中层会被 Module 管理；<code>self.hidden</code> 是普通列表，列表内部层不会仅凭这个容器赋值被自动注册。因此它们可能不出现在 <code>parameters()</code>、<code>state_dict()</code> 和设备迁移的递归操作中。</p>
+<p>这不是 Python “看不见对象”，而是框架注册协议没有沿任意对象图递归。需要管理层列表时使用 <code>ModuleList</code>，参数列表用 <code>ParameterList</code>；非参数但需要随模型迁移/保存的状态可用适当的 buffer 注册方式。</p>
+<h3>三个入口对应三个阶段</h3>
+<table>
+<thead>
+<tr>
+<th>入口</th>
+<th>生命周期职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>__init__</code></td>
+<td>建立可复用层与参数，先初始化 Module 基础设施</td>
+</tr>
+<tr>
+<td><code>forward</code></td>
+<td>描述输入如何使用当前状态计算结果</td>
+</tr>
+<tr>
+<td><code>model(inputs)</code></td>
+<td>经过 Module 调用入口进入 forward，包含相关 hook 机制</td>
+</tr>
+</tbody></table>
+<p>在 <code>forward</code> 临时新建 Linear 会产生新的随机参数，不能当成已有层持续训练。循环和条件可以参与构造执行路径，但不能因此忽略参数注册与复用。</p>
+<h3>状态变化逐项核对</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>改变什么</th>
+<th>未完成什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>zero_grad()</code></td>
+<td>清理已累积梯度</td>
+<td>不重新初始化权重</td>
+</tr>
+<tr>
+<td><code>model(x)</code></td>
+<td>产生本次前向结果及可能的图</td>
+<td>不根据损失更新参数</td>
+</tr>
+<tr>
+<td><code>loss.backward()</code></td>
+<td>沿图累积梯度</td>
+<td>不等同于优化器 step</td>
+</tr>
+<tr>
+<td><code>optimizer.step()</code></td>
+<td>按梯度及优化器状态更新参数</td>
+<td>不自动清掉下一轮要累积的梯度</td>
+</tr>
+<tr>
+<td><code>eval()</code></td>
+<td>修改模式标志与相关层行为</td>
+<td>不关闭 autograd，不执行前向</td>
+</tr>
+<tr>
+<td><code>no_grad()</code></td>
+<td>临时关闭梯度记录</td>
+<td>不自动让 Dropout 进入评估模式</td>
+</tr>
+</tbody></table>
+<h3>小模型的输入输出契约</h3>
+<p>配套例子用 <code>Embedding(6,4)</code> 与 <code>Linear(4,6)</code>：输入 ID <code>[1,3]</code> → hidden <code>[1,3,4]</code> → logits <code>[1,3,6]</code> → 标量交叉熵。<code>F.cross_entropy</code> 接受 logits，不先做 softmax。参数总数为 54，这里两层不共享权重。</p>
+<p>这是独立的接口实验，没有 Attention 或位置向量，不是缩小版完整 GPT-2。固定 seed 用于可复查本次实验，不声称跨所有平台/版本能逐位复现任意训练。</p>
+<details><summary>实验：一次更新、模块注册与保存后重载</summary>
+
+<p><strong>可运行例子：</strong> <a href="examples/15_tiny_model.py">examples/15_tiny_model.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;15：模块注册、调用、梯度和序列化的语义边界。
+
+它只有 Embedding 与 Linear，没有 Attention，也没有位置向量，不能称为 GPT。
+不读取、不下载、不修改真实 GPT-2 权重。
+&quot;&quot;&quot;
+
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+import torch
+from torch import nn
+from torch.nn import functional as F
+from safetensors.torch import load_file, save_file
+
+
+class TinyNextToken(nn.Module):
+    def __init__(self, vocab_size=6, width=4):
+        super().__init__()
+        self.wte = nn.Embedding(vocab_size, width)
+        self.lm_head = nn.Linear(width, vocab_size)
+
+    def forward(self, input_ids):
+        hidden = self.wte(input_ids)
+        logits = self.lm_head(hidden)
+        return logits
+
+
+torch.manual_seed(7)
+model = TinyNextToken()
+optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
+input_ids = torch.tensor([[1, 2, 3]], dtype=torch.long)
+targets = torch.tensor([[2, 3, 4]], dtype=torch.long)
+
+model.train()
+optimizer.zero_grad()
+logits = model(input_ids)
+loss = F.cross_entropy(logits.reshape(-1, 6), targets.reshape(-1))
+state_view = model.state_dict()  # 映射是新的，但值的底层存储并非独立快照。
+before = model.wte.weight.detach().clone()
+loss.backward()
+print(&quot;输入 ID 形状：&quot;, tuple(input_ids.shape))
+print(&quot;输出 logits 形状：&quot;, tuple(logits.shape))
+print(&quot;总参数量：&quot;, sum(parameter.numel() for parameter in model.parameters()))
+print(&quot;损失形状（标量）：&quot;, tuple(loss.shape))
+print(&quot;产生了 Embedding 梯度：&quot;, model.wte.weight.grad is not None)
+optimizer.step()
+print(&quot;更新后权重改变：&quot;, not torch.equal(before, model.wte.weight))
+print(&quot;state_dict 与参数共享存储：&quot;, state_view[&quot;wte.weight&quot;].data_ptr() == model.wte.weight.data_ptr())
+
+model.eval()
+with torch.no_grad():
+    scores = model(input_ids)
+print(&quot;eval 后 training 标记：&quot;, model.training)
+print(&quot;no_grad 中输出需要梯度：&quot;, scores.requires_grad)
+
+with TemporaryDirectory() as temp_dir:
+    path = Path(temp_dir) / &quot;tiny.safetensors&quot;
+    save_file(model.state_dict(), str(path))
+    restored = TinyNextToken()
+    restored.load_state_dict(load_file(str(path)))
+    restored.eval()
+    with torch.no_grad():
+        reloaded_scores = restored(input_ids)
+    print(&quot;保存并重载后输出相同：&quot;, torch.equal(scores, reloaded_scores))
+
+class RegistryProbe(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.plain_list = [nn.Linear(2, 2)]
+        self.module_list = nn.ModuleList([nn.Linear(2, 2)])
+
+
+probe = RegistryProbe()
+print(&quot;自动注册的参数名：&quot;, [name for name, _ in probe.named_parameters()])
+assert sum(p.numel() for p in probe.parameters()) == 6
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/15_tiny_model.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">输入 ID 形状： (1, 3)
+输出 logits 形状： (1, 3, 6)
+总参数量： 54
+损失形状（标量）： ()
+产生了 Embedding 梯度： True
+更新后权重改变： True
+state_dict 与参数共享存储： True
+eval 后 training 标记： False
+no_grad 中输出需要梯度： False
+保存并重载后输出相同： True
+自动注册的参数名： [&#39;module_list.0.weight&#39;, &#39;module_list.0.bias&#39;]
+</code></pre>
+</details>
+
+<h3>状态映射不是独立快照，也不是完整程序</h3>
+<p><code>state_dict()</code> 的值通常继续共享模型参数/buffer 的存储；它并不自动深复制模型状态。<code>safetensors.save_file</code> 序列化张量数值，不保存全部 Python 类代码和优化器上下文。恢复先建立兼容结构，再加载张量并核对键、shape 和输出。</p>
+<p>本例写入临时目录、重载并对齐输出。真实续训还要根据目标保存优化器状态、步数、随机状态等；只读 GPT-2 预训练权重和恢复一次中断训练，契约不同。</p>
+<h3>代码审查题</h3>
+<p>一个模型能 forward，是否证明所有层都能被 optimizer 更新？为什么 <code>best_state=model.state_dict()</code> 后继续训练，可能导致“最佳权重”跟着变化？</p>
+<details><summary>核对答案</summary>
+
+<p>不能，forward 可以直接调用普通容器中的层，但优化器可能没拿到它们。状态映射中的张量可共享底层存储，后续原地更新会反映过去；需要独立复制或在目标时间点实际写出快照。</p>
+</details>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-14"><small>← 上一单元</small>14 · Tensor：形状、存储别名与 autograd</a><a href="#unit-16"><small>下一单元 →</small>16 · 综合实战：实现并审查配置接口</a></nav></section>
+<section class="chapter" id="unit-16" data-chapter="16"><div class="chapter-kicker"><span class="chapter-level">实战</span>综合接口审查</div><h2>16 · 综合实战：实现并审查配置接口</h2>
+<p>**迁移目标：**用一个熟悉的工程任务检验 Python 语义。功能规模保持小，重点审查输入契约、对象所有权、异常和返回形状。</p>
+<h3>任务与接口约束</h3>
+<p>读取 <a href="fixtures/demo_gpt2_config.json">教学配置</a>，生成 Token/Position Embedding 的形状与参数量，以及每头维度。实现接口 <code>inspect_config(config, *, output_info=False)</code>：</p>
+<ol>
+<li>不修改传入字典；检查五个必需字段存在。</li>
+<li>维度必须为正整数，明确拒绝 Python 的 <code>bool</code>。</li>
+<li><code>n_embd % n_head == 0</code>，避免静默向下取整。</li>
+<li>默认返回报告 dict；开关开启时返回 <code>(report, info)</code>。</li>
+<li>每次调用创建自己的报告与信息，不能共享可变默认状态。</li>
+<li>CLI 支持选择配置及可选 JSON 输出；输入问题应给出明确失败原因。</li>
+</ol>
+<p><code>argparse</code> 入口还应检查 JSON 最外层是对象。这个练习验证 Python API 的组织方式，不计算完整模型参数，也不读取预训练数值。</p>
+<h3>固定验收数据</h3>
+<pre><code class="language-json">{
+  &quot;model_type&quot;: &quot;gpt2&quot;,
+  &quot;vocab_size&quot;: 50257,
+  &quot;n_embd&quot;: 768,
+  &quot;n_head&quot;: 12,
+  &quot;n_layer&quot;: 12,
+  &quot;n_positions&quot;: 1024
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>输出</th>
+<th>期望</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Token 表 shape / 参数数</td>
+<td><code>[50257,768]</code> / <code>38,597,376</code></td>
+</tr>
+<tr>
+<td>Position 表 shape / 参数数</td>
+<td><code>[1024,768]</code> / <code>786,432</code></td>
+</tr>
+<tr>
+<td>head_dim</td>
+<td><code>64</code></td>
+</tr>
+<tr>
+<td>缺字段、<code>n_head=13</code>、<code>n_embd=True</code></td>
+<td>拒绝而非猜测修正</td>
+</tr>
+</tbody></table>
+<p>从 <a href="exercises/config_report.py">练习起点</a> 开始；模板保留 <code>NotImplementedError</code>，不算已实现程序。代码量不大，建议先写完再和参考实现比较，不必追求逐行相同。</p>
+<h3>先审查这段有问题的实现</h3>
+<pre><code class="language-python">def inspect(config, info={}):
+    width = config.get(&quot;n_embd&quot;) or 768
+    heads = config.get(&quot;n_head&quot;) or 12
+    info[&quot;head_dim&quot;] = width // heads
+    return info
+</code></pre>
+<p>它有哪些隐藏契约？如果调用者有意传 0、配置缺键、上次返回的 info 被保留、宽度不能整除头数，各自发生什么？</p>
+<details><summary>审查结论</summary>
+
+<p>默认字典跨调用共享；<code>or</code> 把 0 与缺失混在一起；缺少严格类型与正数验证；不能整除时 <code>//</code> 隐藏问题；返回同一个可变对象导致调用之间互相影响。应先验证输入，再创建独立输出。不能靠类型注解替代这些验证。</p>
+</details>
+
+<details><summary>参考实现与实际输出</summary>
+
+<p><strong>可运行例子：</strong> <a href="answers/config_report.py">answers/config_report.py</a></p>
+<pre><code class="language-python">&quot;&quot;&quot;综合练习参考答案：读取配置并检查形状；不加载真实模型。&quot;&quot;&quot;
+
+import argparse
+import json
+from pathlib import Path
+
+
+DEFAULT_CONFIG = Path(__file__).resolve().parent.parent / &quot;fixtures&quot; / &quot;demo_gpt2_config.json&quot;
+
+
+def inspect_config(config, *, output_info=False):
+    required = (&quot;vocab_size&quot;, &quot;n_embd&quot;, &quot;n_head&quot;, &quot;n_layer&quot;, &quot;n_positions&quot;)
+    missing_keys = [key for key in required if key not in config]
+    if missing_keys:
+        raise ValueError(&quot;缺少字段：&quot; + &quot;, &quot;.join(missing_keys))
+    for key in required:
+        value = config[key]
+        if type(value) is not int or value &lt;= 0:
+            raise ValueError(key + &quot; 必须是正整数&quot;)
+    width = config[&quot;n_embd&quot;]
+    heads = config[&quot;n_head&quot;]
+    if width % heads != 0:
+        raise ValueError(&quot;n_embd 必须能被 n_head 整除&quot;)
+
+    vocab_size = config[&quot;vocab_size&quot;]
+    positions = config[&quot;n_positions&quot;]
+    report = {
+        &quot;token_embedding_shape&quot;: [vocab_size, width],
+        &quot;position_embedding_shape&quot;: [positions, width],
+        &quot;head_dim&quot;: width // heads,
+        &quot;token_embedding_parameters&quot;: vocab_size * width,
+        &quot;position_embedding_parameters&quot;: positions * width,
+    }
+    info = {&quot;missing_keys&quot;: [], &quot;checked_fields&quot;: list(required)}
+    if output_info:
+        return report, info
+    return report
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(&quot;--config&quot;, type=Path, default=DEFAULT_CONFIG)
+    parser.add_argument(&quot;--output&quot;, type=Path)
+    args = parser.parse_args()
+    try:
+        config = json.loads(args.config.read_text(encoding=&quot;utf-8&quot;))
+        if not isinstance(config, dict):
+            raise ValueError(&quot;配置最外层必须是 JSON 对象&quot;)
+        report, info = inspect_config(config, output_info=True)
+    except (OSError, ValueError) as error:
+        parser.error(str(error))
+
+    text = json.dumps({&quot;report&quot;: report, &quot;info&quot;: info}, ensure_ascii=False, indent=2)
+    print(text)
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(text + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+        print(&quot;报告已保存：&quot;, args.output)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p><strong>运行方式：</strong></p>
+<pre><code class="language-bash">/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/answers/config_report.py
+</code></pre>
+<p><strong>本机实际输出：</strong></p>
+<pre><code class="language-text">{
+  &quot;report&quot;: {
+    &quot;token_embedding_shape&quot;: [
+      50257,
+      768
+    ],
+    &quot;position_embedding_shape&quot;: [
+      1024,
+      768
+    ],
+    &quot;head_dim&quot;: 64,
+    &quot;token_embedding_parameters&quot;: 38597376,
+    &quot;position_embedding_parameters&quot;: 786432
+  },
+  &quot;info&quot;: {
+    &quot;missing_keys&quot;: [],
+    &quot;checked_fields&quot;: [
+      &quot;vocab_size&quot;,
+      &quot;n_embd&quot;,
+      &quot;n_head&quot;,
+      &quot;n_layer&quot;,
+      &quot;n_positions&quot;
+    ]
+  }
+}
+</code></pre>
+<p>答案保留普通 dict，便于对照当前检查脚本。进一步可以用 dataclass 表达结构，但仍应保留外部输入校验；不能假定 dataclass 自动完成它。</p>
+</details>
+
+<h3>回到 2.1 的准备度检查</h3>
+<p>能够解释以下行为，就可以回到主线边读边补剩余语法，不必先掌握整个 Python 生态：</p>
+<ul>
+<li>调用、关键字实参、返回拆包与可变默认值的契约。</li>
+<li>别名、浅/深复制、Tensor 视图与梯度连接的区别。</li>
+<li>类方法工厂、Module 调用入口和注册参数的边界。</li>
+<li>相对导入与解释器依赖问题各从哪里排查。</li>
+<li><code>inspect_checkpoint.py</code> 哪些操作读数据、创建对象、检查状态或写文件。</li>
+</ul>
+<p>后续课程遇到 multiprocessing、异步 I/O、打包发布或更复杂的类型设计时再补；这些暂不阻塞 GPT-2 复现。</p>
+<nav class="chapter-pager" aria-label="章节切换"><a href="#unit-15"><small>← 上一单元</small>15 · nn.Module：注册、执行、更新与保存</a><a href="#appendix"><small>下一单元 →</small>速查与参考</a></nav></section><section class="chapter appendix" id="appendix"><div class="chapter-kicker">随时回来查阅</div><h2>速查 · 语言迁移中的十个审查问题</h2>
+<table>
+<thead>
+<tr>
+<th>看到的写法</th>
+<th>立即核对</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>b = a</code></td>
+<td>重新绑定还是复制？后续修改是否共享？</td>
+</tr>
+<tr>
+<td><code>a == b</code> / <code>a is b</code></td>
+<td>比较值还是身份？返回 bool 还是 Tensor？</td>
+</tr>
+<tr>
+<td><code>value or fallback</code></td>
+<td>合法的 0、False、空容器是否被覆盖？</td>
+</tr>
+<tr>
+<td><code>def f(x=[]):</code></td>
+<td>默认对象是否跨调用复用？</td>
+</tr>
+<tr>
+<td><code>lambda: i</code></td>
+<td>读共享绑定还是期望每轮快照？</td>
+</tr>
+<tr>
+<td><code>for x in source</code></td>
+<td>source 能否重新迭代，是否已被调试输出消费？</td>
+</tr>
+<tr>
+<td><code>from m import x</code></td>
+<td>本地绑定是否会随 m.x 的重绑定自动变化？</td>
+</tr>
+<tr>
+<td><code>@decorator</code></td>
+<td>何时执行、返回什么、是否替换被装饰对象？</td>
+</tr>
+<tr>
+<td><code>self.layers=[...]</code></td>
+<td>Module 是否注册到了容器内部的层？</td>
+</tr>
+<tr>
+<td><code>snapshot = tensor.detach()</code></td>
+<td>切断梯度是否被误当成复制数据？</td>
+</tr>
+</tbody></table>
+<h2>版本边界与官方核对</h2>
+<p>教材实际运行环境为 <strong>Python 3.9.6、PyTorch 2.2.2、safetensors 0.7.0</strong>。语言迁移中的行为实验以这个环境的输出为准；官方文档与程序角色不同，前者说明契约，后者核对本机例子。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>本教材处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dict 保留插入次序</td>
+<td>Python 3.7 起的语言保证</td>
+</tr>
+<tr>
+<td>位置专用形参 <code>/</code></td>
+<td>Python 3.8 起支持，本机可用</td>
+</tr>
+<tr>
+<td><code>list[int]</code></td>
+<td>Python 3.9 可用</td>
+</tr>
+<tr>
+<td><code>int | None</code>、<code>match</code>、<code>zip(strict=True)</code></td>
+<td>常用写法从 3.10 引入，本机示例不直接使用</td>
+</tr>
+</tbody></table>
+<p>需要深入核对时使用官方资料：</p>
+<ul>
+<li><a href="https://docs.python.org/3.9/reference/executionmodel.html">Python 执行模型</a>：名称绑定、作用域和异常传播。</li>
+<li><a href="https://docs.python.org/3.9/tutorial/controlflow.html">Python 函数与控制流</a>：参数位置、默认值与调用规则。</li>
+<li><a href="https://docs.python.org/3.9/library/copy.html">复制协议</a>：浅复制、深复制与自定义对象。</li>
+<li><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">Java String</a> / <a href="https://api.dart.dev/dart-core/String/length.html">Dart String.length</a>：跨语言长度计数的核对。</li>
+<li><a href="https://docs.pytorch.org/docs/2.14/tensor_view.html">PyTorch Tensor 视图</a>：存储共享与视图行为，结合本机版本实测阅读。</li>
+</ul>
+<h2>验证范围</h2>
+<p>16 个可运行教学程序、包入口、CLI 合法/非法参数、配置边界与报告读写均已执行。核心易错语义在相应例子中包含断言。练习 TODO 只检查语法，真实 GPT-2 源码只做阅读核对；本次不重新加载大型权重、不修改课程模型代码。</p>
+<p><a href="verification.json">verification.json</a> 记录实际输出与环境。正文中的输出框显示 stdout，完整记录另保留 stderr；本机小模型实验可能显示已有的 urllib3/LibreSSL 兼容性警告，成功退出与重载断言分别核对，不把警告当作模型计算结果。</p>
+<p>材料已调整为 <strong>Java/C++/Dart 资深开发者的 Python 迁移版</strong>。阅读级别是建议投入方式，页面滚动进度也只是阅读位置；它们不自动改变 Notion 学习进度。</p>
+</section></main>
+<footer class="page-footer">Java / C++ / Dart → Python · 以语义差异为起点，回到真实模型代码。</footer></div><button class="mobile-shade" id="mobile-shade" aria-label="关闭目录" hidden></button><script>// 所有交互均在本地执行；正文在禁用 JavaScript 时也可阅读。
+(() => {
+  const sidebar = document.querySelector('#sidebar');
+  const menu = document.querySelector('#menu-toggle');
+  const shade = document.querySelector('#mobile-shade');
+  const links = Array.from(document.querySelectorAll('.toc-link'));
+  const chapters = Array.from(document.querySelectorAll('[data-chapter]'));
+  function setMenu(open) {
+    sidebar.classList.toggle('open', open);
+    menu.setAttribute('aria-expanded', String(open));
+    shade.hidden = !open;
+  }
+  menu.addEventListener('click', () => setMenu(!sidebar.classList.contains('open')));
+  shade.addEventListener('click', () => setMenu(false));
+  sidebar.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') setMenu(false); });
+  let selectedLevel = 'all';
+  const search = document.querySelector('#toc-search');
+  const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
+  function filterNavigation() {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+    links.forEach(link => {
+      link.hidden = !(link.dataset.search.includes(query) && (selectedLevel === 'all' || link.dataset.level === selectedLevel));
+      if (!link.hidden) visible += 1;
+    });
+    document.querySelector('#toc-counter').textContent = visible + ' / ' + links.length + ' 个单元';
+    document.querySelector('#toc-empty').hidden = visible !== 0;
+    filterButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === selectedLevel)));
+  }
+  search.addEventListener('input', filterNavigation);
+  filterButtons.forEach(button => button.addEventListener('click', () => {
+    selectedLevel = button.dataset.filter;
+    filterNavigation();
+  }));
+
+  let size = window.innerWidth < 821 ? 17 : 18;
+  function font(delta) {
+    size = Math.max(15, Math.min(22, size + delta));
+    document.documentElement.style.setProperty('--font-size', size + 'px');
+    document.querySelector('#font-smaller').disabled = size === 15;
+    document.querySelector('#font-larger').disabled = size === 22;
+  }
+  document.querySelector('#font-smaller').addEventListener('click', () => font(-1));
+  document.querySelector('#font-larger').addEventListener('click', () => font(1));
+  document.querySelector('#print-book').addEventListener('click', () => window.print());
+  const closedBeforePrint = [];
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('details:not([open])').forEach(item => { closedBeforePrint.push(item); item.open = true; });
+  });
+  window.addEventListener('afterprint', () => { closedBeforePrint.splice(0).forEach(item => { item.open = false; }); });
+
+  let queued = false;
+  function updateReading() {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    document.querySelector('#reading-progress').style.width = (total > 0 ? Math.max(0, Math.min(100, window.scrollY / total * 100)) : 100) + '%';
+    let current = null;
+    chapters.forEach(chapter => { if (chapter.getBoundingClientRect().top <= 160) current = chapter; });
+    links.forEach(link => {
+      const active = current && link.hash === '#' + current.id;
+      link.classList.toggle('active', Boolean(active));
+      if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
+    });
+    const appendixVisible = document.querySelector('#appendix').getBoundingClientRect().top <= 160;
+    document.querySelector('#current-label').textContent = appendixVisible ? '速查与参考' : current ? current.querySelector('h2').textContent : '阅读说明';
+    queued = false;
+  }
+  window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(updateReading); } }, { passive: true });
+  window.addEventListener('resize', updateReading);
+  updateReading();
+
+  // file:// 场景可能禁用剪贴板 API；失败时保留文本选择方式。
+  document.querySelectorAll('pre').forEach(pre => {
+    const button = document.createElement('button');
+    button.className = 'copy-button';
+    button.textContent = '复制';
+    button.setAttribute('aria-label', '复制这段代码或输出');
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.querySelector('code').textContent);
+        button.textContent = '已复制';
+      } catch {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(pre.querySelector('code'));
+        selection.removeAllRanges(); selection.addRange(range);
+        button.textContent = '已选中，请复制';
+      }
+      setTimeout(() => { button.textContent = '复制'; }, 1800);
+    });
+    pre.appendChild(button);
+  });
+})();
+</script></body></html>
