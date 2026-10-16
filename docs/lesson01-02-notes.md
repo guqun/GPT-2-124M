@@ -6,6 +6,8 @@
 
 归档日期：2026-10-16。掌握程度保留为“理解中”；学习讨论与实验通过，不等于已经独立重写或完成整节训练。
 
+**项目仓库**：[guqun/GPT-2-124M](https://github.com/guqun/GPT-2-124M)。本篇涉及的模型代码、实验程序、调用图与学习材料均保存在这个仓库中。
+
 **承接**：[GPT 训练与推理全流程复习](https://app.notion.com/p/3f9eaea3141481d19044e32c68f97520)。上一篇保留训练、推理的两份交互动画；本篇把其中的前向路线落到真实 124M 模型代码。
 
 **来源标记**：**「课程主线」**来自 Karpathy 的 [Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU) 与 [build-nanogpt](https://github.com/karpathy/build-nanogpt)；**「本地源码」**指本项目及当前安装的 PyTorch / Transformers；**「教学补充」**是为阅读代码增加的解释、hook 与多案例对照；**「实际记录」**来自已经保存的实验报告。本次归档核对报告和源文件，没有重新执行训练或生成。

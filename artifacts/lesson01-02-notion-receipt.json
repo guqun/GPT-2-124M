@@ -3,7 +3,8 @@
   "notes": {
     "id": "3fbeaea3-1414-8152-94cd-ffb15d7404b0",
     "url": "https://app.notion.com/p/3fbeaea31414815294cdffb15d7404b0?pvs=204",
-    "title": "🧩 GPT-2 预训练工程（一）：检查点、独立实现与前向对照"
+    "title": "🧩 GPT-2 预训练工程（一）：检查点、独立实现与前向对照",
+    "repository": "https://github.com/guqun/GPT-2-124M"
   },
   "plan": {
     "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
@@ -21,7 +22,9 @@
     "image_attached": true,
     "self_check_answer_toggle": true,
     "progress_correct": true,
-    "unrelated_plan_content_preserved": true
+    "unrelated_plan_content_preserved": true,
+    "repository_link_verified": true,
+    "repository_update_preserved_other_note_content": true
   },
   "source_package": {
     "local": "artifacts/lesson01-02-study-materials.zip",
