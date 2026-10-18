@@ -6,6 +6,28 @@
 
 每次一个知识块：目的 → 输入输出 → 公式与形状 → 源码 → 实际运行 → 自检。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
 
+## 新机器上的运行准备
+
+以下命令在仓库根目录执行。已验证的环境为 macOS / Python 3.9.6，依赖版本固定在 `requirements.txt`。本机已经完成这一步时，直接使用下面的运行命令即可。
+
+```bash
+/usr/bin/python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/hf download openai-community/gpt2 config.json model.safetensors tokenizer.json \
+  --revision 607a30d783dfa663caf39e06633721c8d4cfcd7e \
+  --local-dir .cache/gpt2/607a30d783dfa663caf39e06633721c8d4cfcd7e
+```
+
+权重约 548 MB，分词器约 1.4 MB。实验脚本优先读取仓库内的固定版本缓存；也可通过 `--model-dir` 指定目录。下载只需准备时执行，实验本身离线读取文件。
+
+```bash
+.venv/bin/python inspect_checkpoint.py --json .cache/runtime-check/lesson01-report.json
+.venv/bin/python compare_forward.py --report .cache/runtime-check/lesson02-report.json
+.venv/bin/python generate_text.py --prompt "Hello, I'm a language model," --check-reference --report .cache/runtime-check/lesson03-greedy.json
+```
+
+`.venv/` 和 `.cache/` 已被 Git 忽略。上述命令将本机运行报告保存到缓存目录。
+
 ## Python 知识补充
 
 [Python 迁移教材](python_foundations/README.md) 面向熟悉 Java、C++、Dart 的资深程序员，共 17 个单元，重点讲解 Python 语义差异，以及阅读大模型代码所需的 Tensor、autograd 和 `nn.Module` 知识。
@@ -14,13 +36,28 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充。主课程现接续配置与权重检查，进入下方第二块的前向模型对照。
+这部分作为知识补充。主课程现接续前向模型对照，进入下方第三块的文本生成。
 
-## 当前进度：2.1 前两个知识块已归档
+## 当前进度：2.1 第三块文本生成已初步学习
 
 已学习配置与权重检查、独立模型与前向对照，以及 `forward` 的逐层调用。复习见 [阶段笔记：检查点、独立实现与前向对照](docs/lesson01-02-notes.md)，包含本次追问、调用图和已有实验结果；掌握程度保留“理解中”。
 
-下一知识块是使用自己的模型生成文本。2.1 整节仍在进行中，生成、训练循环、单批次过拟合、数据加载与初始化专题尚未完成。
+已完成文本生成流程、张量形状、运行日志与修改提示词的讲解及试跑；2026-10-18 用户反馈“大概了解”，掌握程度记录为初步理解，独立自检待完成。2.1 整节仍在进行中，后续继续训练循环、单批次过拟合、数据加载与初始化专题。
+
+## 2.1 第三块，使用自己的模型生成文本
+
+按 [文本生成学习单](lesson03.md) 从上一块的 `[B,T,V]` 接起：取最后位置 → 选一个 ID → 追加到输入 → 再次前向。
+
+配合 [代码与完整流程对照图](docs/diagrams/gpt2-generation-flow.md) 阅读：图中 `M/G/S` 编号与源码注释一致，并标出张量形状、分支、循环返回和停止条件。
+
+打开 [generate_text.py](generate_text.py) 并点击“运行 Python 文件”，默认执行贪心生成。先读 `generate()` 中标为 ①～⑤ 的循环，再读 `select_next_token()` 的贪心和采样分支。程序逐步打印长度、形状与选中的 Token。
+
+```bash
+.venv/bin/python generate_text.py --check-reference
+.venv/bin/python generate_text.py --strategy sample --temperature 0.8 --top-k 50 --seed 42
+```
+
+已实跑课堂固定提示词 `Hello, I'm a language model,` 的 20 个新 Token：贪心 ID 与 Hugging Face 参考结果一致；采样实验与 5 个行为测试通过。无参数运行使用 `main()` 中 `--prompt` 的当前默认值；复现图中 8 个 Token 的示例时，按学习单显式传入课堂提示词。脚本只处理单条输入，使用 CPU / FP32，每步重算完整前缀。
 
 ## 2.1 第二块，独立模型与前向对照
 
@@ -35,10 +72,10 @@
 - `artifacts/lesson02-report.json`：运行后保存本次实际比较结果。
 
 ```bash
-/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/compare_forward.py
+.venv/bin/python compare_forward.py
 ```
 
-本块先验证前向计算。2.1 中的生成、训练循环、单批次过拟合和初始化专题仍在后续学习，不据此把整节标记为完成。
+本块验证前向计算，文本生成已在第三块初步学习。2.1 中的训练循环、单批次过拟合、数据加载和初始化专题仍在后续学习，不据此把整节标记为完成。
 
 ## 2.1 第一块，配置与权重
 
@@ -53,18 +90,18 @@
 
 ## 在 VS Code 运行
 
-打开 `/Users/guqun/micrograd` 项目，选择解释器：
+在 VS Code 中打开本仓库文件夹，选择仓库内的解释器：
 
 ```text
-/Users/guqun/micrograd/venv/bin/python
+.venv/bin/python
 ```
 
-打开 `/Users/guqun/micrograd/gpt2_pretrain_lab/inspect_checkpoint.py`，使用“运行 Python 文件”；也可以在“运行和调试”中选择 **GPT-2 2.1：检查配置与权重**，按 F5。
+打开 `inspect_checkpoint.py`，使用“运行 Python 文件”。项目设置已给出 `.venv/bin/python` 作为默认解释器。
 
-直接运行的等价命令：
+在仓库根目录运行的等价命令：
 
 ```bash
-/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/inspect_checkpoint.py
+.venv/bin/python inspect_checkpoint.py
 ```
 
 显示全部参数：追加 `--all`。观察另一个 ID：追加 `--token-id 17250`。脚本从文件自身与用户目录定位路径，不依赖终端当前目录。

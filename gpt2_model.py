@@ -28,7 +28,7 @@
 【Python】配置对象、循环、字典等语言及标准库功能。
 “独立前向模型”表示自己组织 GPT-2 的计算过程；矩阵乘法等数值运算仍调用
 PyTorch。本文件没有调用 Hugging Face 的 GPT2Block 或 GPT2Attention。
-Hugging Face 只在 compare_forward.py 中提供参考模型和已加载的参数。
+Hugging Face 在 compare_forward.py / generate_text.py 中提供参考模型和已加载的参数。
 
 来源与范围：模块结构参考 Karpathy build-nanogpt；这里显式展开注意力，
 以便对应已经学过的公式。形状解释和阅读路线属于本项目的教学说明；实际

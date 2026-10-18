@@ -15,7 +15,7 @@ The first two learning blocks of section 2.1 are complete:
 1. **Inspect a pretrained checkpoint:** distinguish configuration, model code, trained weights, and tokenizer files; inspect tensor names, shapes, parameter counts, and weight sharing.
 2. **Implement and verify the forward pass:** build GPT-2 with PyTorch, import the same pretrained weights used by the reference model, compare intermediate outputs, and check causal masking.
 
-The next learning block is text generation with our own model. Generation, the training loop, single-batch overfitting, data loading, and a focused initialization lesson remain ahead. The current experiments use existing pretrained weights; this repository has not yet reproduced GPT-2 pretraining.
+The third block, text generation with our own model, has been introduced and run. On 2026-10-18, the learner reported a basic understanding; independent self-checks remain pending. The training loop, single-batch overfitting, data loading, and a focused initialization lesson remain ahead. The current experiments use existing pretrained weights; this repository has not yet reproduced GPT-2 pretraining.
 
 ## Project guide
 
@@ -25,6 +25,9 @@ The next learning block is text generation with our own model. Generation, the t
 | [gpt2_model.py](gpt2_model.py) | Independent GPT-2 architecture, forward computation, and Hugging Face weight import. |
 | [compare_forward.py](compare_forward.py) | Run both implementations on identical inputs, compare intermediate tensors, and check causality. |
 | [lesson02.md](lesson02.md) | Step-by-step instructions for the forward comparison lesson, in Chinese. |
+| [generate_text.py](generate_text.py) | Greedy and temperature/top-k generation with the independent GPT-2, step logs, and an optional reference check. |
+| [lesson03.md](lesson03.md) | Text generation lesson, measured examples, and self-checks, in Chinese. |
+| [Generation flow map](docs/diagrams/gpt2-generation-flow.md) | Diagram and source navigation using matching M/G/S step labels, with tensor shapes, selection branches, and stopping paths. |
 | [docs/lesson01-02-notes.md](docs/lesson01-02-notes.md) | Consolidated learning notes, questions, explanations, and self-checks, in Chinese. |
 | [docs/diagrams/](docs/diagrams/) | Diagram mapping Python calls to the mathematical operations. |
 | [artifacts/](artifacts/) | Saved inspection results, comparison reports, and learning-note archives. |
@@ -79,14 +82,33 @@ The [call map and reading guide](docs/diagrams/gpt2-forward-call-map.md) connect
 
 Use a Python environment with PyTorch, Transformers, and safetensors installed. The saved forward comparison was run with **Python 3.9.6, PyTorch 2.2.2, and Transformers 4.57.6**, on **CPU with float32**. These are the recorded versions, rather than a claim of compatibility with every newer release.
 
-Both scripts read an existing local checkpoint. They do not download weights. The model directory must contain at least:
+On the verified macOS Python 3.9 setup, run these commands from the repository root:
+
+```bash
+/usr/bin/python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/hf download openai-community/gpt2 config.json model.safetensors tokenizer.json \
+  --revision 607a30d783dfa663caf39e06633721c8d4cfcd7e \
+  --local-dir .cache/gpt2/607a30d783dfa663caf39e06633721c8d4cfcd7e
+```
+
+The weights are approximately 548 MB and the tokenizer is approximately 1.4 MB. The environment and model cache are Git-ignored. After setup, run `.venv/bin/python inspect_checkpoint.py`, `.venv/bin/python compare_forward.py`, or `.venv/bin/python generate_text.py`.
+
+The scripts read existing local files. They do not download weights. The model directory must contain at least:
 
 ```text
 config.json
 model.safetensors
+tokenizer.json  # additionally required for text generation
 ```
 
-By default, they use this fixed Hugging Face cache snapshot:
+By default, they first look for this fixed snapshot inside the repository:
+
+```text
+.cache/gpt2/607a30d783dfa663caf39e06633721c8d4cfcd7e
+```
+
+They also support the original Hugging Face cache snapshot:
 
 ```text
 ~/.cache/huggingface/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e
@@ -120,15 +142,30 @@ The script loads identical pretrained weights into both implementations, switche
 
 Results are printed to the terminal and saved to `artifacts/lesson02-report.json`, replacing the previous report at that path. Use `--report /tmp/gpt2-forward-report.json` to keep the checked-in report unchanged. A failed comparison produces a nonzero exit status.
 
-### Existing local VS Code setup
+### Generate text
 
-For the original learning workspace, select this interpreter with **Python: Select Interpreter**:
-
-```text
-/Users/guqun/micrograd/venv/bin/python
+```bash
+.venv/bin/python generate_text.py --prompt "Hello, I'm a language model," --check-reference --report .cache/runtime-check/lesson03-greedy.json
+.venv/bin/python generate_text.py --prompt "Hello, I'm a language model," --strategy sample --temperature 0.8 --top-k 50 --seed 42 --report .cache/runtime-check/lesson03-sample.json
 ```
 
-Then open either script and choose **Run Python File**. If you cloned the repository elsewhere, select your own environment's interpreter and pass `--model-dir` as needed. The scripts locate their default paths independently of the terminal's working directory.
+The recorded examples and diagram use the fixed classroom prompt `Hello, I'm a language model,`, with a budget of 20 new tokens. Running without `--prompt` uses the current default configured in `main()`, which can be changed for personal experiments. The generation loop calls the independent model, takes the final position's logits, selects one token, and appends it to the prefix. It uses one sequence, CPU/FP32, and no KV cache. EOS, the new-token budget, or the teaching implementation's total-length cap of 1024 stops the loop.
+
+The classroom greedy experiment produced the same complete token ID sequence as Hugging Face generation. The sampling example was also run, and five behavior tests passed. See [the lesson](lesson03.md) for measured outputs and the scope of these checks. Default reports go to `.cache/runtime-check/lesson03-report.json`; another run replaces the same report path.
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+### VS Code setup
+
+Open this repository as the workspace and select its interpreter with **Python: Select Interpreter**:
+
+```text
+.venv/bin/python
+```
+
+Then open the desired script and choose **Run Python File**. The workspace settings provide this interpreter as the default. Use `--model-dir` for a checkpoint stored elsewhere. The scripts locate their default paths independently of the terminal's working directory.
 
 ## Recorded verification
 
@@ -136,11 +173,11 @@ The checked-in [forward report](artifacts/lesson02-report.json) contains three i
 
 - **45 stage comparisons passed:** embedding output, all 12 blocks, final LayerNorm, and logits for each case.
 - The comparison checks matching shapes, finite values, and the elementwise condition `abs(actual - reference) <= 1e-4 + 1e-4 * abs(reference)`.
-- The largest recorded final-logit absolute difference was approximately **3.81 × 10⁻⁵**.
+- The largest recorded final-logit absolute difference was approximately **1.79 × 10⁻⁴**; all cases passed the elementwise tolerance above.
 - Changing the final input token left earlier-position logits unchanged in the causal check.
 - The report also confirms **124,439,808** unique parameters, shared token embedding/output weights, and distinct QKV parameter objects in the first two blocks.
 
-These checks establish forward agreement for the recorded cases. They do not validate a training loop or generation loop, which are later lessons.
+These forward checks establish agreement for the recorded cases. Generation has separate checks in the third lesson; training remains a later lesson.
 
 ## Python supplement and review
 

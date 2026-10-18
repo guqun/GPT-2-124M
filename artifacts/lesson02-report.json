@@ -1,6 +1,6 @@
 {
   "lesson": "2.1 第二块：GPT-2 前向模型与参考实现对齐",
-  "model_dir": "/Users/guqun/.cache/huggingface/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e",
+  "model_dir": "/Users/niuqun/micrograd/GPT-2-124M/.cache/gpt2/607a30d783dfa663caf39e06633721c8d4cfcd7e",
   "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
   "environment": {
     "python": "3.9.6",
@@ -236,8 +236,8 @@
             1,
             768
           ],
-          "max_abs_error": 5.340576171875e-05,
-          "mean_abs_error": 9.308132575824857e-07,
+          "max_abs_error": 3.814697265625e-05,
+          "mean_abs_error": 1.0801219332279288e-06,
           "passed": true,
           "stage": "block_01"
         },
@@ -247,8 +247,8 @@
             1,
             768
           ],
-          "max_abs_error": 0.00030517578125,
-          "mean_abs_error": 1.6813961565276259e-06,
+          "max_abs_error": 0.00067138671875,
+          "mean_abs_error": 2.3022439563646913e-06,
           "passed": true,
           "stage": "block_02"
         },
@@ -258,8 +258,8 @@
             1,
             768
           ],
-          "max_abs_error": 0.0001220703125,
-          "mean_abs_error": 1.942205244631623e-06,
+          "max_abs_error": 0.005126953125,
+          "mean_abs_error": 9.286309250455815e-06,
           "passed": true,
           "stage": "block_03"
         },
@@ -269,8 +269,8 @@
             1,
             768
           ],
-          "max_abs_error": 0.0001220703125,
-          "mean_abs_error": 2.0238803699612617e-06,
+          "max_abs_error": 0.00341796875,
+          "mean_abs_error": 7.306492534553399e-06,
           "passed": true,
           "stage": "block_04"
         },
@@ -280,8 +280,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 2.077402314171195e-06,
+          "max_abs_error": 0.002685546875,
+          "mean_abs_error": 7.0166911427804735e-06,
           "passed": true,
           "stage": "block_05"
         },
@@ -291,8 +291,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 2.335077851967071e-06,
+          "max_abs_error": 0.002197265625,
+          "mean_abs_error": 7.087028734531486e-06,
           "passed": true,
           "stage": "block_06"
         },
@@ -302,8 +302,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 2.429999995001708e-06,
+          "max_abs_error": 0.001953125,
+          "mean_abs_error": 7.4848685471806675e-06,
           "passed": true,
           "stage": "block_07"
         },
@@ -313,8 +313,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 2.582804881967604e-06,
+          "max_abs_error": 0.001953125,
+          "mean_abs_error": 8.096169949567411e-06,
           "passed": true,
           "stage": "block_08"
         },
@@ -324,8 +324,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 2.769787215584074e-06,
+          "max_abs_error": 0.001708984375,
+          "mean_abs_error": 8.177531526598614e-06,
           "passed": true,
           "stage": "block_09"
         },
@@ -335,8 +335,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 2.9022921808063984e-06,
+          "max_abs_error": 0.001708984375,
+          "mean_abs_error": 8.5957144619897e-06,
           "passed": true,
           "stage": "block_10"
         },
@@ -346,8 +346,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 3.138969304927741e-06,
+          "max_abs_error": 0.001708984375,
+          "mean_abs_error": 8.928172064770479e-06,
           "passed": true,
           "stage": "block_11"
         },
@@ -357,8 +357,8 @@
             1,
             768
           ],
-          "max_abs_error": 0.000518798828125,
-          "mean_abs_error": 5.298323230817914e-06,
+          "max_abs_error": 0.00341796875,
+          "mean_abs_error": 1.4893336810928304e-05,
           "passed": true,
           "stage": "block_12"
         },
@@ -368,8 +368,8 @@
             1,
             768
           ],
-          "max_abs_error": 6.103515625e-05,
-          "mean_abs_error": 6.918951953593933e-07,
+          "max_abs_error": 0.00034332275390625,
+          "mean_abs_error": 2.591327529444243e-06,
           "passed": true,
           "stage": "final_norm"
         },
@@ -379,8 +379,8 @@
             1,
             50257
           ],
-          "max_abs_error": 3.814697265625e-05,
-          "mean_abs_error": 2.4713139282539487e-05,
+          "max_abs_error": 0.000179290771484375,
+          "mean_abs_error": 0.0001465226523578167,
           "passed": true,
           "stage": "logits"
         }
@@ -615,7 +615,7 @@
         255
       ]
     ],
-    "last_position_max_abs_change": 48.89643859863281
+    "last_position_max_abs_change": 48.896392822265625
   },
   "parameter_count": 124439808,
   "embedding_head_tied": true,

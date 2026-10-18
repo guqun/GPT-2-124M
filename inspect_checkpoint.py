@@ -11,11 +11,19 @@ from pathlib import Path
 import sys
 
 
-PROJECT_DIR = Path(__file__).resolve().parent.parent
-# 固定本机已经缓存的版本；避免之后 main 更新，课堂使用的参数也跟着改变。
+PROJECT_DIR = Path(__file__).resolve().parent
+# 固定课堂使用的版本；避免之后 main 更新，参数也跟着改变。
 REVISION = "607a30d783dfa663caf39e06633721c8d4cfcd7e"
-DEFAULT_MODEL_DIR = (
+LOCAL_MODEL_DIR = PROJECT_DIR / ".cache/gpt2" / REVISION
+HF_MODEL_DIR = (
     Path.home() / ".cache/huggingface/hub/models--gpt2/snapshots" / REVISION
+)
+# 新克隆的项目优先读取自己的缓存，也兼容原先的用户级缓存。
+# 按脚本位置查找，因此从 VS Code 或其他工作目录启动都能使用。
+DEFAULT_MODEL_DIR = next(
+    (path for path in (LOCAL_MODEL_DIR, HF_MODEL_DIR)
+     if all((path / name).is_file() for name in ("config.json", "model.safetensors"))),
+    LOCAL_MODEL_DIR,
 )
 
 
@@ -48,7 +56,7 @@ def main():
     except ImportError as error:
         raise SystemExit(
             f"无法导入课程依赖：{error}\n"
-            f"请在 VS Code 选择解释器：{PROJECT_DIR / 'venv/bin/python'}"
+            f"请在 VS Code 选择解释器：{PROJECT_DIR / '.venv/bin/python'}"
         ) from error
 
     # 第二步：库中的 GPT2LMHeadModel 类定义计算流程；配置决定各层尺寸；

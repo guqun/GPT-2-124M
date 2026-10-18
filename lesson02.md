@@ -8,10 +8,10 @@
 
 ### 1. 先运行对照实验
 
-在 VS Code 中打开 `compare_forward.py`，选择已经安装课程依赖的解释器 `/Users/guqun/micrograd/venv/bin/python`，点击“运行 Python 文件”。也可以在任意目录执行：
+先按 README 完成运行准备。在 VS Code 中打开本仓库和 `compare_forward.py`，选择仓库内的解释器 `.venv/bin/python`，点击“运行 Python 文件”。也可以在仓库根目录执行：
 
 ```bash
-/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/compare_forward.py
+.venv/bin/python compare_forward.py
 ```
 
 本次直接使用准备好的 Token ID，离线加载本机已有的 GPT-2 权重。运行后看三个结果：

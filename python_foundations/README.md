@@ -12,8 +12,10 @@
 
 ## 执行示例
 
+先按[项目说明](../README.md)准备依赖，以下命令在仓库根目录执行：
+
 ```bash
-/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/examples/07_functions.py
+.venv/bin/python python_foundations/examples/07_functions.py
 ```
 
 现有项目环境已具备依赖。00—12 使用标准库；13 直接读现有课程脚本；14—15 使用 CPU 上的小张量/小模型；16 的配置练习只依赖标准库。
@@ -33,7 +35,7 @@
 ## 验证与维护
 
 ```bash
-/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/python_foundations/verify_examples.py
+.venv/bin/python python_foundations/verify_examples.py
 ```
 
 这会更新验证记录，不下载或修改真实模型。对应的教材构建使用 Node.js 和 `marked`：在能导入 `marked` 的环境运行 `node build_textbook.mjs`，或把 `marked` 的 ESM 文件绝对路径作为唯一参数传入。普通学习无需运行构建工具。

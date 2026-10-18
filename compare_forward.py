@@ -126,7 +126,7 @@ def main():
         from transformers import GPT2LMHeadModel
         from gpt2_model import GPT, GPTConfig
     except ImportError as error:
-        raise SystemExit(f"缺少课程依赖：{error}\n请使用解释器：{PROJECT_DIR / 'venv/bin/python'}") from error
+        raise SystemExit(f"缺少课程依赖：{error}\n请使用解释器：{PROJECT_DIR / '.venv/bin/python'}") from error
 
     # ② 【本项目实验设置】控制设备、精度和配置，让两边比较同一个问题。
     # 【PyTorch】限制 CPU 线程数，避免短序列计算中线程调度开销过大；不改变网络结构。

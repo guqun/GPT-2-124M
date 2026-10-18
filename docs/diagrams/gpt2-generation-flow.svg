@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2680" height="2240" viewBox="0 0 2680 2240" role="img" aria-labelledby="title desc">
+<title id="title">GPT-2 文本生成：代码与完整流程对照</title>
+<desc id="desc">左列 main 准备并输出；中列 generate 包含预算、上下文、前向、最后位置、选取、追加和 EOS 循环；右列展开贪心与采样。节点编号对应 generate_text.py 注释。</desc>
+<style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#18283b; }
+.code { font-family: 'SFMono-Regular', Menlo, Consolas, monospace; }
+</style>
+<rect width="2680" height="2240" fill="#f8fafc"/>
+
+<text x="48" y="76" font-size="47" font-weight="750" text-anchor="start" style="fill:#18283b">GPT-2 文本生成：代码与完整流程对照</text>
+<text x="50" y="121" font-size="27" font-weight="400" text-anchor="start" style="fill:#526477">打开 generate_text.py，搜索节点编号；L 表示本次生成图时的源码行号。</text>
+<rect x="50" y="152" width="350" height="43" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="66" y="182" font-size="23" font-weight="600" text-anchor="start" style="fill:#2563eb">M：启动与收尾</text>
+<rect x="450" y="152" width="350" height="43" rx="12" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="466" y="182" font-size="23" font-weight="600" text-anchor="start" style="fill:#0f766e">G：逐 Token 生成</text>
+<rect x="920" y="152" width="350" height="43" rx="12" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="936" y="182" font-size="23" font-weight="600" text-anchor="start" style="fill:#7c3aed">S：选取下一个 ID</text>
+<text x="1360" y="181" font-size="24" font-weight="400" text-anchor="start" style="fill:#526477">B=1   V=50257   T=当前输入长度   CPU / FP32   无 KV cache</text>
+<rect x="40" y="220" width="710" height="1690" rx="18" fill="#ffffff" stroke="#dbe3ed" stroke-width="2"/>
+<text x="66" y="262" font-size="30" font-weight="700" text-anchor="start" style="fill:#2563eb">main() · 一次运行</text>
+<text x="66" y="292" font-size="20" font-weight="400" text-anchor="start" style="fill:#58687b">准备文本、分词器和权重，最后显示与保存结果</text>
+<rect x="790" y="220" width="1120" height="1690" rx="18" fill="#ffffff" stroke="#dbe3ed" stroke-width="2"/>
+<text x="816" y="262" font-size="30" font-weight="700" text-anchor="start" style="fill:#0f766e">generate() · 每轮新增一个 Token</text>
+<text x="816" y="292" font-size="20" font-weight="400" text-anchor="start" style="fill:#58687b">预算检查 → 前向 → 选取 → 追加 → EOS 检查 → 下一轮</text>
+<rect x="1950" y="220" width="690" height="1690" rx="18" fill="#ffffff" stroke="#dbe3ed" stroke-width="2"/>
+<text x="1976" y="262" font-size="30" font-weight="700" text-anchor="start" style="fill:#7c3aed">select_next_token() · G5 的展开</text>
+<text x="1976" y="292" font-size="20" font-weight="400" text-anchor="start" style="fill:#58687b">输入 last_logits [1,V]，返回一个 ID 与概率分布</text>
+<rect x="40" y="1950" width="2600" height="220" rx="18" fill="#ffffff" stroke="#dbe3ed" stroke-width="2"/>
+<path d="M395 470 V520" fill="none" stroke="#658094" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="395.0,520.0 401.0,505.0 389.0,505.0" fill="#658094"/>
+<path d="M395 665 V715" fill="none" stroke="#658094" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="395.0,715.0 401.0,700.0 389.0,700.0" fill="#658094"/>
+<path d="M395 865 V935" fill="none" stroke="#658094" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="395.0,935.0 401.0,920.0 389.0,920.0" fill="#658094"/>
+<path d="M395 1450 V1510" fill="none" stroke="#658094" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="395.0,1510.0 401.0,1495.0 389.0,1495.0" fill="#658094"/>
+<path d="M395 1640 V1700" fill="none" stroke="#658094" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="395.0,1700.0 401.0,1685.0 389.0,1685.0" fill="#658094"/>
+<path d="M1290 450 V480" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,480.0 1296.0,465.0 1284.0,465.0" fill="#0f766e"/>
+<path d="M1290 590 V635" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,635.0 1296.0,620.0 1284.0,620.0" fill="#0f766e"/>
+<path d="M1290 745 V805" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,805.0 1296.0,790.0 1284.0,790.0" fill="#0f766e"/>
+<path d="M1290 950 V1000" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,1000.0 1296.0,985.0 1284.0,985.0" fill="#0f766e"/>
+<path d="M1290 1115 V1170" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,1170.0 1296.0,1155.0 1284.0,1155.0" fill="#0f766e"/>
+<path d="M1290 1290 V1345" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,1345.0 1296.0,1330.0 1284.0,1330.0" fill="#0f766e"/>
+<path d="M1290 1495 V1540" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1290.0,1540.0 1296.0,1525.0 1284.0,1525.0" fill="#0f766e"/>
+<path d="M1640 535 H1830 V1810 H1640" fill="none" stroke="#b7791f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1640.0,1810.0 1655.0,1816.0 1655.0,1804.0" fill="#b7791f"/>
+<path d="M1640 690 H1830" fill="none" stroke="#b7791f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1640 1595 H1830" fill="none" stroke="#b7791f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M940 1595 H850 V535 H940" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="940.0,535.0 925.0,529.0 925.0,541.0" fill="#0f766e"/>
+<path d="M2295 445 V475" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2295.0,475.0 2301.0,460.0 2289.0,460.0" fill="#7c3aed"/>
+<path d="M2020 530 H1970 V605 H2130 V650" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2130.0,650.0 2136.0,635.0 2124.0,635.0" fill="#7c3aed"/>
+<path d="M2570 530 H2620 V605 H2460 V650" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2460.0,650.0 2466.0,635.0 2454.0,635.0" fill="#7c3aed"/>
+<path d="M2130 840 V880 H1970 V1770 H1990" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1990.0,1770.0 1975.0,1764.0 1975.0,1776.0" fill="#7c3aed"/>
+<path d="M2460 795 V850" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2460.0,850.0 2466.0,835.0 2454.0,835.0" fill="#7c3aed"/>
+<path d="M2460 1040 V1095" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2460.0,1095.0 2466.0,1080.0 2454.0,1080.0" fill="#7c3aed"/>
+<path d="M2460 1230 V1285" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2460.0,1285.0 2466.0,1270.0 2454.0,1270.0" fill="#7c3aed"/>
+<path d="M2460 1450 V1710" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="2460.0,1710.0 2466.0,1695.0 2454.0,1695.0" fill="#7c3aed"/>
+<path d="M710 995 H770 V390 H940" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="940.0,390.0 925.0,384.0 925.0,396.0" fill="#2563eb"/>
+<path d="M940 1810 H775 V1375 H710" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7"/>
+<polygon points="710.0,1375.0 725.0,1381.0 725.0,1369.0" fill="#2563eb"/>
+<path d="M1640 1200 H1930 V390 H1990" fill="none" stroke="#ffffff" stroke-width="10"/>
+<path d="M1640 1200 H1930 V390 H1990" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1990.0,390.0 1975.0,384.0 1975.0,396.0" fill="#7c3aed"/>
+<path d="M1990 1770 H1920 V1260 H1640" fill="none" stroke="#ffffff" stroke-width="10"/>
+<path d="M1990 1770 H1920 V1260 H1640" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7"/>
+<polygon points="1640.0,1260.0 1655.0,1266.0 1655.0,1254.0" fill="#7c3aed"/>
+<rect x="80" y="330" width="630" height="140" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="363" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M1]  读取选项与本地文件</text>
+<text x="693" y="363" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L190</text>
+<text x="100" y="398" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">prompt / strategy / 生成预算</text>
+<text x="100" y="427" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">配置 + tokenizer.json + 预训练权重</text>
+<rect x="80" y="520" width="630" height="145" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="553" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M2]  编码提示词</text>
+<text x="693" y="553" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L232</text>
+<text x="100" y="588" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">tokenizer.encode(prompt)</text>
+<text x="100" y="617" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">ID 列表 → torch.long 张量 [1,T₀]</text>
+<rect x="80" y="715" width="630" height="150" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="748" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M3]  构建并加载自己的 GPT</text>
+<text x="693" y="748" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L244</text>
+<text x="100" y="783" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">HF 读取参数 → own.load_hf_weights(...)</text>
+<text x="100" y="812" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">own.eval()；本次计算使用 CPU / FP32</text>
+<rect x="80" y="935" width="630" height="120" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="968" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M4]  调用生成循环</text>
+<text x="693" y="968" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L262</text>
+<text x="100" y="1003" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">generate(own, input_ids, ...)</text>
+<text x="100" y="1032" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">进入 G0，等待返回完整 ID 与记录</text>
+<rect x="80" y="1300" width="630" height="150" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="1333" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M5]  解码并显示</text>
+<text x="693" y="1333" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L269</text>
+<text x="100" y="1368" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">tokenizer.decode(output_ids[0])</text>
+<text x="100" y="1397" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">完整序列一起解码；输出包含提示词</text>
+<rect x="80" y="1510" width="630" height="130" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="1543" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M6]  可选参考验证</text>
+<text x="693" y="1543" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L293</text>
+<text x="100" y="1578" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">开启 --check-reference → HF 贪心 ID 对照</text>
+<text x="100" y="1607" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">未开启 → 直接进入 M7</text>
+<rect x="80" y="1700" width="630" height="135" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="100" y="1733" font-size="24" font-weight="700" text-anchor="start" style="fill:#2563eb">[M7]  保存 JSON 报告</text>
+<text x="693" y="1733" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L319</text>
+<text x="100" y="1768" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">输入/输出 ID、每步概率、停止原因</text>
+<text x="100" y="1797" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">默认写入项目 .cache/runtime-check/</text>
+<rect x="90" y="1120" width="610" height="115" rx="18" fill="#f8fafc" stroke="#dbe3ed" stroke-width="2"/>
+<text x="112" y="1158" font-size="23" font-weight="600" text-anchor="start" style="fill:#526477">模型参数只在 M3 加载</text>
+<text x="112" y="1193" font-size="23" font-weight="400" text-anchor="start" style="fill:#526477">G 区循环增加的是输入长度，权重保持不变。</text>
+<rect x="940" y="330" width="700" height="120" rx="18" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="960" y="363" font-size="24" font-weight="700" text-anchor="start" style="fill:#0f766e">[G0]  检查与初始化</text>
+<text x="1623" y="363" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L103</text>
+<text x="960" y="398" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">检查 [1,T₀] / long / CPU / eval</text>
+<text x="960" y="427" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">复制输入；创建一次 RNG；默认原因=预算耗尽</text>
+<polygon points="1290,480.0 1640.0,535 1290,590.0 940.0,535" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="1290" y="530" font-size="25" font-weight="700" text-anchor="middle" style="fill:#0f766e">[G1] 还有新增次数？</text>
+<text x="1290" y="560" font-size="20" font-weight="400" text-anchor="middle" style="fill:#526477">for step in range(max_new_tokens) · L132</text>
+<polygon points="1290,635.0 1640.0,690 1290,745.0 940.0,690" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="1290" y="685" font-size="25" font-weight="700" text-anchor="middle" style="fill:#0f766e">[G2] T ≥ n_positions？</text>
+<text x="1290" y="715" font-size="20" font-weight="400" text-anchor="middle" style="fill:#526477">本课将完整结果也限制在 1024 内 · L135</text>
+<rect x="940" y="805" width="700" height="145" rx="18" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="960" y="838" font-size="24" font-weight="700" text-anchor="start" style="fill:#0f766e">[G3]  ① 完整前向</text>
+<text x="1623" y="838" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L141</text>
+<text x="960" y="873" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">logits = model(ids)</text>
+<text x="960" y="902" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">[1,T] → [1,T,V]；每轮重算完整前缀</text>
+<rect x="940" y="1000" width="700" height="115" rx="18" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="960" y="1033" font-size="24" font-weight="700" text-anchor="start" style="fill:#0f766e">[G4]  ② 取最后输入位置</text>
+<text x="1623" y="1033" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L147</text>
+<text x="960" y="1068" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">last_logits = logits[:, -1, :]</text>
+<text x="960" y="1097" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">[1,T,V] → [1,V]；利用整个当前前缀</text>
+<rect x="940" y="1170" width="700" height="120" rx="18" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="960" y="1203" font-size="24" font-weight="700" text-anchor="start" style="fill:#0f766e">[G5]  ③ 调用选择函数</text>
+<text x="1623" y="1203" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L152</text>
+<text x="960" y="1238" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">select_next_token(...)</text>
+<text x="960" y="1267" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">接收 next_id [1,1] 和 probs [1,V]</text>
+<rect x="940" y="1345" width="700" height="150" rx="18" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="960" y="1378" font-size="24" font-weight="700" text-anchor="start" style="fill:#0f766e">[G6]  ④ 追加 ID，并记录本轮</text>
+<text x="1623" y="1378" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L156</text>
+<text x="960" y="1413" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">ids = torch.cat((ids, next_id), dim=1)</text>
+<text x="960" y="1442" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">[1,T] + [1,1] → [1,T+1]；记录候选概率</text>
+<polygon points="1290,1540.0 1640.0,1595 1290,1650.0 940.0,1595" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="1290" y="1590" font-size="25" font-weight="700" text-anchor="middle" style="fill:#0f766e">[G7] ⑤ 新 ID 是 EOS？</text>
+<text x="1290" y="1620" font-size="20" font-weight="400" text-anchor="middle" style="fill:#526477">GPT-2 EOS=50256；已追加并记录 · L176</text>
+<rect x="940" y="1760" width="700" height="100" rx="18" fill="#effcf8" stroke="#0f766e" stroke-width="2"/>
+<text x="960" y="1793" font-size="24" font-weight="700" text-anchor="start" style="fill:#0f766e">[G8]  返回结果</text>
+<text x="1623" y="1793" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L183</text>
+<text x="960" y="1828" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">return ids, steps, stop_reason</text>
+<text x="1310" y="619" font-size="21" font-weight="400" text-anchor="start" style="fill:#0f766e">是</text>
+<text x="1310" y="783" font-size="21" font-weight="400" text-anchor="start" style="fill:#0f766e">否</text>
+<text x="1657" y="508" font-size="21" font-weight="400" text-anchor="start" style="fill:#9a641a">否：预算耗尽</text>
+<text x="1657" y="532" font-size="18" font-weight="400" text-anchor="start" style="fill:#9a641a" class="code">max_new_tokens</text>
+<text x="1657" y="663" font-size="21" font-weight="400" text-anchor="start" style="fill:#9a641a">是：长度上限</text>
+<text x="1657" y="687" font-size="18" font-weight="400" text-anchor="start" style="fill:#9a641a" class="code">context_limit</text>
+<text x="1662" y="1580" font-size="22" font-weight="400" text-anchor="start" style="fill:#9a641a" class="code">是：eos</text>
+<text x="875" y="1577" font-size="22" font-weight="400" text-anchor="start" style="fill:#0f766e">否</text>
+<text transform="translate(875 1225) rotate(-90)" font-size="25" font-weight="600" style="fill:#0f766e">使用已增长的 ids，回到预算检查</text>
+<rect x="1990" y="330" width="610" height="115" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2010" y="363" font-size="24" font-weight="700" text-anchor="start" style="fill:#7c3aed">[S0]  检查分数</text>
+<text x="2583" y="363" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L46</text>
+<text x="2010" y="398" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">last_logits [1,V]</text>
+<text x="2010" y="427" font-size="23" font-weight="400" text-anchor="start" style="fill:#18283b">检查原始分数均为有限值</text>
+<polygon points="2295,475.0 2570.0,530 2295,585.0 2020.0,530" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2295" y="525" font-size="25" font-weight="700" text-anchor="middle" style="fill:#7c3aed">[S1] strategy == greedy？</text>
+<text x="2295" y="555" font-size="20" font-weight="400" text-anchor="middle" style="fill:#526477">按策略选择一条分支 · L50</text>
+<rect x="1990" y="650" width="280" height="190" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2010" y="683" font-size="23" font-weight="700" text-anchor="start" style="fill:#7c3aed">[S2]  贪心</text>
+<text x="2253" y="683" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L52</text>
+<text x="2010" y="718" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">argmax(dim=-1,</text>
+<text x="2010" y="747" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">  keepdim=True)</text>
+<text x="2010" y="776" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">直接选最高分 ID</text>
+<text x="2010" y="805" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">softmax 仅供记录</text>
+<rect x="2320" y="650" width="280" height="145" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2340" y="683" font-size="23" font-weight="700" text-anchor="start" style="fill:#7c3aed">[S3]  温度</text>
+<text x="2583" y="683" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L61</text>
+<text x="2340" y="718" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">scores =</text>
+<text x="2340" y="747" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">  last_logits / τ</text>
+<text x="2340" y="776" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">τ = temperature</text>
+<rect x="2320" y="850" width="280" height="190" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2340" y="883" font-size="23" font-weight="700" text-anchor="start" style="fill:#7c3aed">[S4]  top-k</text>
+<text x="2583" y="883" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L66</text>
+<text x="2340" y="918" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">保留最高 k 个分数</text>
+<text x="2340" y="947" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">其余列设为 -inf</text>
+<text x="2340" y="976" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">scatter 保持词表 ID</text>
+<text x="2340" y="1005" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">k=0 时保留全部</text>
+<rect x="2320" y="1095" width="280" height="135" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2340" y="1128" font-size="23" font-weight="700" text-anchor="start" style="fill:#7c3aed">[S5]  转为概率</text>
+<text x="2583" y="1128" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L75</text>
+<text x="2340" y="1163" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">softmax(scores)</text>
+<text x="2340" y="1192" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">probs [1,V]</text>
+<rect x="2320" y="1285" width="280" height="165" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2340" y="1318" font-size="23" font-weight="700" text-anchor="start" style="fill:#7c3aed">[S6]  抽一个 ID</text>
+<text x="2583" y="1318" font-size="18" font-weight="400" text-anchor="end" style="fill:#617187" class="code">L78</text>
+<text x="2340" y="1353" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">multinomial(probs,</text>
+<text x="2340" y="1382" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">  num_samples=1)</text>
+<text x="2340" y="1411" font-size="22" font-weight="400" text-anchor="start" style="fill:#18283b">使用持续推进的 RNG</text>
+<rect x="1990" y="1710" width="610" height="120" rx="18" fill="#f7f2ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="2010" y="1751" font-size="26" font-weight="700" text-anchor="start" style="fill:#7c3aed">返回 G5，随后执行 G6 追加</text>
+<text x="2010" y="1792" font-size="25" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">next_id [1,1] + probs [1,V]</text>
+<text x="2020" y="592" font-size="21" font-weight="400" text-anchor="start" style="fill:#7c3aed">是：greedy</text>
+<text x="2395" y="592" font-size="21" font-weight="400" text-anchor="start" style="fill:#7c3aed">否：sample</text>
+<rect x="2010" y="965" width="265" height="415" rx="18" fill="#faf8ff" stroke="#ddd2ee" stroke-width="2"/>
+<text x="2025" y="1002" font-size="20" font-weight="600" text-anchor="start" style="fill:#675382">选择时要区分</text>
+<text x="2025" y="1034" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382"></text>
+<text x="2025" y="1066" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">V=50257：整个词表</text>
+<text x="2025" y="1098" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">top-k=50：候选数</text>
+<text x="2025" y="1130" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">num_samples=1：</text>
+<text x="2025" y="1162" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">每轮抽取一个 ID</text>
+<text x="2025" y="1194" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382"></text>
+<text x="2025" y="1226" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">候选分数变为概率后，</text>
+<text x="2025" y="1258" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">每行总和约为 1。</text>
+<text x="2025" y="1290" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382"></text>
+<text x="2025" y="1322" font-size="20" font-weight="400" text-anchor="start" style="fill:#675382">较低概率也可能抽中。</text>
+<text x="2480" y="1520" font-size="22" font-weight="400" text-anchor="start" style="fill:#7c3aed" class="code">[1,1]</text>
+<text x="780" y="370" font-size="21" font-weight="400" text-anchor="start" style="fill:#2563eb">调用 G0</text>
+<text x="783" y="1710" font-size="20" font-weight="400" text-anchor="start" style="fill:#2563eb">返回</text>
+<text x="1844" y="1183" font-size="20" font-weight="400" text-anchor="start" style="fill:#7c3aed">调用 S0</text>
+<text x="1700" y="1307" font-size="19" font-weight="400" text-anchor="start" style="fill:#7c3aed" class="code">返回 next_id / probs</text>
+<text x="70" y="1993" font-size="29" font-weight="700" text-anchor="start" style="fill:#18283b">真实运行对照 · 同一模型，输入逐步增长</text>
+<text x="70" y="2033" font-size="25" font-weight="400" text-anchor="start" style="fill:#526477">提示词：Hello, I&#x27;m a language model,    编码长度：8</text>
+<text x="70" y="2084" font-size="26" font-weight="600" text-anchor="start" style="fill:#0f766e">第 1 轮  [1,8] → [1,8,V]</text>
+<text x="70" y="2128" font-size="25" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">ID 407  &#x27; not&#x27;  → [1,9]</text>
+<text x="930" y="2084" font-size="26" font-weight="600" text-anchor="start" style="fill:#0f766e">第 2 轮  [1,9] → [1,9,V]</text>
+<text x="930" y="2128" font-size="25" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">ID 257  &#x27; a&#x27;  → [1,10]</text>
+<text x="1790" y="2084" font-size="26" font-weight="600" text-anchor="start" style="fill:#0f766e">第 3 轮  [1,10] → [1,10,V]</text>
+<text x="1790" y="2128" font-size="25" font-weight="400" text-anchor="start" style="fill:#18283b" class="code">ID 8300  &#x27; programming&#x27;  → [1,11]</text>
+<text x="48" y="2210" font-size="23" font-weight="400" text-anchor="start" style="fill:#526477">实线：执行 / 调用；虚线：跨函数返回。图展开正常流程；参数或数值检查失败时抛错退出。2026-10-18</text>
+</svg>
