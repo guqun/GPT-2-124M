@@ -278,13 +278,19 @@ class Block(nn.Module):
 class GPT(nn.Module):
     """完整 GPT-2 前向网络：Token ID -> 每个位置的全词表 logits。
 
-    【本项目】组合 Embedding、多个独立 Block、最终 LN、输出层并共享权重。
+    【本项目】组合 Embedding、多个独立 Block、最终 LN、输出层，默认共享权重。
     【PyTorch】Module 管理参数与设备；各层和张量算子负责数值运算。
     这里继承的是 torch.nn.Module，前向过程没有委托给 Hugging Face。
     """
 
-    def __init__(self, config: GPTConfig):
-        """先根据尺寸建立参数和连接关系；具体的预训练值稍后由加载函数写入。"""
+    def __init__(self, config: GPTConfig, *, tie_embeddings: bool = True,
+                 gpt2_init: bool = True):
+        """建立模型；预训练值只有显式调用 load_hf_weights 后才会写入。
+
+        tie_embeddings：True 让 wte 与 lm_head 共用权重；False 保留两张独立的表。
+        gpt2_init：True 执行自定义初始化及残差投影缩放；False 保留各层默认初值。
+        train_step.py 关闭这两项以对应视频首次过拟合；模型仍会初始化，随后正常训练。
+        """
         super().__init__()
         self.config = config
         # 【PyTorch 容器】ModuleDict/ModuleList 会注册内部子模块，使 parameters()、
@@ -307,17 +313,22 @@ class GPT(nn.Module):
         # 【本项目连接规则】两条属性引用同一个 Parameter 对象 E，实现权重共享。
         # 输入时 E[Token ID] 查行；输出时 h @ E.T 给全部词表 ID 打分。
         # 以后训练时，两条计算路径对 E 的梯度会累积到同一参数，再由优化器更新。
-        self.lm_head.weight = self.transformer.wte.weight
+        # 视频约 1:06 才引入共享；此前两张表形状相同、参数各自独立。
+        if tie_embeddings:
+            self.lm_head.weight = self.transformer.wte.weight
         # 【PyTorch】apply 遍历模块并调用本项目的初始化函数；只在构造时执行。
-        self.apply(self._init_weights)
+        # False 时保留 nn.Embedding / nn.Linear 自身构造时的随机初值。
+        if gpt2_init:
+            self.apply(self._init_weights)
         # 【本项目采用课程初始化规则】每个 Block 有 Attention、MLP 两条残差分支，
         # 共 2L 条，把它们的输出投影初始化 std 缩为 0.02/sqrt(2L)。
         # 目的是控制深层叠加时的数值尺度；这是初始化策略，并非前向时再除一次。
-        # 更完整的方差推导留到初始化知识块。本次加载 checkpoint 会覆盖全部初值。
-        for name, parameter in self.named_parameters():
-            if name.endswith("c_proj.weight"):
-                nn.init.normal_(parameter, std=config.initializer_range /
-                                math.sqrt(2 * config.n_layer))
+        # 更完整的方差推导留到初始化知识块。若随后加载 checkpoint，会覆盖初值。
+        if gpt2_init:
+            for name, parameter in self.named_parameters():
+                if name.endswith("c_proj.weight"):
+                    nn.init.normal_(parameter, std=config.initializer_range /
+                                    math.sqrt(2 * config.n_layer))
 
     def _init_weights(self, module: nn.Module) -> None:
         """为一个模块填入初值；没有用训练数据，也没有做梯度更新。
@@ -388,6 +399,7 @@ class GPT(nn.Module):
         # 【主流程 5】lm_head：[B,T,768] -> [B,T,50257]。
         # 【PyTorch Linear】logits = x @ E.T：
         # [B,T,768] @ [768,50257] -> [B,T,50257]。
+        # 未共享的教学阶段则是 h @ W_out.T；形状与上面完全相同。
         # 这里得到的 z 就是 logits；本函数没有再做词表 softmax 或选择下一 ID。
         logits = self.lm_head(x)
         if trace is not None:

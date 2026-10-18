@@ -16,7 +16,11 @@ __pycache__/
 # Model weights, checkpoints, and downloaded data
 .cache/
 checkpoints/
-data/
+data/*
+!data/tiny_shakespeare/
+data/tiny_shakespeare/*
+!data/tiny_shakespeare/input.txt
+!data/tiny_shakespeare/README.md
 *.safetensors
 *.pt
 *.pth

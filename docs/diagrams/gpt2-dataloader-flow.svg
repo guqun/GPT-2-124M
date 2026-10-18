@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2680" height="2760" viewBox="0 0 2680 2760" role="img" aria-labelledby="title desc">
+<title id="title">阶段二 · 单元 2 · 2.1 · 知识块 5：顺序数据加载器代码流程</title>
+<desc id="desc">左列 main 准备加载器、可选预览、模型和优化器，循环获取下一批、计算 loss 并更新参数；右列展开 next_batch 的取片、错位、前进、条件回绕和返回。下方列出首批四条序列的语料位置及形状。</desc>
+<style>text {font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;} .code {font-family:Menlo,'SFMono-Regular',Consolas,'PingFang SC',monospace;}</style>
+<rect width="2680" height="2760" fill="#f8fafc"/>
+<text x="50" y="67" font-size="48" font-weight="750" text-anchor="start" fill="#172c43">顺序数据加载器 · 从 main() 到下一批数据</text>
+<text x="52" y="116" font-size="29" font-weight="400" text-anchor="start" fill="#526779">阶段二 → 单元 2「复现 GPT-2」→ 2.1 → 知识块 5</text>
+<text x="52" y="159" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">对照 train_dataloader.py：M1—M4 是主流程，L1—L4 是 next_batch() 内部步骤。</text>
+<rect x="50" y="184" width="2580" height="51" rx="12" fill="#edf2f7" stroke="#edf2f7" stroke-width="2"/>
+<text x="72" y="219" font-size="27" font-weight="400" text-anchor="start" fill="#526779">默认：B=4 条序列 · T=32 Token/条 · 每批 128 个监督位置 · CPU / FP32 · 50 次更新</text>
+<rect x="40" y="263" width="1235" height="2270" rx="20" fill="#ffffff" stroke="#d6e1e9" stroke-width="2"/>
+<rect x="1360" y="263" width="1280" height="1295" rx="20" fill="#ffffff" stroke="#d6e1e9" stroke-width="2"/>
+<text x="70" y="306" font-size="31" font-weight="700" text-anchor="start" fill="#285dba">① main()：准备一次，再逐批训练</text>
+<text x="1390" y="306" font-size="31" font-weight="700" text-anchor="start" fill="#087f79">② next_batch()：每次调用只返回一批</text>
+<rect x="40" y="2570" width="2600" height="140" rx="16" fill="#edf2f7" stroke="#edf2f7" stroke-width="2"/>
+<text x="70" y="2615" font-size="26" font-weight="400" text-anchor="start" fill="#172c43">读图：蓝色为 main 主流程，绿色为取批逻辑，虚线为函数返回；跨线处白色间隙表示未连接。</text>
+<text x="70" y="2654" font-size="24" font-weight="400" text-anchor="start" fill="#526779">图展开有效输入、有限 loss 的正常路径。参数 / 文件 / 数值检查失败时会退出；预览模式提前 return。</text>
+<text x="70" y="2690" font-size="23" font-weight="400" text-anchor="start" fill="#526779">源码编号与行号由脚本读取。数据量来自已归档实跑报告。绘制日期：2026-10-18。</text>
+<path d="M625,515 L625,555" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,555 632.0,540.0 618.0,540.0" fill="#285dba"/>
+<path d="M625,700 L625,740" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,740 632.0,725.0 618.0,725.0" fill="#285dba"/>
+<path d="M625,880 L625,940" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,940 632.0,925.0 618.0,925.0" fill="#285dba"/>
+<path d="M625,1110 L625,1145" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,1145 632.0,1130.0 618.0,1130.0" fill="#285dba"/>
+<path d="M625,1275 L625,1320" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,1320 632.0,1305.0 618.0,1305.0" fill="#285dba"/>
+<path d="M625,1650 L625,1710" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,1710 632.0,1695.0 618.0,1695.0" fill="#285dba"/>
+<path d="M625,1900 L625,1960" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,1960 632.0,1945.0 618.0,1945.0" fill="#285dba"/>
+<path d="M625,2110 L625,2170" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="625,2170 632.0,2155.0 618.0,2155.0" fill="#285dba"/>
+<path d="M905,810 L965,810" fill="none" stroke="#a26712" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="965,810 950.0,803.0 950.0,817.0" fill="#a26712"/>
+<path d="M210,2243 L130,2243 L130,1210 L315,1210" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="315,1210 300.0,1203.0 300.0,1217.0" fill="#285dba"/>
+<path d="M935,1210 L1160,1210 L1160,2440 L1040,2440" fill="none" stroke="#a26712" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1040,2440 1055.0,2447.0 1055.0,2433.0" fill="#a26712"/>
+<path d="M1995,520 L1995,565" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1995,565 2002.0,550.0 1988.0,550.0" fill="#087f79"/>
+<path d="M1995,755 L1995,800" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1995,800 2002.0,785.0 1988.0,785.0" fill="#087f79"/>
+<path d="M1995,930 L1995,967.5" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1995,967.5 2002.0,952.5 1988.0,952.5" fill="#087f79"/>
+<path d="M1995,1122.5 L1995,1400" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1995,1400 2002.0,1385.0 1988.0,1385.0" fill="#087f79"/>
+<path d="M2410,1045 L2605,1045 L2605,1180 L2360,1180 L2360,1220" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="2360,1220 2367.0,1205.0 2353.0,1205.0" fill="#087f79"/>
+<path d="M2360,1335 L2360,1370 L1995,1370" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M1040,1372 L1310,1372 L1310,437 L1510,437" fill="none" stroke="#f8fafc" stroke-width="11"/>
+<path d="M1040,1372 L1310,1372 L1310,437 L1510,437" fill="none" stroke="#285dba" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1510,437 1495.0,430.0 1495.0,444.0" fill="#285dba"/>
+<path d="M1510,1462 L1330,1462 L1330,1572 L1040,1572" fill="none" stroke="#f8fafc" stroke-width="11"/>
+<path d="M1510,1462 L1330,1462 L1330,1572 L1040,1572" fill="none" stroke="#087f79" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 8"/>
+<polygon points="1040,1572 1055.0,1579.0 1055.0,1565.0" fill="#087f79"/>
+<rect x="210" y="345" width="830" height="170" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="386" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">[M1] 读取全文并编码</text>
+<text x="1017" y="384" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 71 行</text>
+<text x="234" y="429" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">Tiny Shakespeare 全文 → tokenizer.encode(text)</text>
+<text x="234" y="464" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">得到 338,025 个整数 ID；读取本地模型配置</text>
+<text x="234" y="499" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">参数 / 文件 / 语料校验通过后继续</text>
+<rect x="210" y="555" width="830" height="145" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="596" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">[M2] 创建一次 DataLoaderLite</text>
+<text x="1017" y="594" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 109 行</text>
+<text x="234" y="639" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">tokens: torch.long [338025]</text>
+<text x="234" y="674" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">current_position = 0</text>
+<polygon points="625,740.0 905.0,810 625,880.0 345.0,810" fill="#fff6e5" stroke="#a26712" stroke-width="2.5"/>
+<text x="625" y="800" font-size="27" font-weight="700" text-anchor="middle" fill="#a26712">开启 --preview-only？</text>
+<text x="625" y="830" font-size="20" font-weight="400" text-anchor="middle" fill="#526779">第 121 行</text>
+<rect x="965" y="740" width="280" height="165" rx="20" fill="#fff6e5" stroke="#a26712" stroke-width="2"/>
+<text x="989" y="781" font-size="23" font-weight="700" text-anchor="start" fill="#a26712">是：仅预览</text>
+<text x="989" y="824" font-size="21" font-weight="400" text-anchor="start" fill="#172c43">next_batch() × 3</text>
+<text x="989" y="859" font-size="21" font-weight="400" text-anchor="start" fill="#172c43">打印范围和文本</text>
+<text x="989" y="894" font-size="21" font-weight="400" text-anchor="start" fill="#172c43">return，结束运行</text>
+<rect x="210" y="940" width="830" height="170" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="981" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">[M3] 创建一次模型和优化器</text>
+<text x="1017" y="979" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 130 行</text>
+<text x="234" y="1024" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">随机初始化 GPT → model.train() → AdamW</text>
+<text x="234" y="1059" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">输入 / 输出表独立；使用各层默认初始化</text>
+<text x="234" y="1094" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">后续各步保留模型参数和优化器状态</text>
+<polygon points="625,1145.0 935.0,1210 625,1275.0 315.0,1210" fill="#fff6e5" stroke="#a26712" stroke-width="2.5"/>
+<text x="625" y="1200" font-size="27" font-weight="700" text-anchor="middle" fill="#a26712">[M4] 还有训练步数？</text>
+<text x="625" y="1230" font-size="20" font-weight="400" text-anchor="middle" fill="#526779">for step in range(args.steps) · 第 139 行</text>
+<rect x="210" y="1320" width="830" height="105" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="1361" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">调用加载器，取得本步 x、y</text>
+<text x="1017" y="1359" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 142 行</text>
+<text x="234" y="1404" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">x, y = train_loader.next_batch()</text>
+<rect x="210" y="1495" width="830" height="155" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="1536" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">清空旧梯度 → 前向计算</text>
+<text x="1017" y="1534" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 143 行</text>
+<text x="234" y="1579" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">optimizer.zero_grad(set_to_none=True)</text>
+<text x="234" y="1614" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">logits = model(x)  # [4,32,50257]</text>
+<rect x="210" y="1710" width="830" height="190" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="1751" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">计算所有位置的下一 Token loss</text>
+<text x="1017" y="1749" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 145 行</text>
+<text x="234" y="1794" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">loss = next_token_loss(logits, y)</text>
+<text x="234" y="1829" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">[4,32,50257] + [4,32] → 标量 loss []</text>
+<text x="234" y="1864" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">128 个位置的交叉熵取平均；检查 loss 有限</text>
+<rect x="210" y="1960" width="830" height="150" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="2001" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">反向传播 → 更新参数</text>
+<text x="1017" y="1999" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 148 行</text>
+<text x="234" y="2044" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">loss.backward()</text>
+<text x="234" y="2079" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">optimizer.step()</text>
+<rect x="210" y="2170" width="830" height="145" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="2211" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">记录本步位置与 loss</text>
+<text x="1017" y="2209" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 152 行</text>
+<text x="234" y="2254" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">记录 batch_start、next_start；打印本步结果</text>
+<text x="234" y="2289" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">loss 来自更新前的前向，不会因 step() 自动重算</text>
+<rect x="210" y="2380" width="830" height="120" rx="20" fill="#eef4ff" stroke="#285dba" stroke-width="2"/>
+<text x="234" y="2421" font-size="29" font-weight="700" text-anchor="start" fill="#285dba">步数用完：保存报告，结束</text>
+<text x="1017" y="2419" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 159 行</text>
+<text x="234" y="2464" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">.cache/runtime-check/lesson05-report.json</text>
+<text x="649" y="918" font-size="23" font-weight="400" text-anchor="start" fill="#285dba">否：进入训练</text>
+<text x="649" y="1307" font-size="23" font-weight="400" text-anchor="start" fill="#285dba">是</text>
+<text transform="translate(111 1985) rotate(-90)" font-size="27" fill="#285dba" font-weight="600">下一步：保留参数，重新获取下一批数据</text>
+<text x="951" y="1189" font-size="22" font-weight="400" text-anchor="start" fill="#a26712">否：已完成 50 步</text>
+<text transform="translate(1194 1660) rotate(90)" font-size="24" fill="#a26712">循环退出后才保存报告</text>
+<rect x="1510" y="355" width="970" height="165" rx="20" fill="#eaf8f5" stroke="#087f79" stroke-width="2"/>
+<text x="1534" y="396" font-size="29" font-weight="700" text-anchor="start" fill="#087f79">[L1] 从当前位置取 B*T+1 个 ID</text>
+<text x="2457" y="394" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 55 行</text>
+<text x="1534" y="439" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">start = self.current_position</text>
+<text x="1534" y="474" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">buffer = tokens[start : start + B*T + 1]</text>
+<text x="1534" y="509" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">本批读取 129 个 ID → buffer [129]</text>
+<rect x="1510" y="565" width="970" height="190" rx="20" fill="#eaf8f5" stroke="#087f79" stroke-width="2"/>
+<text x="1534" y="606" font-size="29" font-weight="700" text-anchor="start" fill="#087f79">[L2] 错开一位，排成 B 行 T 列</text>
+<text x="2457" y="604" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 58 行</text>
+<text x="1534" y="649" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">x = buffer[:-1].view(B,T)   # [4,32]</text>
+<text x="1534" y="684" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">y = buffer[1:].view(B,T)    # [4,32]</text>
+<text x="1534" y="719" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">x 和 y 各含 128 个 Token；每个输入位置都有答案</text>
+<rect x="1510" y="800" width="970" height="130" rx="20" fill="#eaf8f5" stroke="#087f79" stroke-width="2"/>
+<text x="1534" y="841" font-size="29" font-weight="700" text-anchor="start" fill="#087f79">[L3] 推进下次读取的位置</text>
+<text x="2457" y="839" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 61 行</text>
+<text x="1534" y="884" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">self.current_position += B*T  # 前进 128</text>
+<polygon points="1995,967.5 2410.0,1045 1995,1122.5 1580.0,1045" fill="#eaf8f5" stroke="#087f79" stroke-width="2.5"/>
+<text x="1995" y="1035" font-size="27" font-weight="700" text-anchor="middle" fill="#087f79">[L4] 剩余数据不足下一批及其答案？</text>
+<text x="1995" y="1065" font-size="20" font-weight="400" text-anchor="middle" fill="#526779">current_position + B*T + 1 &gt; len(tokens)</text>
+<text x="1510" y="1157" font-size="23" font-weight="400" text-anchor="start" fill="#526779">第 63 行：用 &gt; 判断。</text>
+<text x="1510" y="1192" font-size="23" font-weight="400" text-anchor="start" fill="#526779">刚好够一批时，条件为 False。</text>
+<rect x="2140" y="1220" width="440" height="115" rx="20" fill="#eaf8f5" stroke="#087f79" stroke-width="2"/>
+<text x="2164" y="1261" font-size="26" font-weight="700" text-anchor="start" fill="#087f79">是：下次从开头读</text>
+<text x="2164" y="1304" font-size="22" font-weight="400" text-anchor="start" fill="#172c43" class="code">current_position = 0</text>
+<rect x="1510" y="1400" width="970" height="125" rx="20" fill="#eaf8f5" stroke="#087f79" stroke-width="2"/>
+<text x="1534" y="1441" font-size="29" font-weight="700" text-anchor="start" fill="#087f79">返回本次已经构造好的 x、y</text>
+<text x="2457" y="1439" font-size="20" font-weight="400" text-anchor="end" fill="#526779">第 67 行</text>
+<text x="1534" y="1484" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">return x, y；位置即使重置，本次数据也不变</text>
+<text x="1735" y="1243" font-size="23" font-weight="400" text-anchor="start" fill="#087f79">否：保留推进后的位置</text>
+<text x="1330" y="416" font-size="22" font-weight="400" text-anchor="start" fill="#285dba">调用：进入 L1</text>
+<text x="1370" y="1547" font-size="22" font-weight="400" text-anchor="start" fill="#087f79">返回后继续训练</text>
+<rect x="1360" y="1600" width="1280" height="330" rx="20" fill="#ffffff" stroke="#d6e1e9" stroke-width="2"/>
+<text x="1390" y="1648" font-size="29" font-weight="700" text-anchor="start" fill="#172c43">③ 首批 x/y：范围包含两端，0～127 是 128 个位置</text>
+<text x="1390" y="1688" font-size="25" font-weight="400" text-anchor="start" fill="#526779">下表是语料位置，不是 Token ID 数值；每行都是 32 个 Token。</text>
+<text x="1420" y="1734" font-size="25" font-weight="700" text-anchor="start" fill="#087f79">序列</text>
+<text x="1660" y="1734" font-size="25" font-weight="700" text-anchor="start" fill="#087f79">x：输入位置</text>
+<text x="2070" y="1734" font-size="25" font-weight="700" text-anchor="start" fill="#087f79">y：答案位置</text>
+<text x="1420" y="1772" font-size="25" font-weight="400" text-anchor="start" fill="#172c43">第 1 条</text>
+<text x="1660" y="1772" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">0 ～ 31</text>
+<text x="2070" y="1772" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">1 ～ 32</text>
+<text x="1420" y="1807" font-size="25" font-weight="400" text-anchor="start" fill="#172c43">第 2 条</text>
+<text x="1660" y="1807" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">32 ～ 63</text>
+<text x="2070" y="1807" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">33 ～ 64</text>
+<text x="1420" y="1842" font-size="25" font-weight="400" text-anchor="start" fill="#172c43">第 3 条</text>
+<text x="1660" y="1842" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">64 ～ 95</text>
+<text x="2070" y="1842" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">65 ～ 96</text>
+<text x="1420" y="1877" font-size="25" font-weight="400" text-anchor="start" fill="#172c43">第 4 条</text>
+<text x="1660" y="1877" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">96 ～ 127</text>
+<text x="2070" y="1877" font-size="25" font-weight="400" text-anchor="start" fill="#172c43" class="code">97 ～ 128</text>
+<text x="1390" y="1910" font-size="23" font-weight="400" text-anchor="start" fill="#526779">首批 buffer 用 0～128；下一批从 128 开始：上一批末尾答案成为下一批首个输入。</text>
+<rect x="1360" y="1970" width="1280" height="250" rx="20" fill="#ffffff" stroke="#d6e1e9" stroke-width="2"/>
+<text x="1390" y="2017" font-size="29" font-weight="700" text-anchor="start" fill="#172c43">④ 前向回顾：B 条序列，各有 T 份下一 Token 预测</text>
+<text x="1390" y="2062" font-size="26" font-weight="400" text-anchor="start" fill="#172c43" class="code">ID [4,32] → 嵌入 [4,32,768] → 12 层 Transformer</text>
+<text x="1390" y="2103" font-size="26" font-weight="400" text-anchor="start" fill="#172c43" class="code">→ 最后 LayerNorm + lm_head → logits [4,32,50257]</text>
+<text x="1390" y="2148" font-size="25" font-weight="400" text-anchor="start" fill="#526779">每条序列独立使用 32×32 的下三角因果遮罩；每个位置只看自己及之前。</text>
+<text x="1390" y="2187" font-size="25" font-weight="400" text-anchor="start" fill="#526779">128 份预测都参与 loss；本训练流程不取 argmax，也不生成文本。</text>
+<rect x="1360" y="2260" width="1280" height="273" rx="20" fill="#fff6e5" stroke="#e7c78f" stroke-width="2"/>
+<text x="1390" y="2307" font-size="29" font-weight="700" text-anchor="start" fill="#a26712">⑤ 回绕复用的是样本，继续更新的是参数</text>
+<text x="1390" y="2354" font-size="28" font-weight="400" text-anchor="start" fill="#172c43">一轮：第 1 批 → 第 2 批 → … → 第 2640 批</text>
+<text x="1390" y="2398" font-size="27" font-weight="400" text-anchor="start" fill="#172c43">下一轮仍从第 1 批开始；对应批次的 x/y 完全相同。</text>
+<text x="1390" y="2442" font-size="25" font-weight="400" text-anchor="start" fill="#172c43">仅重置读取位置，模型和优化器状态继续保留；尾部不足一批就跳过。</text>
+<text x="1390" y="2489" font-size="25" font-weight="600" text-anchor="start" fill="#a26712">当前默认只运行 50 步，尚未读完一轮，因此实跑没有触发回绕。</text>
+</svg>

@@ -1,5 +1,7 @@
 # GPT-2 文本生成：代码与完整流程对照
 
+学习位置：**阶段二 · 单元 2「复现 GPT-2」· 2.1 · 知识块 3「文本生成」**。
+
 ![GPT-2 文本生成：代码与完整流程对照](gpt2-generation-flow.png)
 
 [打开可放大的 SVG 原图](gpt2-generation-flow.svg)

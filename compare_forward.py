@@ -1,4 +1,4 @@
-"""2.1 第二块实验：自己实现的 GPT-2 与 Hugging Face 逐层对照。
+"""阶段二 · 单元 2 · 2.1 · 知识块 2实验：自己实现的 GPT-2 与 Hugging Face 逐层对照。
 
 运行本文件即可。仅使用已经下载的本地权重，在 CPU / FP32 下计算。
 结果默认保存到 artifacts/lesson02-report.json，不训练、不生成、不下载。
@@ -164,7 +164,7 @@ def main():
     atol, rtol = 1e-4, 1e-4
     # 【Python + 本项目判定】累计所有检查，任何一次失败都会保留到最终结果中。
     all_passed = True
-    print("2.1 第二块：独立 GPT-2 前向计算与参考模型对齐", flush=True)
+    print("阶段二 · 单元 2 · 2.1 · 知识块 2：独立 GPT-2 前向计算与参考模型对齐", flush=True)
     print("设备 CPU；精度 FP32；两边 eval；同一份预训练权重。")
     print("比较规则：每个数满足 |自己 - 参考| <= 1e-4 + 1e-4 × |参考|。")
     print(f"已复制 {loading['state_entries_loaded']} 个状态条目，其中转置 {loading['transposed_matrices']} 个矩阵。")
@@ -253,7 +253,7 @@ def main():
     # 【Python 字典/JSON】保存本次实际观察，不保存整个大模型，也不改变已有 checkpoint。
     # 环境、输入、容差都入报告，便于区分“本机实测结果”和理论形状推导。
     report = {
-        "lesson": "2.1 第二块：GPT-2 前向模型与参考实现对齐",
+        "lesson": "阶段二 · 单元 2 · 2.1 · 知识块 2：GPT-2 前向模型与参考实现对齐",
         "model_dir": str(model_dir), "revision": model_dir.name,
         "environment": {"python": sys.version.split()[0], "torch": torch.__version__,
                         "transformers": transformers.__version__, "device": "cpu", "dtype": "float32"},
@@ -271,7 +271,7 @@ def main():
     if not all_passed:
         # 退出码非零，方便终端或自动化明确识别失败；此时报告已经保存，便于排查。
         raise SystemExit("存在未通过项，请从逐层表格中最早的 FAIL 开始定位。")
-    print("本次检查全部通过；已验证这些输入上的前向一致性，尚未完成整节 2.1。")
+    print("本次检查全部通过；已验证这些输入上的前向一致性，阶段二 · 单元 2 · 2.1 整节仍未完成。")
 
 
 if __name__ == "__main__":

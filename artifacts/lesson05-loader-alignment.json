@@ -1,0 +1,42 @@
+{
+  "source": "https://github.com/karpathy/build-nanogpt/blob/631f7d6f080effc4342b5e2f2f41879642c76fd1/train_gpt2.py",
+  "source_sha256": "cebf9a5556c40e6bbe0a5cf73fe73f31e6abf2ddad9a4c3fa72c2964ebae1285",
+  "scope": "Only the historical DataLoaderLite class was loaded; its I/O/tokenizer constructor and all top-level training code were not executed. Both loaders received the same token IDs. This compares batch contents and cursor transitions, not tokenizer equivalence or training trajectories.",
+  "cases": [
+    {
+      "token_count": 7,
+      "B": 2,
+      "T": 3,
+      "compared_batches": 5,
+      "identical": true
+    },
+    {
+      "token_count": 12,
+      "B": 2,
+      "T": 3,
+      "compared_batches": 5,
+      "identical": true
+    },
+    {
+      "token_count": 13,
+      "B": 2,
+      "T": 3,
+      "compared_batches": 5,
+      "identical": true
+    },
+    {
+      "token_count": 14,
+      "B": 2,
+      "T": 3,
+      "compared_batches": 5,
+      "identical": true
+    },
+    {
+      "token_count": 338025,
+      "B": 4,
+      "T": 32,
+      "compared_batches": 2642,
+      "identical": true
+    }
+  ]
+}

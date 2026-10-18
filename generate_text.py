@@ -1,4 +1,4 @@
-"""2.1 第三块：提示词 -> 自己的 GPT-2 -> 一个新 ID -> 追加 -> 再次前向。
+"""阶段二 · 单元 2 · 2.1 · 知识块 3：提示词 -> 自己的 GPT-2 -> 一个新 ID -> 追加 -> 再次前向。
 
 直接运行本文件，观察贪心生成；--strategy sample 开启 temperature / top-k 采样。
 本课只处理一条非空提示词，在 CPU / FP32 下运行，不使用 padding 或 KV cache。
@@ -271,7 +271,7 @@ def main():
     def decode(ids):
         return tokenizer.decode(ids, skip_special_tokens=False, clean_up_tokenization_spaces=False)
 
-    print("2.1 第三块：使用自己的 GPT-2 生成文本", flush=True)
+    print("阶段二 · 单元 2 · 2.1 · 知识块 3：使用自己的 GPT-2 生成文本", flush=True)
     print(f"提示词：{args.prompt!r}\n编码 ID：{prompt_ids}；形状：{list(input_ids.shape)}")
     print(f"策略：{args.strategy}；CPU / FP32；max_new_tokens={args.max_new_tokens}")
     if args.strategy == "sample":
@@ -320,7 +320,7 @@ def main():
     # greedy 的 temperature/top_k/seed 记录为 None，避免误以为它们参与了贪心选取。
     # generation_ran 表示是否实际追加过 Token；training_ran 始终为 False。
     report = {
-        "lesson": "2.1 第三个知识块：文本生成", "model_dir": str(model_dir),
+        "lesson": "阶段二 · 单元 2 · 2.1 · 知识块 3：文本生成", "model_dir": str(model_dir),
         "environment": {"python": sys.version.split()[0], "torch": torch.__version__,
                         "transformers": transformers.__version__, "device": "cpu", "dtype": "float32"},
         "prompt": args.prompt, "prompt_ids": prompt_ids, "loading": loading,

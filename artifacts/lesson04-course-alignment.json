@@ -1,0 +1,48 @@
+{
+  "source": "https://github.com/karpathy/build-nanogpt/blob/7822fce8ebf46ba3907ee8f7cf0356f8ec1c63fa/train_gpt2.py",
+  "source_sha256": "f8c9a082134bec9971f38269c00f80a82464b0922b62743298fdc093f96669fa",
+  "scope": "Original model class definitions only; smaller vocabulary, width and depth; compare initialization, logits, CE loss, gradients and one AdamW step. First case retains GPT-2 head dimension 64.",
+  "numerical_note": "The original attention scales by multiplication with the reciprocal; this implementation divides by sqrt(head_dim). At non-default head dimension 8 in FP32, a preliminary check found up to 2.0831823348999023e-05 parameter difference after AdamW despite close gradients. FP64 is used for the additional non-default-dimension comparison. No claim of identical arbitrary-config FP32 trajectories or tokenizer equivalence.",
+  "seed": 42,
+  "torch": "2.2.2",
+  "cases": [
+    {
+      "config": {
+        "vocab_size": 31,
+        "positions": 8,
+        "layers": 2,
+        "heads": 1,
+        "width": 64
+      },
+      "head_dim": 64,
+      "dtype": "torch.float32",
+      "tolerance_rtol_and_atol": 1e-06,
+      "parameter_tensors_compared": 29,
+      "initial_values_exactly_equal": true,
+      "max_logit_abs_difference": 0.0,
+      "loss_abs_difference": 0.0,
+      "max_gradient_abs_difference": 0.0,
+      "max_parameter_abs_difference_after_one_update": 0.0,
+      "passed": true
+    },
+    {
+      "config": {
+        "vocab_size": 31,
+        "positions": 8,
+        "layers": 2,
+        "heads": 3,
+        "width": 24
+      },
+      "head_dim": 8,
+      "dtype": "torch.float64",
+      "tolerance_rtol_and_atol": 1e-10,
+      "parameter_tensors_compared": 29,
+      "initial_values_exactly_equal": true,
+      "max_logit_abs_difference": 5.551115123125783e-16,
+      "loss_abs_difference": 1.3322676295501878e-15,
+      "max_gradient_abs_difference": 5.551115123125783e-17,
+      "max_parameter_abs_difference_after_one_update": 4.065497938299245e-14,
+      "passed": true
+    }
+  ]
+}

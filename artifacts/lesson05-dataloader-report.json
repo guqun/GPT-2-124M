@@ -1,0 +1,347 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.1 · 知识块 5：顺序数据加载器",
+  "course_commit": "631f7d6f080effc4342b5e2f2f41879642c76fd1",
+  "data": {
+    "file": "/Users/niuqun/micrograd/GPT-2-124M/data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "total_characters": 1115394,
+    "encoded_tokens": 338025,
+    "tokens_per_batch": 128,
+    "batches_per_pass": 2640,
+    "unused_target_positions_per_pass": 104,
+    "sampling": "sequential; reset to zero; no shuffle",
+    "fixed_batch": false
+  },
+  "input_shape": [
+    4,
+    32
+  ],
+  "target_shape": [
+    4,
+    32
+  ],
+  "initialization": "PyTorch module defaults; untied embeddings; no pretrained weights loaded",
+  "parameter_count": 163037184,
+  "seed": 42,
+  "environment": {
+    "torch": "2.2.2",
+    "device": "cpu",
+    "dtype": "float32"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01
+  },
+  "steps": [
+    {
+      "step": 1,
+      "batch_start": 0,
+      "next_start": 128,
+      "loss_before_update": 10.92757797241211
+    },
+    {
+      "step": 2,
+      "batch_start": 128,
+      "next_start": 256,
+      "loss_before_update": 9.715482711791992
+    },
+    {
+      "step": 3,
+      "batch_start": 256,
+      "next_start": 384,
+      "loss_before_update": 8.62861156463623
+    },
+    {
+      "step": 4,
+      "batch_start": 384,
+      "next_start": 512,
+      "loss_before_update": 9.049093246459961
+    },
+    {
+      "step": 5,
+      "batch_start": 512,
+      "next_start": 640,
+      "loss_before_update": 8.456217765808105
+    },
+    {
+      "step": 6,
+      "batch_start": 640,
+      "next_start": 768,
+      "loss_before_update": 8.077332496643066
+    },
+    {
+      "step": 7,
+      "batch_start": 768,
+      "next_start": 896,
+      "loss_before_update": 8.865742683410645
+    },
+    {
+      "step": 8,
+      "batch_start": 896,
+      "next_start": 1024,
+      "loss_before_update": 8.731792449951172
+    },
+    {
+      "step": 9,
+      "batch_start": 1024,
+      "next_start": 1152,
+      "loss_before_update": 7.957657814025879
+    },
+    {
+      "step": 10,
+      "batch_start": 1152,
+      "next_start": 1280,
+      "loss_before_update": 7.8860392570495605
+    },
+    {
+      "step": 11,
+      "batch_start": 1280,
+      "next_start": 1408,
+      "loss_before_update": 8.243453979492188
+    },
+    {
+      "step": 12,
+      "batch_start": 1408,
+      "next_start": 1536,
+      "loss_before_update": 7.059549808502197
+    },
+    {
+      "step": 13,
+      "batch_start": 1536,
+      "next_start": 1664,
+      "loss_before_update": 7.667282581329346
+    },
+    {
+      "step": 14,
+      "batch_start": 1664,
+      "next_start": 1792,
+      "loss_before_update": 7.318122863769531
+    },
+    {
+      "step": 15,
+      "batch_start": 1792,
+      "next_start": 1920,
+      "loss_before_update": 7.447032928466797
+    },
+    {
+      "step": 16,
+      "batch_start": 1920,
+      "next_start": 2048,
+      "loss_before_update": 7.180792331695557
+    },
+    {
+      "step": 17,
+      "batch_start": 2048,
+      "next_start": 2176,
+      "loss_before_update": 7.238762855529785
+    },
+    {
+      "step": 18,
+      "batch_start": 2176,
+      "next_start": 2304,
+      "loss_before_update": 8.183854103088379
+    },
+    {
+      "step": 19,
+      "batch_start": 2304,
+      "next_start": 2432,
+      "loss_before_update": 7.125064373016357
+    },
+    {
+      "step": 20,
+      "batch_start": 2432,
+      "next_start": 2560,
+      "loss_before_update": 7.67503023147583
+    },
+    {
+      "step": 21,
+      "batch_start": 2560,
+      "next_start": 2688,
+      "loss_before_update": 7.530609130859375
+    },
+    {
+      "step": 22,
+      "batch_start": 2688,
+      "next_start": 2816,
+      "loss_before_update": 7.617597579956055
+    },
+    {
+      "step": 23,
+      "batch_start": 2816,
+      "next_start": 2944,
+      "loss_before_update": 6.166983604431152
+    },
+    {
+      "step": 24,
+      "batch_start": 2944,
+      "next_start": 3072,
+      "loss_before_update": 6.611393928527832
+    },
+    {
+      "step": 25,
+      "batch_start": 3072,
+      "next_start": 3200,
+      "loss_before_update": 6.556295871734619
+    },
+    {
+      "step": 26,
+      "batch_start": 3200,
+      "next_start": 3328,
+      "loss_before_update": 6.217982292175293
+    },
+    {
+      "step": 27,
+      "batch_start": 3328,
+      "next_start": 3456,
+      "loss_before_update": 6.372445106506348
+    },
+    {
+      "step": 28,
+      "batch_start": 3456,
+      "next_start": 3584,
+      "loss_before_update": 7.405853271484375
+    },
+    {
+      "step": 29,
+      "batch_start": 3584,
+      "next_start": 3712,
+      "loss_before_update": 6.901596546173096
+    },
+    {
+      "step": 30,
+      "batch_start": 3712,
+      "next_start": 3840,
+      "loss_before_update": 6.572569370269775
+    },
+    {
+      "step": 31,
+      "batch_start": 3840,
+      "next_start": 3968,
+      "loss_before_update": 6.871811389923096
+    },
+    {
+      "step": 32,
+      "batch_start": 3968,
+      "next_start": 4096,
+      "loss_before_update": 6.898314952850342
+    },
+    {
+      "step": 33,
+      "batch_start": 4096,
+      "next_start": 4224,
+      "loss_before_update": 6.826059818267822
+    },
+    {
+      "step": 34,
+      "batch_start": 4224,
+      "next_start": 4352,
+      "loss_before_update": 6.645628929138184
+    },
+    {
+      "step": 35,
+      "batch_start": 4352,
+      "next_start": 4480,
+      "loss_before_update": 7.869632244110107
+    },
+    {
+      "step": 36,
+      "batch_start": 4480,
+      "next_start": 4608,
+      "loss_before_update": 7.710650444030762
+    },
+    {
+      "step": 37,
+      "batch_start": 4608,
+      "next_start": 4736,
+      "loss_before_update": 7.385076522827148
+    },
+    {
+      "step": 38,
+      "batch_start": 4736,
+      "next_start": 4864,
+      "loss_before_update": 7.472146034240723
+    },
+    {
+      "step": 39,
+      "batch_start": 4864,
+      "next_start": 4992,
+      "loss_before_update": 7.4955830574035645
+    },
+    {
+      "step": 40,
+      "batch_start": 4992,
+      "next_start": 5120,
+      "loss_before_update": 7.054421424865723
+    },
+    {
+      "step": 41,
+      "batch_start": 5120,
+      "next_start": 5248,
+      "loss_before_update": 7.183473587036133
+    },
+    {
+      "step": 42,
+      "batch_start": 5248,
+      "next_start": 5376,
+      "loss_before_update": 6.286526203155518
+    },
+    {
+      "step": 43,
+      "batch_start": 5376,
+      "next_start": 5504,
+      "loss_before_update": 6.530457496643066
+    },
+    {
+      "step": 44,
+      "batch_start": 5504,
+      "next_start": 5632,
+      "loss_before_update": 6.635519027709961
+    },
+    {
+      "step": 45,
+      "batch_start": 5632,
+      "next_start": 5760,
+      "loss_before_update": 6.611412048339844
+    },
+    {
+      "step": 46,
+      "batch_start": 5760,
+      "next_start": 5888,
+      "loss_before_update": 6.50430965423584
+    },
+    {
+      "step": 47,
+      "batch_start": 5888,
+      "next_start": 6016,
+      "loss_before_update": 5.591193199157715
+    },
+    {
+      "step": 48,
+      "batch_start": 6016,
+      "next_start": 6144,
+      "loss_before_update": 5.992378234863281
+    },
+    {
+      "step": 49,
+      "batch_start": 6144,
+      "next_start": 6272,
+      "loss_before_update": 6.826709270477295
+    },
+    {
+      "step": 50,
+      "batch_start": 6272,
+      "next_start": 6400,
+      "loss_before_update": 6.575396537780762
+    }
+  ],
+  "processed_supervised_positions": 6400,
+  "distinct_batch_starts": 50,
+  "metric_scope": "pre-update loss on changing training batches; not held-out validation",
+  "checkpoint_saved": false
+}
