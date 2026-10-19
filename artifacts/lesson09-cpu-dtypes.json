@@ -1,0 +1,350 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.2 · 知识块 9",
+  "course_commit": "177e4cd5b4cc05df4bb637ed1a9e55911d6f1e2c",
+  "mode": "dtype_probe",
+  "environment": {
+    "python": "3.9.6",
+    "torch": "2.2.2",
+    "device": "cpu",
+    "machine": "x86_64",
+    "system": "Darwin",
+    "cuda_available": false,
+    "mps_available": false,
+    "cuda_runtime": null,
+    "threads": 4,
+    "matmul_precision": "highest"
+  },
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 1024,
+    "n_embd": 768,
+    "n_layer": 12,
+    "n_head": 12,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "seed": 42,
+  "parameter_count": 124439808,
+  "parameter_dtype": "torch.float32",
+  "shared_parameter": true,
+  "data": {
+    "file": "/Users/guqun/micrograd/gpt2_pretrain_lab/data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "encoded_tokens": 338025
+  },
+  "batch_size": 1,
+  "seq_len": 8,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "verification_scope": "This run only. CPU results do not measure CUDA speedup. Changing-batch training loss is not validation quality.",
+  "fp32": {
+    "precision": "fp32",
+    "input": {
+      "shape": [
+        1,
+        8
+      ],
+      "dtype": "torch.int64",
+      "element_bytes": 8,
+      "logical_bytes": 64
+    },
+    "parameter": {
+      "shape": [
+        50257,
+        768
+      ],
+      "dtype": "torch.float32",
+      "element_bytes": 4,
+      "logical_bytes": 154389504
+    },
+    "observations": [
+      {
+        "name": "transformer.wte",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.wpe",
+        "shape": [
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.ln_1",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.attn.c_attn",
+        "shape": [
+          1,
+          8,
+          2304
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 73728
+      },
+      {
+        "name": "transformer.h.0.attn.c_proj",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.ln_2",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.mlp.c_fc",
+        "shape": [
+          1,
+          8,
+          3072
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 98304
+      },
+      {
+        "name": "transformer.h.0.mlp.c_proj",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.ln_f",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "lm_head",
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      {
+        "name": "cross_entropy",
+        "shape": [],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 4
+      }
+    ],
+    "loss": 10.530961990356445
+  },
+  "bf16": {
+    "precision": "bf16",
+    "input": {
+      "shape": [
+        1,
+        8
+      ],
+      "dtype": "torch.int64",
+      "element_bytes": 8,
+      "logical_bytes": 64
+    },
+    "parameter": {
+      "shape": [
+        50257,
+        768
+      ],
+      "dtype": "torch.float32",
+      "element_bytes": 4,
+      "logical_bytes": 154389504
+    },
+    "observations": [
+      {
+        "name": "transformer.wte",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.wpe",
+        "shape": [
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.ln_1",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.attn.c_attn",
+        "shape": [
+          1,
+          8,
+          2304
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 36864
+      },
+      {
+        "name": "transformer.h.0.attn.c_proj",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 12288
+      },
+      {
+        "name": "transformer.h.0.ln_2",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.h.0.mlp.c_fc",
+        "shape": [
+          1,
+          8,
+          3072
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 49152
+      },
+      {
+        "name": "transformer.h.0.mlp.c_proj",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 12288
+      },
+      {
+        "name": "transformer.h.0",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "transformer.ln_f",
+        "shape": [
+          1,
+          8,
+          768
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 24576
+      },
+      {
+        "name": "lm_head",
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 804112
+      },
+      {
+        "name": "cross_entropy",
+        "shape": [],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 4
+      }
+    ],
+    "loss": 10.526216506958008
+  },
+  "logit_difference": {
+    "mean_abs": 0.0037306267768144608,
+    "max_abs": 0.021146297454833984
+  },
+  "parameter_updates": 0
+}

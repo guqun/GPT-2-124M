@@ -4,11 +4,11 @@
 
 课程主线：[Karpathy — Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU)。配套参考：[build-nanogpt](https://github.com/karpathy/build-nanogpt)。
 
-**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。已学至：第 2.1 节 → 知识块 5「顺序数据加载器」，初步理解；下一块 6「权重共享」待开始。** `2.1` 表示单元 2 的第 1 个规划段落；`lesson05.md` 表示这一段内的第 5 个知识块。
+**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前位置：第 2.2 节 → 知识块 9「BF16 自动混合精度」，已讨论并反馈初步理解。** 知识块按本项目连续编号，8 是 2.2 的第一块；用户已对设备、计时、TF32 和 BF16 反馈初步理解，GPU 提速仍待实测。2.1 的七块已覆盖并回顾，用户于 2026-10-19 确认整节学习完成。
 
 每次一个知识块：目的 → 输入输出 → 公式与形状 → 源码 → 实际运行 → 自检。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
 
-[学习计划核对与执行修正（2026-10-18）](docs/learning-plan-review.md)：对照 Notion 的整体目标、各单元原始资料和本视频顺序，明确已学基础、当前新增能力、改编边界与验收标准。确认的修订与最新学习进度已同步至 [Notion 总计划](https://app.notion.com/p/340eaea31414819197bde537d339d0fc) 并回读核验；知识块 5 已学习、初步理解，2.1 整节仍未完成。
+[学习计划核对与执行修正](docs/learning-plan-review.md)：对照 Notion 的整体目标、原始资料和视频顺序，明确已学基础、改编边界与验收标准。进度见 [Notion 总计划](https://app.notion.com/p/340eaea31414819197bde537d339d0fc)；[2.1 收尾回顾](docs/section-2.1-review.md)分别记录内容覆盖、工程验证与独立掌握。
 
 ## 新机器上的运行准备
 
@@ -40,15 +40,61 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充，不新增主线进度。主课程已学至阶段二 · 单元 2 · 2.1 · 知识块 5 的顺序数据加载器，下一块为权重共享。
+这部分作为知识补充，不新增主线进度。主课程当前进入阶段二 · 单元 2 · 2.2 · 知识块 9。
 
-## 当前进度：阶段二 · 单元 2 · 2.1 · 知识块 5 已学习、初步理解
+## 当前进度：阶段二 · 单元 2 · 2.2 · 知识块 9 初步理解
 
-阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完，内容与计划实验符合原规划；单元 2「复现 GPT-2」正在学习 2.1，完整段落为 0/5；单元 3—7 尚未开始。阶段二完整段落计数仍为 **4/32**。依据、补充内容与掌握程度的区别见[阶段二已学内容核对](docs/learning-plan-review.md)。
+阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**（2026-10-19 用户确认），现在学习 2.2；单元 3—7 尚未开始。学习完成进度为单元 2 **1/5**、阶段二 **5/32**。自检题保留作后续复习。依据、补充内容与掌握程度的区别见[阶段二已学内容核对](docs/learning-plan-review.md)。
 
 已学习配置与权重检查、独立模型与前向对照，以及 `forward` 的逐层调用。复习见 [阶段笔记：检查点、独立实现与前向对照](docs/lesson01-02-notes.md)，包含本次追问、调用图和已有实验结果；掌握程度保留“理解中”。
 
-已完成文本生成流程、张量形状、运行日志与修改提示词的讲解及试跑；2026-10-18 用户反馈“大概了解”，掌握程度记录为初步理解，独立自检待完成。知识块 4 的 Tiny Shakespeare 单批次过拟合已实跑并走读，作为阶段一基础的复习衔接。知识块 5 已讨论顺序取批、x/y 错位、全位置预测、因果遮罩、batch 维和末尾回绕；用户反馈“这块我大概懂了”，记录为已学习、初步理解，代码、讲义与流程图已归档。下一块 6「权重共享」待开始，再学习 7「初始化」，完成 2.1 后进入 2.2 提速。每块使用新文件，之前的代码与讲义作为对应内容的配套保留。
+文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2026-10-19 用户对初始化反馈“大概清楚了”，并确认 2.1 整节学习完成；知识块 5—7 保留初步理解的记录，自检题用于复习。2.2 的知识块 8 已讨论设备、预热、吞吐率与 TF32，用户反馈初步理解；知识块 9 的 BF16、转换开销、反向与 FP32 更新也已讨论，用户反馈“大概理解”。下一块为 torch.compile，尚未开始。每块使用新文件，之前的代码与讲义保留。Notion 最近已同步的里程碑是 2.1 完成；本次细分知识块的位置先记录在本地。
+
+新增 [GPU 训练提速专题笔记](docs/gpu-training-notes.md) · [Notion 归档](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7)：汇总设备/MPS、计时与吞吐、TF32、BF16 前向到更新的精度变化，包含讨论中的数值例子、完整流程图、代码定位及复习自检。新笔记已归档；Notion 总计划本轮未修改。
+
+## 阶段二 · 单元 2 · 2.2 · 知识块 9：BF16 自动混合精度
+
+新配套：[train_mixed_precision.py](train_mixed_precision.py) / [lesson09.md](lesson09.md)。对应[视频约 1:39:28—1:47:34](https://www.youtube.com/watch?v=l8pRSuU81PU&t=5968s)及作者 [177e4cd 历史提交](https://github.com/karpathy/build-nanogpt/commit/177e4cd5b4cc05df4bb637ed1a9e55911d6f1e2c)：前向与交叉熵进入 `autocast`，部分运算和输出使用 BF16，参数仍为 FP32，反向与更新在区域外执行。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_mixed_precision.py --device cpu --probe-only --batch-size 1 --seq-len 8
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_mixed_precision.py --device cpu --precision bf16 --batch-size 1 --seq-len 8 --warmup-steps 1 --steps 2
+```
+
+第一条对同一组参数/输入比较 FP32 和 BF16，不更新；第二条运行完整训练链路。29 项测试通过；完整 124M 的 [dtype 对照](artifacts/lesson09-cpu-dtypes.json)与 [3 次 CPU 更新](artifacts/lesson09-cpu-bf16-smoke.json)已归档，参数、参数梯度、loss 和 AdamW 的 m/v 保持 FP32，logits 为 BF16。CPU 验证使用 B=1/T=8；GPU 相同条件的性能对照命令见讲义，尚未实跑，不能把本机结果当作 GPU 提速证据。
+
+## 阶段二 · 单元 2 · 2.2 · 知识块 8：GPU 执行、训练计时与 TF32
+
+新配套：[benchmark_training.py](benchmark_training.py) / [lesson08.md](lesson08.md)。对应[视频约 1:22—1:39](https://www.youtube.com/watch?v=l8pRSuU81PU&t=4938s)及作者 [5265b20 历史提交](https://github.com/karpathy/build-nanogpt/commit/5265b2042aaaa84943313002671b8b3ca7749b06)：先识别硬件与精度，再正确计时，用训练 Token/s 衡量速度，并准备 CUDA TF32 对照。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/benchmark_training.py --inspect-only
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/benchmark_training.py --device cpu
+```
+
+默认完整 124M、B=4/T=32、2 步预热 + 5 步测量。本块当时的 25 项测试通过，[本机 CPU 报告](artifacts/lesson08-cpu-baseline.json)已归档。CUDA/MPS 在当前环境不可用；GPU 上的 highest/high 对照命令和记录规范见讲义，GPU 提速实验尚待实跑。用户反馈初步理解后，继续上方知识块 9 的 BF16。
+
+## 阶段二 · 单元 2 · 2.1 · 知识块 7：参数初始化
+
+新增 [train_initialization.py](train_initialization.py) 与 [lesson07.md](lesson07.md)，沿用上一块的共享关系、顺序加载器和随机训练起点。对应[视频约 1:13:03—1:22:11](https://www.youtube.com/watch?v=l8pRSuU81PU&t=4383s)及作者 [9ac321e 历史提交](https://github.com/karpathy/build-nanogpt/commit/9ac321e299f06c0414bd577fd2776f4562283a8a)：普通权重标准差 0.02，Linear 偏置为零，LayerNorm 保留 gamma=1/beta=0；两类残差输出投影标准差为 `0.02/sqrt(2L)`。初始化只在训练开始前执行。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_initialization.py --inspect-only
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_initialization.py
+```
+
+其他机器使用项目 `.venv/bin/python`。第一条显示初值统计与视频的随机累加实验；第二条训练 50 步。本块当时的 22 项行为测试通过，完整模型的 50 步记录在[训练报告](artifacts/lesson07-initialization-report.json)，历史小模型数值对照在[源码对齐报告](artifacts/lesson07-course-alignment.json)。用户已反馈初步理解，并确认所属的 2.1 整节学习完成；自检保留作复习。
+
+## 阶段二 · 单元 2 · 2.1 · 知识块 6：权重共享
+
+新文件 [train_weight_tying.py](train_weight_tying.py) 与 [lesson06.md](lesson06.md)。对照[视频约 1:05:55—1:13:03](https://www.youtube.com/watch?v=l8pRSuU81PU&t=3955s)及作者 [ec39245 历史提交](https://github.com/karpathy/build-nanogpt/commit/ec39245425b2c82a38c0787f27e5f9d7082c973b)，保留原输出表，让 `wte.weight` 引用 `lm_head.weight`。重点是同一参数的两种用途、参数数量减少，以及两条梯度路径共同更新一次。
+
+```bash
+.venv/bin/python train_weight_tying.py --inspect-only
+.venv/bin/python train_weight_tying.py
+```
+
+当前 Mac 已授权复用原解释器，可将 `.venv/bin/python` 替换为 `/Users/guqun/micrograd/venv/bin/python`。第一条只看共享关系与参数量；第二条从随机初值开始，用上一块的顺序数据执行 50 次更新。全模型参数从 163,037,184 降为 124,439,808，减少 38,597,376。19 项行为测试通过，完整 50 步已执行，见[实跑报告](artifacts/lesson06-weight-tying-report.json)。本块不加载预训练权重，专用初始化仍留给下一块。
 
 ## 阶段二 · 单元 2 · 2.1 · 知识块 5：顺序数据加载器
 
@@ -110,7 +156,7 @@
 .venv/bin/python compare_forward.py
 ```
 
-本块验证前向计算，文本生成已在第三块初步学习，训练循环与单批次过拟合已在第四块走读。第五块数据加载已学习、初步理解；后续还有权重共享和初始化专题，2.1 整节仍在进行中。
+本块验证前向计算；后续的生成、单批次训练、数据加载、共享和初始化均已逐块学习。2.1 已完成，当前进入 2.2 提速。
 
 ## 阶段二 · 单元 2 · 2.1 · 知识块 1：配置与权重
 
@@ -125,7 +171,7 @@
 
 ## 在 VS Code 运行
 
-在 VS Code 中打开本仓库文件夹，选择仓库内的解释器：
+在 VS Code 中打开本仓库文件夹。本机复用已有课程环境，请通过 **Python: Select Interpreter** 选择 `/Users/guqun/micrograd/venv/bin/python`。其他机器按前面的准备步骤创建项目环境后，选择仓库内的解释器：
 
 ```text
 .venv/bin/python

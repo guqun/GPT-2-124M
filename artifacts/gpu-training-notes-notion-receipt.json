@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-19",
+  "notes": {
+    "id": "3feeaea3-1414-81af-8e6f-d509bee27fc7",
+    "url": "https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7",
+    "title": "GPT-2 训练提速：GPU 执行、性能测量、TF32 与 BF16",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/gpu-training-notes.md",
+    "image": "docs/diagrams/gpt2-bf16-precision-flow.png"
+  },
+  "learning": {
+    "current": "阶段二 · 单元 2 · 2.2 · 知识块 9：BF16 已讨论、初步理解",
+    "mastery": "理解中",
+    "next": "torch.compile，尚未开始",
+    "gpu_performance_runs": "待完成",
+    "unit_2_completed": 1,
+    "unit_2_total": 5,
+    "stage_2_completed": 5,
+    "stage_2_total": 32
+  },
+  "validation": {
+    "sections": 15,
+    "tables": 11,
+    "image_attached": true,
+    "self_check_answer_toggle": true,
+    "final_section_present": true,
+    "gpu_pending_explicit": true,
+    "progress_counts_verified": true,
+    "local_link_check": true,
+    "report_numbers_checked": true
+  },
+  "notion_plan_modified": false,
+  "full_training_rerun": false,
+  "source_archive_uploaded": false,
+  "git_committed": false
+}

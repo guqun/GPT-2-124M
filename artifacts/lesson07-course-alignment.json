@@ -1,0 +1,42 @@
+{
+  "course_commit": "9ac321e299f06c0414bd577fd2776f4562283a8a",
+  "source_sha256": "67ba43909203beeb88f5204f55e2fc1b4a5c96bec948394578718f2479679b76",
+  "environment": {
+    "torch": "2.2.2",
+    "device": "cpu",
+    "dtype": "float32"
+  },
+  "config": {
+    "vocab_size": 31,
+    "seq_len": 4,
+    "batch_size": 2,
+    "n_positions": 8,
+    "n_layer": 2,
+    "n_head": 2,
+    "n_embd": 128,
+    "head_dim": 64
+  },
+  "cases": [
+    {
+      "seed": 42,
+      "initial_parameters_exact": true,
+      "logits_exact": true,
+      "loss_exact": true,
+      "gradients_exact": true,
+      "one_adamw_update_exact": true,
+      "initial_loss": 3.3680062294006348,
+      "unique_parameter_tensors": 28
+    },
+    {
+      "seed": 1337,
+      "initial_parameters_exact": true,
+      "logits_exact": true,
+      "loss_exact": true,
+      "gradients_exact": true,
+      "one_adamw_update_exact": true,
+      "initial_loss": 3.4196698665618896,
+      "unique_parameter_tensors": 28
+    }
+  ],
+  "scope": "Small configurations, identical IDs, head dimension 64. Not a claim of matching a GPU video training trajectory."
+}

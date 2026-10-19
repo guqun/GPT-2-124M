@@ -1,0 +1,126 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.2 · 知识块 8",
+  "course_commit": "5265b2042aaaa84943313002671b8b3ca7749b06",
+  "environment": {
+    "python": "3.9.6",
+    "torch": "2.2.2",
+    "system": "Darwin",
+    "machine": "x86_64",
+    "device": "cpu",
+    "cuda_available": false,
+    "mps_available": false,
+    "threads": 4,
+    "cuda_runtime": null,
+    "matmul_precision": "highest"
+  },
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 1024,
+    "n_embd": 768,
+    "n_layer": 12,
+    "n_head": 12,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "seed": 42,
+  "parameter_dtype": "torch.float32",
+  "parameter_count": 124439808,
+  "sharing": {
+    "same_parameter": true,
+    "optimizer_occurrences": 1
+  },
+  "data": {
+    "file": "/Users/guqun/micrograd/gpt2_pretrain_lab/data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "encoded_tokens": 338025
+  },
+  "batch_size": 4,
+  "seq_len": 32,
+  "warmup_steps": 2,
+  "measured_steps": 5,
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "weight_decay": 0.01,
+    "eps": 1e-08,
+    "foreach": null
+  },
+  "steps": [
+    {
+      "update": 1,
+      "phase": "warmup",
+      "batch_start": 0,
+      "loss_before_update": 11.008783340454102,
+      "seconds": 1.3801924850000002,
+      "tokens_per_second": 92.74068754257851
+    },
+    {
+      "update": 2,
+      "phase": "warmup",
+      "batch_start": 128,
+      "loss_before_update": 9.924227714538574,
+      "seconds": 0.9159249579999997,
+      "tokens_per_second": 139.74944004091657
+    },
+    {
+      "update": 3,
+      "phase": "measure",
+      "batch_start": 256,
+      "loss_before_update": 8.87795639038086,
+      "seconds": 0.770772430000001,
+      "tokens_per_second": 166.06717497666574
+    },
+    {
+      "update": 4,
+      "phase": "measure",
+      "batch_start": 384,
+      "loss_before_update": 9.184954643249512,
+      "seconds": 0.768974012000001,
+      "tokens_per_second": 166.45556026931092
+    },
+    {
+      "update": 5,
+      "phase": "measure",
+      "batch_start": 512,
+      "loss_before_update": 8.67036247253418,
+      "seconds": 0.7750221719999999,
+      "tokens_per_second": 165.15656535307485
+    },
+    {
+      "update": 6,
+      "phase": "measure",
+      "batch_start": 640,
+      "loss_before_update": 8.403951644897461,
+      "seconds": 0.8065863419999992,
+      "tokens_per_second": 158.69348801842236
+    },
+    {
+      "update": 7,
+      "phase": "measure",
+      "batch_start": 768,
+      "loss_before_update": 9.085041999816895,
+      "seconds": 0.809607519,
+      "tokens_per_second": 158.1012984638548
+    }
+  ],
+  "summary": {
+    "measured_steps": 5,
+    "measured_tokens": 640,
+    "total_measured_seconds": 3.930962475000001,
+    "mean_step_ms": 786.1924950000002,
+    "median_step_ms": 775.022172,
+    "tokens_per_second": 162.80999985887675
+  },
+  "timing_scope": "batch fetch + device transfer + zero_grad + forward/loss + backward + step + synchronize; excludes setup/logging",
+  "peak_cuda_allocated_bytes": null,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "verification_scope": "This run only; CPU timing is not evidence of CUDA/TF32 speedup. Changing-batch loss is not validation loss."
+}

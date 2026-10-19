@@ -1,0 +1,142 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.2 · 知识块 9",
+  "course_commit": "177e4cd5b4cc05df4bb637ed1a9e55911d6f1e2c",
+  "mode": "training",
+  "environment": {
+    "python": "3.9.6",
+    "torch": "2.2.2",
+    "device": "cpu",
+    "machine": "x86_64",
+    "system": "Darwin",
+    "cuda_available": false,
+    "mps_available": false,
+    "cuda_runtime": null,
+    "threads": 4,
+    "matmul_precision": "highest"
+  },
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 1024,
+    "n_embd": 768,
+    "n_layer": 12,
+    "n_head": 12,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "seed": 42,
+  "parameter_count": 124439808,
+  "parameter_dtype": "torch.float32",
+  "shared_parameter": true,
+  "data": {
+    "file": "/Users/guqun/micrograd/gpt2_pretrain_lab/data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "encoded_tokens": 338025
+  },
+  "batch_size": 1,
+  "seq_len": 8,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "verification_scope": "This run only. CPU results do not measure CUDA speedup. Changing-batch training loss is not validation quality.",
+  "precision": "bf16",
+  "warmup_steps": 1,
+  "measured_steps": 2,
+  "steps": [
+    {
+      "update": 1,
+      "phase": "warmup",
+      "batch_start": 0,
+      "loss_before_update": 10.526216506958008,
+      "seconds": 4.845606790000001,
+      "tokens_per_second": 1.6509800210181724,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 804112
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 2,
+      "phase": "measure",
+      "batch_start": 8,
+      "loss_before_update": 10.676401138305664,
+      "seconds": 3.8696463249999997,
+      "tokens_per_second": 2.067372397398618,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 804112
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 3,
+      "phase": "measure",
+      "batch_start": 16,
+      "loss_before_update": 7.261480808258057,
+      "seconds": 3.8572164749999995,
+      "tokens_per_second": 2.0740344888213724,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.bfloat16",
+        "element_bytes": 2,
+        "logical_bytes": 804112
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    }
+  ],
+  "summary": {
+    "measured_steps": 2,
+    "measured_tokens": 16,
+    "total_measured_seconds": 7.726862799999999,
+    "mean_step_ms": 3863.4313999999995,
+    "median_step_ms": 3863.4313999999995,
+    "tokens_per_second": 2.0706980846094485
+  },
+  "parameter_updates": 3,
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "weight_decay": 0.01,
+    "eps": 1e-08
+  },
+  "grad_scaler_used": false,
+  "peak_cuda_allocated_bytes": null,
+  "timing_scope": "batch fetch + device transfer + zero_grad + forward/loss + backward + step + synchronize; excludes setup, probes, logging and reports"
+}

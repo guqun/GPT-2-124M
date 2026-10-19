@@ -10,18 +10,64 @@ Repository: [guqun/GPT-2-124M](https://github.com/guqun/GPT-2-124M).
 
 ## Current progress
 
-**Progress: Stage 2 (modern LLMs, from tokenization to deployment) → Unit 2 (reproducing GPT-2) → Section 2.1 → Learning block 5 (sequential data loading) covered, with a basic understanding. Next: block 6 (weight tying), not yet started.** In this numbering, `2.1` means section 1 of unit 2; `lesson05.md` is learning block 5 within that section.
+**Progress: Stage 2 → Unit 2 (reproducing GPT-2) → Section 2.2 → Learning block 9 (BF16 automatic mixed precision), discussed with a reported basic understanding on 2026-10-19.** Blocks are numbered consecutively across this project: block 8 is the first block in section 2.2. The learner reports a basic understanding of devices, timing, TF32, and BF16; GPU performance experiments remain pending. The learner confirmed completion of section 2.1 on 2026-10-19. Self-checks remain available for review.
 
-Stage 1 covers the previously completed neural-network and Transformer foundations. Within Stage 2, Unit 1 (tokenization) has covered all four planned sections and delivered its planned experiments; Unit 2 remains at 0/5 complete sections with section 2.1 in progress; Units 3–7 have not started. Stage 2 remains at **4/32 complete planned sections**. Independent mastery is recorded separately from content coverage and verified code.
+Stage 1 covers the previously completed neural-network and Transformer foundations. Within Stage 2, Unit 1 (tokenization) has covered all four planned sections and delivered its planned experiments; Unit 2 has completed section 2.1 and is studying 2.2, bringing its progress to **1/5 sections**. Units 3–7 have not started. Stage 2 progress is **5/32 completed planned sections**. Independent mastery is recorded separately from content coverage and verified code.
 
 The first two learning blocks of Stage 2 → Unit 2 → Section 2.1 have been covered and their experiments verified:
 
 1. **Inspect a pretrained checkpoint:** distinguish configuration, model code, trained weights, and tokenizer files; inspect tensor names, shapes, parameter counts, and weight sharing.
 2. **Implement and verify the forward pass:** build GPT-2 with PyTorch, import the same pretrained weights used by the reference model, compare intermediate outputs, and check causal masking.
 
-The third block, text generation with our own model, has been introduced and run. On 2026-10-18, the learner reported a basic understanding; independent self-checks remain pending. The fourth block's Tiny Shakespeare single-batch experiment has been verified and discussed as a review of Stage 1 foundations. Block 5 has now covered sequential sampling, shifted targets, predictions at every position, causal masking, the batch dimension, and cursor wraparound. The learner reported a basic understanding; its code, lesson, and flow diagram are archived. Weight tying is next and has not started; initialization follows before section 2.2. Each block has a separate script and lesson, preserving earlier materials. Forward comparison and generation use pretrained weights; these training experiments start with random weights. Full GPT-2 pretraining remains ahead.
+The third block, text generation with our own model, has been introduced and run. On 2026-10-18, the learner reported a basic understanding; self-checks remain available for review. The fourth block's Tiny Shakespeare single-batch experiment has been verified and discussed as a review of Stage 1 foundations. Block 5 has now covered sequential sampling, shifted targets, predictions at every position, causal masking, the batch dimension, and cursor wraparound. The learner reported a basic understanding; its code, lesson, and flow diagram are archived. The learner now reports a basic understanding of block 6 (weight tying); their independent training run is not confirmed. The learner reports a basic understanding of block 7 (parameter initialization). After reviewing the seven blocks and their experiments, the learner confirmed section 2.1 complete and moved to 2.2. Self-checks are review material rather than an additional completion requirement. Each block has a separate script and lesson, preserving earlier materials. Forward comparison and generation use pretrained weights; these training experiments start with random weights. Full GPT-2 pretraining remains ahead.
 
-The [learning-plan review](docs/learning-plan-review.md) distinguishes original course content, the agreed Notion roadmap, local adaptations, and evidence of learner progress. The confirmed revisions and latest progress were synchronized to the [Notion plan](https://app.notion.com/p/340eaea31414819197bde537d339d0fc) and verified on 2026-10-18. Block 5 is covered with a basic understanding; section 2.1 remains in progress.
+The [learning-plan review](docs/learning-plan-review.md) distinguishes original course content, the agreed Notion roadmap, local adaptations, and evidence of learner progress. The latest milestone synchronized to the [Notion plan](https://app.notion.com/p/340eaea31414819197bde537d339d0fc) is completion of section 2.1; block 9 is recorded locally and in the new review note, while the overall plan has not been updated in this pass. The [section 2.1 review](docs/section-2.1-review.md) separates course coverage, verified experiments, and independent mastery.
+
+The [GPU training review notes](docs/gpu-training-notes.md) (Chinese) collect the discussion of devices, MPS, measurement, TF32, BF16 casts, gradients, and FP32 parameter updates, with the full precision-flow diagram and worked examples. A [Notion copy with the image](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7) is archived; the overall Notion plan was not changed in this documentation pass. The next topic is `torch.compile`; it has not started.
+
+## Learning block 9: BF16 automatic mixed precision
+
+[train_mixed_precision.py](train_mixed_precision.py) and [lesson09.md](lesson09.md) follow [the video around 1:39:28–1:47:34](https://www.youtube.com/watch?v=l8pRSuU81PU&t=5968s) and [historical commit 177e4cd](https://github.com/karpathy/build-nanogpt/commit/177e4cd5b4cc05df4bb637ed1a9e55911d6f1e2c). Forward computation and cross-entropy run inside `autocast`; backward and AdamW run outside it. Parameters retain FP32 storage while eligible operations and their outputs use BF16.
+
+```bash
+.venv/bin/python train_mixed_precision.py --device cpu --probe-only --batch-size 1 --seq-len 8
+.venv/bin/python train_mixed_precision.py --device cpu --precision bf16 --batch-size 1 --seq-len 8 --warmup-steps 1 --steps 2
+```
+
+The current Mac uses `/Users/guqun/micrograd/venv/bin/python`. The first command observes both precisions on identical parameters and inputs without updates. The second runs three training updates. All 29 tests pass; full-model [dtype observations](artifacts/lesson09-cpu-dtypes.json) and [CPU training results](artifacts/lesson09-cpu-bf16-smoke.json) are archived. Parameters, parameter gradients, loss, and AdamW moments remain FP32; logits use BF16. These B=1/T=8 CPU checks establish behavior, not GPU speedup. Matched CUDA performance commands are included in the lesson; GPU measurements remain pending.
+
+## Learning block 8: GPU execution, timing, and TF32
+
+[benchmark_training.py](benchmark_training.py) and [lesson08.md](lesson08.md) begin section 2.2, following [the video around 1:22–1:39](https://www.youtube.com/watch?v=l8pRSuU81PU&t=4938s) and [historical commit 5265b20](https://github.com/karpathy/build-nanogpt/commit/5265b2042aaaa84943313002671b8b3ca7749b06). The script checks devices, synchronizes accelerator work before reading elapsed time, excludes warmup from summary statistics, and reports total training tokens divided by total measured time.
+
+```bash
+.venv/bin/python benchmark_training.py --inspect-only
+.venv/bin/python benchmark_training.py --device cpu
+```
+
+The current Mac uses `/Users/guqun/micrograd/venv/bin/python`. Defaults are the full 124M model, B=4/T=32, two warmup updates and five measured updates. The 25 tests available at this block passed; [the CPU report](artifacts/lesson08-cpu-baseline.json) is archived. The lesson includes CUDA `highest`/`high` comparison commands. This environment has neither CUDA nor usable MPS, so actual GPU/TF32 speedup remains unmeasured. The learner reports a basic understanding of both this block and block 9 above; GPU experiments remain pending.
+
+## Learning block 7: parameter initialization
+
+[train_initialization.py](train_initialization.py) and [lesson07.md](lesson07.md) follow [the video around 1:13:03](https://www.youtube.com/watch?v=l8pRSuU81PU&t=4383s) and [historical commit 9ac321e](https://github.com/karpathy/build-nanogpt/commit/9ac321e299f06c0414bd577fd2776f4562283a8a). Shared weights are retained. Ordinary weights use a normal distribution with std 0.02, Linear biases start at zero, and residual output projections use std `0.02/sqrt(2L)`. LayerNorm retains its default scale and offset. Initialization runs before training, not before each batch.
+
+```bash
+.venv/bin/python train_initialization.py --inspect-only
+.venv/bin/python train_initialization.py
+```
+
+The current Mac uses `/Users/guqun/micrograd/venv/bin/python`. Inspection includes actual initial statistics and the video's independent residual-sum example. All 22 behavior tests pass; the full 50-step CPU/FP32 run is in [the report](artifacts/lesson07-initialization-report.json). [Historical-source comparisons](artifacts/lesson07-course-alignment.json) match initial parameters, logits/loss, gradients, and one AdamW update for two seeds and a small configuration with head dimension 64. This does not assert parity with the video's full GPU training trajectory. The learner reports a basic understanding and has confirmed section 2.1 complete; self-checks remain available for review.
+
+## Learning block 6: weight tying
+
+[train_weight_tying.py](train_weight_tying.py) and [lesson06.md](lesson06.md) follow [the video around 1:05:55](https://www.youtube.com/watch?v=l8pRSuU81PU&t=3955s) and [historical commit ec39245](https://github.com/karpathy/build-nanogpt/commit/ec39245425b2c82a38c0787f27e5f9d7082c973b). The script assigns the input embedding parameter to the existing output parameter, preserving the author's initialization direction. It starts a fresh random model, reuses block 5's sequential loader, and introduces no dedicated GPT-2 initialization yet.
+
+```bash
+.venv/bin/python train_weight_tying.py --inspect-only
+.venv/bin/python train_weight_tying.py
+```
+
+The current Mac uses the authorized existing interpreter `/Users/guqun/micrograd/venv/bin/python` in place of `.venv/bin/python`. Inspection reports 163,037,184 → 124,439,808 unique parameters. All 19 behavior tests pass, including summed input/output gradients and a single optimizer update of the shared parameter. The full 50-step run is recorded in [the report](artifacts/lesson06-weight-tying-report.json). Losses use changing training batches and do not establish a held-out benefit from tying.
 
 ## Project guide
 
@@ -38,6 +84,12 @@ The [learning-plan review](docs/learning-plan-review.md) distinguishes original 
 | [lesson04.md](lesson04.md) | Source mapping, training data and expectations, execution order, shapes, flow diagram, and measured results, in Chinese. |
 | [train_dataloader.py](train_dataloader.py) | Sequential full-corpus batches: persistent cursor, shifted targets, wraparound, and a data-only preview. |
 | [lesson05.md](lesson05.md) | Comparison with Stage 1 random sampling and block 4 fixed data, source mapping, and measured checks, in Chinese. |
+| [train_weight_tying.py](train_weight_tying.py) | Input/output parameter sharing, inspection, and sequential training. |
+| [lesson06.md](lesson06.md) | Shared lookup/scoring, parameter savings, and gradient accumulation, in Chinese. |
+| [train_initialization.py](train_initialization.py) | Course initialization, residual-sum demonstration, and sequential training. |
+| [lesson07.md](lesson07.md) | Initialization timing, distributions, residual scaling, source boundaries, and measured checks, in Chinese. |
+| [benchmark_training.py](benchmark_training.py) / [lesson08.md](lesson08.md) | Device selection, synchronized timing, throughput, and a CUDA TF32 comparison. |
+| [train_mixed_precision.py](train_mixed_precision.py) / [lesson09.md](lesson09.md) | BF16 autocast, per-layer dtype observations, and matched training comparisons with FP32 parameters. |
 | [Data-loader flow map](docs/diagrams/gpt2-dataloader-flow.md) | Saved PNG/SVG diagram with M1–M4 / L1–L4 source locations, tensor shapes, cursor wraparound, and the training loop. |
 | [data/tiny_shakespeare/](data/tiny_shakespeare/README.md) | Original course text, pinned source, and checksum. |
 | [docs/lesson01-02-notes.md](docs/lesson01-02-notes.md) | Consolidated learning notes, questions, explanations, and self-checks, in Chinese. |
