@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-23",
+  "notes": {
+    "id": "402eaea3-1414-814c-80ba-d0fa8f02bdd7",
+    "url": "https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7",
+    "title": "GPT-2 多卡训练：DDP、平均损失与梯度同步",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/ddp-batch-gradient-notes.md",
+    "published_markdown": "artifacts/ddp-batch-gradient-notion-content.md"
+  },
+  "scope": {
+    "current": "阶段二 · 单元 2 · 2.4 的 DDP 原理讨论",
+    "mastery": "理解中",
+    "section_2_4_complete": false,
+    "notion_plan_modified": false,
+    "completion_counts_changed": false,
+    "training_code_changed": false,
+    "cuda_or_nccl_run": false
+  },
+  "verification": {
+    "sections": 14,
+    "equations": 23,
+    "tables": 9,
+    "toggles": 6,
+    "images": 1,
+    "unknown": 0,
+    "truncated": false,
+    "readback_verified": true,
+    "equations_match_local": true,
+    "local_links_verified": true,
+    "full_batch_matrix_matches_existing_report": true,
+    "numerical_report": "artifacts/ddp-lm-head-diagram-check.json",
+    "prior_adamw_page_linked": true,
+    "prior_adamw_equations_preserved": true,
+    "prior_adamw_images_preserved": true
+  },
+  "images": {
+    "notion_choice": "用户确认：有一张全图就可以",
+    "uploaded": [
+      {
+        "local": "docs/diagrams/gpt2-ddp-lm-head-example.png",
+        "file_upload_id": "402eaea3-1414-81a1-9650-00b2d39432bc",
+        "filename": "gpt2-ddp-lm-head-example.png",
+        "content_type": "image/png",
+        "content_length": 1385028,
+        "status": "uploaded",
+        "markdown_source": "file-upload://402eaea3-1414-81a1-9650-00b2d39432bc",
+        "suggested_markdown": "<image source=\"file-upload://402eaea3-1414-81a1-9650-00b2d39432bc\" />"
+      }
+    ],
+    "local_only": [
+      "docs/diagrams/gpt2-ddp-allreduce-flow.png",
+      "docs/diagrams/gpt2-ddp-backward-gpu-labels.png"
+    ]
+  },
+  "prior_note": {
+    "id": "400eaea3-1414-81a3-9db3-f37c52896a35",
+    "url": "https://app.notion.com/p/400eaea3141481a39db3f37c52896a35"
+  },
+  "git_committed": false
+}

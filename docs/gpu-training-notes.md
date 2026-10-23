@@ -2,7 +2,9 @@
 
 > 本篇整理阶段二 · 单元 2 · 2.2 已学的知识块 8、9。核心问题是：同一套训练计算放在哪里执行，怎样测量速度，以及怎样在部分计算使用低精度时，继续更新 FP32 参数。
 
-归档日期：2026-10-19。设备、计时、TF32 和 BF16 已讨论，当前反馈为“大概理解”；GPU 性能对照仍待实跑。2.2 后续的 `torch.compile`、FlashAttention 和词表尺寸调整尚未学习，整节继续进行中。
+原始归档日期：2026-10-19。设备、计时、TF32 和 BF16 已讨论，归档时反馈为“大概理解”；GPU 性能对照仍待实跑。2.2 后续的 `torch.compile`、FlashAttention 和词表尺寸调整在当日尚未学习，整节继续进行中。
+
+> **后续更新（2026-10-20）**：compile、FlashAttention 与词表对齐已讨论并整理为[训练提速（二）](gpu-training-optimization-notes.md)（[Notion](https://app.notion.com/p/3ffeaea3141481f9bd20ca4745fa8b80)）。2.2 理论主线已覆盖，部分工程与 CUDA 对照待补，下一节为 2.3。普通终端已验证本机 MPS/FP32/eager 训练；下文早期隔离环境的检测结果仅保留为当时记录。
 
 [Notion 归档版本](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7)，已上传本篇精度流程图。
 

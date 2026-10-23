@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-21",
+  "torch_version": "2.2.2",
+  "device": "cpu",
+  "dtype": "float64",
+  "clipping": [
+    {
+      "input": [
+        3.0,
+        4.0
+      ],
+      "returned_norm": 5.0,
+      "scale": 0.199999960000008,
+      "output": [
+        0.599999880000024,
+        0.799999840000032
+      ],
+      "output_norm": 0.99999980000004,
+      "parameters_unchanged": true
+    },
+    {
+      "input": [
+        0.3,
+        0.4
+      ],
+      "returned_norm": 0.5,
+      "scale": 1.0,
+      "output": [
+        0.3,
+        0.4
+      ],
+      "output_norm": 0.5,
+      "parameters_unchanged": true
+    },
+    {
+      "input": [
+        0.0,
+        0.0
+      ],
+      "returned_norm": 0.0,
+      "scale": 1.0,
+      "output": [
+        0.0,
+        0.0
+      ],
+      "output_norm": 0.0,
+      "parameters_unchanged": true
+    }
+  ],
+  "scheduler": {
+    "source": "https://github.com/karpathy/build-nanogpt/commit/90e5d15",
+    "warmup_steps": 10,
+    "decay_end_step": 50,
+    "max_lr": 0.0006,
+    "min_lr": 6e-05,
+    "key_steps": [
+      {
+        "step": 0,
+        "update_number": 1,
+        "lr": 5.9999999999999995e-05
+      },
+      {
+        "step": 1,
+        "update_number": 2,
+        "lr": 0.00011999999999999999
+      },
+      {
+        "step": 4,
+        "update_number": 5,
+        "lr": 0.0003
+      },
+      {
+        "step": 9,
+        "update_number": 10,
+        "lr": 0.0006
+      },
+      {
+        "step": 10,
+        "update_number": 11,
+        "lr": 0.0006
+      },
+      {
+        "step": 30,
+        "update_number": 31,
+        "lr": 0.00032999999999999994
+      },
+      {
+        "step": 49,
+        "update_number": 50,
+        "lr": 6.0832319892055454e-05
+      },
+      {
+        "step": 50,
+        "update_number": 51,
+        "lr": 6e-05
+      },
+      {
+        "step": 60,
+        "update_number": 61,
+        "lr": 6e-05
+      }
+    ],
+    "actual_loop": {
+      "range": "range(50)",
+      "last_step": 49,
+      "last_lr": 6.0832319892055454e-05,
+      "hold_phase_executed": false
+    },
+    "mathematical_curve_values": [
+      {
+        "progress": 0,
+        "lr": 0.0006
+      },
+      {
+        "progress": 0.5,
+        "lr": 0.00032999999999999994
+      },
+      {
+        "progress": 1,
+        "lr": 6e-05
+      }
+    ]
+  },
+  "full_training_rerun": false
+}

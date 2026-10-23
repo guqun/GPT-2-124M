@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-21",
+  "scope": "Scalar teaching examples; not a GPT training or performance experiment.",
+  "torch_version": "2.2.2",
+  "dtype": "float64",
+  "device": "cpu",
+  "defaults": {
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "amsgrad": false,
+    "foreach": null,
+    "maximize": false,
+    "capturable": false,
+    "differentiable": false,
+    "fused": null
+  },
+  "hyperparameters": {
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "lr": 0.01,
+    "weight_decay": 0.1,
+    "epsilon": 1e-08
+  },
+  "two_updates": [
+    {
+      "t": 1,
+      "g": 0.2,
+      "m": 0.019999999999999997,
+      "v": 0.002000000000000002,
+      "m_hat": 0.2,
+      "v_hat": 0.04000000000000001,
+      "parameter": 0.9890000004999999,
+      "torch_parameter": 0.9890000004999999
+    },
+    {
+      "t": 2,
+      "g": -0.1,
+      "m": 0.008,
+      "v": 0.0024000000000000024,
+      "m_hat": 0.04210526315789475,
+      "v_hat": 0.024615384615384633,
+      "parameter": 0.9853273061897143,
+      "torch_parameter": 0.9853273061897143
+    }
+  ],
+  "constant_gradient": [
+    {
+      "t": 1,
+      "m": 0.019999999999999997,
+      "m_hat": 0.2,
+      "v": 0.002000000000000002,
+      "v_hat": 0.04000000000000001
+    },
+    {
+      "t": 2,
+      "m": 0.03799999999999999,
+      "m_hat": 0.2,
+      "v": 0.003900000000000004,
+      "v_hat": 0.04000000000000003
+    },
+    {
+      "t": 3,
+      "m": 0.05419999999999999,
+      "m_hat": 0.20000000000000004,
+      "v": 0.005705000000000006,
+      "v_hat": 0.04000000000000001
+    }
+  ],
+  "expectation_example": {
+    "gradient_values": [
+      0.1,
+      0.3
+    ],
+    "probabilities": [
+      0.5,
+      0.5
+    ],
+    "mu": 0.2,
+    "second_raw_moment": 0.05,
+    "mean_squared": 0.04,
+    "enumeration": [
+      {
+        "t": 1,
+        "sequences": 2,
+        "expected_m": 0.019999999999999997,
+        "expected_m_hat": 0.2,
+        "expected_v": 0.0025000000000000022,
+        "expected_v_hat": 0.05
+      },
+      {
+        "t": 2,
+        "sequences": 4,
+        "expected_m": 0.03799999999999999,
+        "expected_m_hat": 0.2,
+        "expected_v": 0.004875000000000004,
+        "expected_v_hat": 0.05000000000000003
+      },
+      {
+        "t": 3,
+        "sequences": 8,
+        "expected_m": 0.054199999999999984,
+        "expected_m_hat": 0.2,
+        "expected_v": 0.007131250000000006,
+        "expected_v_hat": 0.05
+      }
+    ]
+  },
+  "normalization_example": {
+    "g": [
+      2,
+      4
+    ],
+    "coefficients": [
+      0.09,
+      0.1
+    ],
+    "sum": 0.19,
+    "weighted_sum": 0.58,
+    "normalized_mean": 3.0526315789473686
+  },
+  "all_checks_passed": true
+}

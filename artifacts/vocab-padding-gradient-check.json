@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-20",
+  "kind": "teaching-example",
+  "device": "cpu",
+  "torch": "2.2.2",
+  "dtype": "float64",
+  "label_smoothing": 0.0,
+  "target": 2,
+  "results": {
+    "valid_only": {
+      "loss": 0.4076059644443804,
+      "gradient": [
+        0.09003057317038043,
+        0.24472847105479764,
+        -0.3347590442251782
+      ]
+    },
+    "extra_unmasked": {
+      "loss": 2.4519143959375933,
+      "gradient": [
+        0.011656230956039609,
+        0.03168492079612427,
+        -0.9138714555637313,
+        0.23412165725273662,
+        0.6364086465588309
+      ]
+    },
+    "extra_masked": {
+      "loss": 0.4076059644443804,
+      "gradient": [
+        0.09003057317038043,
+        0.24472847105479764,
+        -0.3347590442251782,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "scope": "Loss/logit gradients only; no GPT training or speed measurement."
+}

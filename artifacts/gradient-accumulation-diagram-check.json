@@ -1,0 +1,223 @@
+{
+  "scope": "CPU/float64 teaching quadratic loss, one 2x2 parameter; not GPT-2 training or a speed test",
+  "torch_version": "2.2.2",
+  "micro_batches": 4,
+  "samples_per_micro_batch": 2,
+  "rows": [
+    {
+      "micro_step": 1,
+      "raw_gradient": [
+        [
+          2,
+          -2
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "scaled_contribution": [
+        [
+          0.5,
+          -0.5
+        ],
+        [
+          1.0,
+          0.0
+        ]
+      ],
+      "previous": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "accumulated": [
+        [
+          0.5,
+          -0.5
+        ],
+        [
+          1.0,
+          0.0
+        ]
+      ],
+      "mean_loss": 24.0,
+      "parameters_unchanged": true,
+      "optimizer_state_not_advanced": true
+    },
+    {
+      "micro_step": 2,
+      "raw_gradient": [
+        [
+          4,
+          2
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "scaled_contribution": [
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "previous": [
+        [
+          0.5,
+          -0.5
+        ],
+        [
+          1.0,
+          0.0
+        ]
+      ],
+      "accumulated": [
+        [
+          1.5,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "mean_loss": 36.0,
+      "parameters_unchanged": true,
+      "optimizer_state_not_advanced": true
+    },
+    {
+      "micro_step": 3,
+      "raw_gradient": [
+        [
+          6,
+          -2
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "scaled_contribution": [
+        [
+          1.5,
+          -0.5
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "previous": [
+        [
+          1.5,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "accumulated": [
+        [
+          3.0,
+          -0.5
+        ],
+        [
+          2.0,
+          2.0
+        ]
+      ],
+      "mean_loss": 72.0,
+      "parameters_unchanged": true,
+      "optimizer_state_not_advanced": true
+    },
+    {
+      "micro_step": 4,
+      "raw_gradient": [
+        [
+          8,
+          2
+        ],
+        [
+          0,
+          8
+        ]
+      ],
+      "scaled_contribution": [
+        [
+          2.0,
+          0.5
+        ],
+        [
+          0.0,
+          2.0
+        ]
+      ],
+      "previous": [
+        [
+          3.0,
+          -0.5
+        ],
+        [
+          2.0,
+          2.0
+        ]
+      ],
+      "accumulated": [
+        [
+          5.0,
+          0.0
+        ],
+        [
+          2.0,
+          4.0
+        ]
+      ],
+      "mean_loss": 132.0,
+      "parameters_unchanged": true,
+      "optimizer_state_not_advanced": true
+    }
+  ],
+  "full_batch_mean_loss": 66.0,
+  "gradient_after_clipping": [
+    [
+      0.7453558813888352,
+      0.0
+    ],
+    [
+      0.2981423525555341,
+      0.5962847051110682
+    ]
+  ],
+  "diagram_accumulated_gradient_before_clipping": [
+    [
+      5.0,
+      0.0
+    ],
+    [
+      2.0,
+      4.0
+    ]
+  ],
+  "max_gradient_difference_before_clipping": 0.0,
+  "global_norm_before_clipping": {
+    "full": 6.708203932499369,
+    "accumulated": 6.708203932499369
+  },
+  "max_gradient_difference_after_clipping": 0.0,
+  "max_parameter_difference_after_one_adamw_step": 0.0,
+  "optimizer_updates": 1,
+  "zero_grad_preserves_parameters_and_moments": true,
+  "assumptions": "equal sample counts, same fixed parameters, additive mean loss, no randomness"
+}

@@ -1,0 +1,266 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.2 · 知识块 10",
+  "course_commit": "fb8bd6e",
+  "execution": "eager",
+  "precision": "fp32",
+  "backend": null,
+  "compile_scope": "none; eager execution",
+  "environment": {
+    "python": "3.9.6",
+    "torch": "2.2.2",
+    "device": "cpu",
+    "system": "Darwin",
+    "machine": "x86_64",
+    "threads": 1,
+    "matmul_precision": "highest",
+    "cuda_available": false,
+    "mps_available": false,
+    "cuda_runtime": null,
+    "inductor_cache": "/Users/guqun/micrograd/gpt2_pretrain_lab/.cache/torch-compile"
+  },
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 1024,
+    "n_embd": 768,
+    "n_layer": 12,
+    "n_head": 12,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "seed": 42,
+  "parameter_count": 124439808,
+  "shared_parameter": true,
+  "same_parameter_objects": true,
+  "data": {
+    "file": "/Users/guqun/micrograd/gpt2_pretrain_lab/data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "encoded_tokens": 338025
+  },
+  "batch_size": 1,
+  "seq_len": 8,
+  "warmup_steps": 3,
+  "measured_steps": 5,
+  "first_update_ms": 1527.6006289999993,
+  "first_update_note": "Includes training and any compilation/cache loading; not pure compile time.",
+  "steps": [
+    {
+      "update": 1,
+      "phase": "warmup",
+      "batch_start": 0,
+      "loss_before_update": 10.530961990356445,
+      "seconds": 1.5276006289999993,
+      "tokens_per_second": 5.236970873229461,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 2,
+      "phase": "warmup",
+      "batch_start": 8,
+      "loss_before_update": 10.682340621948242,
+      "seconds": 1.0227733049999994,
+      "tokens_per_second": 7.821870165060678,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 3,
+      "phase": "warmup",
+      "batch_start": 16,
+      "loss_before_update": 7.263811111450195,
+      "seconds": 1.2846745039999998,
+      "tokens_per_second": 6.227258325039508,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 4,
+      "phase": "measure",
+      "batch_start": 24,
+      "loss_before_update": 8.130721092224121,
+      "seconds": 0.788334514999999,
+      "tokens_per_second": 10.147976332103143,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 5,
+      "phase": "measure",
+      "batch_start": 32,
+      "loss_before_update": 11.152506828308105,
+      "seconds": 0.9768174740000006,
+      "tokens_per_second": 8.189861681364635,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 6,
+      "phase": "measure",
+      "batch_start": 40,
+      "loss_before_update": 6.946049690246582,
+      "seconds": 0.8351580169999995,
+      "tokens_per_second": 9.579025570199375,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 7,
+      "phase": "measure",
+      "batch_start": 48,
+      "loss_before_update": 5.724116325378418,
+      "seconds": 0.8271251590000013,
+      "tokens_per_second": 9.672054964054102,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    },
+    {
+      "update": 8,
+      "phase": "measure",
+      "batch_start": 56,
+      "loss_before_update": 9.242792129516602,
+      "seconds": 0.8168263749999998,
+      "tokens_per_second": 9.794003040119758,
+      "input_dtype": "torch.int64",
+      "parameter_dtype": "torch.float32",
+      "logits": {
+        "shape": [
+          1,
+          8,
+          50257
+        ],
+        "dtype": "torch.float32",
+        "element_bytes": 4,
+        "logical_bytes": 1608224
+      },
+      "loss_dtype": "torch.float32",
+      "parameter_grad_dtype": "torch.float32",
+      "adam_m_dtype": "torch.float32",
+      "adam_v_dtype": "torch.float32"
+    }
+  ],
+  "summary": {
+    "measured_steps": 5,
+    "measured_tokens": 40,
+    "total_measured_seconds": 4.24426154,
+    "mean_step_ms": 848.852308,
+    "median_step_ms": 827.1251590000013,
+    "tokens_per_second": 9.424489896067998
+  },
+  "parameter_updates": 8,
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "weight_decay": 0.01,
+    "eps": 1e-08
+  },
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "grad_scaler_used": false,
+  "timing_scope": "batch fetch + transfer + zero_grad + forward/loss + backward + step + synchronize; excludes setup, logging and reports",
+  "verification_scope": "This run only; CPU measurements do not establish CUDA speedup. Warmup length must be revisited if recompilation occurs."
+}

@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-21",
+  "notes": {
+    "id": "400eaea3-1414-81a3-9db3-f37c52896a35",
+    "url": "https://app.notion.com/p/400eaea3141481a39db3f37c52896a35",
+    "title": "GPT-2 优化器：AdamW、初始化偏差修正与梯度期望",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/adamw-bias-correction-notes.md",
+    "published_markdown": "artifacts/adamw-bias-correction-notion-content.md"
+  },
+  "learning": {
+    "current": "阶段二 · 单元 2 · 2.3：AdamW、初始化偏差修正、梯度裁剪、学习率调度与梯度累积",
+    "mastery": "理解中",
+    "section_2_3_complete": false,
+    "unit_2_completed": 1,
+    "unit_2_total": 5,
+    "stage_2_completed": 5,
+    "stage_2_total": 32
+  },
+  "verification": {
+    "readback_verified": true,
+    "sections": 19,
+    "tables": 20,
+    "equation_blocks": 55,
+    "equations_match_local": true,
+    "original_49_equations_preserved": true,
+    "original_sections_1_to_16_preserved": true,
+    "original_review_preserved": true,
+    "folded_answers": true,
+    "accumulation_folded_answers": true,
+    "native_images": 3,
+    "original_two_images_preserved": true,
+    "course_and_supplement_distinguished": true,
+    "stale_pending_text_removed": true,
+    "numerical_report": "artifacts/adamw-bias-correction-check.json",
+    "supplemental_numerical_report": "artifacts/adamw-clipping-schedule-check.json",
+    "gradient_accumulation_report": "artifacts/gradient-accumulation-diagram-check.json"
+  },
+  "notion_plan_modified": false,
+  "training_code_modified": false,
+  "full_training_rerun": false,
+  "git_committed": false,
+  "previous_verification": {
+    "readback_verified": true,
+    "sections": 15,
+    "tables": 11,
+    "equation_blocks": 38,
+    "equations_match_local": true,
+    "folded_answers": true,
+    "course_and_supplement_distinguished": true,
+    "format_literals_removed": true,
+    "spurious_file_autolinks_removed": true,
+    "numerical_report": "artifacts/adamw-bias-correction-check.json"
+  },
+  "updated_in_place": true,
+  "new_note_created": false,
+  "images": [
+    {
+      "filename": "gpt2-learning-rate-three-phases.png",
+      "local": "docs/diagrams/gpt2-learning-rate-three-phases.png",
+      "file_upload_id": "400eaea3-1414-81e4-b390-00b265ac9414",
+      "attached": true
+    },
+    {
+      "filename": "gpt2-cosine-learning-rate.png",
+      "local": "docs/diagrams/gpt2-cosine-learning-rate.png",
+      "file_upload_id": "400eaea3-1414-81f1-bb23-00b2aec400f0",
+      "attached": true
+    },
+    {
+      "filename": "gpt2-gradient-accumulation-flow.png",
+      "local": "docs/diagrams/gpt2-gradient-accumulation-flow.png",
+      "file_upload_id": "402eaea3-1414-81d5-bed3-00b213885101",
+      "attached": true
+    }
+  ],
+  "supplement_history": [
+    {
+      "date": "2026-10-21",
+      "verification": {
+        "readback_verified": true,
+        "sections": 18,
+        "tables": 16,
+        "equation_blocks": 49,
+        "equations_match_local": true,
+        "folded_answers": true,
+        "course_and_supplement_distinguished": true,
+        "format_literals_removed": true,
+        "spurious_file_autolinks_removed": true,
+        "numerical_report": "artifacts/adamw-bias-correction-check.json",
+        "original_38_equations_preserved": true,
+        "original_sections_1_to_11_preserved": true,
+        "original_review_preserved": true,
+        "native_images": 2,
+        "stale_pending_text_removed": true,
+        "supplemental_numerical_report": "artifacts/adamw-clipping-schedule-check.json"
+      }
+    }
+  ],
+  "updated_at": "2026-10-23"
+}

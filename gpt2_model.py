@@ -388,7 +388,9 @@ class GPT(nn.Module):
         # 【PyTorch】每次 block(x) 进入对应模块的 forward 并计算 Tensor。
         # X^(l+1)=Block_l(X^l; theta_l)：形状一直是 [B,T,C]，theta_l 各层独立。
         # start=1 只影响 trace 的展示编号 block_01；内部模块列表仍从下标 0 开始。
-        for index, block in enumerate(self.transformer.h, start=1):
+        # 第二个参数 1 表示编号从 1 开始；与 start=1 含义相同。
+        # 使用位置参数，兼容本课 PyTorch 2.2.2 的 torch.compile 图捕获。
+        for index, block in enumerate(self.transformer.h, 1):
             x = block(x)
             if trace is not None:
                 trace[f"block_{index:02d}"] = x

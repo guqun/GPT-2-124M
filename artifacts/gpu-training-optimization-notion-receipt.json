@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-20",
+  "notes": {
+    "id": "3ffeaea3-1414-81f9-bd20-ca4745fa8b80",
+    "url": "https://app.notion.com/p/3ffeaea3141481f9bd20ca4745fa8b80",
+    "title": "GPT-2 训练提速（二）：torch.compile、FlashAttention 与词表对齐",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/gpu-training-optimization-notes.md",
+    "published_markdown": "artifacts/gpu-training-optimization-notion-content.md",
+    "image": "docs/diagrams/gpt2-flash-attention-flow.png",
+    "image_upload_id": "3ffeaea3-1414-81b3-b7e1-00b285b0ca7d"
+  },
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+    "content_updates": 7,
+    "readback_verified": true
+  },
+  "learning": {
+    "current": "阶段二 · 单元 2 · 2.2：理论主线已覆盖，部分工程与 CUDA 对照待补",
+    "mastery": "理解中",
+    "next": "2.3 超参数与优化；尚未开始",
+    "unit_2_completed": 1,
+    "unit_2_total": 5,
+    "stage_2_completed": 5,
+    "stage_2_total": 32,
+    "pending": [
+      "独立 SDPA / 词表对齐对照入口",
+      "同条件 CUDA TF32、BF16、compile、FlashAttention、尺寸对齐性能与数值验证"
+    ]
+  },
+  "verification": {
+    "sections": true,
+    "tables": true,
+    "image_attached": true,
+    "folded_answers": true,
+    "final_section": true,
+    "mask_code": true,
+    "course_boundary": true,
+    "cpu_result": true,
+    "next_section": true,
+    "completed_counts": true,
+    "pending_explicit": true,
+    "note_mention": true,
+    "previous_note_link": true,
+    "child_pages_preserved": true,
+    "sections_count": 15,
+    "tables_count": 7,
+    "gradient_report": "artifacts/vocab-padding-gradient-check.json",
+    "local_links_valid": true,
+    "report_numbers_checked": true,
+    "local_image_bytes": 895816
+  },
+  "notion_plan_modified": true,
+  "previous_note_link_added": true,
+  "full_training_rerun": false,
+  "git_committed": false
+}

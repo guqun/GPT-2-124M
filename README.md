@@ -4,11 +4,19 @@
 
 课程主线：[Karpathy — Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU)。配套参考：[build-nanogpt](https://github.com/karpathy/build-nanogpt)。
 
-**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前位置：第 2.2 节 → 知识块 9「BF16 自动混合精度」，已讨论并反馈初步理解。** 知识块按本项目连续编号，8 是 2.2 的第一块；用户已对设备、计时、TF32 和 BF16 反馈初步理解，GPU 提速仍待实测。2.1 的七块已覆盖并回顾，用户于 2026-10-19 确认整节学习完成。
+**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前讨论：2.4「多卡与数据」中的 DDP、平均损失与梯度同步，理解中。** 2.3 已讨论 AdamW、梯度裁剪、学习率调度与梯度累积，完整工程实践待补；2.2 理论主线已覆盖，部分工程与 CUDA 对照待补；2.1 于 2026-10-19 经用户确认完成。讨论位置与完整段落完成计数分别记录。
 
 每次一个知识块：目的 → 输入输出 → 公式与形状 → 源码 → 实际运行 → 自检。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
 
 [学习计划核对与执行修正](docs/learning-plan-review.md)：对照 Notion 的整体目标、原始资料和视频顺序，明确已学基础、改编边界与验收标准。进度见 [Notion 总计划](https://app.notion.com/p/340eaea31414819197bde537d339d0fc)；[2.1 收尾回顾](docs/section-2.1-review.md)分别记录内容覆盖、工程验证与独立掌握。
+
+[梯度累积全流程图](docs/diagrams/gpt2-gradient-accumulation-flow.md)：展开微批次内的 loss 缩放与反向、四轮 2×2 梯度矩阵累计，以及累计完成后的统一裁剪和 AdamW 更新。[PNG](docs/diagrams/gpt2-gradient-accumulation-flow.png) / [SVG](docs/diagrams/gpt2-gradient-accumulation-flow.svg) 已保存；教学例已复算，训练入口和学习完成计数不变。
+
+[DDP / NCCL / All-Reduce 双卡流程图](docs/diagrams/gpt2-ddp-allreduce-flow.md)：两条 GPU 泳道展开本地梯度、分块求和、交换汇总结果、求平均及各自更新，标明 CPU 调度与 GPU 计算的位置。[PNG](docs/diagrams/gpt2-ddp-allreduce-flow.png) / [SVG](docs/diagrams/gpt2-ddp-allreduce-flow.svg) 为 2.4 的原理讨论配图，数字是教学例子。
+
+[把 DDP 接到 lm_head 的具体计算](docs/diagrams/gpt2-ddp-lm-head-example.md)：用两条样本展开线性层、softmax、交叉熵、两份完整权重梯度、跨卡归约和 AdamW，持续追踪同一个 `W[0,0]`。[PNG](docs/diagrams/gpt2-ddp-lm-head-example.png) / [SVG](docs/diagrams/gpt2-ddp-lm-head-example.svg) 已保存；固定特征的 2×2 输出头例子已用 PyTorch 对照整批计算，属于 CPU 数值验证。
+
+[DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；本次不修改训练行为、Notion 总计划或完成计数。
 
 ## 新机器上的运行准备
 
@@ -40,17 +48,41 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充，不新增主线进度。主课程当前进入阶段二 · 单元 2 · 2.2 · 知识块 9。
+这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积，目前在讨论 2.4 的 DDP 原理。
 
-## 当前进度：阶段二 · 单元 2 · 2.2 · 知识块 9 初步理解
+## 当前记录：2.4 DDP 原理讨论，既有工程实践待补
 
-阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**（2026-10-19 用户确认），现在学习 2.2；单元 3—7 尚未开始。学习完成进度为单元 2 **1/5**、阶段二 **5/32**。自检题保留作后续复习。依据、补充内容与掌握程度的区别见[阶段二已学内容核对](docs/learning-plan-review.md)。
+阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**（2026-10-19 用户确认），**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 已讨论 AdamW、梯度裁剪与学习率调度，仍理解中**，单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**，本次理论进展单独记录。自检题保留作后续复习。依据、补充内容与掌握程度的区别见[阶段二已学内容核对](docs/learning-plan-review.md)。
+
+2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当前笔记是答疑归档，2.4 后续数据与验证内容尚未覆盖，多进程运行待实践；不据此结算整个段落。
 
 已学习配置与权重检查、独立模型与前向对照，以及 `forward` 的逐层调用。复习见 [阶段笔记：检查点、独立实现与前向对照](docs/lesson01-02-notes.md)，包含本次追问、调用图和已有实验结果；掌握程度保留“理解中”。
 
-文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2026-10-19 用户对初始化反馈“大概清楚了”，并确认 2.1 整节学习完成；知识块 5—7 保留初步理解的记录，自检题用于复习。2.2 的知识块 8 已讨论设备、预热、吞吐率与 TF32，用户反馈初步理解；知识块 9 的 BF16、转换开销、反向与 FP32 更新也已讨论，用户反馈“大概理解”。下一块为 torch.compile，尚未开始。每块使用新文件，之前的代码与讲义保留。Notion 最近已同步的里程碑是 2.1 完成；本次细分知识块的位置先记录在本地。
+文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2.2 接续讨论设备、计时、TF32/BF16、compile/kernel、FlashAttention 和词表对齐；本机 CPU 编译对照与 MPS 普通训练已有报告，SDPA/对齐独立入口与 CUDA 逐项实验仍待补。2026-10-20 已将 2.2 收束情况同步 Notion 总计划；2026-10-21 已新增 AdamW 专题笔记，本轮未另改总计划；协作验证不记作用户已独立掌握。之前的代码与讲义保留。
 
-新增 [GPU 训练提速专题笔记](docs/gpu-training-notes.md) · [Notion 归档](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7)：汇总设备/MPS、计时与吞吐、TF32、BF16 前向到更新的精度变化，包含讨论中的数值例子、完整流程图、代码定位及复习自检。新笔记已归档；Notion 总计划本轮未修改。
+[AdamW、初始化偏差修正与梯度期望](docs/adamw-bias-correction-notes.md) · [Notion](https://app.notion.com/p/400eaea3141481a39db3f37c52896a35)：保留完整推导、手算、梯度裁剪与三段学习率。第十七节续入梯度累积：loss/K、四轮 .grad 矩阵相加、两层循环、统一裁剪与一次 AdamW 更新，并嵌入全流程 PNG，项目另有 SVG。教学数值已复算；掌握程度为“理解中”，2.3 尚未完成，训练入口尚未整合裁剪、调度和梯度累积。
+
+[GPU 训练提速（一）](docs/gpu-training-notes.md) · [Notion](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7)：设备、计时、TF32/BF16 与前向到参数更新的精度变化。
+
+新增 [训练提速（二）笔记](docs/gpu-training-optimization-notes.md) · [Notion](https://app.notion.com/p/3ffeaea3141481f9bd20ca4745fa8b80)：compile/kernel、FlashAttention、词表 50257→50304，以及额外 logits 对 loss/梯度的影响与遮罩方案。含流程图、输入输出、公式、项目对应、实测表和复习自检。遮罩属于教学补充，尚未集成完整训练。
+
+接续的 [FlashAttention 流程图](docs/diagrams/gpt2-flash-attention-flow.md)已保存为 [PNG](docs/diagrams/gpt2-flash-attention-flow.png) 和 [SVG](docs/diagrams/gpt2-flash-attention-flow.svg)：对比完整中间矩阵与片上分块累计，用两块数据得到 `300 / 10 = 30`，并说明稳定在线归一化和反向重算。这是原理讨论配图，尚未作为 CUDA 性能实验结果。
+
+## 阶段二 · 单元 2 · 2.2 · 知识块 10：torch.compile
+
+新配套：[train_compile.py](train_compile.py) / [lesson10.md](lesson10.md)。对应[视频约 1:47:34—1:59:46](https://www.youtube.com/watch?v=l8pRSuU81PU&t=6454s)及作者 [fb8bd6e 历史提交](https://github.com/karpathy/build-nanogpt/commit/fb8bd6e)。在模型放到设备后、训练循环前包装一次；复用上一节 BF16/FP32 循环。新增 eager/compile 对照开关，报告分别列出首次更新与排除预热后的计时。
+
+直接运行时，自动选择 CUDA，否则使用 CPU；支持 BF16 的 CUDA 默认 BF16，其余默认 FP32。MPS 不参与本课版本的自动编译对照。启动时打印实际设备和精度；默认 B=4/T=32，下面使用更小的 B=1/T=8 做短跑。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_compile.py --device cpu --precision fp32 --execution compile --batch-size 1 --seq-len 8 --threads 1 --warmup-steps 3 --steps 5
+```
+
+将 `--execution compile` 换成 `--execution eager`，其余条件保持一致，即可对照。当前 CPU 实验用于验证编译、反向及参数更新；CUDA 性能对照待补。此版本只编译模型，外部交叉熵与 AdamW 沿用普通执行。为兼容 PyTorch 2.2.2 图捕获，模型中的 `enumerate(..., start=1)` 等价改写为 `enumerate(..., 1)`。
+
+31 项测试通过；完整 124M 单线程 CPU 的 [eager](artifacts/lesson10-cpu-eager.json) 与 [compile](artifacts/lesson10-cpu-compile.json) 各 8 次更新已完成。排除预热后约 849 / 846 ms 每步，本次未显示明显提速。当前 Intel Mac 的 4 线程编译反向曾停在矩阵乘法同步等待，因此本节默认单线程；细节与首次编译开销见讲义。
+
+Mac GPU 普通训练也已验证：使用 `--device mps --execution eager --precision fp32`，完整 124M 的三次小批次更新成功，见 [MPS 报告](artifacts/lesson10-mps-eager-smoke.json)。`eager` 只是关闭编译，计算仍在 GPU 上；当前课程版本的 MPS 普通训练与 CUDA 编译提速实验分别记录。
 
 ## 阶段二 · 单元 2 · 2.2 · 知识块 9：BF16 自动混合精度
 
@@ -72,7 +104,7 @@
 /Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/benchmark_training.py --device cpu
 ```
 
-默认完整 124M、B=4/T=32、2 步预热 + 5 步测量。本块当时的 25 项测试通过，[本机 CPU 报告](artifacts/lesson08-cpu-baseline.json)已归档。CUDA/MPS 在当前环境不可用；GPU 上的 highest/high 对照命令和记录规范见讲义，GPU 提速实验尚待实跑。用户反馈初步理解后，继续上方知识块 9 的 BF16。
+默认完整 124M、B=4/T=32、2 步预热 + 5 步测量。本块当时的 25 项测试通过，[本机 CPU 报告](artifacts/lesson08-cpu-baseline.json)已归档。当时工具隔离环境未检测到 CUDA/MPS；2026-10-20 已在普通终端环境验证 MPS 普通训练，见知识块 10。CUDA 的 highest/high 对照命令和记录规范见讲义，TF32 提速实验尚待实跑。用户反馈初步理解后，继续上方知识块 9 的 BF16。
 
 ## 阶段二 · 单元 2 · 2.1 · 知识块 7：参数初始化
 
@@ -156,7 +188,7 @@
 .venv/bin/python compare_forward.py
 ```
 
-本块验证前向计算；后续的生成、单批次训练、数据加载、共享和初始化均已逐块学习。2.1 已完成，当前进入 2.2 提速。
+本块验证前向计算；后续的生成、单批次训练、数据加载、共享和初始化均已逐块学习。2.1 已完成，随后接续 2.2 提速与 2.3 优化器学习。
 
 ## 阶段二 · 单元 2 · 2.1 · 知识块 1：配置与权重
 

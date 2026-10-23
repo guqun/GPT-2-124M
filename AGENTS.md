@@ -12,8 +12,38 @@
 - 说明阶段切换时，明确当前参数起点、学习目标与前一块的关系。区分原课程事实、本地教学改编和已验证的实验结果；单步演示不等于完成训练课程。
 - 张量形状、中文注释和补充例子服务于原视频。改变训练数据、参数起点、步骤或学习顺序时，要明确标注与原课的差异及用途，不能由改编内容反向决定课程主线；助手已完成代码或实跑也不等于用户已完成视频对应段落。
 - 整体计划的来源边界见 `docs/learning-plan-review.md`：阶段二单元 1、2 按视频，后五单元是原书/源码/文档与既定定制实验的组合，不可统称为当前视频的后续。每块先交代来源、参数起点、数据和预期；已学基础按需回顾，不自动扩充主线。课程源码须按教学阶段定位，不能直接拿最新版替代视频当时的实现。
-- 学习位置必须区分“整体阶段 → 阶段内单元 → 规划段落 → 本地知识块”。当前进入“阶段二 · 单元 2 · 2.2 · 知识块 9「BF16 自动混合精度」”，2026-10-19 已讨论，用户对知识块 8 的设备、计时和 TF32，以及知识块 9 的 BF16 均反馈初步理解；GPU 相关内容已整理至 docs/gpu-training-notes.md，下一块 torch.compile 尚未开始。用户于 2026-10-19 明确确认 2.1 学习结束，七块内容与配套实验已覆盖，2.1 记为已完成；进度为阶段二 5/32、单元 2 的 1/5，见 docs/section-2.1-review.md。自检题保留作复习，不额外作为学习完成的门槛；不据此声称用户已独立重写或运行全部实验。知识块按本项目连续编号，8 是 2.2 的第一块。GPU/TF32/BF16 实测尚未完成；当前 Mac 环境仅 CPU 可用，不因本机条件删减计划内 GPU 实验。路线表不得把阶段一和阶段二内部的单元 1—7 作为同级条目。Notion 总计划最近已同步的里程碑为 2.1 完成；知识块 9 初步理解已记入本地和新建的 GPU 专题笔记，总计划本轮未修改。
+- 学习位置必须区分“整体阶段 → 阶段内单元 → 规划段落 → 本地知识块”。截至 2026-10-20，阶段二 · 单元 2 · 2.2 理论主线已覆盖：设备/计时、TF32/BF16、compile/kernel、FlashAttention、词表对齐与额外 logits 梯度均已讨论。当前收束归档，下一节为 2.3「超参数与优化」，尚未开始；部分工程与 CUDA 实验另列待补，不阻断理论衔接，也不宣称 CUDA 提速已测。2.1 于 2026-10-19 经用户确认完成；完整段落计数保留阶段二 5/32、单元 2 的 1/5。新笔记 docs/gpu-training-optimization-notes.md 承接 docs/gpu-training-notes.md，含 FlashAttention 图、原课/补充方案边界及实际报告；Notion 笔记与总计划已同步并回读。用户掌握程度保留“理解中”，自检用于复习，不额外设完成门槛。当前环境已验证 MPS/FP32/eager 完整模型训练；PyTorch 2.2.2 本课 Inductor 对照走 CPU/CUDA。CPU compile 无明显提速，不能外推 CUDA。SDPA/对齐独立入口与统一条件 CUDA 提速表待补；不能因本机限制删减。知识块按项目连续编号，8 为 2.2 第一块；阶段一与阶段二内部单元 1—7 不得列作同级。
 - 用户要求每个新知识块使用新的代码文件，保留上一块的代码与讲义作为配套；当前 `train_step.py` / `lesson04.md` 保留，新建 `train_dataloader.py` / `lesson05.md`。已在阶段一学过的基础简要带过，重点解释这次的差异；参数探针、快照等观察工具不作为主线学习目标。
+
+### 2026-10-23
+- 用户要求归档 DDP 及平均损失答疑：新增 docs/ddp-batch-gradient-notes.md，14 节串起各卡数据、DDP/NCCL/All-Reduce、2×2 lm_head 前反向、整批矩阵求导、共同优化目标和平均系数传播；保留项目中三张配图。关联原 AdamW 笔记，中英文入口更新讨论位置为 2.4，完成计数不变。
+- 新笔记归档到原 Notion「学习笔记」数据库，页面 402eaea3-1414-814c-80ba-d0fa8f02bdd7。用户授权上传完整数值图，并明确“有一张全图就可以”，因此 Notion 只嵌入该图，其余图留项目。回读核验 14 节、23 公式、9 表、6 折叠答案和 1 原生图片；原 AdamW 页仅补关联入口，55 公式和 3 图保留。归档凭据 artifacts/ddp-batch-gradient-notion-receipt.json；复用既有 CPU 报告，不重训、不改训练入口或 Notion 总计划，不提交 Git。
+- 用户要求标明数据所在 GPU：在 lm_head 双卡图的每个计算阶段、反向矩阵操作数/结果及通信箭头重复标注 GPU 0/1；明确 W 和平均梯度数值相同但分别存储，输入梯度留在本卡传向上游。同步阅读说明的显存归属表，并由同一 SVG 导出反向局部 PNG/SVG；仅改图示与文案，数值计算和训练行为不变。
+- 用户希望把通信与具体神经网络计算连接：新增 lm_head 双卡数值图、SVG、说明及重绘脚本，给定 h 后实算 logits、交叉熵、完整 2×2 本地梯度、逐行归约与一次 AdamW；橙色持续追踪 W[0,0]。明确每卡持有完整模型，例子只隔离独立输出 W；真实 GPT-2 共享参数还包含本卡输入 Embedding 路径贡献。CPU/float64 两副本模拟归约与整批平均梯度、更新最大差均为 0，归档 artifacts/ddp-lm-head-diagram-check.json；不是 CUDA/NCCL 实测，不改训练入口、Notion 或完成计数。
+- 按用户要求新增 DDP / NCCL / All-Reduce 双卡流程 PNG / SVG、阅读说明与重绘脚本：两条 GPU 泳道展开本地梯度、Reduce-Scatter、All-Gather、平均和各自更新，并标明 CPU 调度、GPU 求和及 bucket 重叠。2.4 原理讨论的数字为教学例，图中先 SUM 后除卡数仅为数学展开；算术复核不作为 CUDA 实测。新增中英文图片入口，不改训练实现、Notion 总计划或完成计数。
+- 按用户要求把梯度累积续入原 AdamW 笔记第十七节：有效 batch、微批次内平均与 loss/K、Parameter.grad 逐元素累计、四轮矩阵、两层循环、裁剪/调度/step 的位置、状态保留和显存/等价边界；嵌入已有全流程 PNG，项目保留 SVG、阅读说明与验证记录。
+- 原 Notion 页面 400eaea3-1414-81a3-9db3-f37c52896a35 定点插入，更新摘要与来源，没有另建文章。回读原有 49 个公式及两张图片保留，总计 19 主节、55 公式、20 表、3 张原生图片；旧复习答案与新增累积答案均保留。同步中英文入口与发布记录，不改训练实现、总计划或完成计数，不重复完整训练，不提交 Git。
+- 按用户要求新增梯度累积全流程 PNG / SVG / 阅读说明与重绘脚本。上层展开取数、同参数前向、微批次平均 loss、除以 K、反向与 .grad 相加；中层四轮 2×2 数字矩阵；下层统一全局裁剪、学习率与一次 AdamW 更新，并区分参数、梯度和 m/v 的保留时机。
+- 图片为单设备 B=2/T=32/K=4 的教学改编；依据此前核对的视频约 2:35—2:46 自动字幕与作者 01be6b3。CPU/float64 二次损失复算整批与累计梯度、统一裁剪及一次 AdamW 更新相同，记录于 artifacts/gradient-accumulation-diagram-check.json；不是完整 GPT 训练或 CUDA 测速。同步图片入口，不改训练实现、Notion 或完成计数。
+
+### 2026-10-21
+- 当前学习已进入阶段二 · 单元 2 · 2.3，已讨论 AdamW、初始化偏差修正、梯度裁剪与学习率调度，仍理解中；下文 2026-10-20 的“2.3 尚未开始”保留为当时记录。衰减分组、fused、梯度累积及裁剪/调度的完整训练入口实践待学，完整段落计数 1/5、5/32 不变。
+- 按用户要求在同一篇 AdamW 笔记续入名称解释、先裁剪再 AdamW、预热/余弦衰减/下限保持与代码衔接；原 Notion 页面 400eaea3-1414-81a3-9db3-f37c52896a35 定点更新，没有另建文章。两张曲线 PNG 已上传并嵌入，项目保留 SVG 与重绘脚本。
+- 补充复算 artifacts/adamw-clipping-schedule-check.json 核验三个 PyTorch 2.2.2 裁剪例子、参数不变及调度关键点；回读 18 小节、49 公式、16 表、2 图，原 38 公式和前十一节/复习原文保留。明确当前旧训练入口尚未采用新增裁剪/调度，原课 range(50) 在第 49 步结束，未额外运行下限保持。本次未改 Notion 总计划、训练代码或提交 Git。下列 15 小节/38 公式记录为初次归档。
+- 按用户要求新增 docs/adamw-bias-correction-notes.md，整理更新策略、参数范围、m/v、偏差修正完整推导、归一化与期望的区别、手算及代码对应。原课来源与数学补充分别标明，未调整训练入口或模型行为。
+- 两步 CPU/float64 标量更新与 PyTorch 2.2.2 一致；核验恒定梯度三步、随机梯度的 2/4/8 条序列期望和加权平均，归档 artifacts/adamw-bias-correction-check.json。未重跑完整 GPT 训练。
+- 笔记已写入原 Notion 学习笔记数据库，页面 400eaea3-1414-81a3-9db3-f37c52896a35；回读检查 15 小节、38 个公式块、11 表及折叠答案。保留本地 Markdown、发布内容与凭据；中英文入口已关联。本轮未修改 Notion 总计划、未提交 Git。
+
+### 2026-10-20
+- 用户要求记录当前学习并更新进度：新增 docs/gpu-training-optimization-notes.md，覆盖 compile/kernel、FlashAttention、词表对齐、额外 logits 及训练遮罩；原有 PNG 已上传至原 Notion 学习笔记数据库。页面 3ffeaea3-1414-81f9-bd20-ca4745fa8b80 回读验证 15 小节、7 表、原生图片与折叠答案；总计划 7 处定点更新并核验，旧 GPU 笔记补续篇入口。2.2 记为理论主线已覆盖、部分工程/CUDA 实验待补，下一节 2.3 尚未开始；1/5、5/32 不变。CPU/float64 小例子复算遮罩后的 loss/有效梯度与原词表一致，额外列梯度为零，报告 artifacts/vocab-padding-gradient-check.json；未重跑完整训练，未修改训练入口或提交 Git。归档记录在 artifacts/gpu-training-optimization-notion-receipt.json。
+- 接续 compile 后讨论 FlashAttention，已定位视频约 1:59:46—2:06:54 的非官方自动字幕并核对作者 7ee630c 与原论文 §3.1；未直接观看视频。按用户要求新增 docs/diagrams/gpt2-flash-attention-flow.png / .svg / .md 与独立绘图脚本，连接 Block 位置、显存往返、片上分块、L/U 两块累计及最大值修正、反向重算。普通计算、简化累计与稳定在线累计均复算为 30；图示不代表运行过 CUDA FlashAttention。只增加配图与入口链接，未修改模型/训练代码、学习完成计数或 Notion。
+- 用户询问是否可用 GPU：在与普通终端相同的非隔离环境中检测到 MPS=True、CUDA=False，小矩阵 GPU 前向/反向通过，完整 124M 以 MPS/FP32/eager、B=1/T=8 完成 1 次预热 + 2 次测量，报告归档 artifacts/lesson10-mps-eager-smoke.json。此前工具隔离环境的 MPS=False 不能外推机器无 GPU。已澄清提示与讲义：MPS 普通训练可用，当前 PyTorch 2.2.2 Inductor 仅注册 CPU/CUDA，CUDA 编译提速仍待测；eager 不等于 CPU。更正 eager 报告的 compile_scope 文案，不改数值。仅验证 MPS 可用性，不把不同测量窗口的 CPU/MPS 数值直接作加速比，学习进度未改变。
+- 用户直接运行 train_compile.py 时，普通终端的 auto 选中 MPS，与原默认 BF16 冲突。修复本节默认选择：eager/compile 都按 CUDA → CPU，precision=auto 在支持 BF16 的 CUDA 上选 BF16，其余 FP32；显式配置保留并验证，MPS 编译请求给出 CPU/FP32 命令。启动与报告记录实际配置，不修改其他课程脚本或依赖。6 项 compile 相关检查通过（含 4 项新增配置回归，模拟 MPS 可用及 CUDA BF16 能力分支）；工具内未检测到 MPS 与用户普通终端检测结果分别记录。
+- 修复后按用户的无参数命令实跑完整 124M：自动解析为 CPU/FP32/compile，B=4/T=32、1 线程，3 次预热与 5 次测量全部完成。首次更新约 37.52 秒，测量均值约 1584.82 ms；报告在 .cache/runtime-check/lesson10-compile-fp32.json。此记录验证默认入口可用，不作为新增 GPU 测速结论；学习进度未改变。
+- 用户理解 compile/kernel 基本概念后要求结合项目代码学习；定位视频约 1:47:34—1:59:46 的非官方自动字幕副本，交叉核对作者 fb8bd6e「add torch compile」提交与 PyTorch 2.2 文档，未直接观看视频。新增 train_compile.py / lesson10.md，保留上一节训练入口，沿用 train_amp_steps 与 autocast。
+- 模型移动到设备后、训练循环前包装一次；保留原 Parameter 和权重共享，提供 eager/compile 对照、首次更新与预热后计时。明确本地只编译模型及对应反向，外部交叉熵、AdamW 和数据加载仍普通执行；编译失败不静默降级。暂不引入后续 FlashAttention 或词表对齐。
+- 实测发现 PyTorch 2.2.2 对 enumerate(..., start=1) 产生 graph break，模型中等价改写为位置参数 1。31 项测试通过：真实 Inductor FP32/BF16 更新、原参数引用/共享保留、同权重前向接近、固定形状的三次更新只捕获一次完整前向。BF16 融合允许舍入及多步参数差异，不要求逐 bit 相同。2.2 仍学习中，1/5 与 5/32 不变；本轮未写 Notion、未提交 Git。
+- 完整 124M/CPU/FP32 的 4 线程编译反向长时间停在 BLAS/OpenMP 等待（已采样调用栈并停止该进程），改用 1 线程后 eager/compile 各 3 次预热 + 5 次测量完成，归档 artifacts/lesson10-cpu-eager.json 与 lesson10-cpu-compile.json。本节默认单线程；均值 848.85/846.40 ms，首次更新 1527.60/30972.57 ms，8 步 loss 最大差 0.0000314713，完整模型日志无 graph break/recompile。仅验证 CPU 行为，本次小批次没有明显提速，不能外推 GPU。
 
 ### 2026-10-19
 - GPU 专题已归档到原 Notion「学习笔记」数据库，页面 3feeaea3-1414-81af-8e6f-d509bee27fc7；只上传既有精度流程 PNG，回读确认 15 小节、11 表、图片及折叠答案。入口与本地学习记录已关联，凭据在 artifacts/gpu-training-notes-notion-receipt.json。本轮未修改 Notion 总计划、未提交 Git。

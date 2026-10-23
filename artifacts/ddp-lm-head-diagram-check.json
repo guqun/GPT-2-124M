@@ -1,0 +1,136 @@
+{
+  "scope": "CPU/float64, fixed h, isolated untied 2x2 output head; no CUDA, NCCL or full GPT run",
+  "torch_version": "2.2.2",
+  "initial_weight": [
+    [
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.5
+    ]
+  ],
+  "local_calculations": [
+    {
+      "h": [
+        1.0,
+        2.0
+      ],
+      "target": 0,
+      "logits": [
+        1.0,
+        1.0
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "loss": 0.6931471805599453,
+      "delta": [
+        -0.5,
+        0.5
+      ],
+      "gradient": [
+        [
+          -0.5,
+          -1.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ],
+      "feature_gradient": [
+        -0.5,
+        0.25
+      ],
+      "parameters_unchanged_after_backward": true
+    },
+    {
+      "h": [
+        3.0,
+        6.0
+      ],
+      "target": 1,
+      "logits": [
+        3.0,
+        3.0
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "loss": 0.6931471805599453,
+      "delta": [
+        0.5,
+        -0.5
+      ],
+      "gradient": [
+        [
+          1.5,
+          3.0
+        ],
+        [
+          -1.5,
+          -3.0
+        ]
+      ],
+      "feature_gradient": [
+        0.5,
+        -0.25
+      ],
+      "parameters_unchanged_after_backward": true
+    }
+  ],
+  "sum": [
+    [
+      1.0,
+      2.0
+    ],
+    [
+      -1.0,
+      -2.0
+    ]
+  ],
+  "average": [
+    [
+      0.5,
+      1.0
+    ],
+    [
+      -0.5,
+      -1.0
+    ]
+  ],
+  "full_batch_mean_loss": 0.6931471805599453,
+  "max_gradient_error_vs_full_batch": 0.0,
+  "max_updated_weight_error_vs_full_batch": [
+    0.0,
+    0.0
+  ],
+  "updated_weight": [
+    [
+      0.9890000002,
+      -0.009999999900000002
+    ],
+    [
+      0.009999999800000003,
+      0.5094999999000001
+    ]
+  ],
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.01,
+    "betas": [
+      0.9,
+      0.95
+    ],
+    "weight_decay": 0.1,
+    "eps": 1e-08,
+    "updates": 1,
+    "gradient_clipping": false
+  },
+  "source_location": "gpt2_model.py GPT.forward -> self.lm_head(x); toy isolates output path",
+  "weight_tying_note": "Full GPT-2 also accumulates input-embedding-path contributions before DDP synchronization."
+}
