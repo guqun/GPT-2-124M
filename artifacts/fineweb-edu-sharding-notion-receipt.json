@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-25",
+  "notes": {
+    "id": "404eaea3-1414-818b-9df0-c8ab083cdbe0",
+    "url": "https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0",
+    "title": "GPT-2 大规模训练数据：FineWeb-Edu、分片与文档边界",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/fineweb-edu-sharding-notes.md",
+    "published_markdown": "artifacts/fineweb-edu-sharding-notion-content.md"
+  },
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+    "modified": true,
+    "targeted_regions": 10,
+    "updates": [
+      "current_position",
+      "teaching_convention",
+      "stage_2_progress_heading",
+      "unit_2_progress_row",
+      "learning_progress_callout",
+      "section_2_3_status",
+      "section_2_4_status",
+      "latest_archive_with_prior_archive_preserved",
+      "verification_scope",
+      "remaining_work"
+    ],
+    "local_review": "docs/learning-plan-review.md"
+  },
+  "scope": {
+    "current": "阶段二 · 单元 2 · 2.4 · 知识块 12：FineWeb-Edu 与数据分片",
+    "core_concepts_explained": true,
+    "mastery": "理解中",
+    "section_2_4_complete": false,
+    "completion_counts_changed": false,
+    "unit_2_completed_sections": "1/5",
+    "stage_2_completed_sections": "5/32",
+    "next": "训练 Token 总量、步数与 warmup 的简短换算，然后学习验证集与 validation loss",
+    "fineweb_implementation_and_run_pending": true,
+    "training_code_changed": false,
+    "data_downloaded": false,
+    "training_run": false,
+    "cuda_or_nccl_run": false
+  },
+  "sources": {
+    "course_video": "https://www.youtube.com/watch?v=l8pRSuU81PU&t=11388s",
+    "primary_interval": "3:09:48–3:18:58",
+    "historical_commit": "69cb21f0f9439a8804741912045b90879a573591",
+    "official_dataset": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
+    "video_directly_watched": false,
+    "transcript_cross_checked_with_author_code": true,
+    "supplementary_document_mask_tradeoffs_labeled": true
+  },
+  "verification": {
+    "sections": 12,
+    "tables": 7,
+    "toggles": 6,
+    "mermaid": 1,
+    "unknown": 0,
+    "expression_fixed": true,
+    "bad_expression": false,
+    "truncated": false,
+    "readback_verified": true,
+    "plan_content_matches_targeted_edits": true,
+    "plan_page_references_preserved": true,
+    "plan_page_reference_count": 5,
+    "plan_note_link_present": true,
+    "nine_direct_targets_found": true,
+    "historical_archive_preserved": true,
+    "local_document_links_checked": 199,
+    "local_document_links_verified": true,
+    "training_tests_rerun": false
+  },
+  "git_committed": false,
+  "git_pushed": false
+}

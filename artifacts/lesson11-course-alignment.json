@@ -1,0 +1,72 @@
+{
+  "course_commit": "ba2554acce54487f07c13563247f2cce683e0d5e",
+  "author_source_sha256": "0c3c5413b0b80ae90e847abdcf0de0ca1ae30f091f82a856f73f4161109c3e57",
+  "transcript_mirror_sha256": "3142f878ff8cb7914df68589665465fc2c9bd6b7068521fa05227a7a21de8308",
+  "source_scope": "Non-official automatic transcript 2:46:52-3:09:48, cross-checked with author historical code; video images not directly watched.",
+  "comparison_scope": "Same pre-encoded integer IDs; only historical DataLoaderLite class was extracted, with no author top-level training or tokenizer executed.",
+  "normal_case": {
+    "B": 2,
+    "T": 3,
+    "world_size": 2,
+    "N": 5000,
+    "ranks": [
+      {
+        "rank": 0,
+        "matched_batches_before_boundary": 32
+      },
+      {
+        "rank": 1,
+        "matched_batches_before_boundary": 32
+      }
+    ]
+  },
+  "intentional_boundary_difference": {
+    "B": 2,
+    "T": 3,
+    "world_size": 2,
+    "N": 25,
+    "author_rank_starts": [
+      [
+        0,
+        6
+      ],
+      [
+        12,
+        6
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        12,
+        6
+      ]
+    ],
+    "local_rank_starts": [
+      [
+        0,
+        6
+      ],
+      [
+        12,
+        18
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        12,
+        18
+      ]
+    ],
+    "reason": "Global chunk cursor keeps ranks in the same pass and retains exact-fit rounds."
+  },
+  "other_adaptations": [
+    "Public no_sync covers forward and backward",
+    "Gloo log-loss uses SUM/world_size",
+    "CPU/Gloo added; CUDA/NCCL not tested on this host",
+    "Existing explicit attention, eager execution, vocabulary 50257, optional small-model flow check"
+  ]
+}

@@ -4,9 +4,9 @@
 
 课程主线：[Karpathy — Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU)。配套参考：[build-nanogpt](https://github.com/karpathy/build-nanogpt)。
 
-**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前讨论：2.4「多卡与数据」中的 DDP、平均损失与梯度同步，理解中。** 2.3 已讨论 AdamW、梯度裁剪、学习率调度与梯度累积，完整工程实践待补；2.2 理论主线已覆盖，部分工程与 CUDA 对照待补；2.1 于 2026-10-19 经用户确认完成。讨论位置与完整段落完成计数分别记录。
+**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前学习：2.4「多卡与数据」· 知识块 12「FineWeb-Edu 与数据分片」，核心知识已讲解，理解中（2026-10-25）。** 本轮已归档数据、分片、文档边界和尾部读取的答疑；下一步简短衔接训练量换算，再学验证集与 validation loss。知识块 11 已有 CPU/Gloo 多进程验证；用户实践、CUDA/NCCL、FineWeb-Edu 独立配套与实跑待补。2.2 部分工程与 CUDA 对照继续保留；2.1 于 2026-10-19 经用户确认完成。单元 2 为 1/5、阶段二为 5/32，讨论位置、代码验证与完成计数分别记录。
 
-每次一个知识块：目的 → 输入输出 → 公式与形状 → 源码 → 实际运行 → 自检。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
+每次一个知识块：先说明解决什么问题、为什么学、要学会什么，再结合例子、输入输出、公式与形状，最后落到代码和实验；已学基础简要带过，自检供复习。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
 
 [学习计划核对与执行修正](docs/learning-plan-review.md)：对照 Notion 的整体目标、原始资料和视频顺序，明确已学基础、改编边界与验收标准。进度见 [Notion 总计划](https://app.notion.com/p/340eaea31414819197bde537d339d0fc)；[2.1 收尾回顾](docs/section-2.1-review.md)分别记录内容覆盖、工程验证与独立掌握。
 
@@ -16,7 +16,9 @@
 
 [把 DDP 接到 lm_head 的具体计算](docs/diagrams/gpt2-ddp-lm-head-example.md)：用两条样本展开线性层、softmax、交叉熵、两份完整权重梯度、跨卡归约和 AdamW，持续追踪同一个 `W[0,0]`。[PNG](docs/diagrams/gpt2-ddp-lm-head-example.png) / [SVG](docs/diagrams/gpt2-ddp-lm-head-example.svg) 已保存；固定特征的 2×2 输出头例子已用 PyTorch 对照整批计算，属于 CPU 数值验证。
 
-[DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；本次不修改训练行为、Notion 总计划或完成计数。
+[DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；2026-10-23 归档时未改训练行为、Notion 总计划或完成计数，最新进度见下文。
+
+[FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；独立分片代码与实际运行待补。
 
 ## 新机器上的运行准备
 
@@ -48,25 +50,43 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积，目前在讨论 2.4 的 DDP 原理。
+这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积、2.4 DDP 和 FineWeb-Edu 分片的核心知识；下一步训练量换算与验证集。
 
-## 当前记录：2.4 DDP 原理讨论，既有工程实践待补
+## 当前记录：2.4 大规模数据的核心知识已讲解
 
 阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**（2026-10-19 用户确认），**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 已讨论 AdamW、梯度裁剪与学习率调度，仍理解中**，单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**，本次理论进展单独记录。自检题保留作后续复习。依据、补充内容与掌握程度的区别见[阶段二已学内容核对](docs/learning-plan-review.md)。
 
-2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当前笔记是答疑归档，2.4 后续数据与验证内容尚未覆盖，多进程运行待实践；不据此结算整个段落。
+2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，后续数据与验证内容尚未覆盖，多进程运行待实践；该历史记录不用于判断今天的位置。
+
+2026-10-24 接续 [知识块 11](lesson11.md)：新增 `train_ddp.py`，CPU/Gloo 双进程取数、累积与同步已运行，并和单进程联合 batch 核对梯度、参数及 AdamW 状态。新入口接通分组、裁剪、调度和累积；前十块入口保留。当时开始代码走读，完整段落计数仍为 1/5、5/32，CUDA/NCCL、FineWeb-Edu 与验证集列为后续。
+
+2026-10-25 已讲解 [知识块 12：FineWeb-Edu 与数据分片](docs/fineweb-edu-sharding-notes.md)的核心内容并归档答疑，掌握程度“理解中”。用户选择按原课继续：EOT 加普通因果注意力，shard 尾部不足时跳过；文档级遮罩与跨片补齐不加入必学实现。Notion 总计划与本地进度已同步；下一步训练 Token 总量、步数和 warmup 的简短换算，再学验证集与 validation loss。独立分片代码和实际运行待补，整个 2.4 未完成，1/5、5/32 不变。
 
 已学习配置与权重检查、独立模型与前向对照，以及 `forward` 的逐层调用。复习见 [阶段笔记：检查点、独立实现与前向对照](docs/lesson01-02-notes.md)，包含本次追问、调用图和已有实验结果；掌握程度保留“理解中”。
 
-文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2.2 接续讨论设备、计时、TF32/BF16、compile/kernel、FlashAttention 和词表对齐；本机 CPU 编译对照与 MPS 普通训练已有报告，SDPA/对齐独立入口与 CUDA 逐项实验仍待补。2026-10-20 已将 2.2 收束情况同步 Notion 总计划；2026-10-21 已新增 AdamW 专题笔记，本轮未另改总计划；协作验证不记作用户已独立掌握。之前的代码与讲义保留。
+文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2.2 接续讨论设备、计时、TF32/BF16、compile/kernel、FlashAttention 和词表对齐；本机 CPU 编译对照与 MPS 普通训练已有报告，SDPA/对齐独立入口与 CUDA 逐项实验仍待补。2026-10-20 已将 2.2 收束情况同步 Notion 总计划；2026-10-21 新增 AdamW 专题笔记时未另改总计划，本次 2026-10-25 已同步到知识块 12。协作验证不记作用户已独立掌握，之前的代码与讲义保留。
 
-[AdamW、初始化偏差修正与梯度期望](docs/adamw-bias-correction-notes.md) · [Notion](https://app.notion.com/p/400eaea3141481a39db3f37c52896a35)：保留完整推导、手算、梯度裁剪与三段学习率。第十七节续入梯度累积：loss/K、四轮 .grad 矩阵相加、两层循环、统一裁剪与一次 AdamW 更新，并嵌入全流程 PNG，项目另有 SVG。教学数值已复算；掌握程度为“理解中”，2.3 尚未完成，训练入口尚未整合裁剪、调度和梯度累积。
+[AdamW、初始化偏差修正与梯度期望](docs/adamw-bias-correction-notes.md) · [Notion](https://app.notion.com/p/400eaea3141481a39db3f37c52896a35)：保留完整推导、手算、梯度裁剪与三段学习率。第十七节续入梯度累积：loss/K、四轮 .grad 矩阵相加、两层循环、统一裁剪与一次 AdamW 更新，并嵌入全流程 PNG，项目另有 SVG。教学数值已复算；知识块 11 已接通裁剪、调度和梯度累积，用户实践待继续，掌握程度为“理解中”，2.3 尚未结算为完成。
 
 [GPU 训练提速（一）](docs/gpu-training-notes.md) · [Notion](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7)：设备、计时、TF32/BF16 与前向到参数更新的精度变化。
 
 新增 [训练提速（二）笔记](docs/gpu-training-optimization-notes.md) · [Notion](https://app.notion.com/p/3ffeaea3141481f9bd20ca4745fa8b80)：compile/kernel、FlashAttention、词表 50257→50304，以及额外 logits 对 loss/梯度的影响与遮罩方案。含流程图、输入输出、公式、项目对应、实测表和复习自检。遮罩属于教学补充，尚未集成完整训练。
 
 接续的 [FlashAttention 流程图](docs/diagrams/gpt2-flash-attention-flow.md)已保存为 [PNG](docs/diagrams/gpt2-flash-attention-flow.png) 和 [SVG](docs/diagrams/gpt2-flash-attention-flow.svg)：对比完整中间矩阵与片上分块累计，用两块数据得到 `300 / 10 = 30`，并说明稳定在线归一化和反向重算。这是原理讨论配图，尚未作为 CUDA 性能实验结果。
+
+## 阶段二 · 单元 2 · 2.4 · 知识块 11：DDP、数据分配与梯度累积
+
+打开 [train_ddp.py](train_ddp.py)，配合 [lesson11.md](lesson11.md)，先从 `main()` 看启动进程与数据预览，再看 D1—D4 的游标、T1—T5 的累积同步和更新。仍使用 Tiny Shakespeare 与随机初值；默认完整 124M，`--model-size tiny` 是流程验证用的两层小模型。
+
+```bash
+.venv/bin/python -m torch.distributed.run \
+  --nnodes=1 --nproc_per_node=2 --master_addr=127.0.0.1 --master_port=29511 \
+  train_ddp.py --device cpu --preview-only
+```
+
+移除 `--preview-only` 并添加 `--model-size tiny` 即可运行双进程短训练。默认每进程 B=2/T=32，R=2 时累积 K=4，每次更新处理 512 个位置，共更新 3 次。新入口用公开 `no_sync()` 包住前向和反向，按全局块起点一起回绕，并接上此前已讨论的 AdamW 参数分组、裁剪与学习率调度。
+
+6 项行为测试通过，包含真实 CPU/Gloo 双进程与单进程全局 batch 的梯度及更新对照；[小模型双进程报告](artifacts/lesson11-ddp-cpu-report.json)、[完整 124M 单进程短跑](artifacts/lesson11-gpt2-single-process-smoke.json)和[数值对照](artifacts/lesson11-ddp-equivalence.json)已归档。这些结果验证训练流程，CUDA/NCCL 与性能仍待运行；本块未加入 FineWeb-Edu 或验证集。
 
 ## 阶段二 · 单元 2 · 2.2 · 知识块 10：torch.compile
 

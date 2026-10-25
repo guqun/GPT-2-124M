@@ -1,0 +1,199 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.4 · 知识块 11",
+  "course_commit": "ba2554acce54487f07c13563247f2cce683e0d5e",
+  "torch": "2.2.2",
+  "backend": "gloo",
+  "device_type": "cpu",
+  "world_size": 2,
+  "batch_size_per_rank": 2,
+  "seq_len": 32,
+  "accumulation_steps": 4,
+  "tokens_per_optimizer_update": 512,
+  "data_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+  "encoded_tokens": 338025,
+  "preview_only": false,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "scope": "Training-flow check only; CPU/Gloo does not measure CUDA/NCCL performance.",
+  "model_size": "tiny",
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 128,
+    "n_embd": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "seed": 42,
+  "precision": "fp32",
+  "execution": "eager",
+  "parameter_count": 3324736,
+  "parameter_updates": 3,
+  "supervised_positions": 1536,
+  "weight_tied": true,
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.95
+    ],
+    "eps": 1e-08,
+    "weight_decay_matrix": 0.1,
+    "weight_decay_vector": 0.0,
+    "fused": false
+  },
+  "schedule": {
+    "max_lr": 0.0006,
+    "min_lr": 6e-05,
+    "warmup_steps": 1,
+    "decay_steps": 3
+  },
+  "clip_norm": 1.0,
+  "ranks": [
+    {
+      "rank": 0,
+      "steps": [
+        {
+          "step": 1,
+          "local_batch_starts": [
+            0,
+            128,
+            256,
+            384
+          ],
+          "next_start": 512,
+          "input_shape": [
+            2,
+            32
+          ],
+          "logits_shape": [
+            2,
+            32,
+            50257
+          ],
+          "global_mean_loss": 10.804510116577148,
+          "gradient_norm_before_clip": 2.1708931922912598,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 2,
+          "local_batch_starts": [
+            512,
+            640,
+            768,
+            896
+          ],
+          "next_start": 1024,
+          "input_shape": [
+            2,
+            32
+          ],
+          "logits_shape": [
+            2,
+            32,
+            50257
+          ],
+          "global_mean_loss": 10.746269226074219,
+          "gradient_norm_before_clip": 2.147799253463745,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 3,
+          "local_batch_starts": [
+            1024,
+            1152,
+            1280,
+            1408
+          ],
+          "next_start": 1536,
+          "input_shape": [
+            2,
+            32
+          ],
+          "logits_shape": [
+            2,
+            32,
+            50257
+          ],
+          "global_mean_loss": 10.653292655944824,
+          "gradient_norm_before_clip": 1.8647336959838867,
+          "learning_rate": 0.00032999999999999994
+        }
+      ]
+    },
+    {
+      "rank": 1,
+      "steps": [
+        {
+          "step": 1,
+          "local_batch_starts": [
+            64,
+            192,
+            320,
+            448
+          ],
+          "next_start": 576,
+          "input_shape": [
+            2,
+            32
+          ],
+          "logits_shape": [
+            2,
+            32,
+            50257
+          ],
+          "global_mean_loss": 10.804510116577148,
+          "gradient_norm_before_clip": 2.1708931922912598,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 2,
+          "local_batch_starts": [
+            576,
+            704,
+            832,
+            960
+          ],
+          "next_start": 1088,
+          "input_shape": [
+            2,
+            32
+          ],
+          "logits_shape": [
+            2,
+            32,
+            50257
+          ],
+          "global_mean_loss": 10.746269226074219,
+          "gradient_norm_before_clip": 2.147799253463745,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 3,
+          "local_batch_starts": [
+            1088,
+            1216,
+            1344,
+            1472
+          ],
+          "next_start": 1600,
+          "input_shape": [
+            2,
+            32
+          ],
+          "logits_shape": [
+            2,
+            32,
+            50257
+          ],
+          "global_mean_loss": 10.653292655944824,
+          "gradient_norm_before_clip": 1.8647336959838867,
+          "learning_rate": 0.00032999999999999994
+        }
+      ]
+    }
+  ]
+}
