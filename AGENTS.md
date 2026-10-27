@@ -20,6 +20,9 @@
 - 按用户要求归档知识块 14「训练中定期生成文本」：新增 docs/periodic-generation-notes.md 与 Notion 笔记 406eaea3-1414-814e-a785-fee733047ffc，涵盖目的、三条分支、T4/G1—G6、形状、抽样索引、独立 RNG、模式恢复与真实结果解读；只附一张完整代码图，明确其底部来自此前 tiny 运行。
 - 用户亲自完成完整 GPT-2 124,439,808 参数、随机初始化 CPU/FP32、B2/T32/R1/K8 的三次更新，在 2/3 次后各生成 4×24 个 Token；训练与验证记录和知识块 13 用户报告完全一致。用户报告原样另存 artifacts/lesson14-user-gpt2-cpu-report.json，SHA-256 6a3cf2402772a337f86c473d98186d67fde45678b1929ef88e01ac4f9b33c62a，保留助手 tiny 报告及所有旧文件。
 - 用户反馈“大概了解了”，同步 Notion 计划与本地入口为已学习、初步理解、用户单进程 CPU 实践完成；下一步 2.5 HellaSwag，FineWeb/用户 DDP/CUDA 与 2.2/2.3 既有待办保留，2.4 不整体结算，计数仍 1/5、5/32。本轮只归档文档与进度，未重训、修改训练代码或提交 Git。同步凭据见 artifacts/periodic-generation-notion-receipt.json。
+- 提交独立的验证循环与训练中定期生成实现、行为测试、讲义、完整流程图及重绘工具，保留全部前序训练入口。
+- 一并归档完整 GPT-2 用户运行、小模型配套报告、复习笔记与 Notion 进度记录；再次明确 2.4 知识讲解已覆盖，FineWeb 分片实作和用户多进程/GPU 实践仍待补，整节不标记完成。
+- 提交前 9 项验证与生成测试通过，包含真实 CPU/Gloo 双进程验证及后续训练对照；295 处文档链接、两张图的数据依据、两份用户报告哈希，以及 Python/JSON/SVG/PNG 格式与暂存区检查通过。未重复完整模型训练。
 
 ### 2026-10-26
 - 按用户要求新增训练中定期生成的完整代码流转图：docs/diagrams/gpt2-periodic-generation-flow.png / .svg / .md 与独立 render_periodic_generation_flow.py，保留所有旧代码、生成图和验证图。左侧训练/验证/生成判断，右侧 G1—G6 与调用返回，底部用已归档 CPU tiny 报告核对 0/1/2/3 次更新、[4,8]→[4,32] 与真实抽样 ID；行号从当前源码提取。已接入 lesson14 和中英文 README；本轮只制图与说明，不重训、不改训练代码、不更新 Notion 或完成计数。
