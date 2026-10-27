@@ -4,7 +4,9 @@
 
 课程主线：[Karpathy — Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU)。配套参考：[build-nanogpt](https://github.com/karpathy/build-nanogpt)。
 
-**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前学习：2.4「多卡与数据」· 知识块 12「FineWeb-Edu 与数据分片」，核心知识已讲解，理解中（2026-10-25）。** 本轮已归档数据、分片、文档边界和尾部读取的答疑；下一步简短衔接训练量换算，再学验证集与 validation loss。知识块 11 已有 CPU/Gloo 多进程验证；用户实践、CUDA/NCCL、FineWeb-Edu 独立配套与实跑待补。2.2 部分工程与 CUDA 对照继续保留；2.1 于 2026-10-19 经用户确认完成。单元 2 为 1/5、阶段二为 5/32，讨论位置、代码验证与完成计数分别记录。
+**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前：2.4 · 知识块 14「训练中定期生成文本」已学习、初步理解（2026-10-27）。** 用户已亲自运行 [train_generation.py](train_generation.py)，完成随机初始化完整 GPT-2 的 CPU/FP32 三次更新、验证和定期生成。学习内容与实跑解读见[复习笔记](docs/periodic-generation-notes.md)（[Notion](https://app.notion.com/p/406eaea31414814ea785fee733047ffc)）；[用户报告](artifacts/lesson14-user-gpt2-cpu-report.json)已原样归档，区别于此前 tiny 配套检查。
+
+知识块 13「验证循环」与知识块 14「定期生成」均已学习、初步理解，完整 GPT-2 单进程 CPU 用户实践完成。Notion 总计划和本地入口已同步到知识块 14；下一步进入 2.5 HellaSwag 评测，当前尚未开始。FineWeb-Edu 独立分片实作、用户 DDP 多进程、CUDA/NCCL 和 2.2 工程仍待补。2.3 优化与累积已在用户单进程入口运行，独立配置与多卡/GPU 对照另记。2.4 整节未完成，2.1 已完成，计数仍为单元 2 的 1/5、阶段二 5/32。
 
 每次一个知识块：先说明解决什么问题、为什么学、要学会什么，再结合例子、输入输出、公式与形状，最后落到代码和实验；已学基础简要带过，自检供复习。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
 
@@ -16,7 +18,7 @@
 
 [把 DDP 接到 lm_head 的具体计算](docs/diagrams/gpt2-ddp-lm-head-example.md)：用两条样本展开线性层、softmax、交叉熵、两份完整权重梯度、跨卡归约和 AdamW，持续追踪同一个 `W[0,0]`。[PNG](docs/diagrams/gpt2-ddp-lm-head-example.png) / [SVG](docs/diagrams/gpt2-ddp-lm-head-example.svg) 已保存；固定特征的 2×2 输出头例子已用 PyTorch 对照整批计算，属于 CPU 数值验证。
 
-[DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；2026-10-23 归档时未改训练行为、Notion 总计划或完成计数，最新进度见下文。
+[DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；2026-10-23 归档后另行同步了 Notion 总计划中的学习位置，未改变训练行为或完成计数；最新进度见下文。
 
 [FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；独立分片代码与实际运行待补。
 
@@ -50,13 +52,13 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积、2.4 DDP 和 FineWeb-Edu 分片的核心知识；下一步训练量换算与验证集。
+这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积、2.4 DDP、FineWeb-Edu 分片与验证集；当前验证与定期生成均已学习并完成用户单进程 CPU 实践，下一步 2.5 HellaSwag 评测。
 
-## 当前记录：2.4 大规模数据的核心知识已讲解
+## 当前记录：2.4 定期生成已学习，完整 GPT-2 CPU 实践完成
 
-阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**（2026-10-19 用户确认），**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 已讨论 AdamW、梯度裁剪与学习率调度，仍理解中**，单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**，本次理论进展单独记录。自检题保留作后续复习。依据、补充内容与掌握程度的区别见[阶段二已学内容核对](docs/learning-plan-review.md)。
+阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**，**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 优化与梯度累积已整合并在用户本次单进程实验中运行，独立配置与多卡/GPU 实践待继续**；**当前 2.4 · 知识块 14 已学习、初步理解，用户已亲自跑通完整 GPT-2 的 CPU 训练/验证/定期生成短跑**。FineWeb-Edu 概念已归档，独立分片代码与实跑、用户 DDP 多进程实践和 CUDA/NCCL 待补。下一步 2.5 HellaSwag 评测，2.5 与单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
 
-2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，后续数据与验证内容尚未覆盖，多进程运行待实践；该历史记录不用于判断今天的位置。
+2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，并按用户要求同步了 Notion 总计划；后续数据与验证内容尚未覆盖，多进程运行待实践。该历史记录不用于判断今天的位置。
 
 2026-10-24 接续 [知识块 11](lesson11.md)：新增 `train_ddp.py`，CPU/Gloo 双进程取数、累积与同步已运行，并和单进程联合 batch 核对梯度、参数及 AdamW 状态。新入口接通分组、裁剪、调度和累积；前十块入口保留。当时开始代码走读，完整段落计数仍为 1/5、5/32，CUDA/NCCL、FineWeb-Edu 与验证集列为后续。
 
@@ -64,15 +66,41 @@
 
 已学习配置与权重检查、独立模型与前向对照，以及 `forward` 的逐层调用。复习见 [阶段笔记：检查点、独立实现与前向对照](docs/lesson01-02-notes.md)，包含本次追问、调用图和已有实验结果；掌握程度保留“理解中”。
 
-文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2.2 接续讨论设备、计时、TF32/BF16、compile/kernel、FlashAttention 和词表对齐；本机 CPU 编译对照与 MPS 普通训练已有报告，SDPA/对齐独立入口与 CUDA 逐项实验仍待补。2026-10-20 已将 2.2 收束情况同步 Notion 总计划；2026-10-21 新增 AdamW 专题笔记时未另改总计划，本次 2026-10-25 已同步到知识块 12。协作验证不记作用户已独立掌握，之前的代码与讲义保留。
+文本生成、单批次过拟合、数据加载、权重共享和初始化已逐块讲解并核对实验。2.2 接续讨论设备、计时、TF32/BF16、compile/kernel、FlashAttention 和词表对齐；本机 CPU 编译对照与 MPS 普通训练已有报告，SDPA/对齐独立入口与 CUDA 逐项实验仍待补。Notion 总计划 10 月 25 日同步到知识块 12，10 月 26 日同步到验证循环已学习及用户完整 GPT-2 CPU 实跑完成；已学习、协作验证、亲自运行与独立掌握分别记录。
 
-[AdamW、初始化偏差修正与梯度期望](docs/adamw-bias-correction-notes.md) · [Notion](https://app.notion.com/p/400eaea3141481a39db3f37c52896a35)：保留完整推导、手算、梯度裁剪与三段学习率。第十七节续入梯度累积：loss/K、四轮 .grad 矩阵相加、两层循环、统一裁剪与一次 AdamW 更新，并嵌入全流程 PNG，项目另有 SVG。教学数值已复算；知识块 11 已接通裁剪、调度和梯度累积，用户实践待继续，掌握程度为“理解中”，2.3 尚未结算为完成。
+[AdamW、初始化偏差修正与梯度期望](docs/adamw-bias-correction-notes.md) · [Notion](https://app.notion.com/p/400eaea3141481a39db3f37c52896a35)：保留完整推导、手算、梯度裁剪与三段学习率。第十七节续入梯度累积：loss/K、四轮 .grad 矩阵相加、两层循环、统一裁剪与一次 AdamW 更新，并嵌入全流程 PNG，项目另有 SVG。教学数值已复算；优化主干已接通，用户本次完整 GPT-2 单进程实验实际使用了这些步骤，独立配置/多卡与 GPU 对照另记；掌握程度“理解中”，2.3 尚未结算为完成。
 
 [GPU 训练提速（一）](docs/gpu-training-notes.md) · [Notion](https://app.notion.com/p/3feeaea3141481af8e6fd509bee27fc7)：设备、计时、TF32/BF16 与前向到参数更新的精度变化。
 
 新增 [训练提速（二）笔记](docs/gpu-training-optimization-notes.md) · [Notion](https://app.notion.com/p/3ffeaea3141481f9bd20ca4745fa8b80)：compile/kernel、FlashAttention、词表 50257→50304，以及额外 logits 对 loss/梯度的影响与遮罩方案。含流程图、输入输出、公式、项目对应、实测表和复习自检。遮罩属于教学补充，尚未集成完整训练。
 
 接续的 [FlashAttention 流程图](docs/diagrams/gpt2-flash-attention-flow.md)已保存为 [PNG](docs/diagrams/gpt2-flash-attention-flow.png) 和 [SVG](docs/diagrams/gpt2-flash-attention-flow.svg)：对比完整中间矩阵与片上分块累计，用两块数据得到 `300 / 10 = 30`，并说明稳定在线归一化和反向重算。这是原理讨论配图，尚未作为 CUDA 性能实验结果。
+
+## 阶段二 · 单元 2 · 2.4 · 知识块 14：训练中定期生成文本
+
+新入口 [train_generation.py](train_generation.py) 与 [lesson14.md](lesson14.md) 将生成观察接入训练；上一节文件保留原样。先读 G1—G6，再读主循环 T4：固定提示词 → 当前参数前向 → top-k 抽样 → 追加 ID → 恢复训练。生成没有 backward、参数更新，也不把生成文字放回训练数据。
+
+配套[代码流转图](docs/diagrams/gpt2-periodic-generation-flow.md)（[PNG](docs/diagrams/gpt2-periodic-generation-flow.png) / [SVG](docs/diagrams/gpt2-periodic-generation-flow.svg)）标出主循环的触发条件、生成内部的形状变化、独立 RNG、模式恢复和返回位置；数值、ID 与代码行号由绘图脚本读取核对。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_generation.py --device cpu --model-size tiny
+```
+
+默认在更新 2、3 次后各生成 4 条，每条 24 个新 Token。[CPU tiny 报告](artifacts/lesson14-cpu-report.json)与第 13 块同配置的训练/验证记录一致；4 项行为检查含非零 Dropout 下的训练轨迹保持。文字仍不连贯，这只是短跑流程验证，不代表完成预训练。[来源与改编](artifacts/lesson14-course-alignment.json)对应视频 3:25—3:28 与作者历史提交；独立 RNG、每次从同一提示词开始及当时的 compile 问题见讲义。默认报告单独写入 `.cache/runtime-check/lesson14-report.json`，不保存 checkpoint。
+
+2026-10-27 用户已运行默认完整 GPT-2：训练与验证记录和上一块完整模型报告完全一致；更新 2、3 次后各生成 4×24 个新 Token，分别以换行和逗号为主。该结果符合本节流程观察预期，不代表文本质量合格。详见[归档笔记](docs/periodic-generation-notes.md)（[Notion](https://app.notion.com/p/406eaea31414814ea785fee733047ffc)）及[完整模型用户报告](artifacts/lesson14-user-gpt2-cpu-report.json)。现已初步理解，下一步 2.5；图中 tiny 示例保留并明确区分。
+
+## 阶段二 · 单元 2 · 2.4 · 知识块 13：验证循环
+
+2026-10-26 新增 [train_validation.py](train_validation.py) / [lesson13.md](lesson13.md)，保留旧训练入口。先看 `evaluate_validation()`（V1—V6），再看 `train_with_validation()`（T1—T3）：单独取验证数据、eval/no_grad、等量批次及跨卡均值、恢复模式、继续训练。本机可复用已有环境：
+
+配套[代码流转图](docs/diagrams/gpt2-validation-loop-flow.md)（[PNG](docs/diagrams/gpt2-validation-loop-flow.png) / [SVG](docs/diagrams/gpt2-validation-loop-flow.svg)）将主循环、验证函数、返回位置和实际运行顺序对应起来；源码行号与数值由绘图脚本读取并核对。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python train_validation.py --device cpu --model-size tiny
+```
+
+默认在更新 0、2、3 次时验证，每次读取 2 批/进程；tiny 保留 GPT-2 词表并缩小网络，省略该选项则创建完整 124M。用户 2026-10-26 亲自运行默认完整模型，CPU/FP32、3 次更新，val loss 为 **11.036055 → 9.143974 → 9.071917**，报告已另存 [lesson13-user-gpt2-cpu-report.json](artifacts/lesson13-user-gpt2-cpu-report.json)。本块记为已学习、初步理解、用户单进程实践完成。完整[验证循环笔记](docs/validation-loop-notes.md)（[Notion](https://app.notion.com/p/405eaea3141481c98d06ce42da3d9212)）包含参数起点、模式切换、代码图与结果解读；图中 tiny 数值与本次完整 GPT-2 分开标注。原课 FineWeb 与本地位置切分的差异见讲义。既有 5 项行为检查和 CPU/Gloo 协作验证保留；本次短跑不代表正式预训练，FineWeb/用户多进程/CUDA 实践待继续。
 
 ## 阶段二 · 单元 2 · 2.4 · 知识块 11：DDP、数据分配与梯度累积
 

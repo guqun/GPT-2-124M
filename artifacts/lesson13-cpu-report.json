@@ -1,0 +1,157 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.4 · 知识块 13",
+  "course_commit": "21d3d32",
+  "torch": "2.2.2",
+  "device_type": "cpu",
+  "backend": "none",
+  "world_size": 1,
+  "precision": "fp32",
+  "execution": "eager",
+  "seed": 42,
+  "model_size": "tiny",
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 128,
+    "n_embd": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "parameter_count": 3324736,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "data_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+  "encoded_tokens": 338025,
+  "data_adaptation": "Tiny Shakespeare, position-based 90/10 split; not FineWeb-Edu.",
+  "train_range_exclusive": [
+    0,
+    304222
+  ],
+  "val_range_exclusive": [
+    304222,
+    338025
+  ],
+  "batch_size_per_rank": 2,
+  "seq_len": 32,
+  "accumulation_steps": 8,
+  "tokens_per_optimizer_update": 512,
+  "parameter_updates": 3,
+  "training_positions": 1536,
+  "validation_every": 2,
+  "validation_batches_per_rank": 2,
+  "validation_changes_training_policy": false,
+  "schedule": {
+    "max_lr": 0.0006,
+    "min_lr": 6e-05,
+    "warmup_steps": 1,
+    "decay_steps": 3
+  },
+  "clip_norm": 1.0,
+  "ranks": [
+    {
+      "rank": 0,
+      "training": [
+        {
+          "step": 1,
+          "local_batch_starts": [
+            0,
+            64,
+            128,
+            192,
+            256,
+            320,
+            384,
+            448
+          ],
+          "next_start": 512,
+          "global_mean_loss": 10.804509162902832,
+          "gradient_norm_before_clip": 2.170893907546997,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 2,
+          "local_batch_starts": [
+            512,
+            576,
+            640,
+            704,
+            768,
+            832,
+            896,
+            960
+          ],
+          "next_start": 1024,
+          "global_mean_loss": 10.746269226074219,
+          "gradient_norm_before_clip": 2.1477999687194824,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 3,
+          "local_batch_starts": [
+            1024,
+            1088,
+            1152,
+            1216,
+            1280,
+            1344,
+            1408,
+            1472
+          ],
+          "next_start": 1536,
+          "global_mean_loss": 10.653292655944824,
+          "gradient_norm_before_clip": 1.8647347688674927,
+          "learning_rate": 0.00032999999999999994
+        }
+      ],
+      "validation": [
+        {
+          "global_mean_loss": 10.7991943359375,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 0
+        },
+        {
+          "global_mean_loss": 10.646637916564941,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 2
+        },
+        {
+          "global_mean_loss": 10.61008358001709,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 3
+        }
+      ]
+    }
+  ],
+  "scope": "Validation-flow check; no CUDA/NCCL performance or full pretraining claim."
+}

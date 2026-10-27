@@ -1,0 +1,38 @@
+{
+  "lesson": 14,
+  "video_url": "https://www.youtube.com/watch?v=l8pRSuU81PU&t=12306s",
+  "segment": "03:25:06–03:28:07",
+  "transcript_url": "https://github.com/nolimitkun/ai-kol-wiki/blob/main/sources/karpathy/20240609-l8pRSuU81PU/transcript.md",
+  "source_kind": "Unofficial automatic transcript cross-checked with author historical source; video frames not watched.",
+  "commit": "4a63e6a599fea4f78d25e78a4970585ae5c6e27f",
+  "code_url": "https://github.com/karpathy/build-nanogpt/blob/4a63e6a599fea4f78d25e78a4970585ae5c6e27f/train_gpt2.py",
+  "historical_status": "Designed every 100 updates excluding zero; disabled by and False after a torch.compile error. Original sampling has no autocast and no EOS early stop.",
+  "local_adaptations": [
+    "Existing eager model; enabled generation",
+    "Tiny Shakespeare 90/10 position split",
+    "Generation at updates 2 and 3 for a three-update run",
+    "Per-rank raw model forward without DDP collectives",
+    "Context length guard"
+  ],
+  "preserved": [
+    "Current training parameters",
+    "4 sequences per rank",
+    "Hello, I'm a language model,",
+    "24 new tokens + 8 prompt tokens",
+    "top-k=50, temperature=1",
+    "Independent sampling RNG, seed=42+rank",
+    "FP32 generation",
+    "Fixed length without EOS early stop"
+  ],
+  "verification": {
+    "tests": 4,
+    "device": "cpu",
+    "precision": "fp32",
+    "model_size": "tiny",
+    "parameter_count": 3324736,
+    "updates": 3,
+    "same_training_and_validation_as_lesson13_cpu": true
+  },
+  "cuda_nccl_tested": false,
+  "learner_status": "started; no claim of independent run or mastery"
+}

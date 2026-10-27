@@ -1,0 +1,41 @@
+{
+  "scope": "Real CPU/Gloo processes with small GPT; not CUDA/NCCL or FineWeb-Edu.",
+  "ranks": [
+    {
+      "rank": 0,
+      "world_size": 2,
+      "backend": "gloo",
+      "dtype": "float64",
+      "validation_loss": 3.4361375418566857,
+      "single_process_joint_batch_loss": 3.436137541856685,
+      "validation_loss_error": 8.881784197001252e-16,
+      "local_validation_starts": [
+        0,
+        16,
+        32
+      ],
+      "parameters_and_existing_gradients_unchanged_during_validation": true,
+      "following_training_updates": 2,
+      "max_parameter_error_after_training": 1.8715435854533827e-16,
+      "max_optimizer_state_error_after_training": 3.469446951953614e-18
+    },
+    {
+      "rank": 1,
+      "world_size": 2,
+      "backend": "gloo",
+      "dtype": "float64",
+      "validation_loss": 3.4361375418566857,
+      "single_process_joint_batch_loss": 3.436137541856685,
+      "validation_loss_error": 8.881784197001252e-16,
+      "local_validation_starts": [
+        8,
+        24,
+        40
+      ],
+      "parameters_and_existing_gradients_unchanged_during_validation": true,
+      "following_training_updates": 2,
+      "max_parameter_error_after_training": 1.8715435854533827e-16,
+      "max_optimizer_state_error_after_training": 3.469446951953614e-18
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-23",
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+    "page_last_edited_at": "2026-10-23T09:56:29.354Z",
+    "readback_verified": true,
+    "targeted_updates_applied": 8
+  },
+  "learning": {
+    "current": "阶段二 · 单元 2 · 2.4「多卡与数据」：DDP、平均损失与梯度同步",
+    "understanding": "用户反馈初步理解；笔记掌握程度保留“理解中”",
+    "section_23": "AdamW、偏差修正、裁剪、三段学习率、衰减分组、fused AdamW 与梯度累积已讨论；完整工程实践待补",
+    "section_24": "DDP 原理已讨论；代码衔接、多进程运行、数据与验证内容待学",
+    "next": "DDP 代码、各进程数据分配与梯度累积同步 → FineWeb-Edu 分片与验证 loss",
+    "unit_2_completed": 1,
+    "unit_2_total": 5,
+    "stage_2_completed": 5,
+    "stage_2_total": 32,
+    "pending": [
+      "2.2：独立 SDPA/词表对齐入口及统一条件 CUDA 提速表",
+      "2.3：参数分组与优化器配置、裁剪/调度/梯度累积完整训练入口",
+      "2.4：DDP 代码与数据分配、累积同步、多进程实跑、FineWeb-Edu 分片及验证 loss",
+      "2.5：评测与正式训练尚未开始"
+    ]
+  },
+  "notes": [
+    {
+      "id": "400eaea3-1414-81a3-9db3-f37c52896a35",
+      "url": "https://app.notion.com/p/400eaea3141481a39db3f37c52896a35"
+    },
+    {
+      "id": "402eaea3-1414-814c-80ba-d0fa8f02bdd7",
+      "url": "https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7"
+    }
+  ],
+  "verification": {
+    "current": true,
+    "section23": true,
+    "section24": true,
+    "completed_counts": true,
+    "latest_archive": true,
+    "old_archive_preserved": true,
+    "verification_boundary": true,
+    "pending_and_next": true,
+    "earlier_content_unchanged": true,
+    "unit3_and_later_unchanged": true,
+    "child_pages_preserved": true,
+    "section25_unchanged": true,
+    "section22_unchanged": true,
+    "unit1_unchanged": true,
+    "section21_unchanged": true
+  },
+  "local_files": [
+    "AGENTS.md",
+    "README.md",
+    "README.en.md",
+    "docs/learning-plan-review.md"
+  ],
+  "training_code_modified": false,
+  "full_training_rerun": false,
+  "git_committed": false
+}

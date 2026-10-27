@@ -1,0 +1,1157 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.4 · 知识块 14",
+  "course_commit": "4a63e6a599fea4f78d25e78a4970585ae5c6e27f",
+  "torch": "2.2.2",
+  "device_type": "cpu",
+  "backend": "none",
+  "world_size": 1,
+  "precision": "fp32",
+  "execution": "eager",
+  "seed": 42,
+  "model_size": "tiny",
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 128,
+    "n_embd": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "parameter_count": 3324736,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "data_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+  "encoded_tokens": 338025,
+  "data_adaptation": "Tiny Shakespeare, position-based 90/10 split; not FineWeb-Edu.",
+  "train_range_exclusive": [
+    0,
+    304222
+  ],
+  "val_range_exclusive": [
+    304222,
+    338025
+  ],
+  "batch_size_per_rank": 2,
+  "seq_len": 32,
+  "accumulation_steps": 8,
+  "tokens_per_optimizer_update": 512,
+  "parameter_updates": 3,
+  "training_positions": 1536,
+  "validation_every": 2,
+  "validation_batches_per_rank": 2,
+  "validation_changes_training_policy": false,
+  "generation": {
+    "every_updates": 2,
+    "prompt": "Hello, I'm a language model,",
+    "prompt_ids": [
+      15496,
+      11,
+      314,
+      1101,
+      257,
+      3303,
+      2746,
+      11
+    ],
+    "num_sequences": 4,
+    "max_new_tokens": 24,
+    "top_k": 50,
+    "base_seed": 42,
+    "precision": "fp32",
+    "temperature": 1.0,
+    "stops_on_eos": false,
+    "generated_text_used_for_training": false
+  },
+  "schedule": {
+    "max_lr": 0.0006,
+    "min_lr": 6e-05,
+    "warmup_steps": 1,
+    "decay_steps": 3
+  },
+  "clip_norm": 1.0,
+  "ranks": [
+    {
+      "rank": 0,
+      "training": [
+        {
+          "step": 1,
+          "local_batch_starts": [
+            0,
+            64,
+            128,
+            192,
+            256,
+            320,
+            384,
+            448
+          ],
+          "next_start": 512,
+          "global_mean_loss": 10.804509162902832,
+          "gradient_norm_before_clip": 2.170893907546997,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 2,
+          "local_batch_starts": [
+            512,
+            576,
+            640,
+            704,
+            768,
+            832,
+            896,
+            960
+          ],
+          "next_start": 1024,
+          "global_mean_loss": 10.746269226074219,
+          "gradient_norm_before_clip": 2.1477999687194824,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 3,
+          "local_batch_starts": [
+            1024,
+            1088,
+            1152,
+            1216,
+            1280,
+            1344,
+            1408,
+            1472
+          ],
+          "next_start": 1536,
+          "global_mean_loss": 10.653292655944824,
+          "gradient_norm_before_clip": 1.8647347688674927,
+          "learning_rate": 0.00032999999999999994
+        }
+      ],
+      "validation": [
+        {
+          "global_mean_loss": 10.7991943359375,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 0
+        },
+        {
+          "global_mean_loss": 10.646637916564941,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 2
+        },
+        {
+          "global_mean_loss": 10.61008358001709,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 3
+        }
+      ],
+      "generation": [
+        {
+          "token_ids": [
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              25269,
+              16436,
+              2476,
+              46027,
+              8709,
+              14848,
+              46400,
+              25086,
+              1577,
+              20338,
+              48980,
+              36125,
+              31172,
+              31172,
+              7219,
+              26572,
+              15768,
+              19941,
+              50095,
+              12115,
+              12914,
+              2038,
+              23894,
+              14264
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              41281,
+              21939,
+              42584,
+              37615,
+              654,
+              9848,
+              4838,
+              23482,
+              9922,
+              23752,
+              32669,
+              34513,
+              45677,
+              20110,
+              17100,
+              35751,
+              45677,
+              45701,
+              31412,
+              20927,
+              10132,
+              29957,
+              16277,
+              7543
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              45190,
+              30379,
+              30140,
+              5139,
+              45190,
+              4033,
+              27090,
+              37441,
+              23894,
+              14264,
+              48396,
+              17851,
+              9188,
+              32342,
+              19277,
+              49194,
+              484,
+              6081,
+              28752,
+              6460,
+              18770,
+              38793,
+              42648,
+              15861
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              10916,
+              1061,
+              37714,
+              15007,
+              15076,
+              13168,
+              39184,
+              2300,
+              198,
+              20463,
+              20463,
+              2586,
+              7219,
+              25676,
+              7219,
+              26312,
+              1651,
+              48837,
+              17931,
+              27635,
+              9922,
+              45867,
+              27146,
+              10338
+            ]
+          ],
+          "steps": [
+            {
+              "input_length": 8,
+              "logits_shape": [
+                4,
+                8,
+                50257
+              ],
+              "next_token_ids": [
+                25269,
+                41281,
+                45190,
+                10916
+              ]
+            },
+            {
+              "input_length": 9,
+              "logits_shape": [
+                4,
+                9,
+                50257
+              ],
+              "next_token_ids": [
+                16436,
+                21939,
+                30379,
+                1061
+              ]
+            },
+            {
+              "input_length": 10,
+              "logits_shape": [
+                4,
+                10,
+                50257
+              ],
+              "next_token_ids": [
+                2476,
+                42584,
+                30140,
+                37714
+              ]
+            },
+            {
+              "input_length": 11,
+              "logits_shape": [
+                4,
+                11,
+                50257
+              ],
+              "next_token_ids": [
+                46027,
+                37615,
+                5139,
+                15007
+              ]
+            },
+            {
+              "input_length": 12,
+              "logits_shape": [
+                4,
+                12,
+                50257
+              ],
+              "next_token_ids": [
+                8709,
+                654,
+                45190,
+                15076
+              ]
+            },
+            {
+              "input_length": 13,
+              "logits_shape": [
+                4,
+                13,
+                50257
+              ],
+              "next_token_ids": [
+                14848,
+                9848,
+                4033,
+                13168
+              ]
+            },
+            {
+              "input_length": 14,
+              "logits_shape": [
+                4,
+                14,
+                50257
+              ],
+              "next_token_ids": [
+                46400,
+                4838,
+                27090,
+                39184
+              ]
+            },
+            {
+              "input_length": 15,
+              "logits_shape": [
+                4,
+                15,
+                50257
+              ],
+              "next_token_ids": [
+                25086,
+                23482,
+                37441,
+                2300
+              ]
+            },
+            {
+              "input_length": 16,
+              "logits_shape": [
+                4,
+                16,
+                50257
+              ],
+              "next_token_ids": [
+                1577,
+                9922,
+                23894,
+                198
+              ]
+            },
+            {
+              "input_length": 17,
+              "logits_shape": [
+                4,
+                17,
+                50257
+              ],
+              "next_token_ids": [
+                20338,
+                23752,
+                14264,
+                20463
+              ]
+            },
+            {
+              "input_length": 18,
+              "logits_shape": [
+                4,
+                18,
+                50257
+              ],
+              "next_token_ids": [
+                48980,
+                32669,
+                48396,
+                20463
+              ]
+            },
+            {
+              "input_length": 19,
+              "logits_shape": [
+                4,
+                19,
+                50257
+              ],
+              "next_token_ids": [
+                36125,
+                34513,
+                17851,
+                2586
+              ]
+            },
+            {
+              "input_length": 20,
+              "logits_shape": [
+                4,
+                20,
+                50257
+              ],
+              "next_token_ids": [
+                31172,
+                45677,
+                9188,
+                7219
+              ]
+            },
+            {
+              "input_length": 21,
+              "logits_shape": [
+                4,
+                21,
+                50257
+              ],
+              "next_token_ids": [
+                31172,
+                20110,
+                32342,
+                25676
+              ]
+            },
+            {
+              "input_length": 22,
+              "logits_shape": [
+                4,
+                22,
+                50257
+              ],
+              "next_token_ids": [
+                7219,
+                17100,
+                19277,
+                7219
+              ]
+            },
+            {
+              "input_length": 23,
+              "logits_shape": [
+                4,
+                23,
+                50257
+              ],
+              "next_token_ids": [
+                26572,
+                35751,
+                49194,
+                26312
+              ]
+            },
+            {
+              "input_length": 24,
+              "logits_shape": [
+                4,
+                24,
+                50257
+              ],
+              "next_token_ids": [
+                15768,
+                45677,
+                484,
+                1651
+              ]
+            },
+            {
+              "input_length": 25,
+              "logits_shape": [
+                4,
+                25,
+                50257
+              ],
+              "next_token_ids": [
+                19941,
+                45701,
+                6081,
+                48837
+              ]
+            },
+            {
+              "input_length": 26,
+              "logits_shape": [
+                4,
+                26,
+                50257
+              ],
+              "next_token_ids": [
+                50095,
+                31412,
+                28752,
+                17931
+              ]
+            },
+            {
+              "input_length": 27,
+              "logits_shape": [
+                4,
+                27,
+                50257
+              ],
+              "next_token_ids": [
+                12115,
+                20927,
+                6460,
+                27635
+              ]
+            },
+            {
+              "input_length": 28,
+              "logits_shape": [
+                4,
+                28,
+                50257
+              ],
+              "next_token_ids": [
+                12914,
+                10132,
+                18770,
+                9922
+              ]
+            },
+            {
+              "input_length": 29,
+              "logits_shape": [
+                4,
+                29,
+                50257
+              ],
+              "next_token_ids": [
+                2038,
+                29957,
+                38793,
+                45867
+              ]
+            },
+            {
+              "input_length": 30,
+              "logits_shape": [
+                4,
+                30,
+                50257
+              ],
+              "next_token_ids": [
+                23894,
+                16277,
+                42648,
+                27146
+              ]
+            },
+            {
+              "input_length": 31,
+              "logits_shape": [
+                4,
+                31,
+                50257
+              ],
+              "next_token_ids": [
+                14264,
+                7543,
+                15861,
+                10338
+              ]
+            }
+          ],
+          "new_tokens_per_sequence": 24,
+          "stop_reason": "max_new_tokens",
+          "after_updates": 2,
+          "sample_seed": 42,
+          "texts": [
+            "Hello, I'm a language model, MIDacs needs burnerstract DM gloomy irrational giveopoulos phosphorus Staticlasslass dealing potion Job statistically ForthIND Against fail criticised McCain",
+            "Hello, I'm a language model, WT Flat biomass omegaings angle closed whereby accuracy Armour plunge CaoDone bounce Samuel,)Done hatingfactor forgive surviv tram predictions sugar",
+            "Hello, I'm a language model,bodied Arlington outskirtseticbodiedcoltesy aval criticised McCainÛÛ categor critics Barton tourism negotiator theyala ranch settings Bonuscreationaii incon",
+            "Hello, I'm a language model, Rank follow slashing Finance longtimeryptionLimit matter\n Few Fewomes dealing overc dealing uprisingideo generationalDI stove accuracy Wynne footsteps differently"
+          ]
+        },
+        {
+          "token_ids": [
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              6757,
+              17931,
+              20555,
+              24947,
+              21206,
+              1326,
+              45190,
+              5466,
+              24240,
+              27522,
+              19678,
+              17591,
+              48348,
+              198,
+              6081,
+              5726,
+              46373,
+              20190,
+              8169,
+              6460,
+              17789,
+              35537,
+              45486,
+              44891
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              17122,
+              49101,
+              356,
+              11211,
+              6081,
+              23482,
+              45486,
+              16778,
+              22845,
+              13135,
+              40592,
+              24805,
+              10913,
+              28098,
+              33316,
+              9922,
+              16822,
+              9209,
+              66,
+              29448,
+              20473,
+              10826,
+              43469,
+              6407
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              28401,
+              17735,
+              33218,
+              7219,
+              48348,
+              8169,
+              907,
+              6407,
+              34304,
+              66,
+              36223,
+              24947,
+              9922,
+              11727,
+              40088,
+              14713,
+              25143,
+              14713,
+              45154,
+              32342,
+              20110,
+              46963,
+              30264,
+              15861
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              37948,
+              20555,
+              24947,
+              10538,
+              45701,
+              17591,
+              10913,
+              7862,
+              198,
+              37441,
+              37441,
+              66,
+              39184,
+              47239,
+              2300,
+              10150,
+              25,
+              27728,
+              34078,
+              33078,
+              1577,
+              33560,
+              45028,
+              45190
+            ]
+          ],
+          "steps": [
+            {
+              "input_length": 8,
+              "logits_shape": [
+                4,
+                8,
+                50257
+              ],
+              "next_token_ids": [
+                6757,
+                17122,
+                28401,
+                37948
+              ]
+            },
+            {
+              "input_length": 9,
+              "logits_shape": [
+                4,
+                9,
+                50257
+              ],
+              "next_token_ids": [
+                17931,
+                49101,
+                17735,
+                20555
+              ]
+            },
+            {
+              "input_length": 10,
+              "logits_shape": [
+                4,
+                10,
+                50257
+              ],
+              "next_token_ids": [
+                20555,
+                356,
+                33218,
+                24947
+              ]
+            },
+            {
+              "input_length": 11,
+              "logits_shape": [
+                4,
+                11,
+                50257
+              ],
+              "next_token_ids": [
+                24947,
+                11211,
+                7219,
+                10538
+              ]
+            },
+            {
+              "input_length": 12,
+              "logits_shape": [
+                4,
+                12,
+                50257
+              ],
+              "next_token_ids": [
+                21206,
+                6081,
+                48348,
+                45701
+              ]
+            },
+            {
+              "input_length": 13,
+              "logits_shape": [
+                4,
+                13,
+                50257
+              ],
+              "next_token_ids": [
+                1326,
+                23482,
+                8169,
+                17591
+              ]
+            },
+            {
+              "input_length": 14,
+              "logits_shape": [
+                4,
+                14,
+                50257
+              ],
+              "next_token_ids": [
+                45190,
+                45486,
+                907,
+                10913
+              ]
+            },
+            {
+              "input_length": 15,
+              "logits_shape": [
+                4,
+                15,
+                50257
+              ],
+              "next_token_ids": [
+                5466,
+                16778,
+                6407,
+                7862
+              ]
+            },
+            {
+              "input_length": 16,
+              "logits_shape": [
+                4,
+                16,
+                50257
+              ],
+              "next_token_ids": [
+                24240,
+                22845,
+                34304,
+                198
+              ]
+            },
+            {
+              "input_length": 17,
+              "logits_shape": [
+                4,
+                17,
+                50257
+              ],
+              "next_token_ids": [
+                27522,
+                13135,
+                66,
+                37441
+              ]
+            },
+            {
+              "input_length": 18,
+              "logits_shape": [
+                4,
+                18,
+                50257
+              ],
+              "next_token_ids": [
+                19678,
+                40592,
+                36223,
+                37441
+              ]
+            },
+            {
+              "input_length": 19,
+              "logits_shape": [
+                4,
+                19,
+                50257
+              ],
+              "next_token_ids": [
+                17591,
+                24805,
+                24947,
+                66
+              ]
+            },
+            {
+              "input_length": 20,
+              "logits_shape": [
+                4,
+                20,
+                50257
+              ],
+              "next_token_ids": [
+                48348,
+                10913,
+                9922,
+                39184
+              ]
+            },
+            {
+              "input_length": 21,
+              "logits_shape": [
+                4,
+                21,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                28098,
+                11727,
+                47239
+              ]
+            },
+            {
+              "input_length": 22,
+              "logits_shape": [
+                4,
+                22,
+                50257
+              ],
+              "next_token_ids": [
+                6081,
+                33316,
+                40088,
+                2300
+              ]
+            },
+            {
+              "input_length": 23,
+              "logits_shape": [
+                4,
+                23,
+                50257
+              ],
+              "next_token_ids": [
+                5726,
+                9922,
+                14713,
+                10150
+              ]
+            },
+            {
+              "input_length": 24,
+              "logits_shape": [
+                4,
+                24,
+                50257
+              ],
+              "next_token_ids": [
+                46373,
+                16822,
+                25143,
+                25
+              ]
+            },
+            {
+              "input_length": 25,
+              "logits_shape": [
+                4,
+                25,
+                50257
+              ],
+              "next_token_ids": [
+                20190,
+                9209,
+                14713,
+                27728
+              ]
+            },
+            {
+              "input_length": 26,
+              "logits_shape": [
+                4,
+                26,
+                50257
+              ],
+              "next_token_ids": [
+                8169,
+                66,
+                45154,
+                34078
+              ]
+            },
+            {
+              "input_length": 27,
+              "logits_shape": [
+                4,
+                27,
+                50257
+              ],
+              "next_token_ids": [
+                6460,
+                29448,
+                32342,
+                33078
+              ]
+            },
+            {
+              "input_length": 28,
+              "logits_shape": [
+                4,
+                28,
+                50257
+              ],
+              "next_token_ids": [
+                17789,
+                20473,
+                20110,
+                1577
+              ]
+            },
+            {
+              "input_length": 29,
+              "logits_shape": [
+                4,
+                29,
+                50257
+              ],
+              "next_token_ids": [
+                35537,
+                10826,
+                46963,
+                33560
+              ]
+            },
+            {
+              "input_length": 30,
+              "logits_shape": [
+                4,
+                30,
+                50257
+              ],
+              "next_token_ids": [
+                45486,
+                43469,
+                30264,
+                45028
+              ]
+            },
+            {
+              "input_length": 31,
+              "logits_shape": [
+                4,
+                31,
+                50257
+              ],
+              "next_token_ids": [
+                44891,
+                6407,
+                15861,
+                45190
+              ]
+            }
+          ],
+          "new_tokens_per_sequence": 24,
+          "stop_reason": "max_new_tokens",
+          "after_updates": 3,
+          "sample_seed": 42,
+          "texts": [
+            "Hello, I'm a language model, pinDI communist NIAudiomebodied sale tomato Thought addict catches additives\nala entry Breesrill ho settings aerial grease Categories Jacket",
+            "Hello, I'm a language model, holidays Span weASHala whereby Categories ammoOWS juice gearingAPPFR Dominion resurg accuracy=-=- speaksc amenimon representatives anthology True",
+            "Hello, I'm a language model,>. Ny downstream dealing additives homs True compensatedc Aim NI accuracy helicopetter buzz Dol buzz PCR Barton bounce triangular recognizable incon",
+            "Hello, I'm a language model,Featured communist NI burden hating catchesFR cable\n aval avalcLimit Passenger matter waters:298 shameful interstate giveSummerGANbodied"
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Periodic-generation flow check; no text-quality, CUDA performance or full pretraining claim."
+}

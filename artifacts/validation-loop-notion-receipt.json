@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-26",
+  "notes": {
+    "id": "405eaea3-1414-81c9-8d06-ce42da3d9212",
+    "url": "https://app.notion.com/p/405eaea3141481c98d06ce42da3d9212",
+    "title": "GPT-2 验证循环：数据隔离、代码流转与训练结果解读",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/validation-loop-notes.md",
+    "published_markdown": "artifacts/validation-loop-notion-content.md",
+    "mastery": "理解中",
+    "image": {
+      "local": "docs/diagrams/gpt2-validation-loop-flow.png",
+      "uploaded_file_id": "405eaea3-1414-81e0-a26d-00b228161c74",
+      "sha256": "fe0a529b791df96592a4ed0beae364ad497a989ec037e71cd5a7d886ec5b44d6",
+      "count": 1,
+      "notes": "Diagram timeline uses archived tiny run; learner full GPT-2 results are separately labeled."
+    }
+  },
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+    "targeted_regions": 9,
+    "updates": [
+      "current_position",
+      "stage_2_heading",
+      "unit_2_row",
+      "learning_progress",
+      "section_2_3_status",
+      "section_2_4_status",
+      "latest_archive_with_prior_preserved",
+      "verification_scope",
+      "pending_work"
+    ],
+    "archive_edit_no_match_resolved": true,
+    "verification": {
+      "updated_date": "2026-10-26T08:13:07.737Z",
+      "note_link_present": true,
+      "latest_archive_present": true,
+      "prior_archive_retained": true,
+      "before_stage2_unchanged": true,
+      "units_3_onward_unchanged": true,
+      "child_pages_preserved": true,
+      "child_page_count": 5,
+      "section21_unchanged": true,
+      "section22_unchanged": true,
+      "section25_unchanged": true,
+      "user_run_recorded": true,
+      "next_topic_recorded": true,
+      "counts_unchanged": true,
+      "unknown_blocks": 0
+    }
+  },
+  "learning": {
+    "current": "阶段二 · 单元 2 · 2.4 · 知识块 13：验证循环",
+    "user_feedback": "大概了解了",
+    "status": "已学习、初步理解；用户完整 GPT-2 单进程 CPU 实践完成",
+    "next": "训练中定期生成文本，再进入 2.5 HellaSwag",
+    "section_2_4_complete": false,
+    "unit_2_completed_sections": "1/5",
+    "stage_2_completed_sections": "5/32",
+    "independent_configuration_or_ddp_mastery_not_inferred": true,
+    "pending": [
+      "FineWeb-Edu 独立分片代码与实跑",
+      "用户 DDP 多进程实践",
+      "CUDA/NCCL 实跑",
+      "2.2 SDPA/词表对齐入口与统一条件 CUDA 性能对照",
+      "2.3 独立配置与多卡/GPU 对照"
+    ]
+  },
+  "learner_run": {
+    "original": ".cache/runtime-check/lesson13-report.json",
+    "archive": "artifacts/lesson13-user-gpt2-cpu-report.json",
+    "sha256": "cec78dea85508cce1d231c5c9696fed5215e0a21e4f98c510fc355e991213296",
+    "performed_by": "user",
+    "model_size": "gpt2",
+    "parameter_count": 124439808,
+    "pretrained_weights_loaded": false,
+    "device": "cpu",
+    "precision": "fp32",
+    "world_size": 1,
+    "B": 2,
+    "T": 32,
+    "K": 8,
+    "parameter_updates": 3,
+    "training_predicted_positions": 1536,
+    "validation_predicted_positions_per_check": 128,
+    "validation_after_updates": [
+      0,
+      2,
+      3
+    ],
+    "validation_losses": [
+      11.036054611206055,
+      9.143974304199219,
+      9.071916580200195
+    ],
+    "checkpoint_saved": false,
+    "report_readback_verified": true,
+    "original_bytes_preserved": true
+  },
+  "verification": {
+    "notes": {
+      "page_readback_verified": true,
+      "section_count": 11,
+      "image_count": 1,
+      "image_attached": true,
+      "expected_user_losses": true,
+      "expected_training_losses": true,
+      "random_init_boundary": true,
+      "tiny_and_full_distinguished": true,
+      "next_topic": true,
+      "checkpoint_not_saved": true,
+      "unknown_block_count": 0
+    },
+    "local_document_links_checked": 236,
+    "local_document_links_verified": true,
+    "git_diff_whitespace_check_passed": true
+  },
+  "source_boundary": {
+    "video_primary_interval": "3:23–3:25",
+    "historical_commit": "21d3d32",
+    "prior_teaching_transcript_and_author_code_cross_checked": true,
+    "video_directly_watched": false,
+    "local_tiny_shakespeare_adaptation_labeled": true
+  },
+  "training_code_modified_this_archive_turn": false,
+  "training_rerun_this_archive_turn": false,
+  "data_downloaded": false,
+  "notion_synced": true,
+  "git_committed": false,
+  "git_pushed": false
+}

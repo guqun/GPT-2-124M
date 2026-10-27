@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-27",
+  "notes": {
+    "id": "406eaea3-1414-814e-a785-fee733047ffc",
+    "url": "https://app.notion.com/p/406eaea31414814ea785fee733047ffc",
+    "title": "GPT-2 训练中定期生成：当前参数采样、代码流转与结果解读",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+    "local": "docs/periodic-generation-notes.md",
+    "published_markdown": "artifacts/periodic-generation-notion-content.md",
+    "mastery": "理解中",
+    "image": {
+      "local": "docs/diagrams/gpt2-periodic-generation-flow.png",
+      "uploaded_file_id": "406eaea3-1414-816e-8b35-00b20c6b75e1",
+      "stable_block_reference": "notion-file-block://7fecb32c-3b53-46ae-85cf-b83e14e56e41/9a58c19b-41a0-41e6-9433-ab20e0ffa994?space_id=6ac5907c-dabf-4363-a84a-c2c8afc00634&name=gpt2-periodic-generation-flow.png",
+      "count": 1,
+      "notes": "Diagram uses earlier tiny run; learner full GPT-2 results are separately labeled.",
+      "sha256": "ccbba1ebc50f08a9f1b473318cd1903afde3bebf99d85335ada0c7a6d5194e1b"
+    }
+  },
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc?pvs=204",
+    "verification": {
+      "update_completed": true,
+      "targeted_regions": 8,
+      "before_stage2_preserved": true,
+      "units3_onward_preserved": true,
+      "child_page_tags_preserved": true,
+      "child_page_count": 5,
+      "section21_preserved": true,
+      "section22_preserved": true,
+      "section23_preserved": true,
+      "section25_preserved": true,
+      "evidence": "Exact unique targeted replacements prepared from fetched page; update tool completed without warnings. Unrelated-region checks compare the prepared before/after content; no post-update plan fetch performed."
+    }
+  },
+  "learning": {
+    "current": "阶段二 · 单元 2 · 2.4 · 知识块 14：训练中定期生成文本",
+    "user_feedback": "这部分我大概了解了",
+    "status": "已学习、初步理解；用户完整 GPT-2 单进程 CPU 实践完成",
+    "next": "2.5 HellaSwag 评测",
+    "section_2_5_started": false,
+    "section_2_4_complete": false,
+    "unit_2_completed_sections": "1/5",
+    "stage_2_completed_sections": "5/32",
+    "pending": [
+      "FineWeb-Edu 独立分片代码与实跑",
+      "用户 DDP 多进程实践",
+      "CUDA/NCCL 实跑",
+      "2.2 SDPA/词表对齐入口与统一 CUDA 性能对照",
+      "2.3 独立配置与多卡/GPU 对照"
+    ]
+  },
+  "verification": {
+    "note_readback": {
+      "sections": 11,
+      "image_count": 1,
+      "image_attached": true,
+      "expected_values": true,
+      "initial_readback_had_auto_links": true,
+      "filename_and_source_link_fixes_completed": true,
+      "stable_image_reference_collected": true
+    },
+    "local_document_links_checked": 258,
+    "local_document_links_verified": true,
+    "training_source_files_unchanged": true,
+    "archive_hash_verified": true
+  },
+  "source_boundary": {
+    "video_primary_interval": "3:25:06–3:28:07",
+    "historical_commit": "4a63e6a599fea4f78d25e78a4970585ae5c6e27f",
+    "prior_teaching_transcript_and_author_code_cross_checked": true,
+    "video_directly_watched": false,
+    "local_tiny_shakespeare_adaptation_labeled": true
+  },
+  "training_code_modified_this_archive_turn": false,
+  "training_rerun_this_archive_turn": false,
+  "data_downloaded": false,
+  "notion_synced": true,
+  "git_committed": false,
+  "git_pushed": false,
+  "learner_run": {
+    "date": "2026-10-27",
+    "original": ".cache/runtime-check/lesson14-report.json",
+    "archive": "artifacts/lesson14-user-gpt2-cpu-report.json",
+    "sha256": "6a3cf2402772a337f86c473d98186d67fde45678b1929ef88e01ac4f9b33c62a",
+    "original_bytes_preserved": true,
+    "training_matches_lesson13": true,
+    "validation_matches_lesson13": true,
+    "generation": [
+      {
+        "after_updates": 2,
+        "sequences": 4,
+        "new_tokens_per_sequence": 24,
+        "total_new_tokens": 96,
+        "newline_id_198_count": 94,
+        "comma_id_11_count": 1,
+        "stop_reason": "max_new_tokens"
+      },
+      {
+        "after_updates": 3,
+        "sequences": 4,
+        "new_tokens_per_sequence": 24,
+        "total_new_tokens": 96,
+        "newline_id_198_count": 12,
+        "comma_id_11_count": 64,
+        "stop_reason": "max_new_tokens"
+      }
+    ],
+    "training_source_sha256": {
+      "train_generation.py": "646ca20cfcbc33340866f1d7c553885e3e6623ed0061c3d76452bbdf55e603dd",
+      "train_validation.py": "43335dc336ac9e120d543fc93186b6ff2a22e47dbd2a435226d591ac2715e11a",
+      "generate_text.py": "1766e4928b122aff8b2896bb72ab3e5de5df89d9572f997e656518053dd2456b",
+      "gpt2_model.py": "504f21efa3bd0de52e83357f3bbb3fe398ed400500312b06ac9ddf3e330e3cf1"
+    },
+    "performed_by": "user",
+    "parameter_count": 124439808,
+    "model_size": "gpt2",
+    "pretrained_weights_loaded": false,
+    "device": "cpu",
+    "precision": "fp32",
+    "world_size": 1,
+    "B": 2,
+    "T": 32,
+    "K": 8,
+    "parameter_updates": 3,
+    "training_predicted_positions": 1536,
+    "validation_losses": [
+      11.036054611206055,
+      9.143974304199219,
+      9.071916580200195
+    ],
+    "checkpoint_saved": false
+  }
+}

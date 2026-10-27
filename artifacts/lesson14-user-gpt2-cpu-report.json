@@ -1,0 +1,1157 @@
+{
+  "lesson": "阶段二 · 单元 2 · 2.4 · 知识块 14",
+  "course_commit": "4a63e6a599fea4f78d25e78a4970585ae5c6e27f",
+  "torch": "2.2.2",
+  "device_type": "cpu",
+  "backend": "none",
+  "world_size": 1,
+  "precision": "fp32",
+  "execution": "eager",
+  "seed": 42,
+  "model_size": "gpt2",
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 1024,
+    "n_embd": 768,
+    "n_layer": 12,
+    "n_head": 12,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "parameter_count": 124439808,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "data_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+  "encoded_tokens": 338025,
+  "data_adaptation": "Tiny Shakespeare, position-based 90/10 split; not FineWeb-Edu.",
+  "train_range_exclusive": [
+    0,
+    304222
+  ],
+  "val_range_exclusive": [
+    304222,
+    338025
+  ],
+  "batch_size_per_rank": 2,
+  "seq_len": 32,
+  "accumulation_steps": 8,
+  "tokens_per_optimizer_update": 512,
+  "parameter_updates": 3,
+  "training_positions": 1536,
+  "validation_every": 2,
+  "validation_batches_per_rank": 2,
+  "validation_changes_training_policy": false,
+  "generation": {
+    "every_updates": 2,
+    "prompt": "Hello, I'm a language model,",
+    "prompt_ids": [
+      15496,
+      11,
+      314,
+      1101,
+      257,
+      3303,
+      2746,
+      11
+    ],
+    "num_sequences": 4,
+    "max_new_tokens": 24,
+    "top_k": 50,
+    "base_seed": 42,
+    "precision": "fp32",
+    "temperature": 1.0,
+    "stops_on_eos": false,
+    "generated_text_used_for_training": false
+  },
+  "schedule": {
+    "max_lr": 0.0006,
+    "min_lr": 6e-05,
+    "warmup_steps": 1,
+    "decay_steps": 3
+  },
+  "clip_norm": 1.0,
+  "ranks": [
+    {
+      "rank": 0,
+      "training": [
+        {
+          "step": 1,
+          "local_batch_starts": [
+            0,
+            64,
+            128,
+            192,
+            256,
+            320,
+            384,
+            448
+          ],
+          "next_start": 512,
+          "global_mean_loss": 10.958788871765137,
+          "gradient_norm_before_clip": 31.695507049560547,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 2,
+          "local_batch_starts": [
+            512,
+            576,
+            640,
+            704,
+            768,
+            832,
+            896,
+            960
+          ],
+          "next_start": 1024,
+          "global_mean_loss": 9.674577713012695,
+          "gradient_norm_before_clip": 9.073585510253906,
+          "learning_rate": 0.0006
+        },
+        {
+          "step": 3,
+          "local_batch_starts": [
+            1024,
+            1088,
+            1152,
+            1216,
+            1280,
+            1344,
+            1408,
+            1472
+          ],
+          "next_start": 1536,
+          "global_mean_loss": 8.898488998413086,
+          "gradient_norm_before_clip": 4.467155456542969,
+          "learning_rate": 0.00032999999999999994
+        }
+      ],
+      "validation": [
+        {
+          "global_mean_loss": 11.036054611206055,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 0
+        },
+        {
+          "global_mean_loss": 9.143974304199219,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 2
+        },
+        {
+          "global_mean_loss": 9.071916580200195,
+          "local_batch_starts": [
+            0,
+            64
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            32
+          ],
+          "global_predicted_positions": 128,
+          "after_updates": 3
+        }
+      ],
+      "generation": [
+        {
+          "token_ids": [
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              7864,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              11,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198,
+              198
+            ]
+          ],
+          "steps": [
+            {
+              "input_length": 8,
+              "logits_shape": [
+                4,
+                8,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 9,
+              "logits_shape": [
+                4,
+                9,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 10,
+              "logits_shape": [
+                4,
+                10,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 11,
+              "logits_shape": [
+                4,
+                11,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 12,
+              "logits_shape": [
+                4,
+                12,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 13,
+              "logits_shape": [
+                4,
+                13,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 14,
+              "logits_shape": [
+                4,
+                14,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 15,
+              "logits_shape": [
+                4,
+                15,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 16,
+              "logits_shape": [
+                4,
+                16,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 17,
+              "logits_shape": [
+                4,
+                17,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 18,
+              "logits_shape": [
+                4,
+                18,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 19,
+              "logits_shape": [
+                4,
+                19,
+                50257
+              ],
+              "next_token_ids": [
+                7864,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 20,
+              "logits_shape": [
+                4,
+                20,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 21,
+              "logits_shape": [
+                4,
+                21,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                11,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 22,
+              "logits_shape": [
+                4,
+                22,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 23,
+              "logits_shape": [
+                4,
+                23,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 24,
+              "logits_shape": [
+                4,
+                24,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 25,
+              "logits_shape": [
+                4,
+                25,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 26,
+              "logits_shape": [
+                4,
+                26,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 27,
+              "logits_shape": [
+                4,
+                27,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 28,
+              "logits_shape": [
+                4,
+                28,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 29,
+              "logits_shape": [
+                4,
+                29,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 30,
+              "logits_shape": [
+                4,
+                30,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "input_length": 31,
+              "logits_shape": [
+                4,
+                31,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                198,
+                198,
+                198
+              ]
+            }
+          ],
+          "new_tokens_per_sequence": 24,
+          "stop_reason": "max_new_tokens",
+          "after_updates": 2,
+          "sample_seed": 42,
+          "texts": [
+            "Hello, I'm a language model,\n\n\n\n\n\n\n\n\n\n\n wins\n\n\n\n\n\n\n\n\n\n\n\n",
+            "Hello, I'm a language model,\n\n\n\n\n\n\n\n\n\n\n\n\n,\n\n\n\n\n\n\n\n\n\n",
+            "Hello, I'm a language model,\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+            "Hello, I'm a language model,\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+          ]
+        },
+        {
+          "token_ids": [
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              11,
+              11,
+              11,
+              0,
+              13,
+              198,
+              11,
+              40788,
+              11,
+              11,
+              11,
+              39436,
+              517,
+              11,
+              11,
+              777,
+              11,
+              25,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              198,
+              198,
+              11,
+              11,
+              11,
+              11,
+              1499,
+              198,
+              11,
+              262,
+              198,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              198,
+              11,
+              11,
+              11,
+              11,
+              11,
+              11,
+              198,
+              11,
+              11,
+              11,
+              8415,
+              25,
+              11,
+              198,
+              11,
+              11,
+              198,
+              11,
+              262,
+              11,
+              25,
+              11,
+              11
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              11,
+              11,
+              11,
+              22307,
+              40110,
+              11,
+              11,
+              11,
+              11,
+              11,
+              198,
+              25,
+              351,
+              198,
+              11,
+              11,
+              11,
+              351,
+              198,
+              13,
+              11,
+              11,
+              11,
+              13
+            ]
+          ],
+          "steps": [
+            {
+              "input_length": 8,
+              "logits_shape": [
+                4,
+                8,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                198,
+                11
+              ]
+            },
+            {
+              "input_length": 9,
+              "logits_shape": [
+                4,
+                9,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 10,
+              "logits_shape": [
+                4,
+                10,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 11,
+              "logits_shape": [
+                4,
+                11,
+                50257
+              ],
+              "next_token_ids": [
+                0,
+                11,
+                11,
+                22307
+              ]
+            },
+            {
+              "input_length": 12,
+              "logits_shape": [
+                4,
+                12,
+                50257
+              ],
+              "next_token_ids": [
+                13,
+                11,
+                11,
+                40110
+              ]
+            },
+            {
+              "input_length": 13,
+              "logits_shape": [
+                4,
+                13,
+                50257
+              ],
+              "next_token_ids": [
+                198,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 14,
+              "logits_shape": [
+                4,
+                14,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                198,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 15,
+              "logits_shape": [
+                4,
+                15,
+                50257
+              ],
+              "next_token_ids": [
+                40788,
+                198,
+                198,
+                11
+              ]
+            },
+            {
+              "input_length": 16,
+              "logits_shape": [
+                4,
+                16,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 17,
+              "logits_shape": [
+                4,
+                17,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 18,
+              "logits_shape": [
+                4,
+                18,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                198
+              ]
+            },
+            {
+              "input_length": 19,
+              "logits_shape": [
+                4,
+                19,
+                50257
+              ],
+              "next_token_ids": [
+                39436,
+                11,
+                8415,
+                25
+              ]
+            },
+            {
+              "input_length": 20,
+              "logits_shape": [
+                4,
+                20,
+                50257
+              ],
+              "next_token_ids": [
+                517,
+                1499,
+                25,
+                351
+              ]
+            },
+            {
+              "input_length": 21,
+              "logits_shape": [
+                4,
+                21,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                198,
+                11,
+                198
+              ]
+            },
+            {
+              "input_length": 22,
+              "logits_shape": [
+                4,
+                22,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                198,
+                11
+              ]
+            },
+            {
+              "input_length": 23,
+              "logits_shape": [
+                4,
+                23,
+                50257
+              ],
+              "next_token_ids": [
+                777,
+                262,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 24,
+              "logits_shape": [
+                4,
+                24,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                198,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 25,
+              "logits_shape": [
+                4,
+                25,
+                50257
+              ],
+              "next_token_ids": [
+                25,
+                11,
+                198,
+                351
+              ]
+            },
+            {
+              "input_length": 26,
+              "logits_shape": [
+                4,
+                26,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                198
+              ]
+            },
+            {
+              "input_length": 27,
+              "logits_shape": [
+                4,
+                27,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                262,
+                13
+              ]
+            },
+            {
+              "input_length": 28,
+              "logits_shape": [
+                4,
+                28,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 29,
+              "logits_shape": [
+                4,
+                29,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                25,
+                11
+              ]
+            },
+            {
+              "input_length": 30,
+              "logits_shape": [
+                4,
+                30,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                11
+              ]
+            },
+            {
+              "input_length": 31,
+              "logits_shape": [
+                4,
+                31,
+                50257
+              ],
+              "next_token_ids": [
+                11,
+                11,
+                11,
+                13
+              ]
+            }
+          ],
+          "new_tokens_per_sequence": 24,
+          "stop_reason": "max_new_tokens",
+          "after_updates": 3,
+          "sample_seed": 42,
+          "texts": [
+            "Hello, I'm a language model,,,,!.\n, retribution,,, hr more,, these,:,,,,,,",
+            "Hello, I'm a language model,,,,,,,\n\n,,,, country\n, the\n,,,,,,,",
+            "Hello, I'm a language model,\n,,,,,,\n,,, signing:,\n,,\n, the,:,,",
+            "Hello, I'm a language model,,,, Citizen Bree,,,,,\n: with\n,,, with\n.,,,."
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Periodic-generation flow check; no text-quality, CUDA performance or full pretraining claim."
+}
