@@ -1,0 +1,893 @@
+{
+  "source_anchors": {
+    "T.main": {
+      "file": "train_hellaswag.py",
+      "line": 151,
+      "alias": "T"
+    },
+    "T.loop": {
+      "file": "train_hellaswag.py",
+      "line": 41,
+      "alias": "T"
+    },
+    "T.record": {
+      "file": "train_hellaswag.py",
+      "line": 69,
+      "alias": "T"
+    },
+    "T.initial": {
+      "file": "train_hellaswag.py",
+      "line": 83,
+      "alias": "T"
+    },
+    "T.read": {
+      "file": "train_hellaswag.py",
+      "line": 92,
+      "alias": "T"
+    },
+    "T.transfer": {
+      "file": "train_hellaswag.py",
+      "line": 93,
+      "alias": "T"
+    },
+    "T.forward": {
+      "file": "train_hellaswag.py",
+      "line": 99,
+      "alias": "T"
+    },
+    "T.backward": {
+      "file": "train_hellaswag.py",
+      "line": 102,
+      "alias": "T"
+    },
+    "T.clip": {
+      "file": "train_hellaswag.py",
+      "line": 110,
+      "alias": "T"
+    },
+    "T.lr": {
+      "file": "train_hellaswag.py",
+      "line": 112,
+      "alias": "T"
+    },
+    "T.step": {
+      "file": "train_hellaswag.py",
+      "line": 115,
+      "alias": "T"
+    },
+    "T.val": {
+      "file": "train_hellaswag.py",
+      "line": 127,
+      "alias": "T"
+    },
+    "T.eval": {
+      "file": "train_hellaswag.py",
+      "line": 130,
+      "alias": "T"
+    },
+    "T.generation": {
+      "file": "train_hellaswag.py",
+      "line": 133,
+      "alias": "T"
+    },
+    "T.decode": {
+      "file": "train_hellaswag.py",
+      "line": 139,
+      "alias": "T"
+    },
+    "T.initialize": {
+      "file": "train_hellaswag.py",
+      "line": 250,
+      "alias": "T"
+    },
+    "T.move_model": {
+      "file": "train_hellaswag.py",
+      "line": 253,
+      "alias": "T"
+    },
+    "T.opt": {
+      "file": "train_hellaswag.py",
+      "line": 259,
+      "alias": "T"
+    },
+    "T.gather": {
+      "file": "train_hellaswag.py",
+      "line": 281,
+      "alias": "T"
+    },
+    "T.save": {
+      "file": "train_hellaswag.py",
+      "line": 312,
+      "alias": "T"
+    },
+    "H.render": {
+      "file": "hellaswag_eval.py",
+      "line": 32,
+      "alias": "H"
+    },
+    "H.load": {
+      "file": "hellaswag_eval.py",
+      "line": 68,
+      "alias": "H"
+    },
+    "H.score": {
+      "file": "hellaswag_eval.py",
+      "line": 116,
+      "alias": "H"
+    },
+    "H.shift": {
+      "file": "hellaswag_eval.py",
+      "line": 128,
+      "alias": "H"
+    },
+    "H.ce": {
+      "file": "hellaswag_eval.py",
+      "line": 134,
+      "alias": "H"
+    },
+    "H.count": {
+      "file": "hellaswag_eval.py",
+      "line": 137,
+      "alias": "H"
+    },
+    "H.mean": {
+      "file": "hellaswag_eval.py",
+      "line": 141,
+      "alias": "H"
+    },
+    "H.argmin": {
+      "file": "hellaswag_eval.py",
+      "line": 145,
+      "alias": "H"
+    },
+    "H.evaluate": {
+      "file": "hellaswag_eval.py",
+      "line": 148,
+      "alias": "H"
+    },
+    "H.mode": {
+      "file": "hellaswag_eval.py",
+      "line": 160,
+      "alias": "H"
+    },
+    "H.no_grad": {
+      "file": "hellaswag_eval.py",
+      "line": 164,
+      "alias": "H"
+    },
+    "H.assign": {
+      "file": "hellaswag_eval.py",
+      "line": 167,
+      "alias": "H"
+    },
+    "H.tokens_to": {
+      "file": "hellaswag_eval.py",
+      "line": 169,
+      "alias": "H"
+    },
+    "H.mask_to": {
+      "file": "hellaswag_eval.py",
+      "line": 170,
+      "alias": "H"
+    },
+    "H.forward": {
+      "file": "hellaswag_eval.py",
+      "line": 174,
+      "alias": "H"
+    },
+    "H.compare": {
+      "file": "hellaswag_eval.py",
+      "line": 177,
+      "alias": "H"
+    },
+    "H.details": {
+      "file": "hellaswag_eval.py",
+      "line": 184,
+      "alias": "H"
+    },
+    "H.pack": {
+      "file": "hellaswag_eval.py",
+      "line": 187,
+      "alias": "H"
+    },
+    "H.reduce": {
+      "file": "hellaswag_eval.py",
+      "line": 189,
+      "alias": "H"
+    },
+    "H.readback": {
+      "file": "hellaswag_eval.py",
+      "line": 190,
+      "alias": "H"
+    },
+    "H.accuracy": {
+      "file": "hellaswag_eval.py",
+      "line": 194,
+      "alias": "H"
+    },
+    "H.restore": {
+      "file": "hellaswag_eval.py",
+      "line": 197,
+      "alias": "H"
+    },
+    "S.val": {
+      "file": "train_shards.py",
+      "line": 108,
+      "alias": "S"
+    },
+    "L.batch": {
+      "file": "load_shards.py",
+      "line": 84,
+      "alias": "L"
+    },
+    "G.sample": {
+      "file": "train_generation.py",
+      "line": 46,
+      "alias": "G"
+    },
+    "D.runtime": {
+      "file": "train_ddp.py",
+      "line": 49,
+      "alias": "D"
+    },
+    "D.opt": {
+      "file": "train_ddp.py",
+      "line": 136,
+      "alias": "D"
+    },
+    "D.gather": {
+      "file": "train_ddp.py",
+      "line": 202,
+      "alias": "D"
+    }
+  },
+  "source_sha256": {
+    "train_hellaswag.py": "9533ea6a7206ce8931637d5f026d968782a8f1b018434446a848ec5b7406dcc2",
+    "hellaswag_eval.py": "17e04031e9cfa702f90f66ab9c8af1c07ada709774e89423d5293b1a25939e43",
+    "train_shards.py": "07d1486d5d5b43ba31fae15959440f6d62f9c38757a636d3e8fe3494d6a11b08",
+    "load_shards.py": "1ca5914716eb63de30f28b0d03ddbec2abc9202fed19c1feccebad5cdb930ec3",
+    "train_generation.py": "646ca20cfcbc33340866f1d7c553885e3e6623ed0061c3d76452bbdf55e603dd",
+    "train_ddp.py": "502914cb3c1c336dbbd1199fc94e85c1cb58e51c8afd3bd3c227faa3324fb911"
+  },
+  "canvas": [
+    2560,
+    4600
+  ],
+  "text_layout_checks": [
+    {
+      "text": "M1 / M2 · 读取文件，准备输入与模型",
+      "size": 34,
+      "estimated_width": 605.2,
+      "available_width": 968,
+      "x": 124,
+      "y": 632
+    },
+    {
+      "text": "JSONL → 分词 → CPU tokens / mask；label 是整数",
+      "size": 29,
+      "estimated_width": 745.8800000000002,
+      "available_width": 968,
+      "x": 124,
+      "y": 679
+    },
+    {
+      "text": "npy → 当前 CPU 分片；训练时再切出 x / y",
+      "size": 29,
+      "estimated_width": 604.9400000000003,
+      "available_width": 968,
+      "x": 124,
+      "y": 718
+    },
+    {
+      "text": "CPU 上创建并随机初始化 GPT；每进程一份",
+      "size": 29,
+      "estimated_width": 569.56,
+      "available_width": 968,
+      "x": 124,
+      "y": 757
+    },
+    {
+      "text": "模型参数留在当前 GPU",
+      "size": 34,
+      "estimated_width": 350.8800000000001,
+      "available_width": 968,
+      "x": 1468,
+      "y": 632
+    },
+    {
+      "text": "raw_model.to(runtime.device) 搬运模型参数",
+      "size": 29,
+      "estimated_width": 661.7799999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 679
+    },
+    {
+      "text": "各轮训练 / 验证 / 评测 / 生成复用当前参数",
+      "size": 29,
+      "estimated_width": 615.3799999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 718
+    },
+    {
+      "text": "Python 持有 AdamW 对象；其 m / v 随参数在 GPU",
+      "size": 29,
+      "estimated_width": 710.5000000000001,
+      "available_width": 968,
+      "x": 1468,
+      "y": 757
+    },
+    {
+      "text": "T2 · 循环 K 次，每次取一个微批次",
+      "size": 34,
+      "estimated_width": 565.76,
+      "available_width": 968,
+      "x": 124,
+      "y": 902
+    },
+    {
+      "text": "train_loader.next_batch() → CPU x / y [B,T]",
+      "size": 29,
+      "estimated_width": 723.2600000000004,
+      "available_width": 968,
+      "x": 124,
+      "y": 949
+    },
+    {
+      "text": "CPU 管理文件、游标和 micro_step 循环",
+      "size": 29,
+      "estimated_width": 559.1199999999999,
+      "available_width": 968,
+      "x": 124,
+      "y": 988
+    },
+    {
+      "text": "T3 · 前向求 loss，反向累积 .grad",
+      "size": 34,
+      "estimated_width": 587.5200000000002,
+      "available_width": 968,
+      "x": 1468,
+      "y": 902
+    },
+    {
+      "text": "model(x) → logits → loss/K → backward()",
+      "size": 29,
+      "estimated_width": 655.9800000000002,
+      "available_width": 968,
+      "x": 1468,
+      "y": 949
+    },
+    {
+      "text": "多卡：最后一个微批次的反向同步累计梯度",
+      "size": 29,
+      "estimated_width": 551,
+      "available_width": 968,
+      "x": 1468,
+      "y": 988
+    },
+    {
+      "text": "T4 · 满 K 次，计算学习率并发起更新",
+      "size": 34,
+      "estimated_width": 599.76,
+      "available_width": 968,
+      "x": 124,
+      "y": 1187
+    },
+    {
+      "text": "learning_rate_at(...) 得到 Python 浮点数 lr",
+      "size": 29,
+      "estimated_width": 700.0600000000002,
+      "available_width": 968,
+      "x": 124,
+      "y": 1234
+    },
+    {
+      "text": "设置 param_groups；调用裁剪及 optimizer.step()",
+      "size": 29,
+      "estimated_width": 736.6000000000006,
+      "available_width": 968,
+      "x": 124,
+      "y": 1273
+    },
+    {
+      "text": "T4 · GPU 上裁剪梯度，更新参数",
+      "size": 34,
+      "estimated_width": 517.48,
+      "available_width": 968,
+      "x": 1468,
+      "y": 1187
+    },
+    {
+      "text": "PyTorch 执行裁剪与 AdamW 张量计算",
+      "size": 29,
+      "estimated_width": 513.3,
+      "available_width": 968,
+      "x": 1468,
+      "y": 1234
+    },
+    {
+      "text": "θ、梯度、m / v 都在本卡；参数更新一次",
+      "size": 29,
+      "estimated_width": 552.74,
+      "available_width": 968,
+      "x": 1468,
+      "y": 1273
+    },
+    {
+      "text": "① · 切换模式，选择属于本进程的题",
+      "size": 34,
+      "estimated_width": 554.88,
+      "available_width": 968,
+      "x": 124,
+      "y": 1872
+    },
+    {
+      "text": "eval() / no_grad()；设置模式与梯度记录开关",
+      "size": 29,
+      "estimated_width": 650.76,
+      "available_width": 968,
+      "x": 124,
+      "y": 1919
+    },
+    {
+      "text": "question.index % world_size == rank 才处理",
+      "size": 29,
+      "estimated_width": 692.5200000000001,
+      "available_width": 968,
+      "x": 124,
+      "y": 1958
+    },
+    {
+      "text": "本卡模型保持当前参数",
+      "size": 34,
+      "estimated_width": 340,
+      "available_width": 968,
+      "x": 1468,
+      "y": 1872
+    },
+    {
+      "text": "raw_model 是训练模型本体，不是新加载的模型",
+      "size": 29,
+      "estimated_width": 632.1999999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 1919
+    },
+    {
+      "text": "整轮评测没有 backward() 和 optimizer.step()",
+      "size": 29,
+      "estimated_width": 690.7800000000004,
+      "available_width": 968,
+      "x": 1468,
+      "y": 1958
+    },
+    {
+      "text": "② · 取出一道题：CPU 张量与标准答案",
+      "size": 34,
+      "estimated_width": 599.7600000000001,
+      "available_width": 968,
+      "x": 124,
+      "y": 2097
+    },
+    {
+      "text": "question.tokens [4,T]；question.mask [4,T]",
+      "size": 29,
+      "estimated_width": 701.8000000000004,
+      "available_width": 968,
+      "x": 124,
+      "y": 2144
+    },
+    {
+      "text": "question.label 留在 CPU，不参与前向或评分",
+      "size": 29,
+      "estimated_width": 638.5799999999999,
+      "available_width": 968,
+      "x": 124,
+      "y": 2183
+    },
+    {
+      "text": "题目 T 由完整上下文 + 候选决定，不是训练 seq_len",
+      "size": 29,
+      "estimated_width": 728.4800000000004,
+      "available_width": 968,
+      "x": 124,
+      "y": 2222
+    },
+    {
+      "text": "③ · raw_model(tokens) 前向",
+      "size": 34,
+      "estimated_width": 501.84000000000026,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2097
+    },
+    {
+      "text": "GPU tokens / mask；模型使用已有 GPU 参数",
+      "size": 29,
+      "estimated_width": 631.0400000000001,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2144
+    },
+    {
+      "text": "输出 logits [4,T,V]；V = 50,257",
+      "size": 29,
+      "estimated_width": 507.49999999999983,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2183
+    },
+    {
+      "text": "每行只读自身前缀；四行之间没有注意力连接",
+      "size": 29,
+      "estimated_width": 580,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2222
+    },
+    {
+      "text": "CPU 发起评分函数调用",
+      "size": 34,
+      "estimated_width": 350.88,
+      "available_width": 968,
+      "x": 124,
+      "y": 2327
+    },
+    {
+      "text": "label、题号、correct / total 仍是 CPU 数据",
+      "size": 29,
+      "estimated_width": 669.3200000000002,
+      "available_width": 968,
+      "x": 124,
+      "y": 2374
+    },
+    {
+      "text": "logits 留在 GPU，后续评分也使用 GPU 张量",
+      "size": 29,
+      "estimated_width": 617.1200000000001,
+      "available_width": 968,
+      "x": 124,
+      "y": 2413
+    },
+    {
+      "text": "值检查需要 Python 判断时，也可能同步取数",
+      "size": 29,
+      "estimated_width": 598.56,
+      "available_width": 968,
+      "x": 124,
+      "y": 2452
+    },
+    {
+      "text": "④ · score_candidates() 计算四个得分",
+      "size": 34,
+      "estimated_width": 657.5600000000003,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2327
+    },
+    {
+      "text": "logits[:, :-1] 对齐 tokens[:, 1:]",
+      "size": 29,
+      "estimated_width": 545.78,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2374
+    },
+    {
+      "text": "cross_entropy(..., reduction='none') → [4,T−1]",
+      "size": 29,
+      "estimated_width": 773.7200000000006,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2413
+    },
+    {
+      "text": "shift_mask = mask[:, 1:]；只统计候选结尾",
+      "size": 29,
+      "estimated_width": 635.6799999999998,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2452
+    },
+    {
+      "text": "sums = (losses * shift_mask).sum(dim=1)",
+      "size": 29,
+      "estimated_width": 655.9800000000002,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2491
+    },
+    {
+      "text": "count = shift_mask.sum(dim=1)；means = sums/count",
+      "size": 29,
+      "estimated_width": 819.5400000000008,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2530
+    },
+    {
+      "text": "means [4] → argmin() → GPU 上的标量编号",
+      "size": 29,
+      "estimated_width": 628.1399999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2569
+    },
+    {
+      "text": "⑤ · CPU 判对，累计本卡结果",
+      "size": 34,
+      "estimated_width": 463.76,
+      "available_width": 968,
+      "x": 124,
+      "y": 2737
+    },
+    {
+      "text": "prediction 是 .item() 返回的 Python 整数",
+      "size": 29,
+      "estimated_width": 644.9600000000002,
+      "available_width": 968,
+      "x": 124,
+      "y": 2784
+    },
+    {
+      "text": "correct += int(prediction == question.label)",
+      "size": 29,
+      "estimated_width": 740.0800000000005,
+      "available_width": 968,
+      "x": 124,
+      "y": 2823
+    },
+    {
+      "text": "total += 1；记录题号和前四题的得分明细",
+      "size": 29,
+      "estimated_width": 574.1999999999999,
+      "available_width": 968,
+      "x": 124,
+      "y": 2862
+    },
+    {
+      "text": "把少量结果取回 CPU",
+      "size": 34,
+      "estimated_width": 316.8800000000001,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2737
+    },
+    {
+      "text": "means.argmin().item()：取回一个选项编号",
+      "size": 29,
+      "estimated_width": 614.2199999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2784
+    },
+    {
+      "text": "前四题：得分 / Token 数 .tolist() 形成报告",
+      "size": 29,
+      "estimated_width": 655.4,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2823
+    },
+    {
+      "text": "不把整份 logits 或模型参数搬回 CPU",
+      "size": 29,
+      "estimated_width": 520.8399999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 2862
+    },
+    {
+      "text": "⑥ · 本卡题目循环结束，打包两个计数",
+      "size": 34,
+      "estimated_width": 588.88,
+      "available_width": 968,
+      "x": 124,
+      "y": 3087
+    },
+    {
+      "text": "Python 整数：[correct, total]",
+      "size": 29,
+      "estimated_width": 473.8599999999999,
+      "available_width": 968,
+      "x": 124,
+      "y": 3134
+    },
+    {
+      "text": "torch.tensor([...], device=runtime.device)",
+      "size": 29,
+      "estimated_width": 706.4400000000004,
+      "available_width": 968,
+      "x": 124,
+      "y": 3173
+    },
+    {
+      "text": "⑦ · 多卡时，用 NCCL 汇总两个整数",
+      "size": 34,
+      "estimated_width": 571.2000000000002,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3087
+    },
+    {
+      "text": "counts：GPU long Tensor [2]",
+      "size": 29,
+      "estimated_width": 449.4999999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3134
+    },
+    {
+      "text": "dist.all_reduce(counts, SUM)；无题的卡也参加",
+      "size": 29,
+      "estimated_width": 702.9599999999998,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3173
+    },
+    {
+      "text": "⑧ · CPU 计算准确率，恢复模式并返回",
+      "size": 34,
+      "estimated_width": 599.76,
+      "available_width": 968,
+      "x": 124,
+      "y": 3337
+    },
+    {
+      "text": "global_correct / global_total → Python float",
+      "size": 29,
+      "estimated_width": 740.0800000000005,
+      "available_width": 968,
+      "x": 124,
+      "y": 3384
+    },
+    {
+      "text": "raw_model.train(was_training) 恢复原模式",
+      "size": 29,
+      "estimated_width": 649.5999999999999,
+      "available_width": 968,
+      "x": 124,
+      "y": 3423
+    },
+    {
+      "text": "返回 record_hellaswag()；rank 0 打印结果",
+      "size": 29,
+      "estimated_width": 640.3199999999998,
+      "available_width": 968,
+      "x": 124,
+      "y": 3462
+    },
+    {
+      "text": "train / val 游标未前进，模型及优化器保持原样",
+      "size": 29,
+      "estimated_width": 665.8399999999999,
+      "available_width": 968,
+      "x": 124,
+      "y": 3501
+    },
+    {
+      "text": "汇总结果取回 CPU；本卡保留参数",
+      "size": 34,
+      "estimated_width": 520.88,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3337
+    },
+    {
+      "text": "counts.tolist() 取回全局正确数、全局题数",
+      "size": 29,
+      "estimated_width": 617.1199999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3384
+    },
+    {
+      "text": "单卡跳过 all_reduce，其余评分流程相同",
+      "size": 29,
+      "estimated_width": 562.02,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3423
+    },
+    {
+      "text": "多卡：参数 θ、已有 .grad、AdamW 状态仍在本卡",
+      "size": 29,
+      "estimated_width": 670.4799999999999,
+      "available_width": 968,
+      "x": 1468,
+      "y": 3462
+    },
+    {
+      "text": "当前已验证：两个 CPU 进程 + Gloo",
+      "size": 34,
+      "estimated_width": 576.6400000000003,
+      "available_width": 1080,
+      "x": 124,
+      "y": 4072
+    },
+    {
+      "text": "每进程一份模型；主图右栏的张量也在 CPU",
+      "size": 29,
+      "estimated_width": 560.2800000000001,
+      "available_width": 1080,
+      "x": 124,
+      "y": 4119
+    },
+    {
+      "text": "进程 0：题 0、2 → [答对 0, 题数 2]",
+      "size": 29,
+      "estimated_width": 530.12,
+      "available_width": 1080,
+      "x": 124,
+      "y": 4158
+    },
+    {
+      "text": "进程 1：题 1     → [答对 0, 题数 1]",
+      "size": 29,
+      "estimated_width": 551.58,
+      "available_width": 1080,
+      "x": 124,
+      "y": 4197
+    },
+    {
+      "text": "Gloo SUM → 两进程各得到 [0,3] → 准确率 0/3",
+      "size": 29,
+      "estimated_width": 664.6800000000001,
+      "available_width": 1080,
+      "x": 124,
+      "y": 4236
+    },
+    {
+      "text": "使用 CUDA 时：每个进程驱动一张 GPU",
+      "size": 34,
+      "estimated_width": 605.2,
+      "available_width": 1080,
+      "x": 1356,
+      "y": 4072
+    },
+    {
+      "text": "CPU 仍负责读取、分词、循环、判对和日志",
+      "size": 29,
+      "estimated_width": 560.28,
+      "available_width": 1080,
+      "x": 1356,
+      "y": 4119
+    },
+    {
+      "text": "模型、前向/反向、评分张量在对应 GPU",
+      "size": 29,
+      "estimated_width": 519.1,
+      "available_width": 1080,
+      "x": 1356,
+      "y": 4158
+    },
+    {
+      "text": "跨 GPU 的梯度 / 计数归约使用 NCCL",
+      "size": 29,
+      "estimated_width": 508.6599999999999,
+      "available_width": 1080,
+      "x": 1356,
+      "y": 4197
+    },
+    {
+      "text": "实际 GPU 速度、显存、NCCL 性能仍需实测",
+      "size": 29,
+      "estimated_width": 574.1999999999999,
+      "available_width": 1080,
+      "x": 1356,
+      "y": 4236
+    }
+  ],
+  "reports": [
+    "artifacts/lesson15-hellaswag-cpu.json",
+    "artifacts/lesson15-hellaswag-ddp-cpu.json"
+  ],
+  "cuda_execution_verified": false,
+  "training_rerun": false,
+  "outputs": [
+    "docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.svg",
+    "docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.md",
+    "docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.png"
+  ]
+}

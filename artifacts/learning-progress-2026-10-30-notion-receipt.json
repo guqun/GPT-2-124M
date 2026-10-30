@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Shanghai",
+  "page_id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+  "page_url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+  "status": "updated",
+  "position": "阶段二 → 单元 2 → 2.5 → 知识块 15",
+  "covered": [
+    "HellaSwag 候选评分与判分",
+    "评测接入训练",
+    "CPU/GPU 分工与多进程计数汇总"
+  ],
+  "understanding": "初步理解；不记为独立掌握或用户本节已实跑",
+  "next": [
+    "正式训练配置与训练量",
+    "验证和评测安排",
+    "GPT-2/GPT-3 基线及结果差距",
+    "原课 llm.c 收尾"
+  ],
+  "pending": [
+    "完整 HellaSwag 基准",
+    "真实 FineWeb 和正式训练",
+    "用户新入口/多进程实践",
+    "CUDA/NCCL 与此前性能工程"
+  ],
+  "completion_counts": {
+    "unit2": "1/5",
+    "stage2": "5/32",
+    "section2_5_complete": false
+  },
+  "notion_scopes": [
+    "当前执行位置",
+    "单元2概览行",
+    "学习进度",
+    "2.4状态行",
+    "2.5状态行",
+    "旧最新归档改为历史",
+    "新增最新进度",
+    "待补工程与衔接"
+  ],
+  "warnings_resolved": [
+    "包含原生 mention 的整段匹配未命中，改为局部标题匹配并在待补段前插入最新记录；回读已确认",
+    "文件名被自动识别为网址，按回读的精确表格行改为代码格式，最终更新无警告"
+  ],
+  "unrelated_content_preserved": true,
+  "training_rerun": false,
+  "training_code_modified": false
+}

@@ -2,6 +2,10 @@
 
 新入口：[train_hellaswag.py](train_hellaswag.py)。单题处理和评测循环：[hellaswag_eval.py](hellaswag_eval.py)。之前的 train_shards.py、验证、生成、加载器及所有旧 Python 文件保留原样。
 
+配套 [CPU / GPU 代码流程图 PNG](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.png) · [可缩放 SVG](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.svg) · [读图说明与代码定位](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.md)。主图按 CUDA 的设备分工绘制；底部单独说明当前 CPU/Gloo 实验，避免将双进程当成双 GPU 实测。
+
+![HellaSwag 训练与评测的 CPU / GPU 分工](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.png)
+
 ## 1. 本次解决什么问题
 
 前面已理解候选评分。现在把它放进真实控制流程：**使用当前参数，逐题评分，统计准确率，恢复训练，再更新参数**。
@@ -129,6 +133,10 @@ GitHub 原课程 URL 本次返回 404，HF rows 接口首次连接重置；随�
 
 [tiny CPU 三次更新报告](artifacts/lesson15-hellaswag-cpu.json)中，初始、第 2 次及第 3 次更新后分别为 1/8、3/8、3/8。只训练两句文本、只有八道题，不能把这个变化解释为可靠的常识能力提升，更不能与原课完整基准成绩比较。
 
-报告中 `hellaswag` 保存来源和全局配置，`ranks[*].hellaswag` 保存每轮正确数、总题数、各卡题号、前四题的得分明细及评测前后游标。完整模型本节用户实践、完整验证集和 CUDA/NCCL 仍待继续；本轮不结算 2.5，也不更新 Notion。
+报告中 `hellaswag` 保存来源和全局配置，`ranks[*].hellaswag` 保存每轮正确数、总题数、各卡题号、前四题的得分明细及评测前后游标。完整模型本节用户实践、完整验证集和 CUDA/NCCL 仍待继续；上述代码交付时未结算 2.5、未更新 Notion；后续进度同步见第 8 节。
 
 [双进程 CPU 入口报告](artifacts/lesson15-hellaswag-ddp-cpu.json)也已跑通三次参数更新，题目按 2+1 分配；与单进程相同三题的判分一致。训练/验证 loss 最大差为 9.54e-07。[历史源码对照与旧文件校验](artifacts/lesson15-alignment.json)记录八题预测均与作者原函数一致，31 个既有 Python 文件保持原样。
+
+## 8. 学习进度（2026-10-30）
+
+HellaSwag 原理、训练接入、CPU/GPU 分工与代码流转已覆盖，用户初步理解。上节工程报告描述的是助手的流程验证；用户本节新入口运行、完整验证集和 CUDA/NCCL 尚待实践。下一步学习正式训练配置、Token 预算/更新次数与结果对照，随后接原课 llm.c 收尾；2.5 尚未全部结束。Notion 总计划与本地入口已同步，单元 2 完整段落 1/5、阶段二 5/32 不变。

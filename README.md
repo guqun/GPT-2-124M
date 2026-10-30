@@ -4,7 +4,7 @@
 
 课程主线：[Karpathy — Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU)。配套参考：[build-nanogpt](https://github.com/karpathy/build-nanogpt)。
 
-**当前：阶段二 → 单元 2 → 2.5，知识块 15：HellaSwag 评测接入训练（2026-10-30）。** 用户已初步理解候选评分、补齐、mask、题目判分及准确率统计；新增独立入口，开始工程实践。2.5 未结算，Notion 本轮未改。
+**当前：阶段二 → 单元 2 → 2.5，知识块 15：HellaSwag 评测接入训练（2026-10-30）。** 评测原理、代码接入与 CPU/GPU 分工已覆盖，用户初步理解；代码与流程图已完成，助手 CPU/Gloo 验证与用户亲自实践分别记录。下一步学习正式训练配置、训练量及结果与基线对照，随后接原课 llm.c 收尾。2.5 尚未完成；Notion 总计划已同步，完整段落计数保持单元 2 的 1/5、阶段二 5/32。
 
 新增 [train_hellaswag.py](train_hellaswag.py) / [hellaswag_eval.py](hellaswag_eval.py) / [第 15 块讲义](lesson15.md)。保留所有旧 Python 文件；初始状态和默认更新 2、3 次后用当前参数评测，恢复模式继续训练。重试下载成功，默认使用本地保存的 **HellaSwag 验证集前 8 道真实题目**，不是完整基准。CPU tiny 短跑和评分/状态隔离检查通过；完整验证集及 CUDA/NCCL 仍待补。
 
@@ -16,7 +16,9 @@
 
 真实题预览已随项目保存，启动无需联网。完整 JSONL 用 `--hellaswag-file` 指定，并以 `--hellaswag-limit 0` 选择全文件；默认正上限为 8。来源校验、各卡统计、候选得分和模式恢复见讲义。
 
-此前新增 [train_shards.py](train_shards.py) / [实践（三）讲义](lesson12-shard-training.md)，复用独立的 train/val 加载器与已学训练主干，保留所有旧代码。默认教学数据按两句话分别分配 train/val；支持指定已有分片目录。tiny CPU 单进程与真实双进程 Gloo 三次更新已跑通，13 项相关检查通过；29 个此前 Python 文件校验值保持不变。真实 FineWeb 和 CUDA/NCCL 未实跑，不能把本次流程检查记为用户完成正式训练。Notion 总计划仍为 10 月 27 日记录；2.4 未整体完成，计数保持 1/5、5/32。
+新增 [HellaSwag CPU / GPU 流程图 PNG](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.png)（[SVG](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.svg) / [代码定位说明](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.md)）：按源码行号标出数据准备、设备搬运、GPU 评分、CPU 判对、计数归约及返回训练；单独区分 CUDA 分工示意和已有 CPU/Gloo 结果。
+
+此前新增 [train_shards.py](train_shards.py) / [实践（三）讲义](lesson12-shard-training.md)，复用独立的 train/val 加载器与已学训练主干，保留所有旧代码。默认教学数据按两句话分别分配 train/val；支持指定已有分片目录。tiny CPU 单进程与真实双进程 Gloo 三次更新已跑通，13 项相关检查通过；29 个此前 Python 文件校验值保持不变。真实 FineWeb 和 CUDA/NCCL 未实跑，不能把本次流程检查记为用户完成正式训练。Notion 总计划已同步至 10 月 30 日；2.4 未整体完成，计数保持 1/5、5/32。
 
 2026-10-30 已将原数据笔记补全为[从原始文本、分片到模型训练](docs/fineweb-edu-sharding-notes.md)（[同一篇 Notion 笔记](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)）。第十三节串联正文/EOT、npy、CPU/设备、x/y、六个预测位置、微批次累积、跨片更新及验证/生成返回；本地内嵌完整代码流程图。笔记归档与总计划结算分开，不改变完成计数。
 
@@ -36,7 +38,7 @@
 
 [DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；2026-10-23 归档后另行同步了 Notion 总计划中的学习位置，未改变训练行为或完成计数；最新进度见下文。
 
-[FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；已开始[独立数据准备实践](lesson12-data-preparation.md)，分片加载器已新增，真实 FineWeb 数据与完整训练接入待继续。
+[FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；已开始[独立数据准备实践](lesson12-data-preparation.md)，分片准备、加载和训练串联已完成教学数据 CPU 检查，真实 FineWeb 和用户新入口实践待继续。
 
 ## 新机器上的运行准备
 
@@ -74,7 +76,7 @@
 
 以下保留归档时状态；2026-10-28 已先接续数据准备实践，见顶部与下方新入口。
 
-阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**，**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 优化与梯度累积已整合并在用户本次单进程实验中运行，独立配置与多卡/GPU 实践待继续**；**当前 2.4 · 知识块 14 已学习、初步理解，用户已亲自跑通完整 GPT-2 的 CPU 训练/验证/定期生成短跑**。FineWeb-Edu 概念已归档，分片准备、加载与训练串联已有独立代码和教学数据 CPU 检查，真实 FineWeb、用户 DDP 多进程实践和 CUDA/NCCL 待补。当前先学习分片训练串联，之后进入 2.5 HellaSwag 评测，2.5 与单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
+阶段一的基础课程已经学完。阶段二单元 1 的 **1.1—1.4 已完成**，单元 2 的 **2.1 已完成**。2.2 理论已覆盖，部分工程与 CUDA 对照待补；2.3 优化与累积已在用户单进程运行，多卡/GPU 实践另记；2.4 原理与数据串联已覆盖，用户完整 GPT-2 CPU 验证/生成短跑完成，教学分片的新入口有助手 CPU/Gloo 验证，真实 FineWeb、用户新入口/多进程及 CUDA/NCCL 待补。**当前 2.5 的 HellaSwag 原理、训练接入和 CPU/GPU 分工已覆盖，下一步正式训练配置与结果对照；2.5 未完成。** 单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
 
 2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，并按用户要求同步了 Notion 总计划；后续数据与验证内容尚未覆盖，多进程运行待实践。该历史记录不用于判断今天的位置。
 

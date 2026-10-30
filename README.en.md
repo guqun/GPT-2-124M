@@ -10,9 +10,11 @@ Repository: [guqun/GPT-2-124M](https://github.com/guqun/GPT-2-124M).
 
 ## Current progress
 
-**Current learning: Stage 2 → Unit 2 → Section 2.5, block 15: periodic HellaSwag evaluation (2026-10-30).** The learner reports initial understanding of scoring, padding, masks, answer comparison and accuracy. A new entry point now connects evaluation to training; section 2.5 is not marked complete.
+**Current learning: Stage 2 → Unit 2 → Section 2.5, block 15: periodic HellaSwag evaluation (2026-10-30).** Evaluation concepts, code integration, and CPU/GPU responsibilities have been covered; the learner has initial understanding. The code and diagram are available, with assistant CPU/Gloo checks recorded separately from learner execution. Next: full-training configuration, token/update budgets, result comparison against baselines, and the original course’s llm.c wrap-up. Section 2.5 remains incomplete. The Notion master plan is synchronized; completion counts remain 1/5 for Unit 2 and 5/32 for Stage 2.
 
 New [train_hellaswag.py](train_hellaswag.py), [hellaswag_eval.py](hellaswag_eval.py) and [Chinese lesson](lesson15.md) preserve all previous Python code. Training still starts from random parameters and uses the earlier shard loaders, accumulation, validation and generation. Evaluation runs initially and after updates 2 and 3 by default, without changing parameters or training state.
+
+The [CPU/GPU code flow diagram](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.png) ([SVG](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.svg), [source mapping](docs/diagrams/gpt2-hellaswag-cpu-gpu-flow.md), Chinese) separates CPU control and data preparation from GPU tensor operations. It marks transfers, candidate scoring, CPU answer checking, count reduction and return to training, with a separate explanation of the existing CPU/Gloo runs.
 
 The download retry succeeded: the repository includes the first **8 real HellaSwag validation examples**, with source URL and checksum. This is a preview, not a full benchmark. No network is required at runtime. Pass a local JSONL file with `--hellaswag-file`, and use `--hellaswag-limit 0` to evaluate the entire file. CPU tiny execution and scoring/state-isolation checks passed; full-dataset and CUDA/NCCL runs remain pending.
 
@@ -21,7 +23,7 @@ The download retry succeeded: the repository includes the first **8 real HellaSw
 ```
 
 
-New [train_shards.py](train_shards.py) and the [Chinese lesson](lesson12-shard-training.md) preserve all prior code. Two separate loaders supply train and validation data. Thirteen related checks and tiny CPU single-process / real two-process Gloo short runs passed; all 29 previous Python files remain unchanged. The default data consists of two distinct teaching sentences, not FineWeb. Real FineWeb and CUDA/NCCL runs, and learner practice with the new entry point, remain pending. The Notion master plan stays at October 27; section 2.4 remains incomplete, with counts unchanged at 1/5 and 5/32.
+New [train_shards.py](train_shards.py) and the [Chinese lesson](lesson12-shard-training.md) preserve all prior code. Two separate loaders supply train and validation data. Thirteen related checks and tiny CPU single-process / real two-process Gloo short runs passed; all 29 previous Python files remain unchanged. The default data consists of two distinct teaching sentences, not FineWeb. Real FineWeb and CUDA/NCCL runs, and learner practice with the new entry point, remain pending. The Notion master plan is synchronized through October 30; section 2.4 remains incomplete, with counts unchanged at 1/5 and 5/32.
 
 The existing [data-pipeline notes](docs/fineweb-edu-sharding-notes.md) and [same Notion page](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0) were expanded on October 30. Section 13 connects raw text, EOT/token IDs, npy shards, CPU/device transfers, shifted x/y, prediction positions, microbatch accumulation, parameter updates, and return paths from validation/generation. The local note includes the full code flow diagram; archiving these notes does not mark the course section complete.
 
