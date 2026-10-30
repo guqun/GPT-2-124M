@@ -1,12 +1,14 @@
-# GPT-2 大规模训练数据：FineWeb-Edu、分片与文档边界
+# GPT-2 数据处理全流程：从原始文本、分片到模型训练
 
-> 模型仍然接收 `[B,T]` 的输入与错位答案；本块学习的是如何把大量网页正文提前编码、分片保存，并持续提供训练批次。
+> 原始正文经固定分词器变成整数 ID，按容量写入磁盘分片；训练时加载当前片到 CPU，切出错位的 x/y，再将当前微批次交给模型。文件和 ID 提供数据，反向传播与 AdamW 更新模型参数。
 
-归档日期：2026-10-25。学习位置：**阶段二 → 单元 2「预训练工程：复现 GPT-2」→ 2.4「多卡与数据」→ 知识块 12「FineWeb-Edu 与数据分片」**。
+初次归档：2026-10-25；补全代码串联与答疑：2026-10-30。学习位置：**阶段二 → 单元 2「预训练工程：复现 GPT-2」→ 2.4「多卡与数据」→ 知识块 12 及数据准备、读取、训练串联实践**。
 
 [Notion 归档](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0) · [学习计划](https://app.notion.com/p/340eaea31414819197bde537d339d0fc)
 
-**学习状态：核心知识已讲解并完成本轮答疑，理解中。** 用户选择先按原课方案继续。独立分片代码与实际运行待补；下一项是简短衔接训练 Token 总量与步数换算，再学习验证集与 validation loss。整个 2.4 尚未完成，完整段落计数仍为单元 2 的 1/5、阶段二的 5/32。
+**当前笔记已覆盖：原始正文 → EOT 与 Token ID → `.npy` 分片 → CPU 加载 → x/y 与预测位置 → 设备搬运 → 模型前向与 loss → 微批次累积 → 参数更新，以及验证、生成的返回路径。** 前十节保留概念与文档边界讨论；第十一节是首次归档的历史状态；第十三节将目前的项目代码完整串起来，并附最新全流程图。
+
+掌握程度保留“理解中”。两句教学数据的准备、读取与 tiny CPU / 双进程 Gloo 流程已由助手核对；用户尚未报告运行新的分片训练入口。真实 FineWeb 和 CUDA/NCCL 待实践，2.4 不结算完成，2.5 尚未开始。本文归档不修改总计划的完成计数。
 
 前篇：[DDP、平均损失与梯度同步](ddp-batch-gradient-notes.md)。既有代码配套：[知识块 11](../lesson11.md)；它仍使用 Tiny Shakespeare，本篇没有把其 CPU/Gloo 验证当成 FineWeb-Edu 实跑。
 
@@ -84,7 +86,7 @@ GPT-2 的最大 Token ID 为 50256，能装入取值范围为 0—65535 的 `uin
 | 当前数据不足以继续取批 | 回到整份语料开头 | 切到下一 shard；全部读完再循环 |
 | x/y 的含义和形状 | 错开一位，均为 `[B,T]` | 保持相同 |
 
-之前的代码是 [train_dataloader.py](../train_dataloader.py)。本篇核对的原课加载器在 [69cb21f 的 train_gpt2.py](https://github.com/karpathy/build-nanogpt/blob/69cb21f0f9439a8804741912045b90879a573591/train_gpt2.py)。目前未把 FineWeb-Edu 接入本地训练入口。
+之前的代码是 [train_dataloader.py](../train_dataloader.py)。本篇核对的原课加载器在 [69cb21f 的 train_gpt2.py](https://github.com/karpathy/build-nanogpt/blob/69cb21f0f9439a8804741912045b90879a573591/train_gpt2.py)。目前已有独立的 [load_shards.py](../load_shards.py) 与 [train_shards.py](../train_shards.py)，能够读取兼容分片并接入训练；本地已跑的是教学数据，真实 FineWeb 数据尚未实跑。
 
 一个缩小的例子：令 B=2、T=4，从当前 shard 取 9 个示意 Token ID。
 
@@ -173,7 +175,9 @@ EOT 提供可学习的边界信号；它不会自动清空上下文、重置位�
 
 尾部数据仍在文件中；相同配置和顺序下，下一轮通常仍会跳过同一部分。若要充分利用尾部，需要暂存余量、读下一片、拼接并推进游标，属于另一个实现方案。[原课历史加载器](https://github.com/karpathy/build-nanogpt/blob/69cb21f0f9439a8804741912045b90879a573591/train_gpt2.py)
 
-## 十一、本次学习进度与下一项
+## 十一、历史学习进度与当时的下一项（2026-10-25）
+
+本节保留首次归档时的状态，不代表当前学习位置。后续已学习验证、定期生成，并补上数据准备、读取和训练串联；当前内容见第十三节。
 
 | 范围 | 截至 2026-10-25 的状态 |
 | --- | --- |
@@ -187,7 +191,7 @@ EOT 提供可学习的边界信号；它不会自动清空上下文、重置位�
 
 本节完成的是知识讲解，不把整个 2.4 结算为完成；单元 2 的 1/5、阶段二的 5/32 保持。2.2 的工程/CUDA 性能对照、2.3 的用户实践待办继续保留。
 
-下一次先应用已有有效 batch 知识做训练量换算，再讲验证集：为何保留、怎样只前向不更新、怎样汇总 loss、怎样结合训练 loss 观察泛化。已学的基础简要回顾。
+当时安排的下一项是训练量换算和验证集；这些内容此后已经讲解。当前先巩固第十三节的数据处理与训练串联。
 
 ## 十二、复习问题与答案
 
@@ -231,6 +235,318 @@ ID 是分词器的输出；Embedding 向量由模型参数查表得到，并会�
 <details>
 <summary>这一块讲完，是否意味着 2.4 整节完成？</summary>
 
-不是。FineWeb-Edu 与分片的核心知识已讲解；训练量换算、验证集专题和相应实践继续推进。笔记归档不等于运行验证或独立掌握。
+不是。数据准备、读取、训练量换算、验证、生成与代码串联已经讲解；新分片入口的用户实践、真实 FineWeb 和多卡/GPU 项目仍需分别记录。笔记归档不等于完成整个 2.4 或独立掌握。
 
 </details>
+
+## 十三、代码串联：从原始数据到输入模型训练
+
+本节把实践（一）到（三）连成一条完整路径，吸收关于 EOT、文件、微批次、梯度累积和预测位置的答疑。阅读主线是“每一步拿到什么、执行什么、交给下一步什么”。
+
+[完整代码流程图 PNG](diagrams/gpt2-shard-training-flow.png) · [可缩放 SVG](diagrams/gpt2-shard-training-flow.svg) · [图中函数与行号](diagrams/gpt2-shard-training-flow.md)
+
+![分片读取、微批次累积、参数更新、验证与生成](diagrams/gpt2-shard-training-flow.png)
+
+图的左侧是训练主循环，右侧 A/B/C 分别展开读取、验证与生成。底部来自实际 CPU tiny 报告。数据准备阶段的逐篇写片过程另见[准备流程图](diagrams/gpt2-data-preparation-flow.md)。
+
+### 13.1 先区分数据准备和模型训练
+
+| 环节 | 输入 | 处理 | 输出 / 目的 |
+| --- | --- | --- | --- |
+| 读取正文 | 数据集记录里的 `text` | 取得一篇完整文本 | Python 字符串 |
+| 编码一篇 | 字符串、固定 GPT-2 tokenizer | 正文编码，前置 EOT，检查 ID 范围 | 一维 `uint16` ID 数组 |
+| 写分片 | 逐篇的 ID、分片容量 | 顺序填充缓冲区，满片写盘，保存末尾余量 | 多个 `.npy` 文件 |
+| 加载当前片 | train/val 文件列表和当前文件 | `np.load` 后转成 CPU `torch.long` | 当前片 `tokens[N]` |
+| 构造微批次 | 当前片、游标、B/T | 取 `B*T+1` 个 ID，错位并 reshape | `x/y`，各为 `[B,T]` |
+| 进入模型 | 当前 `x/y`、当前参数 | 搬到设备，x 前向，logits 与 y 计算损失 | logits `[B,T,V]`、标量 loss |
+| 累积与更新 | K 个微批次的平均损失 | 每次 `loss/K` 反向，最后裁剪并 AdamW | 一组更新后的参数 |
+
+准备数据时不创建 GPT、不做 Embedding、不计算梯度。使用已经固定的 GPT-2 分词规则，而不是在这一步重新训练分词器。训练入口则从随机模型参数开始；有 GPT-2 tokenizer 不等于加载了 GPT-2 的预训练权重。
+
+原课读取的是已经整理好的 FineWeb-Edu 文本记录，本项目没有从抓取 HTML 开始重新实现数据集清洗。它接手的是正文 `text`。本地 `prepare_fineweb.py` 默认使用两句教学文本；可选的 FineWeb 20 条预览此前连接失败，不能把 demo 当作真实 FineWeb 数据。
+
+### 13.2 一篇正文怎样变成整数 ID
+
+对应 `prepare_fineweb.py::encode_document()`：
+
+```python
+ids = [tokenizer.eot_token] + tokenizer.encode_ordinary(text)
+tokens = np.asarray(ids, dtype=np.uint16)
+```
+
+已核对的教学编码是：
+
+```text
+"Hello world."   → [50256, 15496,  995, 13]
+"Good morning."  → [50256, 10248, 3329, 13]
+                    EOT    正文的 Token ID
+```
+
+`EOT` 来自 End Of Text，GPT-2 的特殊 ID 是 50256。本课把它放在每篇开头，连续拼接时也就为前一篇和后一篇提供边界。此处没有在每篇末尾再额外插一次。
+
+这些数是词表索引。`uint16` 指 16 位无符号整数，每个 ID 占 2 字节；它不是 BF16 浮点数，更不是一个已经训练好的向量。训练更新 Embedding 后，文件里的 ID 仍然不变。
+
+EOT 可以作为输入，也可以成为预测目标。它不会自动切断同一行内的注意力、清空上下文或停止训练；本课继续使用普通因果遮罩。文档边界的详细讨论保留在第七至九节。
+
+### 13.3 怎样把逐篇 ID 写成分片文件
+
+对应 `prepare_fineweb.py::write_shards()`。它接收逐篇的一维数组，用一个固定容量的缓冲区装数据，装满就保存，并继续处理当前文章剩余的 ID。
+
+```python
+# used：当前分片已写多少；offset：当前文章已取多少。
+take = min(shard_size - used, len(tokens) - offset)
+buffer[used:used + take] = tokens[offset:offset + take]
+used += take
+offset += take
+
+if used == shard_size:
+    save_shard(used)
+    used = 0
+```
+
+循环结束后，如果 `used > 0`，只保存 `buffer[:used]`，不把缓冲区未填入的空位写成 Token。长文章可以跨多个文件；文件边界按容量决定，不必等于文章边界。
+
+**分片 shard 在这里就是磁盘文件。** `.npy` 是 NumPy 的数组文件格式，保存数组的类型、形状等头信息和数组数据，可以用 `np.save` 写入、`np.load` 读回。它保存的是一维 Token ID 数组，不是模型参数、Python 源码或 Embedding 表。
+
+准备脚本把第 0 片标为 `val`，后面的片标为 `train`。仅靠按文件划分不保证文档去重或整篇隔离；按容量切片可能切在文章内部。本地完整训练 demo 特意先放验证句再放训练句，使两句话分开。
+
+三个入口各有自己的教学数据，不能混为同一批文件：
+
+| 入口 | 默认教学文件 | 用途 |
+| --- | --- | --- |
+| `prepare_fineweb.py` | 两句共 8 个 ID，容量 5，写为 val 5 / train 3 | 看清一篇文章跨文件；唯一 train 片不足本节的 7 个 ID |
+| `load_shards.py` | 两句交替重复，另建 val 16 / train 16+8 | 只观察读取、错位和换片 |
+| `train_shards.py` | 验证句重复 4 次，训练句重复 6 次，另建 val 16 / train 16+8 | 完整训练、验证和生成流转；以下统一用这个例子 |
+
+训练例子的实际文件为：
+
+```text
+edufineweb_val_000000.npy     16 个 ID：Good morning. × 4（含 EOT）
+edufineweb_train_000001.npy   16 个 ID：Hello world. × 4（含 EOT）
+edufineweb_train_000002.npy    8 个 ID：Hello world. × 2（含 EOT）
+```
+
+这组小文件用于看清流程，重复两句话不构成真实语言质量评测。正式数据已经准备好时，通过 `train_shards.py --data-dir ...` 指定兼容分片目录。
+
+### 13.4 从磁盘到 CPU，再到计算设备
+
+对应 `load_shards.py::load_tokens()`：
+
+```python
+array = np.load(filename, allow_pickle=False)  # 当前一片：uint16
+tokens = torch.from_numpy(array.astype(np.int64))  # CPU long
+```
+
+当前实现把**整个当前分片**加载到 CPU 内存，然后转换成整数 Tensor。只有当前取得的 `x/y` 才执行 `.to(device)`。它不是把全体分片一次性送入 GPU；单个分片也不会因为模型使用 CUDA 就自动变成 GPU Tensor。
+
+| 时点 | 数据形状与类型 | 所在位置 |
+| --- | --- | --- |
+| 保存后 | `.npy` 内的一维 `uint16[N]` | 磁盘 |
+| 当前片加载后 | `torch.long[N]` | CPU 内存 |
+| `next_batch()` 返回 | x、y 各 `torch.long[B,T]` | CPU 内存 |
+| `x.to(device)` / `y.to(device)` 后 | 形状和 ID 数值不变 | 指定的计算设备；本例仍是 CPU，CUDA 配置时是对应 GPU |
+| 模型查 Embedding 后 | 浮点特征 `[B,T,C]` | 模型所在设备 |
+
+`device` 表示张量计算和存储所在的设备。ID 从 `uint16` 转为 `int64` 不会把 50256 变成别的编号，改变的只是存储类型和每个元素占用的字节数。模型和输入必须位于兼容的设备上才能一起运算。
+
+### 13.5 一个微批次怎样取得 x 和 y
+
+本例 `B=2`、`T=3`。B 是一次前向处理的序列条数；T 是每条输入序列的 Token 数。对应 `ShardDataLoaderLite.next_batch()`：
+
+```python
+buf = tokens[start:start + B*T + 1]  # 取 7 个 ID
+x = buf[:-1].view(B, T)              # 前 6 个：输入
+y = buf[1:].view(B, T)               # 后 6 个：正确的下一个 ID
+```
+
+第一片起点为 0 时，实际得到：
+
+```text
+buf = [50256, 15496, 995, 13, 50256, 15496, 995]
+
+x = [[50256, 15496,   995],
+     [   13, 50256, 15496]]
+
+y = [[15496,   995,  13],
+     [50256, 15496, 995]]
+```
+
+先在一维 Token 流上整体错开一位，再排成两行三列。y 已经由加载器错位；当前项目的 `forward_and_loss()` 直接逐格对齐 logits 和 y，不再额外错一位。
+
+每行是独立的上下文，行与行之间不做注意力。第二行即使从句号开始，也仍按这一行的三个位置进行训练；本课按连续 Token 流取固定长度序列，不要求每一行恰好是一整句话。
+
+### 13.6 “6 个预测位置”究竟是哪六个
+
+一个预测位置就是一个 `(b,t)` 格子：模型利用该行当前位置及其之前的输入，为“下一个 Token 应该是谁”给出一份词表分数，再与 `y[b,t]` 比较。
+
+| 行 b / 位置 t | 该位置能使用的输入 ID | 正确目标 y[b,t] |
+| --- | --- | --- |
+| 0 / 0 | `[50256]` | 15496 |
+| 0 / 1 | `[50256,15496]` | 995 |
+| 0 / 2 | `[50256,15496,995]` | 13 |
+| 1 / 0 | `[13]` | 50256 |
+| 1 / 1 | `[13,50256]` | 15496 |
+| 1 / 2 | `[13,50256,15496]` | 995 |
+
+因此本次共有 `2×3=6` 个预测任务，训练前向一次并行计算这些位置，不是只计算每行最后一格。因果遮罩阻止当前位置读取行内后面的输入，从而不能直接偷看下一个 Token。
+
+读取 7 个连续 ID，是为了让第 6 个输入位置也有下一个 ID 作为答案；得到的是 6 对输入/目标，**不是 7 个预测位置**。这里所有位置都参与 loss，没有 padding 或被忽略的标签。如果以后引入这些情况，实际有效位置数需另行统计。
+
+### 13.7 下一批从哪里读，什么时候换片
+
+加载器维护当前文件及片内游标。单进程本例的步长是 `B*T=6`，而不是读取缓冲区的长度 7。同一片中，上一批最后一个目标 ID 可以成为下一批的第一个输入。
+
+先切出合法的当前 x/y，再推进游标，并检查**下一轮**：
+
+```python
+self.global_position += self.stride  # stride = B*T*R
+if self.global_position + self.stride + 1 > len(self.tokens):
+    self._load_usable_shard((self.current_shard + 1) % len(self.shards))
+return x, y
+```
+
+R 是训练进程数，本例 R=1。不同 rank 的片内起点是 `global_position + rank*B*T`，使用相同的全局游标判定下一轮是否足够，这是本地对历史多卡边界的修正。
+
+| 当前读取 | 返回 batch 使用的 buf 位置 | 推进后检查 | 为下一次准备的状态 |
+| --- | --- | --- | --- |
+| 第一片 N=16，p=0 | 0—6 | `6+6+1=13 ≤ 16` | 第一片 p=6 |
+| 第一片 N=16，p=6 | 6—12 | `12+6+1=19 > 16` | 第二片 p=0 |
+| 第二片 N=8，p=0 | 0—6 | `6+6+1=13 > 8` | 绕回第一片 p=0 |
+
+判断是 `>`，恰好等于 N 时下一轮仍完整可读。换片时不把当前片尾部与下片开头拼成一个 batch；整片连一轮都不够则跳过，全部文件都太短就报错。
+
+第一片的位置 12 已经作为第二批的最后一个目标用过；位置 13—15 在这一轮未使用。不要把“下一个起点看起来还剩四个位置”全算作从未用过的数据。尾部仍在磁盘文件里；固定顺序与配置下，重复读取通常仍跳过相同尾部。
+
+换片可以发生在 `next_batch()` 返回前，但 x/y 仍引用刚切出的那一批旧片数据。换片只改变加载器的数据与游标，不清梯度、不重置模型或 AdamW。
+
+### 13.8 整数 ID 进入模型后，才变成可训练的向量
+
+`train_shards.py` 的 T2/T3 调用 `train_mixed_precision.py::forward_and_loss()`。关键部分是：
+
+```python
+x, y = x.to(runtime.device), y.to(runtime.device)
+logits, loss = forward_and_loss(model, x, y, runtime.device, precision)
+
+# forward_and_loss 内部的核心逻辑：
+logits = model(x)
+loss = F.cross_entropy(
+    logits.reshape(-1, logits.size(-1)),  # [B*T,V]
+    y.reshape(-1),                       # [B*T]
+)
+```
+
+`model(x)` 经 `nn.Module` 调用我们实现的 `GPT.forward()`。x 是模型的特征输入；y 在输出 logits 之后用于计算损失，不作为该位置可偷看的答案向量输入模型。
+
+```text
+x [B,T]：整数 ID
+  → wte(x) [B,T,C]：查 Token Embedding 参数表
+  + wpe(0...T−1) [T,C]：每行使用相同位置编号，广播相加
+  → Transformer Blocks → 最终 LayerNorm
+  → lm_head → logits [B,T,V]
+  → 与 y [B,T] 对齐计算交叉熵 → 一个标量 loss
+```
+
+本图 tiny 的 `C=64`、2 个 Block、`V=50257`，因此 logits 为 `[2,3,50257]`；完整 GPT-2 的 C=768、12 个 Block，词表大小相同。这里的序列位置每批从 0 到 T−1，和分片里的全局读取位置 p 是两个概念。
+
+`F.cross_entropy` 默认对这 6 个目标位置求平均；无需先手工 softmax。公式为：
+
+$$
+L_{\text{micro}}=\frac{1}{BT}\sum_{b=0}^{B-1}\sum_{t=0}^{T-1}-\log p_\theta(y_{b,t}\mid x_{b,0:t})
+$$
+
+参数更新后，相同 ID 查到的 Embedding 数值可能改变；数据文件中的 ID、x/y 的定义和分词规则继续保持不变。
+
+### 13.9 为什么用微批次，怎样累积到一次参数更新
+
+**微批次**是一次前向和反向实际处理的一批数据。**有效 batch**是一次参数更新所汇总的数据；它可以由多个微批次、多个训练进程共同组成。
+
+显存或内存可能无法一次放下希望用于一次更新的全部数据，所以分成 K 次计算，依次累计梯度。每微批次释放不再需要的计算图，但保留参数的 `.grad`；完成 K 次后统一更新。没有规定必须累积，能一次处理所需数据时设 K=1 即可。
+
+本例目标每次更新覆盖 12 个预测位置：
+
+$$
+K=\frac{\text{每次更新的目标预测位置数}}{B\times T\times R}
+=\frac{12}{2\times3\times1}=2
+$$
+
+`train_from_shards()` 的单进程核心顺序如下；这是省略日志与观察分支的结构摘录，完整实现保留在原文件：
+
+```python
+for step in range(steps):
+    optimizer.zero_grad(set_to_none=True)  # 每次更新开始时清一次
+
+    for micro_step in range(K):
+        x, y = train_loader.next_batch()
+        x, y = x.to(device), y.to(device)
+        logits, loss = forward_and_loss(model, x, y, device, precision)
+        (loss / K).backward()              # 累加到参数的 .grad
+
+    clip_grad_norm_(model.parameters(), clip_norm)
+    # 设置各参数组的 lr = learning_rate_at(step, ...)
+    optimizer.step()                      # K 次反向后只更新一次
+```
+
+因为每个微批次的 loss 已经是 BT 个位置的平均值，等大小的 K 个微批次还需再除 K，才能得到全部 KBT 个位置的平均目标：
+
+$$
+L_{\text{update}}=\frac{L_1+L_2}{2},\qquad
+\nabla_\theta L_{\text{update}}=\frac{\nabla_\theta L_1+\nabla_\theta L_2}{2}
+$$
+
+针对任意一个标量参数，第一次反向后 `.grad=g₁/2`；第二次变成 `(g₁+g₂)/2`。两次梯度都使用同一组未更新的参数。若每批都先 `optimizer.step()`，第二批就会用新参数，已是另一种训练过程。
+
+多卡时本地先按 K 缩放，标准 DDP 同步时平均 R 个进程的梯度。前 K−1 次 `no_sync()` 包住前向和反向，最后一次反向同步；不是我们在模型输出处把各卡的特征向量拼起来。公式按每卡、每批相同有效位置数成立。
+
+代码里的 `loss_accum += scaled_loss.detach()` 累加的是显示用指标；真正的梯度由 `backward()` 写入 `.grad`。这两个“累加”用途不同。
+
+### 13.10 一次更新可以跨分片，单个微批次不会跨
+
+以下直接来自 `artifacts/lesson12-shard-training-cpu.json`。省略文件名前缀，用“文件编号 : 片内起点”表示：
+
+| 参数更新 | 微批次 1 | 微批次 2 | 更新完成后下一次训练读取位置 | 随后的观察 |
+| --- | --- | --- | --- | --- |
+| 第 1 次 | 000001 : 0 | 000001 : 6 | 000002 : 0 | 跳过验证与生成 |
+| 第 2 次 | 000002 : 0 | 000001 : 0 | 000001 : 6 | 验证，然后生成 |
+| 第 3 次 | 000001 : 6 | 000002 : 0 | 000001 : 0 | 最终验证、生成，然后结束 |
+
+第 2 次更新的两次反向跨了文件，但不跨参数版本：两次都使用更新 1 次后的参数，累积结束才产生更新 2 次后的参数。分片只决定数据从哪里来；K 决定何时停止累积；`optimizer.step()` 决定何时更新参数。
+
+三次更新合计 `3×2×2×3=36` 个训练预测位置。这里有重复读取，不代表看过 36 个互不相同的原始 Token 位置。
+
+### 13.11 验证与生成结束后，训练怎样继续
+
+`make_shard_loaders()` 在开始时创建两套独立对象，主循环一直复用它们。训练用 `train_loader`，验证用 `val_loader`，不在每次更新时重新建加载器。
+
+| 分支 | 数据从哪里来 | 是否反向 / 更新参数 | 对训练游标的影响 |
+| --- | --- | --- | --- |
+| 训练 | train 分片的下一微批次 | 累积反向，K 次后更新一次 | 持续向后推进，必要时换片 |
+| 验证 | 独立 val 分片；每次验证先 reset | eval + no_grad，只算固定批数的平均 loss | 不改变 |
+| 生成 | 固定提示词 ID、当前模型参数 | eval + no_grad，逐 Token 抽样 | 不调用任何 loader，不改变 |
+
+训练开始先验证一次。默认更新间隔均为 2，更新 2 次后观察一次，最后第 3 次也观察；两项触发条件分别判断。验证与生成返回时恢复原训练模式，然后外层循环继续，从 train 的原游标读下一批。
+
+验证结果在当前入口只记录，不自动改变学习率、早停或执行反向。生成使用独立 RNG，不把生成文字追加进训练数据。图中第 2 次观察后，训练仍从 `000001:6` 开始第 3 次更新。
+
+本例生成 4 条序列，每条提示词是 8 个 ID，循环 24 轮后成为 32 个 ID。这里的 4 条生成序列与训练 B=2 是独立配置。最终输出 JSON 是实验记录，不是模型 checkpoint。
+
+### 13.12 代码定位与已有验证范围
+
+| 需要回顾的环节 | 项目入口 |
+| --- | --- |
+| 读取正文、编码与写片 | [prepare_fineweb.py](../prepare_fineweb.py)：`read_documents` → `encode_document` → `write_shards` |
+| 文件与读取状态 | [load_shards.py](../load_shards.py)：`load_tokens`、`ShardDataLoaderLite.next_batch` |
+| 组装完整训练 | [train_shards.py](../train_shards.py)：M1—M4、`make_shard_loaders`、`train_from_shards` T1—T6 |
+| 输入模型与交叉熵 | [train_mixed_precision.py](../train_mixed_precision.py)：`forward_and_loss` |
+| ID 到特征与 logits | [gpt2_model.py](../gpt2_model.py)：`GPT.forward` |
+| 独立验证 | [train_shards.py](../train_shards.py)：`evaluate_shards` |
+| 固定提示词生成 | [train_generation.py](../train_generation.py)：`sample_current_model` G1—G6 |
+
+项目仓库：[guqun/GPT-2-124M](https://github.com/guqun/GPT-2-124M)。本节新增文件以当前本地项目为准，本次记笔记不执行提交或推送。
+
+完整细节分别见[实践（一）](../lesson12-data-preparation.md)、[实践（二）](../lesson12-shard-batches.md)、[实践（三）](../lesson12-shard-training.md)。它们保留独立入口，旧代码没有被覆盖。
+
+既有检查包括准备阶段的写满/尾片/跨片边界、加载器的错位/步长/回绕，以及完整训练对验证/生成状态的隔离。最新串联已有 13 项相关检查通过，tiny 单 CPU 与真实双 CPU/Gloo 进程的三次更新已核对，loss 最大差约 `9.54e-7`；这些是助手已运行的证据，不记为用户已运行新的入口，也不代表 CUDA/NCCL 或完整预训练。
+
+本次归档复用[CPU 报告](../artifacts/lesson12-shard-training-cpu.json)、[双进程报告](../artifacts/lesson12-shard-training-ddp-cpu.json)与[源码核对记录](../artifacts/lesson12-shard-training-alignment.json)，不重新训练。新图的行号、取数和观察返回路径另有[制图核对记录](../artifacts/lesson12-shard-training-diagram-check.json)。
+
+课程依据继续沿用文首的来源说明，新增串联对应视频约 [3:17:58—3:28:07](https://www.youtube.com/watch?v=l8pRSuU81PU&t=11878s)与作者 [4a63e6a 历史训练代码](https://github.com/karpathy/build-nanogpt/blob/4a63e6a599fea4f78d25e78a4970585ae5c6e27f/train_gpt2.py)。先前已核对字幕与代码，未直接观看视频；本轮整理学习记录，不扩展新的课程内容。

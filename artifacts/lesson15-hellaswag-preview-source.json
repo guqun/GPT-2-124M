@@ -1,0 +1,9 @@
+{
+  "source_url": "https://datasets-server.huggingface.co/first-rows?dataset=Rowan%2Fhellaswag&config=default&split=validation",
+  "examples": 8,
+  "split": "validation",
+  "sha256": "3167b9ff094d263dabf95c4be0dfa0bcb8255f616d0b041291d4c0c592f6772d",
+  "selection": "first 8 records in source order",
+  "retrieved_date": "2026-10-30",
+  "scope": "real HellaSwag preview; not full benchmark; no training use"
+}

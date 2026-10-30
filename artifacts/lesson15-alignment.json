@@ -1,0 +1,134 @@
+{
+  "course_commit": "8018ed2c82c78a0600b2f7c66b1e606a93c60584",
+  "reference_source_sha256": "992fc08258d3d59b86c84589a9eeab6707373898e0b5d5b034aeb82fab445f74",
+  "comparison": "unchanged author get_most_likely_row vs local scorer, same logits, initial tiny model, 8 real preview examples",
+  "examples": [
+    {
+      "index": 0,
+      "prediction": 2,
+      "author_prediction": 2,
+      "input_shape": [
+        4,
+        20
+      ]
+    },
+    {
+      "index": 1,
+      "prediction": 2,
+      "author_prediction": 2,
+      "input_shape": [
+        4,
+        27
+      ]
+    },
+    {
+      "index": 2,
+      "prediction": 3,
+      "author_prediction": 3,
+      "input_shape": [
+        4,
+        58
+      ]
+    },
+    {
+      "index": 3,
+      "prediction": 1,
+      "author_prediction": 1,
+      "input_shape": [
+        4,
+        20
+      ]
+    },
+    {
+      "index": 4,
+      "prediction": 0,
+      "author_prediction": 0,
+      "input_shape": [
+        4,
+        35
+      ]
+    },
+    {
+      "index": 5,
+      "prediction": 0,
+      "author_prediction": 0,
+      "input_shape": [
+        4,
+        32
+      ]
+    },
+    {
+      "index": 6,
+      "prediction": 3,
+      "author_prediction": 3,
+      "input_shape": [
+        4,
+        36
+      ]
+    },
+    {
+      "index": 7,
+      "prediction": 0,
+      "author_prediction": 0,
+      "input_shape": [
+        4,
+        29
+      ]
+    }
+  ],
+  "previous_python_file_count": 31,
+  "previous_python_sha256": {
+    "train_validation.py": "43335dc336ac9e120d543fc93186b6ff2a22e47dbd2a435226d591ac2715e11a",
+    "benchmark_training.py": "a97c8c192ea9eb5b355b2e2553d867b890cd79bc0b197465a630ea5144c3acc0",
+    "train_initialization.py": "d0f9fcbf57243b71cc5dc793554522bb48d500e78e5226d6c377544c911f15f2",
+    "train_dataloader.py": "6a503ac026bc8bf14dd18540befe93de67355c6d11b21d75438f93b4b89fee3b",
+    "load_shards.py": "1ca5914716eb63de30f28b0d03ddbec2abc9202fed19c1feccebad5cdb930ec3",
+    "prepare_fineweb.py": "104cd32750566d754b75c7cbc8b222a6a86aa7d0e19d73cf01acb3cac45361bb",
+    "inspect_checkpoint.py": "576e50d5cbb700a95cea132c5335ad6fe9dd67660cf5e4d33c2af282973f8031",
+    "train_compile.py": "65fa5c50e0d8d4924d8148377e0271aa7c643e0e1c9da4f4706d64e1e4394997",
+    "train_ddp.py": "502914cb3c1c336dbbd1199fc94e85c1cb58e51c8afd3bd3c227faa3324fb911",
+    "train_weight_tying.py": "221148f3594a9680691dd0bb3dfbefd0ccfa1974d72457ea049a5a68200737ce",
+    "train_shards.py": "07d1486d5d5b43ba31fae15959440f6d62f9c38757a636d3e8fe3494d6a11b08",
+    "train_step.py": "e4dcdc14bc837be3a39b71a08c1b2cfc04dc9b9d9b2052de330a538497feb86f",
+    "generate_text.py": "1766e4928b122aff8b2896bb72ab3e5de5df89d9572f997e656518053dd2456b",
+    "train_mixed_precision.py": "0081d73876f7f0282f281ec42313a40a3e13c21dd3038e1eb7b2d944788c3492",
+    "train_generation.py": "646ca20cfcbc33340866f1d7c553885e3e6623ed0061c3d76452bbdf55e603dd",
+    "compare_forward.py": "0d700014befb6b593e9b1a83e53cf4f4ad39cb55f3812e7a80f2297347d6a2bc",
+    "gpt2_model.py": "504f21efa3bd0de52e83357f3bbb3fe398ed400500312b06ac9ddf3e330e3cf1",
+    "tests/test_data_preparation.py": "dd55a561ccf53a5cb762e0824879496bd41ca069dd8485456eae23d4e513d5fc",
+    "tests/test_dataloader.py": "9b30389acfc5e5527cc8ceb3f0ecce9a5224e96d523abd6fe2ce0ab7560bcf57",
+    "tests/test_validation.py": "5b4335e373513dd002ca85e8053c8752c06fc12dcc4b08ea02b6b4764c82bf2f",
+    "tests/test_ddp.py": "15ed6592dd4eca35c6ab78590f12df3f528f8d9d632dcf2db6c303d8acda6572",
+    "tests/test_weight_tying.py": "5df2d993dce162ce7c7a5fa2803f7824a7df0022c9b8d491080910f332a16873",
+    "tests/test_initialization.py": "cdd1bf902be78a1721e8ddfe4e1dba7c2391a724e5dbbb8a79e3c88eb253d335",
+    "tests/test_compile.py": "853280e7ccd9507e8c945e4125dd5956b0ba9ceb3f349494bf1f3af2e7dae846",
+    "tests/test_mixed_precision.py": "13c51fe2adf5589f28c467342b5d3c33b3168dde6bd41d221278b5bd7592485b",
+    "tests/test_training.py": "ea9e0de34e458c469f3e53c5fd06d29c5b9a65229f4377f044d340ef365e0f11",
+    "tests/test_shard_loader.py": "5184fbe3931231e99e97c9850fa95c2e112aac2bdcb2b270fae553ef64c3f5b2",
+    "tests/test_periodic_generation.py": "6003ce9f94e316d7a14efdc48e48ee6c1b8353e5d2914b6cfecd0beebe878e60",
+    "tests/test_shard_training.py": "30afcf5f5ec49be905b69b3f2079fc4ea856087af4dc30c631ec16f1d5ecd412",
+    "tests/test_generation.py": "f512d1955a34488ce6ecf5b33e07410a3c58d70eaaead38f3069fb2a430987c5",
+    "tests/test_benchmark_training.py": "bf0d18f5c4fe3abfaa5ae79887659d1f3c2596d76b4ccd9559610df8964e3106"
+  },
+  "previous_python_unchanged": true,
+  "new_behavior_tests_passed": 6,
+  "previous_shard_training_tests_passed": 4,
+  "scope": "CPU/FP32; Gloo behavior tested separately; no full HellaSwag/CUDA claim",
+  "cli_two_process": {
+    "backend": "gloo",
+    "device": "cpu",
+    "questions": 3,
+    "rank_indices": [
+      [
+        0,
+        2
+      ],
+      [
+        1
+      ]
+    ],
+    "parameter_updates": 3,
+    "max_training_validation_loss_difference_from_single": 9.5367431640625e-07,
+    "global_correct_matches_same_3_single_process_examples": true
+  }
+}

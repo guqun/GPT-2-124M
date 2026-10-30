@@ -1,0 +1,259 @@
+{
+  "purpose": "diagram only; source and archived run cross-check",
+  "training_run": false,
+  "source_lines": {
+    "main": {
+      "file": "train_shards.py",
+      "line": 237
+    },
+    "loaders": {
+      "file": "train_shards.py",
+      "line": 91
+    },
+    "train": {
+      "file": "train_shards.py",
+      "line": 145
+    },
+    "eval": {
+      "file": "train_shards.py",
+      "line": 108
+    },
+    "M1": {
+      "file": "train_shards.py",
+      "line": 284
+    },
+    "M2": {
+      "file": "train_shards.py",
+      "line": 304
+    },
+    "M3": {
+      "file": "train_shards.py",
+      "line": 338
+    },
+    "M4": {
+      "file": "train_shards.py",
+      "line": 349
+    },
+    "T1": {
+      "file": "train_shards.py",
+      "line": 172
+    },
+    "T2": {
+      "file": "train_shards.py",
+      "line": 180
+    },
+    "T3": {
+      "file": "train_shards.py",
+      "line": 184
+    },
+    "T4": {
+      "file": "train_shards.py",
+      "line": 199
+    },
+    "T5": {
+      "file": "train_shards.py",
+      "line": 216
+    },
+    "T6": {
+      "file": "train_shards.py",
+      "line": 219
+    },
+    "zero": {
+      "file": "train_shards.py",
+      "line": 175
+    },
+    "outer": {
+      "file": "train_shards.py",
+      "line": 174
+    },
+    "micro": {
+      "file": "train_shards.py",
+      "line": 179
+    },
+    "backward": {
+      "file": "train_shards.py",
+      "line": 192
+    },
+    "update": {
+      "file": "train_shards.py",
+      "line": 205
+    },
+    "load": {
+      "file": "load_shards.py",
+      "line": 20
+    },
+    "switch": {
+      "file": "load_shards.py",
+      "line": 56
+    },
+    "batch": {
+      "file": "load_shards.py",
+      "line": 84
+    },
+    "S4": {
+      "file": "load_shards.py",
+      "line": 86
+    },
+    "S5": {
+      "file": "load_shards.py",
+      "line": 89
+    },
+    "S6": {
+      "file": "load_shards.py",
+      "line": 93
+    },
+    "S7": {
+      "file": "load_shards.py",
+      "line": 96
+    },
+    "sample": {
+      "file": "train_generation.py",
+      "line": 46
+    },
+    "G1": {
+      "file": "train_generation.py",
+      "line": 68
+    },
+    "G2": {
+      "file": "train_generation.py",
+      "line": 77
+    },
+    "G3": {
+      "file": "train_generation.py",
+      "line": 85
+    },
+    "G4": {
+      "file": "train_generation.py",
+      "line": 92
+    },
+    "G5": {
+      "file": "train_generation.py",
+      "line": 99
+    },
+    "G6": {
+      "file": "train_generation.py",
+      "line": 108
+    }
+  },
+  "source_sha256": {
+    "train_shards.py": "07d1486d5d5b43ba31fae15959440f6d62f9c38757a636d3e8fe3494d6a11b08",
+    "load_shards.py": "1ca5914716eb63de30f28b0d03ddbec2abc9202fed19c1feccebad5cdb930ec3",
+    "train_generation.py": "646ca20cfcbc33340866f1d7c553885e3e6623ed0061c3d76452bbdf55e603dd"
+  },
+  "report": "artifacts/lesson12-shard-training-cpu.json",
+  "report_sha256": "e0ea7d840e80ad199976d926e62f9e17d90322d8fd9ce3655e5b16124735352f",
+  "shape": {
+    "B": 2,
+    "T": 3,
+    "R": 1,
+    "K": 2,
+    "positions_per_update": 12
+  },
+  "training_trace": [
+    {
+      "step": 1,
+      "local_batches": [
+        {
+          "file": "edufineweb_train_000001.npy",
+          "start": 0
+        },
+        {
+          "file": "edufineweb_train_000001.npy",
+          "start": 6
+        }
+      ],
+      "next_train_cursor": {
+        "file": "edufineweb_train_000002.npy",
+        "start": 0
+      },
+      "global_mean_loss": 10.789542198181152,
+      "learning_rate": 0.0006,
+      "gradient_norm_before_clip": 7.959360599517822
+    },
+    {
+      "step": 2,
+      "local_batches": [
+        {
+          "file": "edufineweb_train_000002.npy",
+          "start": 0
+        },
+        {
+          "file": "edufineweb_train_000001.npy",
+          "start": 0
+        }
+      ],
+      "next_train_cursor": {
+        "file": "edufineweb_train_000001.npy",
+        "start": 6
+      },
+      "global_mean_loss": 10.358176231384277,
+      "learning_rate": 0.0006,
+      "gradient_norm_before_clip": 5.4956536293029785
+    },
+    {
+      "step": 3,
+      "local_batches": [
+        {
+          "file": "edufineweb_train_000001.npy",
+          "start": 6
+        },
+        {
+          "file": "edufineweb_train_000002.npy",
+          "start": 0
+        }
+      ],
+      "next_train_cursor": {
+        "file": "edufineweb_train_000001.npy",
+        "start": 0
+      },
+      "global_mean_loss": 10.125737190246582,
+      "learning_rate": 0.00032999999999999994,
+      "gradient_norm_before_clip": 4.1274495124816895
+    }
+  ],
+  "validation_after_updates": [
+    0,
+    2,
+    3
+  ],
+  "generation_after_updates": [
+    2,
+    3
+  ],
+  "observer_train_cursors_unchanged": true,
+  "first_batch": {
+    "x": [
+      [
+        50256,
+        15496,
+        995
+      ],
+      [
+        13,
+        50256,
+        15496
+      ]
+    ],
+    "y": [
+      [
+        15496,
+        995,
+        13
+      ],
+      [
+        50256,
+        15496,
+        995
+      ]
+    ]
+  },
+  "canvas": [
+    2560,
+    4850
+  ],
+  "outputs": [
+    "docs/diagrams/gpt2-shard-training-flow.svg",
+    "docs/diagrams/gpt2-shard-training-flow.md",
+    "docs/diagrams/gpt2-shard-training-flow.png"
+  ]
+}

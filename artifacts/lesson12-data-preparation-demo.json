@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-10-28T02:52:28.736253+00:00",
+  "source": {
+    "kind": "invented teaching text",
+    "is_fineweb": false
+  },
+  "tokenizer": "tiktoken/gpt2",
+  "tiktoken_version": "0.14.0",
+  "eot_id": 50256,
+  "dtype": "uint16",
+  "shard_size": 5,
+  "training_run": false,
+  "total_tokens": 8,
+  "documents": [
+    {
+      "document": 0,
+      "tokens": 4,
+      "stream_start": 0,
+      "stream_end": 4,
+      "first_ids": [
+        50256,
+        15496,
+        995,
+        13
+      ]
+    },
+    {
+      "document": 1,
+      "tokens": 4,
+      "stream_start": 4,
+      "stream_end": 8,
+      "first_ids": [
+        50256,
+        10248,
+        3329,
+        13
+      ]
+    }
+  ],
+  "shards": [
+    {
+      "file": "edufineweb_val_000000.npy",
+      "split": "val",
+      "tokens": 5,
+      "stream_start": 0,
+      "stream_end": 5,
+      "sha256": "e469f5348db39d5221e865a0821282ec18189f6cabc616bc0d579c20e4dfb041"
+    },
+    {
+      "file": "edufineweb_train_000001.npy",
+      "split": "train",
+      "tokens": 3,
+      "stream_start": 5,
+      "stream_end": 8,
+      "sha256": "1fe288156d7a0c50b78315261cf2fab0accc35fe78fc00b2784a364e6dfeb2c9"
+    }
+  ],
+  "verification": {
+    "executed_by": "assistant",
+    "fineweb_download_succeeded": false,
+    "tests_passed": 3,
+    "coverage": [
+      "reconstruction across boundaries",
+      "range before uint16 cast",
+      "preserve existing files"
+    ]
+  }
+}

@@ -1,0 +1,1264 @@
+{
+  "lesson": "2.4 / shard training integration",
+  "course_commit": "4a63e6a599fea4f78d25e78a4970585ae5c6e27f",
+  "torch": "2.2.2",
+  "device_type": "cpu",
+  "backend": "none",
+  "world_size": 1,
+  "precision": "fp32",
+  "execution": "eager",
+  "seed": 42,
+  "model_size": "tiny",
+  "config": {
+    "vocab_size": 50257,
+    "n_positions": 128,
+    "n_embd": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "parameter_count": 3324736,
+  "pretrained_weights_loaded": false,
+  "checkpoint_saved": false,
+  "data_dir": "/Users/guqun/micrograd/gpt2_pretrain_lab/.cache/shard-training/demo-20261030T040010763784Z",
+  "data_source": "two distinct teaching sentences; not FineWeb",
+  "inventory": {
+    "train": {
+      "files": [
+        {
+          "file": "edufineweb_train_000001.npy",
+          "tokens": 16,
+          "batches_per_rank": 2
+        },
+        {
+          "file": "edufineweb_train_000002.npy",
+          "tokens": 8,
+          "batches_per_rank": 1
+        }
+      ],
+      "batches_per_rank_per_pass": 3
+    },
+    "val": {
+      "files": [
+        {
+          "file": "edufineweb_val_000000.npy",
+          "tokens": 16,
+          "batches_per_rank": 2
+        }
+      ],
+      "batches_per_rank_per_pass": 2
+    }
+  },
+  "batch_size_per_rank": 2,
+  "seq_len": 3,
+  "accumulation_steps": 2,
+  "tokens_per_optimizer_update": 12,
+  "parameter_updates": 3,
+  "training_positions": 36,
+  "validation_every": 2,
+  "validation_batches_per_rank": 2,
+  "validation_changes_training_policy": false,
+  "generation": {
+    "every_updates": 2,
+    "prompt": "Hello, I'm a language model,",
+    "prompt_ids": [
+      15496,
+      11,
+      314,
+      1101,
+      257,
+      3303,
+      2746,
+      11
+    ],
+    "num_sequences": 4,
+    "max_new_tokens": 24,
+    "top_k": 50,
+    "base_seed": 42,
+    "precision": "fp32",
+    "generated_text_used_for_training": false
+  },
+  "schedule": {
+    "max_lr": 0.0006,
+    "min_lr": 6e-05,
+    "warmup_steps": 1,
+    "decay_steps": 3
+  },
+  "clip_norm": 1.0,
+  "ranks": [
+    {
+      "rank": 0,
+      "training": [
+        {
+          "step": 1,
+          "local_batches": [
+            {
+              "file": "edufineweb_train_000001.npy",
+              "start": 0
+            },
+            {
+              "file": "edufineweb_train_000001.npy",
+              "start": 6
+            }
+          ],
+          "next_train_cursor": {
+            "file": "edufineweb_train_000002.npy",
+            "start": 0
+          },
+          "global_mean_loss": 10.789542198181152,
+          "learning_rate": 0.0006,
+          "gradient_norm_before_clip": 7.959360599517822
+        },
+        {
+          "step": 2,
+          "local_batches": [
+            {
+              "file": "edufineweb_train_000002.npy",
+              "start": 0
+            },
+            {
+              "file": "edufineweb_train_000001.npy",
+              "start": 0
+            }
+          ],
+          "next_train_cursor": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 6
+          },
+          "global_mean_loss": 10.358176231384277,
+          "learning_rate": 0.0006,
+          "gradient_norm_before_clip": 5.4956536293029785
+        },
+        {
+          "step": 3,
+          "local_batches": [
+            {
+              "file": "edufineweb_train_000001.npy",
+              "start": 6
+            },
+            {
+              "file": "edufineweb_train_000002.npy",
+              "start": 0
+            }
+          ],
+          "next_train_cursor": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 0
+          },
+          "global_mean_loss": 10.125737190246582,
+          "learning_rate": 0.00032999999999999994,
+          "gradient_norm_before_clip": 4.1274495124816895
+        }
+      ],
+      "validation": [
+        {
+          "global_mean_loss": 10.828862190246582,
+          "local_batches": [
+            {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            },
+            {
+              "file": "edufineweb_val_000000.npy",
+              "start": 6
+            }
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            3
+          ],
+          "global_predicted_positions": 12,
+          "after_updates": 0,
+          "train_cursor_before": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 0
+          },
+          "train_cursor_after": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 0
+          }
+        },
+        {
+          "global_mean_loss": 10.611692428588867,
+          "local_batches": [
+            {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            },
+            {
+              "file": "edufineweb_val_000000.npy",
+              "start": 6
+            }
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            3
+          ],
+          "global_predicted_positions": 12,
+          "after_updates": 2,
+          "train_cursor_before": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 6
+          },
+          "train_cursor_after": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 6
+          }
+        },
+        {
+          "global_mean_loss": 10.581021308898926,
+          "local_batches": [
+            {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            },
+            {
+              "file": "edufineweb_val_000000.npy",
+              "start": 6
+            }
+          ],
+          "batches_per_rank": 2,
+          "input_shape": [
+            2,
+            3
+          ],
+          "global_predicted_positions": 12,
+          "after_updates": 3,
+          "train_cursor_before": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 0
+          },
+          "train_cursor_after": {
+            "file": "edufineweb_train_000001.npy",
+            "start": 0
+          }
+        }
+      ],
+      "generation": [
+        {
+          "token_ids": [
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              27691,
+              31911,
+              38937,
+              30842,
+              41728,
+              36388,
+              19468,
+              22277,
+              49061,
+              47452,
+              30781,
+              49912,
+              29203,
+              9168,
+              3308,
+              37034,
+              35943,
+              995,
+              15211,
+              21815,
+              18736,
+              40018,
+              29308,
+              5923
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              25607,
+              29319,
+              47602,
+              8654,
+              38658,
+              25354,
+              4914,
+              47144,
+              3270,
+              36250,
+              32136,
+              29308,
+              33601,
+              30846,
+              44073,
+              41234,
+              44171,
+              43093,
+              19209,
+              47800,
+              25352,
+              24793,
+              47356,
+              18975
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              26518,
+              38784,
+              14382,
+              46689,
+              46888,
+              31314,
+              21094,
+              12534,
+              25839,
+              3041,
+              7581,
+              30098,
+              22484,
+              4246,
+              3308,
+              6356,
+              18722,
+              40588,
+              49650,
+              29715,
+              21513,
+              40398,
+              43628,
+              28152
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              29319,
+              30936,
+              49528,
+              36216,
+              22728,
+              48684,
+              29891,
+              21745,
+              21745,
+              16129,
+              5971,
+              44690,
+              8736,
+              32781,
+              995,
+              14634,
+              995,
+              6184,
+              10799,
+              46976,
+              25549,
+              19391,
+              13669,
+              5160
+            ]
+          ],
+          "steps": [
+            {
+              "input_length": 8,
+              "logits_shape": [
+                4,
+                8,
+                50257
+              ],
+              "next_token_ids": [
+                27691,
+                25607,
+                26518,
+                29319
+              ]
+            },
+            {
+              "input_length": 9,
+              "logits_shape": [
+                4,
+                9,
+                50257
+              ],
+              "next_token_ids": [
+                31911,
+                29319,
+                38784,
+                30936
+              ]
+            },
+            {
+              "input_length": 10,
+              "logits_shape": [
+                4,
+                10,
+                50257
+              ],
+              "next_token_ids": [
+                38937,
+                47602,
+                14382,
+                49528
+              ]
+            },
+            {
+              "input_length": 11,
+              "logits_shape": [
+                4,
+                11,
+                50257
+              ],
+              "next_token_ids": [
+                30842,
+                8654,
+                46689,
+                36216
+              ]
+            },
+            {
+              "input_length": 12,
+              "logits_shape": [
+                4,
+                12,
+                50257
+              ],
+              "next_token_ids": [
+                41728,
+                38658,
+                46888,
+                22728
+              ]
+            },
+            {
+              "input_length": 13,
+              "logits_shape": [
+                4,
+                13,
+                50257
+              ],
+              "next_token_ids": [
+                36388,
+                25354,
+                31314,
+                48684
+              ]
+            },
+            {
+              "input_length": 14,
+              "logits_shape": [
+                4,
+                14,
+                50257
+              ],
+              "next_token_ids": [
+                19468,
+                4914,
+                21094,
+                29891
+              ]
+            },
+            {
+              "input_length": 15,
+              "logits_shape": [
+                4,
+                15,
+                50257
+              ],
+              "next_token_ids": [
+                22277,
+                47144,
+                12534,
+                21745
+              ]
+            },
+            {
+              "input_length": 16,
+              "logits_shape": [
+                4,
+                16,
+                50257
+              ],
+              "next_token_ids": [
+                49061,
+                3270,
+                25839,
+                21745
+              ]
+            },
+            {
+              "input_length": 17,
+              "logits_shape": [
+                4,
+                17,
+                50257
+              ],
+              "next_token_ids": [
+                47452,
+                36250,
+                3041,
+                16129
+              ]
+            },
+            {
+              "input_length": 18,
+              "logits_shape": [
+                4,
+                18,
+                50257
+              ],
+              "next_token_ids": [
+                30781,
+                32136,
+                7581,
+                5971
+              ]
+            },
+            {
+              "input_length": 19,
+              "logits_shape": [
+                4,
+                19,
+                50257
+              ],
+              "next_token_ids": [
+                49912,
+                29308,
+                30098,
+                44690
+              ]
+            },
+            {
+              "input_length": 20,
+              "logits_shape": [
+                4,
+                20,
+                50257
+              ],
+              "next_token_ids": [
+                29203,
+                33601,
+                22484,
+                8736
+              ]
+            },
+            {
+              "input_length": 21,
+              "logits_shape": [
+                4,
+                21,
+                50257
+              ],
+              "next_token_ids": [
+                9168,
+                30846,
+                4246,
+                32781
+              ]
+            },
+            {
+              "input_length": 22,
+              "logits_shape": [
+                4,
+                22,
+                50257
+              ],
+              "next_token_ids": [
+                3308,
+                44073,
+                3308,
+                995
+              ]
+            },
+            {
+              "input_length": 23,
+              "logits_shape": [
+                4,
+                23,
+                50257
+              ],
+              "next_token_ids": [
+                37034,
+                41234,
+                6356,
+                14634
+              ]
+            },
+            {
+              "input_length": 24,
+              "logits_shape": [
+                4,
+                24,
+                50257
+              ],
+              "next_token_ids": [
+                35943,
+                44171,
+                18722,
+                995
+              ]
+            },
+            {
+              "input_length": 25,
+              "logits_shape": [
+                4,
+                25,
+                50257
+              ],
+              "next_token_ids": [
+                995,
+                43093,
+                40588,
+                6184
+              ]
+            },
+            {
+              "input_length": 26,
+              "logits_shape": [
+                4,
+                26,
+                50257
+              ],
+              "next_token_ids": [
+                15211,
+                19209,
+                49650,
+                10799
+              ]
+            },
+            {
+              "input_length": 27,
+              "logits_shape": [
+                4,
+                27,
+                50257
+              ],
+              "next_token_ids": [
+                21815,
+                47800,
+                29715,
+                46976
+              ]
+            },
+            {
+              "input_length": 28,
+              "logits_shape": [
+                4,
+                28,
+                50257
+              ],
+              "next_token_ids": [
+                18736,
+                25352,
+                21513,
+                25549
+              ]
+            },
+            {
+              "input_length": 29,
+              "logits_shape": [
+                4,
+                29,
+                50257
+              ],
+              "next_token_ids": [
+                40018,
+                24793,
+                40398,
+                19391
+              ]
+            },
+            {
+              "input_length": 30,
+              "logits_shape": [
+                4,
+                30,
+                50257
+              ],
+              "next_token_ids": [
+                29308,
+                47356,
+                43628,
+                13669
+              ]
+            },
+            {
+              "input_length": 31,
+              "logits_shape": [
+                4,
+                31,
+                50257
+              ],
+              "next_token_ids": [
+                5923,
+                18975,
+                28152,
+                5160
+              ]
+            }
+          ],
+          "new_tokens_per_sequence": 24,
+          "stop_reason": "max_new_tokens",
+          "after_updates": 2,
+          "sample_seed": 42,
+          "texts": [
+            "Hello, I'm a language model,').449 Vertical psychologists interruption PEOPLE granhnerAwesomeHAEL MSI hereafter preferably windows sen Sitestask world/* deaf Shut restroom simulate AR",
+            "Hello, I'm a language model, fairyiddles inventive prevocrineWrittenka Actress59 understandably Moody simulate Ellisonshift FISA 580 AccessoriesOpeningCapt immobil exercising 195diagn symbolic",
+            "Hello, I'm a language model,dot condensedplane FormationNK Canal Venus adviser cheeksRe phenomenOladostw sen selection Crimson engagements uniqueness Skywalkerboroikawaencrypted toxicity",
+            "Hello, I'm a language model,iddles WORKapeakesci Mean RudolphsessionTargetTargetlanguageositeعitionally designate world repeal world � Justin Monstrousumbledore Rodriguez diagnosis earn"
+          ],
+          "cursors_before": {
+            "train": {
+              "file": "edufineweb_train_000001.npy",
+              "start": 6
+            },
+            "val": {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            }
+          },
+          "cursors_after": {
+            "train": {
+              "file": "edufineweb_train_000001.npy",
+              "start": 6
+            },
+            "val": {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            }
+          }
+        },
+        {
+          "token_ids": [
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              12173,
+              27081,
+              35548,
+              15496,
+              21978,
+              995,
+              32612,
+              19089,
+              47163,
+              11008,
+              15775,
+              21492,
+              21893,
+              11801,
+              35200,
+              33212,
+              45397,
+              32956,
+              15512,
+              7478,
+              35480,
+              14297,
+              6505,
+              12642
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              48908,
+              14362,
+              38706,
+              41101,
+              26041,
+              8694,
+              42931,
+              2405,
+              37335,
+              11801,
+              33307,
+              44332,
+              33720,
+              17230,
+              49230,
+              19638,
+              10674,
+              12419,
+              8251,
+              18149,
+              17474,
+              30303,
+              37645,
+              47405
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              29925,
+              12725,
+              34735,
+              16100,
+              50256,
+              41041,
+              42721,
+              2511,
+              37566,
+              14161,
+              20922,
+              21112,
+              2749,
+              49968,
+              32765,
+              33820,
+              38023,
+              35103,
+              179,
+              3794,
+              46058,
+              6240,
+              47322,
+              4858
+            ],
+            [
+              15496,
+              11,
+              314,
+              1101,
+              257,
+              3303,
+              2746,
+              11,
+              25545,
+              29554,
+              28185,
+              18437,
+              46888,
+              16226,
+              12360,
+              16220,
+              37005,
+              3392,
+              39389,
+              47877,
+              1587,
+              2648,
+              23261,
+              38002,
+              15000,
+              47902,
+              6723,
+              14668,
+              25672,
+              39155,
+              20674,
+              43745
+            ]
+          ],
+          "steps": [
+            {
+              "input_length": 8,
+              "logits_shape": [
+                4,
+                8,
+                50257
+              ],
+              "next_token_ids": [
+                12173,
+                48908,
+                29925,
+                25545
+              ]
+            },
+            {
+              "input_length": 9,
+              "logits_shape": [
+                4,
+                9,
+                50257
+              ],
+              "next_token_ids": [
+                27081,
+                14362,
+                12725,
+                29554
+              ]
+            },
+            {
+              "input_length": 10,
+              "logits_shape": [
+                4,
+                10,
+                50257
+              ],
+              "next_token_ids": [
+                35548,
+                38706,
+                34735,
+                28185
+              ]
+            },
+            {
+              "input_length": 11,
+              "logits_shape": [
+                4,
+                11,
+                50257
+              ],
+              "next_token_ids": [
+                15496,
+                41101,
+                16100,
+                18437
+              ]
+            },
+            {
+              "input_length": 12,
+              "logits_shape": [
+                4,
+                12,
+                50257
+              ],
+              "next_token_ids": [
+                21978,
+                26041,
+                50256,
+                46888
+              ]
+            },
+            {
+              "input_length": 13,
+              "logits_shape": [
+                4,
+                13,
+                50257
+              ],
+              "next_token_ids": [
+                995,
+                8694,
+                41041,
+                16226
+              ]
+            },
+            {
+              "input_length": 14,
+              "logits_shape": [
+                4,
+                14,
+                50257
+              ],
+              "next_token_ids": [
+                32612,
+                42931,
+                42721,
+                12360
+              ]
+            },
+            {
+              "input_length": 15,
+              "logits_shape": [
+                4,
+                15,
+                50257
+              ],
+              "next_token_ids": [
+                19089,
+                2405,
+                2511,
+                16220
+              ]
+            },
+            {
+              "input_length": 16,
+              "logits_shape": [
+                4,
+                16,
+                50257
+              ],
+              "next_token_ids": [
+                47163,
+                37335,
+                37566,
+                37005
+              ]
+            },
+            {
+              "input_length": 17,
+              "logits_shape": [
+                4,
+                17,
+                50257
+              ],
+              "next_token_ids": [
+                11008,
+                11801,
+                14161,
+                3392
+              ]
+            },
+            {
+              "input_length": 18,
+              "logits_shape": [
+                4,
+                18,
+                50257
+              ],
+              "next_token_ids": [
+                15775,
+                33307,
+                20922,
+                39389
+              ]
+            },
+            {
+              "input_length": 19,
+              "logits_shape": [
+                4,
+                19,
+                50257
+              ],
+              "next_token_ids": [
+                21492,
+                44332,
+                21112,
+                47877
+              ]
+            },
+            {
+              "input_length": 20,
+              "logits_shape": [
+                4,
+                20,
+                50257
+              ],
+              "next_token_ids": [
+                21893,
+                33720,
+                2749,
+                1587
+              ]
+            },
+            {
+              "input_length": 21,
+              "logits_shape": [
+                4,
+                21,
+                50257
+              ],
+              "next_token_ids": [
+                11801,
+                17230,
+                49968,
+                2648
+              ]
+            },
+            {
+              "input_length": 22,
+              "logits_shape": [
+                4,
+                22,
+                50257
+              ],
+              "next_token_ids": [
+                35200,
+                49230,
+                32765,
+                23261
+              ]
+            },
+            {
+              "input_length": 23,
+              "logits_shape": [
+                4,
+                23,
+                50257
+              ],
+              "next_token_ids": [
+                33212,
+                19638,
+                33820,
+                38002
+              ]
+            },
+            {
+              "input_length": 24,
+              "logits_shape": [
+                4,
+                24,
+                50257
+              ],
+              "next_token_ids": [
+                45397,
+                10674,
+                38023,
+                15000
+              ]
+            },
+            {
+              "input_length": 25,
+              "logits_shape": [
+                4,
+                25,
+                50257
+              ],
+              "next_token_ids": [
+                32956,
+                12419,
+                35103,
+                47902
+              ]
+            },
+            {
+              "input_length": 26,
+              "logits_shape": [
+                4,
+                26,
+                50257
+              ],
+              "next_token_ids": [
+                15512,
+                8251,
+                179,
+                6723
+              ]
+            },
+            {
+              "input_length": 27,
+              "logits_shape": [
+                4,
+                27,
+                50257
+              ],
+              "next_token_ids": [
+                7478,
+                18149,
+                3794,
+                14668
+              ]
+            },
+            {
+              "input_length": 28,
+              "logits_shape": [
+                4,
+                28,
+                50257
+              ],
+              "next_token_ids": [
+                35480,
+                17474,
+                46058,
+                25672
+              ]
+            },
+            {
+              "input_length": 29,
+              "logits_shape": [
+                4,
+                29,
+                50257
+              ],
+              "next_token_ids": [
+                14297,
+                30303,
+                6240,
+                39155
+              ]
+            },
+            {
+              "input_length": 30,
+              "logits_shape": [
+                4,
+                30,
+                50257
+              ],
+              "next_token_ids": [
+                6505,
+                37645,
+                47322,
+                20674
+              ]
+            },
+            {
+              "input_length": 31,
+              "logits_shape": [
+                4,
+                31,
+                50257
+              ],
+              "next_token_ids": [
+                12642,
+                47405,
+                4858,
+                43745
+              ]
+            }
+          ],
+          "new_tokens_per_sequence": 24,
+          "stop_reason": "max_new_tokens",
+          "after_updates": 3,
+          "sample_seed": 42,
+          "texts": [
+            "Hello, I'm a language model, Mobile temples buddiesHello canvas world distributors issuingtilVID treaty React sighed Unitfavorite RW Oss abdomenilight reportedly DU skilled developers Consider",
+            "Hello, I'm a language model, 4090 SF nanoliction Maya Administration Finished themselves progressing Unitopping dx intrigued Items Farn packet Elizabeth SL keys nonsensearchive shoppers unavoidable allot",
+            "Hello, I'm a language model, CG attracted bingeretty<|endoftext|> HUN rm radaldi Property notebook decisiveBC RELEkaiGary murmTile� Indiaboats professorvP massive",
+            "Hello, I'm a language model,atheringapeshifter Imper clueNK 107InfoRussian transitioning onesbara ravaged � shareATERbiased consume COVER SS Sad Lauren globalization extremistsorange"
+          ],
+          "cursors_before": {
+            "train": {
+              "file": "edufineweb_train_000001.npy",
+              "start": 0
+            },
+            "val": {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            }
+          },
+          "cursors_after": {
+            "train": {
+              "file": "edufineweb_train_000001.npy",
+              "start": 0
+            },
+            "val": {
+              "file": "edufineweb_val_000000.npy",
+              "start": 0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "scope": "Training control-flow check; no FineWeb, CUDA or language-quality claim."
+}

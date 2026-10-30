@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-30",
+  "course_commit": "4a63e6a599fea4f78d25e78a4970585ae5c6e27f",
+  "course_url": "https://github.com/karpathy/build-nanogpt/blob/4a63e6a599fea4f78d25e78a4970585ae5c6e27f/train_gpt2.py",
+  "source_sha256": "6ac2d00b88ebf134a9120c9696e7e24cd7e1fee7744dea0fb5a2e4700aca5356",
+  "video_segment": "approximately 03:17:58 to 03:28:07",
+  "transcript_url": "https://raw.githubusercontent.com/nolimitkun/ai-kol-wiki/main/sources/karpathy/20240609-l8pRSuU81PU/transcript.md",
+  "direct_video_viewed": false,
+  "adaptations": [
+    "Separate teaching sentences for train/val; 16/16/8-token shards, not FineWeb.",
+    "Random initialization; default GPT-2 and optional tiny; tested here with tiny CPU FP32.",
+    "Global rank-independent shard boundary from block 11; public no_sync wraps forward and backward.",
+    "Validation capacity is summed per file and evaluation cannot wrap within one invocation.",
+    "Eager generation enabled; historical compile-related disabling is not carried over.",
+    "Three updates; observation after 0/2/3 updates; final observation added for short run."
+  ],
+  "new_behavior_tests_passed": 4,
+  "existing_related_tests_passed": 9,
+  "prior_python_files_unchanged": true,
+  "prior_python_files_checked": 29,
+  "single_process_and_real_two_process_cpu_run": true,
+  "cuda_nccl_run": false,
+  "real_fineweb_run": false,
+  "full_124m_run_in_this_turn": false,
+  "comparison": {
+    "training_max_loss_difference": 9.5367431640625e-07,
+    "validation_max_loss_difference": 9.5367431640625e-07
+  },
+  "rank_data_offsets_verified": true,
+  "validation_and_generation_cursors_preserved": true,
+  "parameters_gradients_adamw_rng_exact_match_to_training_only_in_float64_test": true,
+  "archive_sha256": {
+    "lesson12-shard-training-cpu.json": "e0ea7d840e80ad199976d926e62f9e17d90322d8fd9ce3655e5b16124735352f",
+    "lesson12-shard-training-ddp-cpu.json": "9d6eedeef7564e1d78bda47e305491b93bd879e818b80a77f6ab45cd93c34af2"
+  },
+  "scope": "Local flow verification, not learner mastery or completed section 2.4."
+}

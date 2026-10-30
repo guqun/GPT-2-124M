@@ -1,0 +1,173 @@
+{
+  "lesson": "2.4 / block 12 / shard loading and batches",
+  "data_kind": "repeated teaching demo; not FineWeb",
+  "data_dir": "/Users/guqun/micrograd/gpt2_pretrain_lab/.cache/shard-batches/demo-20261029T064940008309Z",
+  "split": "train",
+  "batch_size": 2,
+  "seq_len": 3,
+  "rank": 0,
+  "world_size": 1,
+  "loader_device": "cpu",
+  "batch_device": "cpu",
+  "model_created": false,
+  "training_run": false,
+  "ddp_launched": false,
+  "records": [
+    {
+      "batch": 1,
+      "file": "edufineweb_train_000001.npy",
+      "start": 0,
+      "shard_tokens": 16,
+      "input_shape": [
+        2,
+        3
+      ],
+      "cpu_dtype": "torch.int64",
+      "cpu_device": "cpu",
+      "x": [
+        [
+          50256,
+          15496,
+          995
+        ],
+        [
+          13,
+          50256,
+          10248
+        ]
+      ],
+      "y": [
+        [
+          15496,
+          995,
+          13
+        ],
+        [
+          50256,
+          10248,
+          3329
+        ]
+      ],
+      "next_file": "edufineweb_train_000001.npy",
+      "next_start": 6,
+      "batch_device": "cpu"
+    },
+    {
+      "batch": 2,
+      "file": "edufineweb_train_000001.npy",
+      "start": 6,
+      "shard_tokens": 16,
+      "input_shape": [
+        2,
+        3
+      ],
+      "cpu_dtype": "torch.int64",
+      "cpu_device": "cpu",
+      "x": [
+        [
+          3329,
+          13,
+          50256
+        ],
+        [
+          15496,
+          995,
+          13
+        ]
+      ],
+      "y": [
+        [
+          13,
+          50256,
+          15496
+        ],
+        [
+          995,
+          13,
+          50256
+        ]
+      ],
+      "next_file": "edufineweb_train_000002.npy",
+      "next_start": 0,
+      "batch_device": "cpu"
+    },
+    {
+      "batch": 3,
+      "file": "edufineweb_train_000002.npy",
+      "start": 0,
+      "shard_tokens": 8,
+      "input_shape": [
+        2,
+        3
+      ],
+      "cpu_dtype": "torch.int64",
+      "cpu_device": "cpu",
+      "x": [
+        [
+          50256,
+          15496,
+          995
+        ],
+        [
+          13,
+          50256,
+          10248
+        ]
+      ],
+      "y": [
+        [
+          15496,
+          995,
+          13
+        ],
+        [
+          50256,
+          10248,
+          3329
+        ]
+      ],
+      "next_file": "edufineweb_train_000001.npy",
+      "next_start": 0,
+      "batch_device": "cpu"
+    },
+    {
+      "batch": 4,
+      "file": "edufineweb_train_000001.npy",
+      "start": 0,
+      "shard_tokens": 16,
+      "input_shape": [
+        2,
+        3
+      ],
+      "cpu_dtype": "torch.int64",
+      "cpu_device": "cpu",
+      "x": [
+        [
+          50256,
+          15496,
+          995
+        ],
+        [
+          13,
+          50256,
+          10248
+        ]
+      ],
+      "y": [
+        [
+          15496,
+          995,
+          13
+        ],
+        [
+          50256,
+          10248,
+          3329
+        ]
+      ],
+      "next_file": "edufineweb_train_000001.npy",
+      "next_start": 6,
+      "batch_device": "cpu"
+    }
+  ]
+}

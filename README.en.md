@@ -10,11 +10,24 @@ Repository: [guqun/GPT-2-124M](https://github.com/guqun/GPT-2-124M).
 
 ## Current progress
 
-**Current learning: Stage 2 → Unit 2 → Section 2.4 → Block 14, periodic text generation during training, is covered and initially understood (2026-10-27).** The learner personally ran [train_generation.py](train_generation.py) with a randomly initialized 124,439,808-parameter GPT-2: three CPU/FP32 updates, validation, and four 24-token continuations after updates 2 and 3. The [review notes](docs/periodic-generation-notes.md) ([Notion](https://app.notion.com/p/406eaea31414814ea785fee733047ffc), Chinese) and [learner report](artifacts/lesson14-user-gpt2-cpu-report.json) are archived; earlier lesson code and the separate tiny checks are preserved.
+**Current learning: Stage 2 → Unit 2 → Section 2.5, block 15: periodic HellaSwag evaluation (2026-10-30).** The learner reports initial understanding of scoring, padding, masks, answer comparison and accuracy. A new entry point now connects evaluation to training; section 2.5 is not marked complete.
 
-Blocks 13 and 14 are covered and initially understood, with the learner’s full GPT-2 CPU runs completed. Notion and local progress were synchronized through Block 14 on October 27. Next is section 2.5, HellaSwag evaluation, which has not started. FineWeb-Edu implementation/runs, learner DDP practice, CUDA/NCCL, and earlier performance work remain pending. Optimizer/accumulation steps were exercised in the learner’s single-process run; independent configuration and multi-device practice remain separate. Section 2.4 is not complete. Counts stay 1/5 for Unit 2 and 5/32 for Stage 2.
+New [train_hellaswag.py](train_hellaswag.py), [hellaswag_eval.py](hellaswag_eval.py) and [Chinese lesson](lesson15.md) preserve all previous Python code. Training still starts from random parameters and uses the earlier shard loaders, accumulation, validation and generation. Evaluation runs initially and after updates 2 and 3 by default, without changing parameters or training state.
 
-To try the new entry with the already approved local environment:
+The download retry succeeded: the repository includes the first **8 real HellaSwag validation examples**, with source URL and checksum. This is a preview, not a full benchmark. No network is required at runtime. Pass a local JSONL file with `--hellaswag-file`, and use `--hellaswag-limit 0` to evaluate the entire file. CPU tiny execution and scoring/state-isolation checks passed; full-dataset and CUDA/NCCL runs remain pending.
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_hellaswag.py --device cpu --model-size tiny
+```
+
+
+New [train_shards.py](train_shards.py) and the [Chinese lesson](lesson12-shard-training.md) preserve all prior code. Two separate loaders supply train and validation data. Thirteen related checks and tiny CPU single-process / real two-process Gloo short runs passed; all 29 previous Python files remain unchanged. The default data consists of two distinct teaching sentences, not FineWeb. Real FineWeb and CUDA/NCCL runs, and learner practice with the new entry point, remain pending. The Notion master plan stays at October 27; section 2.4 remains incomplete, with counts unchanged at 1/5 and 5/32.
+
+The existing [data-pipeline notes](docs/fineweb-edu-sharding-notes.md) and [same Notion page](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0) were expanded on October 30. Section 13 connects raw text, EOT/token IDs, npy shards, CPU/device transfers, shifted x/y, prediction positions, microbatch accumulation, parameter updates, and return paths from validation/generation. The local note includes the full code flow diagram; archiving these notes does not mark the course section complete.
+
+The [periodic-generation review](docs/periodic-generation-notes.md) ([Notion](https://app.notion.com/p/406eaea31414814ea785fee733047ffc)) and [full-model learner report](artifacts/lesson14-user-gpt2-cpu-report.json) remain available. Learner multi-process practice, CUDA/NCCL, and earlier performance work remain pending.
+
+To revisit periodic generation with the already approved local environment:
 
 ```bash
 /Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_generation.py --device cpu --model-size tiny
@@ -63,11 +76,45 @@ The [DDP, mean-loss, and gradient-synchronization notes](docs/ddp-batch-gradient
 
 On the current machine use the authorized existing interpreter `/Users/guqun/micrograd/venv/bin/python`. Default checks follow 0, 2, and 3 updates, using two batches per process. Metrics are printed and saved as JSON; no early stopping, best-checkpoint selection, or metric-driven learning rate is added. Five behavior checks and single-/two-process CPU runs passed. FineWeb-Edu and CUDA runs remain pending.
 
+## Section 2.4 practice III: connecting shards to training
+
+Read [train_shards.py](train_shards.py): M1–M4 sets up the run; T1–T6 combines updates, validation, and generation; V1–V4 evaluates fixed batches across validation files. Shard rollover preserves model parameters, optimizer history, and the learning-rate schedule. Each microbatch stays in one file, while multiple microbatches in one optimizer update may use different files.
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_shards.py --device cpu --model-size tiny
+```
+
+See the [lesson](lesson12-shard-training.md), [CPU report](artifacts/lesson12-shard-training-cpu.json), [two-process Gloo report](artifacts/lesson12-shard-training-ddp-cpu.json), and [source/check record](artifacts/lesson12-shard-training-alignment.json). `--data-dir` accepts existing GPT-2 uint16 shards; omitted, it creates a separate teaching demo. The archived runs verify control flow, not language quality or completed pretraining.
+
+The [code flow diagram (PNG)](docs/diagrams/gpt2-shard-training-flow.png), [scalable SVG](docs/diagrams/gpt2-shard-training-flow.svg), and [Chinese reading guide](docs/diagrams/gpt2-shard-training-flow.md) connect shard reads, microbatch accumulation, AdamW updates, validation, and generation. Source line references and the three-update file/cursor trace come from the implementation and archived CPU run.
+
+## Block 12 practice II: reading shards and forming batches
+
+New [load_shards.py](load_shards.py) and [reading guide](lesson12-shard-batches.md) preserve previous preparation and training code. Read S1–S7 for disk loading, split selection, B×T+1 slicing, shifted x/y, cursor advancement, and shard rollover.
+
+```bash
+python load_shards.py
+```
+
+The default repeats the previous two-sentence demo five times and writes separate 16/16/8-token shards. The train split uses the latter two files; four B=2/T=3 batches exercise within-shard advancement, switching, and wrapping. See the [CPU report](artifacts/lesson12-shard-batches-cpu.json) and [source/adaptation record](artifacts/lesson12-shard-loader-alignment.json). Five behavior tests passed, including two rank-specific loader objects compared with one combined loader. No model training, actual DDP processes, GPU verification, or real FineWeb run is claimed. This lesson has started; completion counts and Notion remain unchanged.
+
+## Block 12 practice: preparing token shards
+
+Read [lesson12-data-preparation.md](lesson12-data-preparation.md), then P1–P5 in [prepare_fineweb.py](prepare_fineweb.py). The script uses GPT-2 tiktoken, prepends EOT per document, stores uint16 IDs, and writes fixed-capacity `.npy` files including a short final shard. No model is constructed.
+
+The [code flow diagram](docs/diagrams/gpt2-data-preparation-flow.md) ([PNG](docs/diagrams/gpt2-data-preparation-flow.png) / [SVG](docs/diagrams/gpt2-data-preparation-flow.svg)) connects main, lazy per-document encoding, both loops, full/tail shard writes, and the three actual copy iterations for the eight-ID demo. Source line numbers and archived report values are checked when rebuilding the image.
+
+```bash
+python prepare_fineweb.py
+```
+
+The default is explicitly a two-sentence teaching demo. `--source fineweb-preview` requests 20 real records and uses 2048-token shards; that network path has not succeeded on this machine. Each run uses a new output directory. See [optional dependencies](requirements-data.txt) and the [demo report](artifacts/lesson12-data-preparation-demo.json). The subsequent [integration lesson](lesson12-shard-training.md) now connects shards to training.
+
 ## Learning block 12: FineWeb-Edu, sharding, and document boundaries
 
 The [new notes](docs/fineweb-edu-sharding-notes.md) ([Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0), Chinese) archive the October 25 discussion: why move beyond Tiny Shakespeare, offline tokenization and uint16 storage, documents versus shards versus sequences, EOT, document attention masks, and incomplete shard tails. A flow diagram, comparisons, small token examples, and review answers support the explanation. Sources include the video transcript around 3:09:48–3:18:58, historical commit 69cb21f, and the official dataset card; supplementary tradeoffs are labeled separately.
 
-The learner chose to follow the original course: EOT with ordinary causal attention, and skipping an incomplete shard tail instead of filling a batch from the next shard. The core concepts are covered, with understanding still developing. A dedicated shard loader and actual FineWeb-Edu run remain pending. Next is token-budget arithmetic followed by validation loss; section 2.4 remains incomplete and completion counts are unchanged.
+The learner chose to follow the original course: EOT with ordinary causal attention, and skipping an incomplete shard tail instead of filling a batch from the next shard. The core concepts are covered, with understanding still developing. The earlier discussion has since been followed by independent preparation, loading, and training-integration code. Real FineWeb-Edu runs remain pending; section 2.4 stays incomplete and completion counts are unchanged.
 
 ## Learning block 11: DDP, data allocation, and accumulation
 

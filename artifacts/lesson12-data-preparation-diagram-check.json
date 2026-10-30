@@ -1,0 +1,96 @@
+{
+  "source": "prepare_fineweb.py",
+  "source_sha256": "104cd32750566d754b75c7cbc8b222a6a86aa7d0e19d73cf01acb3cac45361bb",
+  "report": "artifacts/lesson12-data-preparation-demo.json",
+  "report_sha256": "d6f320bf0852c2ef9d9306490e1e94e49b635bbcfafba71add4aae7ecbe11033",
+  "source_lines": {
+    "main": 140,
+    "read": 29,
+    "encode": 73,
+    "write": 84,
+    "save": 101,
+    "generator": 158,
+    "invoke": 159,
+    "init": 96,
+    "outer": 114,
+    "count": 117,
+    "offset": 124,
+    "while": 125,
+    "take": 127,
+    "copy": 128,
+    "full": 131,
+    "tail": 135,
+    "return": 137,
+    "manifest": 169,
+    "entry": 182
+  },
+  "trace": [
+    {
+      "document": 0,
+      "old_used": 0,
+      "old_offset": 0,
+      "used": 4,
+      "offset": 4,
+      "take": 4,
+      "full": false,
+      "buffer": [
+        50256,
+        15496,
+        995,
+        13,
+        null
+      ],
+      "valid": 4
+    },
+    {
+      "document": 1,
+      "old_used": 4,
+      "old_offset": 0,
+      "used": 5,
+      "offset": 1,
+      "take": 1,
+      "full": true,
+      "buffer": [
+        50256,
+        15496,
+        995,
+        13,
+        50256
+      ],
+      "valid": 5
+    },
+    {
+      "document": 1,
+      "old_used": 0,
+      "old_offset": 1,
+      "used": 3,
+      "offset": 4,
+      "take": 3,
+      "full": false,
+      "buffer": [
+        10248,
+        3329,
+        13,
+        13,
+        50256
+      ],
+      "valid": 3
+    }
+  ],
+  "shard_ids": [
+    [
+      50256,
+      15496,
+      995,
+      13,
+      50256
+    ],
+    [
+      10248,
+      3329,
+      13
+    ]
+  ],
+  "fineweb_run": false,
+  "training_run": false
+}

@@ -1,0 +1,22 @@
+{
+  "course_commit": "69cb21f0f9439a8804741912045b90879a573591",
+  "source_url": "https://github.com/karpathy/build-nanogpt/blob/69cb21f0f9439a8804741912045b90879a573591/train_gpt2.py#L211",
+  "source_sha256": "43b04b59b06b68b28e170934089b7fae0a10102edb48bd24948fd9be628fd01a",
+  "video_segment": "03:17:58–03:18:58",
+  "transcript_url": "https://github.com/nolimitkun/ai-kol-wiki/blob/main/sources/karpathy/20240609-l8pRSuU81PU/transcript.md",
+  "direct_video_viewed": false,
+  "local_adaptations": [
+    "small repeated demo, not FineWeb",
+    "explicit uint16 to NumPy int64 conversion",
+    "rank-independent global rollover condition from block 11",
+    "reject invalid files and skip whole shards shorter than one global round",
+    "reset interface and batch-only preview"
+  ],
+  "uint16_conversion_check": {
+    "direct_uint16_supported": false,
+    "error": "can't convert np.ndarray of type numpy.uint16. The only supported types are: float64, float32, float16, complex64, complex128, int64, int32, int16, int8, uint8, and bool."
+  },
+  "tests_passed": 5,
+  "verification_scope": "CPU file/batch tests; two loader objects compared with one combined batch loader; no DDP processes, no model training, no CUDA",
+  "report_sha256": "8e5ed9acd0674d38f7166f22271d6ecd7a23aeab3f5bb26e09e97d3998af14b1"
+}

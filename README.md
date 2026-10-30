@@ -4,9 +4,25 @@
 
 课程主线：[Karpathy — Let's reproduce GPT-2 (124M)](https://www.youtube.com/watch?v=l8pRSuU81PU)。配套参考：[build-nanogpt](https://github.com/karpathy/build-nanogpt)。
 
-**本项目所属：阶段二「现代大模型：从分词到部署」→ 单元 2「预训练工程：复现 GPT-2」。当前：2.4 · 知识块 14「训练中定期生成文本」已学习、初步理解（2026-10-27）。** 用户已亲自运行 [train_generation.py](train_generation.py)，完成随机初始化完整 GPT-2 的 CPU/FP32 三次更新、验证和定期生成。学习内容与实跑解读见[复习笔记](docs/periodic-generation-notes.md)（[Notion](https://app.notion.com/p/406eaea31414814ea785fee733047ffc)）；[用户报告](artifacts/lesson14-user-gpt2-cpu-report.json)已原样归档，区别于此前 tiny 配套检查。
+**当前：阶段二 → 单元 2 → 2.5，知识块 15：HellaSwag 评测接入训练（2026-10-30）。** 用户已初步理解候选评分、补齐、mask、题目判分及准确率统计；新增独立入口，开始工程实践。2.5 未结算，Notion 本轮未改。
 
-知识块 13「验证循环」与知识块 14「定期生成」均已学习、初步理解，完整 GPT-2 单进程 CPU 用户实践完成。Notion 总计划和本地入口已同步到知识块 14；下一步进入 2.5 HellaSwag 评测，当前尚未开始。FineWeb-Edu 独立分片实作、用户 DDP 多进程、CUDA/NCCL 和 2.2 工程仍待补。2.3 优化与累积已在用户单进程入口运行，独立配置与多卡/GPU 对照另记。2.4 整节未完成，2.1 已完成，计数仍为单元 2 的 1/5、阶段二 5/32。
+新增 [train_hellaswag.py](train_hellaswag.py) / [hellaswag_eval.py](hellaswag_eval.py) / [第 15 块讲义](lesson15.md)。保留所有旧 Python 文件；初始状态和默认更新 2、3 次后用当前参数评测，恢复模式继续训练。重试下载成功，默认使用本地保存的 **HellaSwag 验证集前 8 道真实题目**，不是完整基准。CPU tiny 短跑和评分/状态隔离检查通过；完整验证集及 CUDA/NCCL 仍待补。
+
+先运行小模型观察流程：
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_hellaswag.py --device cpu --model-size tiny
+```
+
+真实题预览已随项目保存，启动无需联网。完整 JSONL 用 `--hellaswag-file` 指定，并以 `--hellaswag-limit 0` 选择全文件；默认正上限为 8。来源校验、各卡统计、候选得分和模式恢复见讲义。
+
+此前新增 [train_shards.py](train_shards.py) / [实践（三）讲义](lesson12-shard-training.md)，复用独立的 train/val 加载器与已学训练主干，保留所有旧代码。默认教学数据按两句话分别分配 train/val；支持指定已有分片目录。tiny CPU 单进程与真实双进程 Gloo 三次更新已跑通，13 项相关检查通过；29 个此前 Python 文件校验值保持不变。真实 FineWeb 和 CUDA/NCCL 未实跑，不能把本次流程检查记为用户完成正式训练。Notion 总计划仍为 10 月 27 日记录；2.4 未整体完成，计数保持 1/5、5/32。
+
+2026-10-30 已将原数据笔记补全为[从原始文本、分片到模型训练](docs/fineweb-edu-sharding-notes.md)（[同一篇 Notion 笔记](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)）。第十三节串联正文/EOT、npy、CPU/设备、x/y、六个预测位置、微批次累积、跨片更新及验证/生成返回；本地内嵌完整代码流程图。笔记归档与总计划结算分开，不改变完成计数。
+
+前两块的 [prepare_fineweb.py](prepare_fineweb.py) / [数据准备讲义](lesson12-data-preparation.md)与 [load_shards.py](load_shards.py) / [读取讲义](lesson12-shard-batches.md)保留原样。实际 FineWeb 20 条预览此前因连接重置未下载，本次不重试下载。
+
+此前知识块 14 的[复习笔记](docs/periodic-generation-notes.md)（[Notion](https://app.notion.com/p/406eaea31414814ea785fee733047ffc)）与[完整模型用户报告](artifacts/lesson14-user-gpt2-cpu-report.json)保留。用户 DDP 多进程、CUDA/NCCL 和 2.2 工程仍待补；2.3 优化与累积已在用户单进程入口运行，独立配置与多卡/GPU 对照另记。
 
 每次一个知识块：先说明解决什么问题、为什么学、要学会什么，再结合例子、输入输出、公式与形状，最后落到代码和实验；已学基础简要带过，自检供复习。这里的脚本是按课程整理的独立教学实现；记录中的数值来自实际文件，不把手算值当作模型输出。
 
@@ -20,7 +36,7 @@
 
 [DDP、平均损失与梯度同步笔记](docs/ddp-batch-gradient-notes.md) · [Notion](https://app.notion.com/p/402eaea31414814c80bad0fa8f02bdd7)：归档各 GPU 的数据归属、分块通信、单卡整批矩阵求导与双卡平均的对应，重点回答“一个参数为什么只有一个梯度”“为什么需要 batch loss”“平均之后如何沿计算图求导”。含既有配图、数值例子和折叠复习答案；2026-10-23 归档后另行同步了 Notion 总计划中的学习位置，未改变训练行为或完成计数；最新进度见下文。
 
-[FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；独立分片代码与实际运行待补。
+[FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；已开始[独立数据准备实践](lesson12-data-preparation.md)，分片加载器已新增，真实 FineWeb 数据与完整训练接入待继续。
 
 ## 新机器上的运行准备
 
@@ -52,11 +68,13 @@
 - [HTML 教材](python_foundations/textbook.html)：克隆仓库后用浏览器打开，包含目录筛选、代码复制和折叠实验。
 - [可运行示例](python_foundations/examples/)、[配置接口练习](python_foundations/exercises/config_report.py) 与 [参考实现](python_foundations/answers/config_report.py)。
 
-这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积、2.4 DDP、FineWeb-Edu 分片与验证集；当前验证与定期生成均已学习并完成用户单进程 CPU 实践，下一步 2.5 HellaSwag 评测。
+这部分作为知识补充，不新增主线进度。主课程已覆盖阶段二 · 单元 2 · 2.2 的理论内容，接续讨论了 2.3 优化器与梯度累积、2.4 DDP、FineWeb-Edu 分片与验证集；验证与定期生成均已学习并完成用户单进程 CPU 实践；分片与训练/验证/生成已串联，当前接续 2.5 HellaSwag 评测的新入口。
 
-## 当前记录：2.4 定期生成已学习，完整 GPT-2 CPU 实践完成
+## 2026-10-27 归档：定期生成已学习，完整 GPT-2 CPU 实践完成
 
-阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**，**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 优化与梯度累积已整合并在用户本次单进程实验中运行，独立配置与多卡/GPU 实践待继续**；**当前 2.4 · 知识块 14 已学习、初步理解，用户已亲自跑通完整 GPT-2 的 CPU 训练/验证/定期生成短跑**。FineWeb-Edu 概念已归档，独立分片代码与实跑、用户 DDP 多进程实践和 CUDA/NCCL 待补。下一步 2.5 HellaSwag 评测，2.5 与单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
+以下保留归档时状态；2026-10-28 已先接续数据准备实践，见顶部与下方新入口。
+
+阶段一的基础课程已经学完。阶段二内部：单元 1「分词器」的 1.1—1.4 已学完；单元 2 的 **2.1 已完成**，**2.2 理论已覆盖、部分工程与 CUDA 实验待补**；**2.3 优化与梯度累积已整合并在用户本次单进程实验中运行，独立配置与多卡/GPU 实践待继续**；**当前 2.4 · 知识块 14 已学习、初步理解，用户已亲自跑通完整 GPT-2 的 CPU 训练/验证/定期生成短跑**。FineWeb-Edu 概念已归档，分片准备、加载与训练串联已有独立代码和教学数据 CPU 检查，真实 FineWeb、用户 DDP 多进程实践和 CUDA/NCCL 待补。当前先学习分片训练串联，之后进入 2.5 HellaSwag 评测，2.5 与单元 3—7 尚未开始。完整段落计数为单元 2 **1/5**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
 
 2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，并按用户要求同步了 Notion 总计划；后续数据与验证内容尚未覆盖，多进程运行待实践。该历史记录不用于判断今天的位置。
 
@@ -75,6 +93,40 @@
 新增 [训练提速（二）笔记](docs/gpu-training-optimization-notes.md) · [Notion](https://app.notion.com/p/3ffeaea3141481f9bd20ca4745fa8b80)：compile/kernel、FlashAttention、词表 50257→50304，以及额外 logits 对 loss/梯度的影响与遮罩方案。含流程图、输入输出、公式、项目对应、实测表和复习自检。遮罩属于教学补充，尚未集成完整训练。
 
 接续的 [FlashAttention 流程图](docs/diagrams/gpt2-flash-attention-flow.md)已保存为 [PNG](docs/diagrams/gpt2-flash-attention-flow.png) 和 [SVG](docs/diagrams/gpt2-flash-attention-flow.svg)：对比完整中间矩阵与片上分块累计，用两块数据得到 `300 / 10 = 30`，并说明稳定在线归一化和反向重算。这是原理讨论配图，尚未作为 CUDA 性能实验结果。
+
+## 2.4 实践（三）：分片接入完整训练循环
+
+新增 [train_shards.py](train_shards.py) / [lesson12-shard-training.md](lesson12-shard-training.md)。阅读 M1—M4（准备和调用）、T1—T6（训练/观察）、V1—V4（多分片验证）。分片切换只影响取数；模型、AdamW 状态及更新计数继续沿用。单个 batch 不跨文件，但同一次更新累计的多个微批次可以跨文件。
+
+配套[完整代码流程图 PNG](docs/diagrams/gpt2-shard-training-flow.png)（[可缩放 SVG](docs/diagrams/gpt2-shard-training-flow.svg) / [读图说明](docs/diagrams/gpt2-shard-training-flow.md)）：展开分片读取、微批次累积、一次 AdamW 更新、独立验证和生成的调用 / 返回，底部对照三次更新的真实文件与游标。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/train_shards.py --device cpu --model-size tiny
+```
+
+默认 B2/T3/R1/K2，三次更新共 36 个训练预测位置，初始及更新 2/3 次后验证，更新 2/3 次后生成。见 [CPU 报告](artifacts/lesson12-shard-training-cpu.json)、[双进程 CPU/Gloo 报告](artifacts/lesson12-shard-training-ddp-cpu.json)及[来源/核对记录](artifacts/lesson12-shard-training-alignment.json)。默认数据是两句教学文本，不用于语言质量评估；`--data-dir` 可改用已有 GPT-2 uint16 分片。
+
+## 2.4 实践（二）：分片文件 → CPU Tensor → x/y
+
+新增 [load_shards.py](load_shards.py) / [lesson12-shard-batches.md](lesson12-shard-batches.md)，保留旧准备和训练代码。按 S1—S7 阅读：加载当前文件、筛选 train/val、取 B×T+1、错位并 reshape、前进 B×T、检查下一批、换片/回绕。默认只观察数据，不创建模型。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/load_shards.py
+```
+
+本节把两句教学文本重复 5 组，另写 16/16/8 三片；train 只读后两片。B=2、T=3 的四次起点为文件 000001 的 0、6，文件 000002 的 0，再回 000001 的 0。[CPU 报告](artifacts/lesson12-shard-batches-cpu.json)与[来源/改编记录](artifacts/lesson12-shard-loader-alignment.json)已归档。5 项检查含精确边界、split/reset 隔离及双 rank 取数对照；不是实际 DDP/GPU 或 FineWeb 训练。本块开始学习，理解状态待讨论，完成计数不变。
+
+## 2.4 补充实践：正文 → Token ID → 分片文件
+
+先读 [lesson12-data-preparation.md](lesson12-data-preparation.md)，再看 [prepare_fineweb.py](prepare_fineweb.py) 的 P1—P5：读取正文、前置 EOT、检查 ID 范围、填缓冲区、写满换片和保存尾片。这个阶段不构造模型，也不更新参数。
+
+配套[代码流转图](docs/diagrams/gpt2-data-preparation-flow.md)（[PNG](docs/diagrams/gpt2-data-preparation-flow.png) / [SVG](docs/diagrams/gpt2-data-preparation-flow.svg)）展开主入口、惰性编码、外层文档循环与内层搬运循环、完整片与尾片保存，并以实际 demo 的 8 个 ID 对照每轮 take / used / offset。行号从源码提取，数值从已归档报告核对。
+
+```bash
+/Users/guqun/micrograd/venv/bin/python /Users/guqun/micrograd/gpt2_pretrain_lab/prepare_fineweb.py
+```
+
+默认使用两句教学文本，每次写入新的缓存目录。加 `--source fineweb-preview` 可请求官方 20 条真实记录，默认每片 2048 Token；本机此下载尚未成功，不以 demo 冒充真实 FineWeb 结果。新环境依赖见 [requirements-data.txt](requirements-data.txt)，[demo 报告](artifacts/lesson12-data-preparation-demo.json)已归档。
 
 ## 阶段二 · 单元 2 · 2.4 · 知识块 14：训练中定期生成文本
 

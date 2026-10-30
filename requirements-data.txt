@@ -1,0 +1,3 @@
+# 可选：知识块 12 的数据准备。主训练环境仍使用 requirements.txt。
+-r requirements.txt
+tiktoken==0.14.0
