@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-01",
+  "note": {
+    "id": "40beaea3-1414-8160-bf03-dc6856495bb8",
+    "url": "https://app.notion.com/p/40beaea314148160bf03dc6856495bb8",
+    "local": "docs/formal-training-and-wrapup-notes.md",
+    "status": "created"
+  },
+  "plan": {
+    "id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+    "status": "updated",
+    "updated_sections": [
+      "current position",
+      "aggregate progress heading",
+      "unit overview",
+      "learning progress",
+      "section 2.5",
+      "latest progress archive",
+      "pending practice and next steps"
+    ],
+    "warning_resolution": "Initial long latest-progress match returned no_match; fetched current page, then successfully updated unique heading and inserted latest note before pending-practice block. Repair returned no warnings."
+  },
+  "learning": {
+    "location": "阶段二 → 单元 2 → 2.5 → 原视频理论主线收尾",
+    "mastery": "理解中",
+    "unit_2_completed_sections": "1/5",
+    "stage_2_completed_sections": "5/32",
+    "unit_3_started": false,
+    "practice": "Existing full training/evaluation/CUDA and other engineering tasks remain pending; no new experiments."
+  },
+  "artifacts": {
+    "diagrams": "Two synthetic schematic SVGs copied from conversation cache into docs/diagrams; not measured training curves.",
+    "notion_images_uploaded": false
+  },
+  "changes": "Notes and progress documentation only; no training code changes, commit or push."
+}
