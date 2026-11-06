@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-06",
+  "page_id": "410eaea3-1414-81f5-b57c-c13ed19e2f08",
+  "url": "https://app.notion.com/p/410eaea3141481f5b57cc13ed19e2f08",
+  "local": "docs/two-dimensional-rotation-notes.md",
+  "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa",
+  "mastery": "理解中",
+  "created_successfully": true,
+  "learning_plan_modified": false,
+  "angle_formula_supplement": true,
+  "user_feedback": "旋转内容大概了解了",
+  "embedded_images": [
+    {"filename": "gpt2-llama3-rope-position-flow.png", "file_upload_id": "410eaea3-1414-817f-b183-00b260f5ef86"},
+    {"filename": "gpt2-llama3-position-worked-example.png", "file_upload_id": "410eaea3-1414-81c1-b65d-00b2f8fcfee2"}
+  ],
+  "notion_append_success": true
+}

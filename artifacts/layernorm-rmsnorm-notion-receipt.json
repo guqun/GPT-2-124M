@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-06",
+  "notes": {
+    "id": "410eaea3-1414-8145-8aa2-da19a284df9f",
+    "url": "https://app.notion.com/p/410eaea3141481458aa2da19a284df9f",
+    "local": "docs/layernorm-rmsnorm-notes.md",
+    "parent_data_source": "c8f1d4ba-4938-431a-a3dd-b969399944aa"
+  },
+  "mastery": "理解中",
+  "head_matching_diagram": {
+    "section": "12.7",
+    "file_upload_id": "410eaea3-1414-8138-8c11-00b23e8d5034",
+    "notion_embedded": true,
+    "detail_sections": [
+      "12.8",
+      "12.9"
+    ],
+    "image_dimensions": [
+      2400,
+      4700
+    ],
+    "detail_update_success": true
+  },
+  "fullflow_diagram": {
+    "placement": "笔记顶部，正文第 1 节之前",
+    "png_file_upload_id": "410eaea3-1414-8195-8948-00b297894d07",
+    "svg_file_upload_id": "410eaea3-1414-816c-8be3-00b219b86dd8",
+    "notion_embedded": true
+  },
+  "notion_plan_modified": false,
+  "training_code_modified": false,
+  "initial_verification": {
+    "equations_match": true,
+    "equations": 22,
+    "sections": 11
+  },
+  "supplement": {
+    "date": "2026-11-06",
+    "sections": [
+      "4.1",
+      "4.2",
+      "4.3",
+      "4.4"
+    ],
+    "topic": "控制向量尺度与可学习逐维缩放",
+    "notion_targeted_update_success": true,
+    "local_equations": 26,
+    "remote_readback_after_supplement": false
+  },
+  "qkv_heads_supplement": {
+    "date": "2026-11-06",
+    "section": "12",
+    "subsections": 6,
+    "notion_append_success": true,
+    "existing_page_preserved": true,
+    "local_diagrams_linked": true,
+    "images_uploaded_to_notion": true,
+    "image_placements": [
+      "第 12 节引言后",
+      "第 12.1 节末尾"
+    ],
+    "file_upload_ids": [
+      "410eaea3-1414-8198-95f8-00b24d91d909",
+      "410eaea3-1414-81a8-9857-00b2d69646cd"
+    ]
+  }
+}

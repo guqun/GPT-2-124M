@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-06",
+  "notion_page_id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+  "notion_url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+  "operation": "update_content",
+  "result": "success_no_warnings",
+  "targeted_updates": 12,
+  "current": "阶段二 / 单元3 / GPT-2-Llama3 对照已到 QK→A→H",
+  "understanding": "理解中",
+  "covered": [
+    "LayerNorm/RMSNorm 与数学",
+    "QKV 投影与拆头",
+    "RoPE 二维旋转及角度设计",
+    "MHA/GQA 头对应",
+    "QK→A 与 AV→H 数值计算"
+  ],
+  "completed_sections": {
+    "unit2": "1/5",
+    "unit3": "0/9（进行中）",
+    "stage2": "5/32"
+  },
+  "next": "H 拼接、输出投影、残差，再展开 GELU/SwiGLU 差异",
+  "pending": "原规划模型改造和训练对照、单元2既有工程待办保留",
+  "training_run_this_update": false
+}

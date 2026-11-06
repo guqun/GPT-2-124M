@@ -1,0 +1,41 @@
+{
+  "scope": "isolated rotation, not full-model comparison",
+  "q_position": 1,
+  "k_position": 0,
+  "head_dim": 4,
+  "theta": 500000,
+  "q": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "k": [
+    2,
+    1,
+    0,
+    1
+  ],
+  "q_rotated": [
+    -1.1426396637476532,
+    1.922075596544176,
+    2.994340147636625,
+    4.004238639273573
+  ],
+  "k_rotated": [
+    2.0,
+    1.0,
+    0.0,
+    1.0
+  ],
+  "k_rotated_at_1": [
+    0.23913362692838303,
+    2.2232442754839328,
+    -0.0014142130909686214,
+    0.9999990000001666
+  ],
+  "score_without_rope": 4.0,
+  "score_with_rope": 1.8205174541612212,
+  "norm_preserved": true,
+  "relative_shift_invariance_checked": true
+}
