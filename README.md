@@ -1,6 +1,22 @@
 # GPT-2 预训练工程学习
 
+**当前学习进度（2026-11-13）：3.7 主线学习完成，下一节 3.8 MoE（待开始）。** 用户已运行 QK-Norm 对照与完整模型 100 步训练/验证/生成/缓存检查；E1—E5 本地结果汇总及 Qwen3/OLMo 3/Gemma 配置学习已完成。正式实验与源码逐项核对继续保留，完整验收计数不变。详见[学习进度](docs/learning-plan-review.md)。
+
+当前新增 **第23块：完整现代模型整合**：[讲义](lesson23-modern-integration.md)、[直接构建模型](modern_model.py)、[训练入口](train_modern.py)、[重载生成](generate_modern.py)、[完整流程图](docs/diagrams/modern-integration-flow.svg)。全新随机初始化，接通训练→验证→保存/重载→KV Cache生成；默认CPU100步已由助手验证，用户运行待反馈。旧课文件保留，尚非官方Qwen3复现。
+
 [中文](README.md) | [English](README.en.md)
+
+当前接续 3.7 / QK-Norm 实现：[讲义](lesson22-qknorm.md)、[原 GQA 参照](run_qknorm_reference.py)、[新增 QK-Norm](run_qknorm.py)、[比较工具](compare_qknorm_runs.py)、[代码数值全图](docs/diagrams/qknorm-code-comparison.svg)。先头内 RMSNorm，再 RoPE/缓存；新增 128 个 gamma 参数、缓存容量不变。各模型内部缓存等价与独立副本反传检查已通过，保留所有前课代码；不是完整 Qwen3 复现。
+
+前一块 3.6 的 GQA 实践：[讲义](lesson21-gqa.md)、[MHA 参照](generate_gqa_reference.py)、[GQA 入口](generate_gqa.py)、[比较工具](compare_gqa_runs.py)、[代码与数值对照图](docs/diagrams/gqa-code-comparison.svg)。保留全部旧 Python 文件，4 Q/4 KV 对照 4 Q/2 KV；各模型内部核验缓存等价，实际缓存减半，不要求跨模型输出相同。CPU 已验证，用户实践待反馈。
+
+前一块 3.6 / KV Cache：[KV Cache 推理讲义](lesson20-kv-cache.md)、[完整前缀参照](generate_cache_reference.py)、[缓存入口](generate_kv_cache.py)、[分数与耗时比较](compare_kv_cache_runs.py)。相同权重验证完整词表 logits 近似一致，展开逐层缓存、RoPE 偏移及 prefill/decode；[代码流程图](docs/diagrams/kv-cache-code-flow.svg)。该块保留 MHA；GQA 接在下面的新入口。
+
+接续 MLP 实践：[SwiGLU 近似等参数对照讲义](lesson19-swiglu.md)，[GELU 参照入口](train_swiglu_reference.py) / [SwiGLU 入口](train_swiglu.py) / [比较工具](compare_swiglu_runs.py)。主干沿用 RoPE + RMSNorm/no-bias，只替换 MLP；中间宽度 512 对 341。[代码与数值图](docs/diagrams/swiglu-code-comparison.svg) 展开双分支、门控、投影与梯度累积。旧课程文件保留。
+
+接续位置编码实践：[RoPE 接入代码与数值讲义](lesson18-rope.md)，[绝对位置参照入口](train_rope_reference.py) / [RoPE 入口](train_rope.py) / [本轮比较工具](compare_rope_runs.py)。在相同 RMSNorm/no-bias 基础上只替换位置方案，旧代码保留；[对照图](docs/diagrams/rope-code-comparison.svg) 展开 Q/K 配对旋转与代码定位。
+
+新增 [两份可运行的结构对照与讲义](lesson17-architecture-comparison.md)：[GPT-2 入口](train_baseline_gpt2.py) / [RMSNorm + 去 bias 入口](train_baseline_rmsnorm.py)，共同训练循环、相同数据与共同参数初值，分别保存报告和权重。[代码流程图](docs/diagrams/architecture-comparison-training-flow.svg) 标出结构差异和四微批次累积；[比较工具](compare_architecture_runs.py) 核对实验条件后展示验证 loss 与吞吐。默认本机小模型各训练 100 次，旧入口保留。
 
 归一化专题：[LayerNorm 与 RMSNorm：计算差异、数学推导与设计取舍](docs/layernorm-rmsnorm-notes.md) · [Notion](https://app.notion.com/p/410eaea3141481458aa2da19a284df9f)。归档单元 3 对照图差异 B，含均值/方差/标准差/RMS、归一化目的、RMS²=σ²+μ² 完整推导及数值例子；2026-11-06 用户反馈初步理解，笔记状态为理解中。
 
@@ -8,7 +24,7 @@
 
 单元 3 · 3.1 配图：[GPT-2 与 Llama 3 前向流程对照](docs/diagrams/gpt2-vs-llama3-forward-flow.md)（[完整 PNG](docs/diagrams/gpt2-vs-llama3-forward-flow.png) / [SVG](docs/diagrams/gpt2-vs-llama3-forward-flow.svg)）。19 步逐项注明输入、计算公式与输出形状，六类差异 A—F 明确标色；阅读说明中另有三张分段细节图。维度为教学示例，后续结构课程以书籍配套材料和官方实现为依据。
 
-**当前：阶段二 → 单元 3「现代模型结构」，沿 GPT-2 / Llama 3 总览图已学到注意力输出 H（2026-11-06）。** LayerNorm/RMSNorm 与数学补充、QKV 投影/拆头、RoPE 二维旋转与角度公式、MHA/GQA 头对应、QK→A 与 AV→H 的数值计算已学习，用户初步理解。下一步接 H 的多头拼接、输出投影与残差，再展开 GELU/SwiGLU 差异。模型改造与训练对照尚未完成；单元 2 原视频理论已收尾，既有工程待办保留。完整段落计数仍为单元 2 的 1/5、单元 3 的 0/9（进行中）、阶段二 5/32；理论覆盖与实践分别记录。
+**当前：阶段二 → 单元 3「现代模型结构」。** 当前已进入 3.7 QK-Norm 实现（2026-11-13）。短训练基线、RMSNorm+去 bias、RoPE、SwiGLU、KV Cache 和 GQA 的教学代码与对照图已准备，助手实跑结果已归档。用户已运行结构对比、反馈 RoPE 本块结束，并初步理解 KV Cache/GQA；新 GQA/QK-Norm 入口的用户运行反馈仍待补。下一步结合 lesson22 运行和解读 QK-Norm 对照，再完成原计划的实现核对、模型整合、E1—E5 汇总及 Qwen3/OLMo 3/Gemma 配置比较。YaRN/长上下文、正式质量与 GPU 性能实验、MQA 系统对照及 3.8—3.9 保留待办；不重复安排已完成的基线准备。完整段落计数暂保留单元 2 的 1/5、单元 3 的 0/9、阶段二 5/32，助手验证不代替用户实践或整节完成。
 
 新增 [正式训练与原课收尾笔记](docs/formal-training-and-wrapup-notes.md)（[Notion](https://app.notion.com/p/40beaea314148160bf03dc6856495bb8)），重点区分“问答示范训练会更新参数”和“日常聊天推理不更新参数”。两张 loss/HellaSwag 读图示意已归档，均标明非实测；Notion 总计划已同步。
 
@@ -46,6 +62,8 @@
 
 [FineWeb-Edu、分片与文档边界笔记](docs/fineweb-edu-sharding-notes.md) · [Notion](https://app.notion.com/p/404eaea31414818b9df0c8ab083cdbe0)：知识块 12 的学习归档，包含大规模数据流程图、Tiny Shakespeare 对照、EOT 的作用与局限、文档级遮罩的取舍，以及不足一个 batch 的 shard 尾部如何处理。按原课方案继续；已开始[独立数据准备实践](lesson12-data-preparation.md)，分片准备、加载和训练串联已完成教学数据 CPU 检查，真实 FineWeb 和用户新入口实践待继续。
 
+本轮新入口：[短训练基线：模型与数据配置](lesson16-architecture-baseline.md)。`prepare_architecture_baseline.py` 默认只检查，`--smoke-step` 可验证一次小模型更新；完整 124M/FineWeb 对照仍待准备。
+
 ## 新机器上的运行准备
 
 以下命令在仓库根目录执行。已验证的环境为 macOS / Python 3.9.6，依赖版本固定在 `requirements.txt`。本机已经完成这一步时，直接使用下面的运行命令即可。
@@ -82,7 +100,7 @@
 
 以下保留归档时状态；2026-10-28 已先接续数据准备实践，见顶部与下方新入口。
 
-阶段一、阶段二单元 1 的 **1.1—1.4** 和单元 2 的 **2.1** 已完成。单元 2 原视频理论主线已收尾；用户已有完整 GPT-2 CPU 训练/验证/生成短跑，助手教学分片与 HellaSwag CPU/Gloo 验证另记，真实 FineWeb、完整评测、正式训练及 CUDA/NCCL 待补。**截至 2026-11-06，单元 3 已进入归一化、RoPE、GQA 头对应与注意力计算的概念学习，用户初步理解；实现和对照实验待做。** 单元 4—7 尚未开始。完整段落计数为单元 2 **1/5**、单元 3 **0/9（进行中）**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
+阶段一、阶段二单元 1 的 **1.1—1.4** 和单元 2 的 **2.1** 已完成。单元 2 原视频理论主线已收尾；用户已有完整 GPT-2 CPU 训练/验证/生成短跑，助手教学分片与 HellaSwag CPU/Gloo 验证另记，真实 FineWeb、完整评测、正式训练及 CUDA/NCCL 待补。**截至 2026-11-13，3.7 主线学习、用户整合模型实践与本地结果/三家配置汇总已完成，下一节为 3.8 MoE；正式实验及原计划源码逐项核对待补。** 单元 4—7 尚未开始。完整段落计数为单元 2 **1/5**、单元 3 **0/9（进行中）**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
 
 2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，并按用户要求同步了 Notion 总计划；后续数据与验证内容尚未覆盖，多进程运行待实践。该历史记录不用于判断今天的位置。
 

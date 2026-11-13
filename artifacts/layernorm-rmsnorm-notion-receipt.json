@@ -63,5 +63,49 @@
       "410eaea3-1414-8198-95f8-00b24d91d909",
       "410eaea3-1414-81a8-9857-00b2d69646cd"
     ]
+  },
+  "heads_kv_followup": {
+    "date": "2026-11-11",
+    "sections": [
+      "12.10",
+      "12.11",
+      "12.12",
+      "12.13",
+      "12.14"
+    ],
+    "notion_append_success": true,
+    "existing_content_preserved": true,
+    "topics": [
+      "注意力头与Token位置",
+      "Q与KV分工及MHA/GQA对应",
+      "从投影开始生成较少KV而非丢弃",
+      "H使用同一组V",
+      "共享KV数值复习"
+    ],
+    "mastery": "理解中",
+    "user_feedback": "我懂了",
+    "plan_modified": false
+  },
+  "forward_wrapup": {
+    "date": "2026-11-11",
+    "sections": [
+      "13",
+      "14",
+      "15",
+      "16",
+      "17"
+    ],
+    "notion_append_success": true,
+    "swiglu_related_page": "415eaea3-1414-81b1-9085-e49d9c5d50b9",
+    "mastery": "理解中",
+    "user_feedback": "大概理解",
+    "plan_modified": false,
+    "training_code_modified": false
+  },
+  "detailed_qkv_to_h_diagram": {
+    "file": "docs/diagrams/gpt2-llama3-qkv-to-h-detailed.png",
+    "file_upload_id": "415eaea3-1414-8151-9f8e-00b20cd1c617",
+    "notion_embedded": true,
+    "placement": "12.10 之前"
   }
 }

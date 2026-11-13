@@ -1,0 +1,32 @@
+{
+  "random": {
+    "max_abs_logit_difference": 2.384185791015625e-07,
+    "same_greedy_tokens": true,
+    "processed_positions": [
+      632,
+      47
+    ],
+    "kv_tensor_bytes": 96256,
+    "median_seconds": [
+      0.043511144000001334,
+      0.049598235999999574
+    ],
+    "speedup_reference_over_cached": 0.8772720062060616
+  },
+  "trained": {
+    "max_abs_logit_difference": 1.9073486328125e-06,
+    "same_greedy_tokens": true,
+    "processed_positions": [
+      4592,
+      159
+    ],
+    "kv_tensor_bytes": 325632,
+    "median_seconds": [
+      0.11158314100000011,
+      0.06523456300000086
+    ],
+    "speedup_reference_over_cached": 1.7104911241606484
+  },
+  "existing_python_files_unchanged": 35,
+  "scope": "CPU/FP32, synthetic IDs, sequential paired runs; no training or GPU claims"
+}

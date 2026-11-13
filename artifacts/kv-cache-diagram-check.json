@@ -1,0 +1,48 @@
+{
+  "source_lines": {
+    "kv_cache_model.py": {
+      "attention_step": [
+        13,
+        38
+      ],
+      "CachedDecoder": [
+        41,
+        98
+      ],
+      "cache_bytes": [
+        101,
+        103
+      ]
+    },
+    "kv_cache_experiment.py": {
+      "parameter_digest": [
+        20,
+        24
+      ],
+      "generate": [
+        28,
+        47
+      ],
+      "main": [
+        50,
+        120
+      ]
+    }
+  },
+  "synthetic_example": true,
+  "weights": [
+    0.22118101637021303,
+    0.10905743430313006,
+    0.22118101637021303,
+    0.44858053295644384
+  ],
+  "head_output": [
+    1.3395230986533138,
+    0.43929588497647315
+  ],
+  "processed_positions": [
+    632,
+    47
+  ],
+  "kv_tensor_bytes": 96256
+}

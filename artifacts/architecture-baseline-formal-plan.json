@@ -1,0 +1,86 @@
+{
+  "profile": "formal",
+  "config": {
+    "name": "gpt2-124m-fineweb-v1",
+    "purpose": "计划中的正式结构对照；数据待准备，预算待测速后锁定",
+    "budget_status": "proposed_until_benchmark",
+    "seed": 42,
+    "model": {
+      "vocab_size": 50257,
+      "n_positions": 1024,
+      "n_embd": 768,
+      "n_layer": 12,
+      "n_head": 12,
+      "layer_norm_epsilon": 1e-05,
+      "embd_pdrop": 0.0,
+      "attn_pdrop": 0.0,
+      "resid_pdrop": 0.0,
+      "initializer_range": 0.02
+    },
+    "data": {
+      "kind": "fineweb_edu_shards_pending",
+      "dataset": "HuggingFaceFW/fineweb-edu",
+      "subset": "sample-10BT",
+      "revision": null,
+      "manifest": null,
+      "tokenizer": "tiktoken/gpt2",
+      "document_prefix_eot": 50256,
+      "target_train_tokens_at_least": 32768001,
+      "target_val_tokens_at_least": 65537,
+      "split": "disjoint_document_ids_before_packing",
+      "order": "frozen_document_order_then_sequential_shards",
+      "tail_policy": "skip_short_tail_no_cross_shard_batch"
+    },
+    "training": {
+      "batch_size": 4,
+      "seq_len": 256,
+      "world_size": 1,
+      "accumulation_steps": 32,
+      "planned_updates": 1000,
+      "validation_batches": 64,
+      "validation_every": 100,
+      "peak_lr": 0.0006,
+      "min_lr": 6e-05,
+      "lr_warmup_updates": 100,
+      "weight_decay": 0.1,
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "adam_eps": 1e-08,
+      "clip_norm": 1.0,
+      "precision": "fp32",
+      "compile": false
+    }
+  },
+  "config_sha256": "c51b0b65ccb154c71d788522b139477678f18f685e9edb0491428df40f836e2d",
+  "summary": {
+    "parameters": 124439808,
+    "head_dim": 64,
+    "mlp_width": 3072,
+    "tokens_per_microbatch": 1024,
+    "tokens_per_update": 32768,
+    "planned_training_tokens": 32768000,
+    "validation_tokens": 65536,
+    "initialization": "random; GPT(..., tie_embeddings=True, gpt2_init=True)",
+    "pretrained_weights_loaded": false,
+    "weight_tying": true,
+    "attention": "explicit QK-softmax-V; causal MHA",
+    "position": "learned absolute table",
+    "normalization": "LayerNorm",
+    "activation": "GELU tanh",
+    "qk_norm": false
+  },
+  "model_source_sha256": "504f21efa3bd0de52e83357f3bbb3fe398ed400500312b06ac9ddf3e330e3cf1",
+  "setup_source_sha256": "3179a6bb385f57a1f6e398eff5de0990482e0e63f7b8662d51b1347f26c1849e",
+  "training_run": false,
+  "baseline_completed": false,
+  "data": {
+    "status": "pending",
+    "blockers": [
+      "固定 FineWeb-Edu 数据版本与文档清单；按文档隔离 train/val 后再分片。",
+      "记录每片 SHA-256、文档 ID 与 Token 数；确认实际可用批数覆盖预算。",
+      "教学 demo 分片不能代替正式数据；不会自动回退到莎剧。"
+    ]
+  }
+}

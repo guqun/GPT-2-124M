@@ -1,0 +1,31 @@
+{
+  "name": "gpt2-local-shakespeare-v1",
+  "purpose": "本机流程检查；不是 124M/FineWeb 结构优劣结论",
+  "budget_status": "proposed_until_benchmark",
+  "seed": 42,
+  "model": {
+    "vocab_size": 50257, "n_positions": 256,
+    "n_embd": 128, "n_layer": 2, "n_head": 4,
+    "layer_norm_epsilon": 0.00001,
+    "embd_pdrop": 0.0, "attn_pdrop": 0.0, "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "data": {
+    "kind": "tiny_shakespeare",
+    "path": "data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "tokenizer": "tiktoken/gpt2",
+    "split": "first_90_percent_tokens_train_remaining_val",
+    "order": "sequential",
+    "append_eot": false
+  },
+  "training": {
+    "batch_size": 2, "seq_len": 128, "world_size": 1,
+    "accumulation_steps": 4, "planned_updates": 100,
+    "validation_batches": 8, "validation_every": 20,
+    "peak_lr": 0.0006, "min_lr": 0.00006, "lr_warmup_updates": 10,
+    "weight_decay": 0.1, "betas": [0.9, 0.95], "adam_eps": 1e-8,
+    "clip_norm": 1.0,
+    "precision": "fp32", "compile": false
+  }
+}

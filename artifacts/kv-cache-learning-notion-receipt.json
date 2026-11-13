@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-12",
+  "title": "KV Cache：从逐 Token 生成到历史 K/V 的工程复用",
+  "page_id": "416eaea3-1414-81a9-9dfa-cfe3abc0eca3",
+  "url": "https://app.notion.com/p/416eaea3141481a99dfacfe3abc0eca3",
+  "local_note": "docs/kv-cache-learning-notes.md",
+  "mastery": "理解中",
+  "image": "docs/diagrams/kv-cache-code-flow.png",
+  "file_upload_id": "416eaea3-1414-81e7-b6f0-00b23341512b",
+  "read_back_verified": true,
+  "embedded_image_count": 1,
+  "learning_completion_counts_changed": false
+}

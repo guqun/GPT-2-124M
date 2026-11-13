@@ -1,0 +1,39 @@
+{
+  "gpt2": {
+    "updates": 100,
+    "training_tokens": 102400,
+    "initial_val_loss": 10.826552510261536,
+    "final_val_loss": 6.879384756088257,
+    "measured_updates": 98,
+    "measured_tokens_per_second": 2972.9437078661867
+  },
+  "rmsnorm_no_bias": {
+    "updates": 100,
+    "training_tokens": 102400,
+    "initial_val_loss": 10.828861594200134,
+    "final_val_loss": 6.91641092300415,
+    "measured_updates": 98,
+    "measured_tokens_per_second": 2959.1690096217753
+  },
+  "val_loss_delta_b_minus_a": 0.037026166915893555,
+  "throughput_ratio_b_over_a": 0.9953666467992769,
+  "checks": [
+    {
+      "variant": "gpt2",
+      "checkpoint_strict_reload": true,
+      "reload_val_loss": 6.879384756088257,
+      "shared_embedding_preserved": true
+    },
+    {
+      "variant": "rmsnorm_no_bias",
+      "checkpoint_strict_reload": true,
+      "reload_val_loss": 6.91641092300415,
+      "shared_embedding_preserved": true
+    }
+  ],
+  "tests_passed": 11,
+  "scope": "CPU/FP32, seed42, two sequential 100-update local runs; not CUDA/MPS or 124M/FineWeb",
+  "original_python_files_unchanged": 34,
+  "new_python_files_parse_checked": 7,
+  "lesson_local_links_checked": 9
+}

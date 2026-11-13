@@ -1,0 +1,150 @@
+{
+  "profile": "local",
+  "config": {
+    "name": "gpt2-local-shakespeare-v1",
+    "purpose": "本机流程检查；不是 124M/FineWeb 结构优劣结论",
+    "budget_status": "proposed_until_benchmark",
+    "seed": 42,
+    "model": {
+      "vocab_size": 50257,
+      "n_positions": 256,
+      "n_embd": 128,
+      "n_layer": 2,
+      "n_head": 4,
+      "layer_norm_epsilon": 1e-05,
+      "embd_pdrop": 0.0,
+      "attn_pdrop": 0.0,
+      "resid_pdrop": 0.0,
+      "initializer_range": 0.02
+    },
+    "data": {
+      "kind": "tiny_shakespeare",
+      "path": "data/tiny_shakespeare/input.txt",
+      "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+      "tokenizer": "tiktoken/gpt2",
+      "split": "first_90_percent_tokens_train_remaining_val",
+      "order": "sequential",
+      "append_eot": false
+    },
+    "training": {
+      "batch_size": 2,
+      "seq_len": 128,
+      "world_size": 1,
+      "accumulation_steps": 4,
+      "planned_updates": 100,
+      "validation_batches": 8,
+      "validation_every": 20,
+      "peak_lr": 0.0006,
+      "min_lr": 6e-05,
+      "lr_warmup_updates": 10,
+      "weight_decay": 0.1,
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "adam_eps": 1e-08,
+      "clip_norm": 1.0,
+      "precision": "fp32",
+      "compile": false
+    }
+  },
+  "config_sha256": "2854588c1ceef4c33fb3fcc93480bf110394d8c4e17e541feaac4fd6f05b62d9",
+  "summary": {
+    "parameters": 6862464,
+    "head_dim": 32,
+    "mlp_width": 512,
+    "tokens_per_microbatch": 256,
+    "tokens_per_update": 1024,
+    "planned_training_tokens": 102400,
+    "validation_tokens": 2048,
+    "initialization": "random; GPT(..., tie_embeddings=True, gpt2_init=True)",
+    "pretrained_weights_loaded": false,
+    "weight_tying": true,
+    "attention": "explicit QK-softmax-V; causal MHA",
+    "position": "learned absolute table",
+    "normalization": "LayerNorm",
+    "activation": "GELU tanh",
+    "qk_norm": false
+  },
+  "model_source_sha256": "504f21efa3bd0de52e83357f3bbb3fe398ed400500312b06ac9ddf3e330e3cf1",
+  "training_run": true,
+  "baseline_completed": false,
+  "data": {
+    "status": "ready_for_local_flow_check",
+    "kind": "tiny_shakespeare",
+    "raw_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "tokenizer": "0.14.0",
+    "tokenizer_assets": {
+      "6d1cbeee0f20b3d9449abfede4726ed8212e3aee": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "6c7ea1a7e38e3a7f062df639a5b80947f075ffe6": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783"
+    },
+    "total_tokens": 338025,
+    "train_range": [
+      0,
+      304222
+    ],
+    "val_range": [
+      304222,
+      338025
+    ],
+    "train_token_sha256": "149dae6ab4779fbf359b871d2123d08bd9fc539a795038d0508b7126c6ed2067",
+    "val_token_sha256": "58a49dd4e0d6cb5e2e3bb2ce76a3b46aaf73898649a3260b2f7fa3f6e8760bd9",
+    "train_full_batches": 1188,
+    "val_full_batches": 132,
+    "fixed_validation_range": [
+      304222,
+      306271
+    ],
+    "split_boundary": "position-isolated; not document-level deduplication",
+    "wrap_policy": "future training: skip insufficient tail; restart same split",
+    "corpus_pass_fraction": 0.33659630138517266
+  },
+  "first_batch": {
+    "x_shape": [
+      2,
+      128
+    ],
+    "y_shape": [
+      2,
+      128
+    ],
+    "dtype": "torch.int64",
+    "device": "cpu",
+    "x_first_8": [
+      5962,
+      22307,
+      25,
+      198,
+      8421,
+      356,
+      5120,
+      597
+    ],
+    "y_first_8": [
+      22307,
+      25,
+      198,
+      8421,
+      356,
+      5120,
+      597,
+      2252
+    ]
+  },
+  "smoke": {
+    "optimizer_updates": 1,
+    "microbatches": 4,
+    "training_tokens": 1024,
+    "train_loss": 10.821999073028564,
+    "grad_norm_before_clip": 2.8530142307281494,
+    "validation_probe_before": 10.82539176940918,
+    "validation_probe_after": 10.795174598693848,
+    "validation_probe_tokens": 256,
+    "device": "cpu",
+    "precision": "fp32",
+    "torch_version": "2.2.2",
+    "checkpoint_saved": false,
+    "benchmark": false,
+    "scope": "one-update pipeline check only"
+  }
+}

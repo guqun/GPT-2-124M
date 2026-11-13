@@ -1,0 +1,368 @@
+{
+  "completed": true,
+  "variant": "mha",
+  "q_heads": 4,
+  "kv_heads": 4,
+  "protocol": {
+    "spec": {
+      "name": "gpt2-local-shakespeare-v1",
+      "purpose": "本机流程检查；不是 124M/FineWeb 结构优劣结论",
+      "budget_status": "proposed_until_benchmark",
+      "seed": 42,
+      "model": {
+        "vocab_size": 50257,
+        "n_positions": 256,
+        "n_embd": 128,
+        "n_layer": 2,
+        "n_head": 4,
+        "layer_norm_epsilon": 1e-05,
+        "embd_pdrop": 0.0,
+        "attn_pdrop": 0.0,
+        "resid_pdrop": 0.0,
+        "initializer_range": 0.02
+      },
+      "data": {
+        "kind": "tiny_shakespeare",
+        "path": "data/tiny_shakespeare/input.txt",
+        "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+        "tokenizer": "tiktoken/gpt2",
+        "split": "first_90_percent_tokens_train_remaining_val",
+        "order": "sequential",
+        "append_eot": false
+      },
+      "training": {
+        "batch_size": 2,
+        "seq_len": 128,
+        "world_size": 1,
+        "accumulation_steps": 4,
+        "planned_updates": 100,
+        "validation_batches": 8,
+        "validation_every": 20,
+        "peak_lr": 0.0006,
+        "min_lr": 6e-05,
+        "lr_warmup_updates": 10,
+        "weight_decay": 0.1,
+        "betas": [
+          0.9,
+          0.95
+        ],
+        "adam_eps": 1e-08,
+        "clip_norm": 1.0,
+        "precision": "fp32",
+        "compile": false
+      },
+      "position_experiment": {
+        "theta": 10000.0,
+        "pairing": "adjacent",
+        "max_length": 256
+      }
+    },
+    "source_mha_sha256": "8b65fbf316d5b5f5c6efbdda1af15019cdd9f3e964fbb02ba156f3e55578b297",
+    "shared_parameters_sha256": "a615acf8dc69599fa985649d62bc363b72d044f785f7fe735500c28682ac4aa7",
+    "prompt_ids": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    ],
+    "new_tokens": 16,
+    "device": "cpu",
+    "platform": "macOS-26.4.1-x86_64-i386-64bit",
+    "torch": "2.2.2",
+    "device_name": "i386",
+    "precision": "fp32",
+    "tf32": false,
+    "threads": 4,
+    "repeats": 3,
+    "sources": {
+      "gqa_model.py": "03c684af70f023e4479ebd3a686caf5f493e42d4b7f6fd3c79b76d6a7ebc8f1c",
+      "gqa_experiment.py": "517e829321cd431e94c9a01726da41da455d957b004cc71dfcbeeb50e2415643",
+      "kv_cache_experiment.py": "c2ac1031c14f450ba190ec8a51cd64a5ae514e1e48fd3192ae7dd0131e4a3a1f",
+      "kv_cache_model.py": "4c7c4af211ac6aadf7d063acf3e5903f054aec0a3748e25e61161adeaca469cf",
+      "swiglu_model.py": "30d8f230b865a21516245bd2cb1016c3ab3b31bf3695a91102c7e8de2d9dedfd",
+      "rope_model.py": "bf476a69fc1d01a853f9fca46782caaaa03eec14899e330ce8f825aae7e209ee",
+      "architecture_variants.py": "cfe96872715f49694b7c45710c877f9251dafbc07a36d2623bab36aa4c9d61c6",
+      "gpt2_model.py": "504f21efa3bd0de52e83357f3bbb3fe398ed400500312b06ac9ddf3e330e3cf1",
+      "prepare_architecture_baseline.py": "3179a6bb385f57a1f6e398eff5de0990482e0e63f7b8662d51b1347f26c1849e",
+      "swiglu_training.py": "0239b0fbe25e3a6a038f3dd16a9ed574ee1c1ce5067ad71b5079152497a1b3e7"
+    }
+  },
+  "parameters_sha256": "e20ce3e37118b8baabd0ec1becf7211235c4c72a662120e3b50ca45206f4e361",
+  "parameter_count": 6826496,
+  "conversion": "contiguous_KV_weight_mean_pool_once; Q and remaining weights copied",
+  "cache_check": {
+    "same_greedy_ids": true,
+    "max_abs_logit_difference": 2.384185791015625e-07
+  },
+  "generated_ids": [
+    [
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32,
+      32
+    ]
+  ],
+  "cache_shape_per_tensor": [
+    1,
+    4,
+    47,
+    32
+  ],
+  "kv_tensor_bytes": 96256,
+  "cache_steps": [
+    {
+      "step": 0,
+      "phase": "prefill",
+      "input_positions": 32,
+      "context_positions": 32,
+      "cache_before": 0,
+      "cache_after": 32,
+      "cache_bytes": 65536,
+      "seconds": 0.002269853000000044
+    },
+    {
+      "step": 1,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 33,
+      "cache_before": 32,
+      "cache_after": 33,
+      "cache_bytes": 67584,
+      "seconds": 0.0017662189999998468
+    },
+    {
+      "step": 2,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 34,
+      "cache_before": 33,
+      "cache_after": 34,
+      "cache_bytes": 69632,
+      "seconds": 0.0017825230000001469
+    },
+    {
+      "step": 3,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 35,
+      "cache_before": 34,
+      "cache_after": 35,
+      "cache_bytes": 71680,
+      "seconds": 0.0017779049999999685
+    },
+    {
+      "step": 4,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 36,
+      "cache_before": 35,
+      "cache_after": 36,
+      "cache_bytes": 73728,
+      "seconds": 0.0019012830000000314
+    },
+    {
+      "step": 5,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 37,
+      "cache_before": 36,
+      "cache_after": 37,
+      "cache_bytes": 75776,
+      "seconds": 0.0017357880000001824
+    },
+    {
+      "step": 6,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 38,
+      "cache_before": 37,
+      "cache_after": 38,
+      "cache_bytes": 77824,
+      "seconds": 0.001635250000000088
+    },
+    {
+      "step": 7,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 39,
+      "cache_before": 38,
+      "cache_after": 39,
+      "cache_bytes": 79872,
+      "seconds": 0.001664129999999986
+    },
+    {
+      "step": 8,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 40,
+      "cache_before": 39,
+      "cache_after": 40,
+      "cache_bytes": 81920,
+      "seconds": 0.0017745520000000958
+    },
+    {
+      "step": 9,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 41,
+      "cache_before": 40,
+      "cache_after": 41,
+      "cache_bytes": 83968,
+      "seconds": 0.0019176530000000191
+    },
+    {
+      "step": 10,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 42,
+      "cache_before": 41,
+      "cache_after": 42,
+      "cache_bytes": 86016,
+      "seconds": 0.0018850210000000978
+    },
+    {
+      "step": 11,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 43,
+      "cache_before": 42,
+      "cache_after": 43,
+      "cache_bytes": 88064,
+      "seconds": 0.001741806000000068
+    },
+    {
+      "step": 12,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 44,
+      "cache_before": 43,
+      "cache_after": 44,
+      "cache_bytes": 90112,
+      "seconds": 0.0017394159999999381
+    },
+    {
+      "step": 13,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 45,
+      "cache_before": 44,
+      "cache_after": 45,
+      "cache_bytes": 92160,
+      "seconds": 0.001892980000000044
+    },
+    {
+      "step": 14,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 46,
+      "cache_before": 45,
+      "cache_after": 46,
+      "cache_bytes": 94208,
+      "seconds": 0.0017839060000000018
+    },
+    {
+      "step": 15,
+      "phase": "decode",
+      "input_positions": 1,
+      "context_positions": 47,
+      "cache_before": 46,
+      "cache_after": 47,
+      "cache_bytes": 96256,
+      "seconds": 0.001634189000000008
+    }
+  ],
+  "full_processed_positions": 632,
+  "cache_processed_positions": 47,
+  "timings": {
+    "full": {
+      "runs": [
+        {
+          "total_seconds": 0.03601277000000036,
+          "prefill_seconds": 0.002565417999999875,
+          "decode_seconds": 0.033447352000000485
+        },
+        {
+          "total_seconds": 0.034296263000000105,
+          "prefill_seconds": 0.002105529999999911,
+          "decode_seconds": 0.03219073300000019
+        },
+        {
+          "total_seconds": 0.03700862299999952,
+          "prefill_seconds": 0.002303955999999996,
+          "decode_seconds": 0.03470466699999952
+        }
+      ],
+      "total_seconds": 0.03601277000000036,
+      "prefill_seconds": 0.002303955999999996,
+      "decode_seconds": 0.033447352000000485
+    },
+    "cached": {
+      "runs": [
+        {
+          "total_seconds": 0.029715267000000045,
+          "prefill_seconds": 0.0023297099999999293,
+          "decode_seconds": 0.027385557000000116
+        },
+        {
+          "total_seconds": 0.02817512399999944,
+          "prefill_seconds": 0.00244394399999992,
+          "decode_seconds": 0.02573117999999952
+        },
+        {
+          "total_seconds": 0.029294367999999738,
+          "prefill_seconds": 0.0021079360000000325,
+          "decode_seconds": 0.027186431999999705
+        }
+      ],
+      "total_seconds": 0.029294367999999738,
+      "prefill_seconds": 0.0023297099999999293,
+      "decode_seconds": 0.027186431999999705
+    }
+  },
+  "parameters_unchanged": true,
+  "logits_sha256": "41528c24d177f3c9c0901c5fb5359773d5e5831ade276da524a872971d700299",
+  "timing_scope": "forward + greedy + append; synchronized; no CPU copy/logging/save; one warmup per path",
+  "limitations": "random weights; dynamic cat; explicit grouped matmul; no GPU validation implied; not quality benchmark"
+}

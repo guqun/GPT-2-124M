@@ -1,0 +1,28 @@
+{
+  "each_model_cache_equivalent": true,
+  "mha_gqa_logits_required_equal": false,
+  "kv_bytes_mha_gqa": [
+    96256,
+    48128
+  ],
+  "cache_reduction_fraction": 0.5,
+  "parameters_mha_gqa": [
+    6826496,
+    6793728
+  ],
+  "cached_median_seconds_mha_gqa": [
+    0.029294367999999738,
+    0.036980754000000005
+  ],
+  "local_cached_time_ratio_mha_over_gqa": 0.7921517230286795,
+  "note": "只比较本机执行与存活 KV 张量；不代表峰值显存或语言质量。",
+  "date": "2026-11-12",
+  "device": "cpu",
+  "precision": "fp32",
+  "new_tests_passed": 6,
+  "previous_cache_tests_passed": 5,
+  "old_python_files_unchanged": 60,
+  "diagram_numeric_example_matches_kernel": true,
+  "user_practice_completed": false,
+  "notion_updated": false
+}

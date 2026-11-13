@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-11",
+  "page_id": "415eaea3-1414-81b1-9085-e49d9c5d50b9",
+  "url": "https://app.notion.com/p/415eaea3141481b19085e49d9c5d50b9",
+  "local_file": "docs/silu-swiglu-notes.md",
+  "created_as": "independent_article_in_learning_notes",
+  "notion_create_success": true,
+  "mastery": "理解中",
+  "sections": 10,
+  "numeric_example": {
+    "u": [
+      1.4621171572600098,
+      10.569564935734588
+    ],
+    "Fout": [
+      12.031682092994599,
+      -9.107447778474578
+    ]
+  },
+  "original_note_modified": false,
+  "learning_plan_modified": false,
+  "training_run": false
+}

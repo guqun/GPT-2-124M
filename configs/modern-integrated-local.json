@@ -1,0 +1,65 @@
+{
+  "name": "modern-integrated-local-v1",
+  "purpose": "现代稠密教学模型的完整训练与生成；不是官方 Qwen3 或单因素性能比较",
+  "budget_status": "proposed_until_benchmark",
+  "seed": 42,
+  "model": {
+    "vocab_size": 50257,
+    "n_positions": 256,
+    "n_embd": 128,
+    "n_layer": 2,
+    "n_head": 4,
+    "layer_norm_epsilon": 1e-05,
+    "embd_pdrop": 0.0,
+    "attn_pdrop": 0.0,
+    "resid_pdrop": 0.0,
+    "initializer_range": 0.02
+  },
+  "data": {
+    "kind": "tiny_shakespeare",
+    "path": "data/tiny_shakespeare/input.txt",
+    "sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "tokenizer": "tiktoken/gpt2",
+    "split": "first_90_percent_tokens_train_remaining_val",
+    "order": "sequential",
+    "append_eot": false
+  },
+  "training": {
+    "batch_size": 2,
+    "seq_len": 128,
+    "world_size": 1,
+    "accumulation_steps": 4,
+    "planned_updates": 100,
+    "validation_batches": 8,
+    "validation_every": 20,
+    "peak_lr": 0.0006,
+    "min_lr": 6e-05,
+    "lr_warmup_updates": 10,
+    "weight_decay": 0.1,
+    "betas": [
+      0.9,
+      0.95
+    ],
+    "adam_eps": 1e-08,
+    "clip_norm": 1.0,
+    "precision": "fp32",
+    "compile": false
+  },
+  "modern_model": {
+    "vocab_size": 50257,
+    "max_length": 256,
+    "width": 128,
+    "layers": 2,
+    "q_heads": 4,
+    "kv_heads": 2,
+    "intermediate": 341,
+    "eps": 1e-05,
+    "theta": 10000.0,
+    "tie_embeddings": true
+  },
+  "generation": {
+    "prompt": "Hello, I'm a language model,",
+    "new_tokens": 16
+  },
+  "initialization": "fresh_direct_random_no_pretrained_no_mha_pooling"
+}

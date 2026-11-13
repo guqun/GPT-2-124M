@@ -1,0 +1,26 @@
+{
+  "same_existing_parameter_initialization": true,
+  "each_model_cache_equivalent": true,
+  "cross_model_logits_required_equal": false,
+  "parameters_reference_qknorm": [
+    6793728,
+    6793856
+  ],
+  "gamma_parameters_added": 128,
+  "kv_tensor_bytes_both": 48128,
+  "cache_logit_max_differences": [
+    2.384185791015625e-07,
+    4.76837158203125e-07
+  ],
+  "gamma_groups_updated_on_copy": 4,
+  "scope": "CPU/local check if run on CPU; no model quality claim",
+  "date": "2026-11-13",
+  "device": "cpu",
+  "new_tests_passed": 6,
+  "previous_gqa_cache_tests_passed": 11,
+  "old_python_files_unchanged": 66,
+  "diagram_numeric_values_match_code": true,
+  "visual_inspection": "PNG checked: no text clipping or overlap",
+  "user_practice_completed": false,
+  "notion_updated": false
+}

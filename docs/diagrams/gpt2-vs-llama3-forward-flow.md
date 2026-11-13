@@ -10,6 +10,8 @@
 
 ## 六类差异
 
+步骤 06—09 的逐项数值对照：[QKV → H 详细计算图与读图说明](gpt2-llama3-qkv-to-h-detailed.md)。并排比较 GPT-2 MHA 与 Llama 3 GQA，列出全部输入/输出，展开一个头的矩阵乘法、因果遮罩、softmax 与 AV，并量化本例的 K/V 参数和缓存节省。
+
 步骤 06 的具体展开：[MHA / GQA 头对应与注意力数值图](gpt2-llama3-head-matching-flow.png) · [SVG](gpt2-llama3-head-matching-flow.svg)。区分已完成的投影、当前头分组与后续点积/softmax/汇总；用两个 Q 头在同一查询位置读取相同 K/V 的数值例子解释不同输出。复算记录：`artifacts/head-matching-example-check.json`。
 
 差异 A 的逐项数值算例（建议先看）：[矩阵计算 PNG](gpt2-llama3-position-worked-example.png) · [可放大 SVG](gpt2-llama3-position-worked-example.svg)。展开位置向量的逐维加法，以及 RoPE 的角度、sin/cos、2×2 旋转矩阵和每一行乘加。固定原始 K 数值、改变位置，对比最终注意力分数；输入均为人工教学选值。复算记录：`artifacts/position-worked-example-check.json`。重绘：`python3 docs/diagrams/render_position_worked_example.py --png`。

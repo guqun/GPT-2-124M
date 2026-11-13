@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-13",
+  "assistant_run": true,
+  "user_run": false,
+  "unit_tests_passed": 5,
+  "previous_qknorm_tests_passed": 6,
+  "old_python_files_unchanged": 72,
+  "summary": {
+    "updates": 100,
+    "training_tokens": 102400,
+    "initial_val_loss": 10.762307405471802,
+    "final_val_loss": 6.934773564338684
+  },
+  "gamma_groups_updated": 4,
+  "checkpoint_reload_exact": true,
+  "generation": {
+    "greedy_ids_equal": true,
+    "cache_logit_max_difference": 9.5367431640625e-07,
+    "kv_tensor_bytes": 23552,
+    "cache_shape_per_layer": [
+      1,
+      2,
+      23,
+      32
+    ],
+    "cache_length_explanation": "prompt + new_tokens - 1; final selected ID not yet forwarded",
+    "text": "Hello, I'm a language model,\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "ids": [
+      15496,
+      11,
+      314,
+      1101,
+      257,
+      3303,
+      2746,
+      11,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198,
+      198
+    ]
+  },
+  "diagram": "docs/diagrams/modern-integration-flow.png",
+  "diagram_size": [
+    2400,
+    3250
+  ],
+  "diagram_visually_checked": true
+}

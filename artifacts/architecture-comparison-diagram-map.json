@@ -1,0 +1,80 @@
+{
+  "architecture_training.py": {
+    "SequentialBatches": [
+      24,
+      42
+    ],
+    "learning_rate": [
+      45,
+      50
+    ],
+    "synchronize": [
+      53,
+      58
+    ],
+    "evaluate": [
+      61,
+      81
+    ],
+    "train_update": [
+      84,
+      105
+    ],
+    "resolve_device": [
+      108,
+      116
+    ],
+    "run": [
+      119,
+      216
+    ],
+    "main": [
+      219,
+      238
+    ],
+    "__init__": [
+      27,
+      33
+    ],
+    "next_batch": [
+      35,
+      42
+    ]
+  },
+  "architecture_variants.py": {
+    "RMSNorm": [
+      14,
+      26
+    ],
+    "replace_norm_and_bias": [
+      29,
+      42
+    ],
+    "common_parameter_digest": [
+      45,
+      54
+    ],
+    "build_model": [
+      57,
+      66
+    ],
+    "__init__": [
+      17,
+      20
+    ],
+    "forward": [
+      22,
+      26
+    ]
+  },
+  "compare_architecture_runs.py": {
+    "compare": [
+      8,
+      23
+    ],
+    "main": [
+      26,
+      48
+    ]
+  }
+}

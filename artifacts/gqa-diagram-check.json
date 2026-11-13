@@ -1,0 +1,149 @@
+{
+  "source_lines": {
+    "gqa_model.py": {
+      "grouped_attention": [
+        13,
+        34
+      ],
+      "GroupedAttention": [
+        37,
+        94
+      ],
+      "GroupedAttention.__init__": [
+        44,
+        69
+      ],
+      "GroupedAttention.step": [
+        71,
+        90
+      ],
+      "GroupedAttention.forward": [
+        92,
+        94
+      ],
+      "convert_attention": [
+        97,
+        101
+      ],
+      "GroupedDecoder": [
+        104,
+        148
+      ],
+      "GroupedDecoder.__init__": [
+        106,
+        108
+      ],
+      "GroupedDecoder.forward": [
+        111,
+        148
+      ]
+    },
+    "gqa_experiment.py": {
+      "shared_digest": [
+        24,
+        33
+      ],
+      "main": [
+        36,
+        123
+      ]
+    },
+    "kv_cache_experiment.py": {
+      "parameter_digest": [
+        20,
+        24
+      ],
+      "generate": [
+        28,
+        47
+      ],
+      "main": [
+        50,
+        120
+      ]
+    },
+    "compare_gqa_runs.py": {
+      "compare": [
+        9,
+        40
+      ]
+    }
+  },
+  "toy_inputs": {
+    "q1": [
+      0,
+      1
+    ],
+    "mha_k": [
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "mha_v": [
+      [
+        2,
+        4
+      ],
+      [
+        6,
+        8
+      ]
+    ],
+    "gqa_k": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "gqa_v": [
+      [
+        6,
+        2
+      ],
+      [
+        3,
+        14
+      ]
+    ]
+  },
+  "toy_outputs": {
+    "mha_scores": [
+      0.0,
+      2.1213203435596424
+    ],
+    "mha_a": [
+      0.10704180146517044,
+      0.8929581985348296
+    ],
+    "mha_h": [
+      5.571832794139318,
+      7.571832794139318
+    ],
+    "gqa_scores": [
+      0.0,
+      1.414213562373095
+    ],
+    "gqa_a": [
+      0.19557031749304313,
+      0.8044296825069569
+    ],
+    "gqa_h": [
+      3.5867109524791294,
+      11.653156190083484
+    ]
+  },
+  "default_cache_bytes": [
+    96256,
+    48128
+  ],
+  "synthetic_not_measured": true
+}

@@ -1,0 +1,8 @@
+{
+  "original_python_files_checked": 34,
+  "original_files_changed": [],
+  "new_tests_passed": 4,
+  "local_smoke_report": "artifacts/architecture-baseline-local-check.json",
+  "formal_data_ready": false,
+  "full_baseline_run": false
+}

@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-12",
+  "page_id": "416eaea3-1414-8195-aa7e-cb40ce4ea5ef",
+  "url": "https://app.notion.com/p/416eaea314148195aa7ecb40ce4ea5ef",
+  "title": "千问 Qwen3 学习：与 Llama 3 的结构对照及数值流转",
+  "local_note": "docs/qwen3-learning-notes.md",
+  "scope": "本次 Qwen3 学习整体；QK-Norm 为其中一节",
+  "mastery": "理解中",
+  "images": [
+    {
+      "file_upload_id": "416eaea3-1414-81d0-9162-00b29405df04",
+      "filename": "llama3-vs-qwen3-forward-qknorm.png",
+      "content_type": "image/png",
+      "content_length": 1516401,
+      "status": "uploaded",
+      "markdown_source": "file-upload://416eaea3-1414-81d0-9162-00b29405df04",
+      "suggested_markdown": "<image source=\"file-upload://416eaea3-1414-81d0-9162-00b29405df04\" />"
+    },
+    {
+      "file_upload_id": "416eaea3-1414-81d8-b772-00b23fe0144d",
+      "filename": "llama3-qwen3-qknorm-step03-worked.png",
+      "content_type": "image/png",
+      "content_length": 845571,
+      "status": "uploaded",
+      "markdown_source": "file-upload://416eaea3-1414-81d8-b772-00b23fe0144d",
+      "suggested_markdown": "<image source=\"file-upload://416eaea3-1414-81d8-b772-00b23fe0144d\" />"
+    }
+  ],
+  "verification": {
+    "read_back": true,
+    "embedded_image_blocks": 2,
+    "full_scope_confirmed": true
+  },
+  "learning_completion_counts_changed": false
+}

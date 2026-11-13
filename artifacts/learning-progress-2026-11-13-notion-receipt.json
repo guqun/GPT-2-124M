@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-13",
+  "page_id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+  "url": "https://app.notion.com/p/340eaea31414819197bde537d339d0fc",
+  "updates": [
+    {
+      "old_str": "> 📍 <b>当前执行位置（</b><b><date start=\"2026-11-12\" /></b><b>）</b>：阶段二 → 单元 3「现代模型结构」。GPT-2 / Llama 3 前向主线已讲解到最终归一化与 lm\\_head：包括归一化、QKV/拆头、RoPE、MHA/GQA、QK→A→H、多头拼接/输出投影、两次残差、SiLU/SwiGLU 与权重共享。已补齐 Qwen3/Llama 3 对照、稠密模型概念、QK-Norm 的位置与目的、γ 初始化/共享，以及原 q/k→r→归一化→RoPE→A/H 的数值流转。用户反馈“大概理解”，记为理解中。3.1 的 Qwen3 全景及 QK-Norm 原理已学习，用户初步理解；3.7 的代码实现与整合仍待完成。下一步确定短训练基线（数据、Token 数、更新步数与测速），随后按 3.2→3.4→3.5→3.6 逐项实现和对照，再接 3.7—3.9。 完整段落计数仍为单元 2 的 1/5、单元 3 的 0/9（进行中）、阶段二 5/32；概念覆盖与原规划实践分别记录。",
+      "new_str": "> 📍 <b>当前执行位置（</b><b><date start=\"2026-11-13\" /></b><b>）</b>：阶段二 → 单元 3「现代模型结构」→ 3.7 QK-Norm 实现。GPT-2/Llama 3/Qwen3 全景与前向差异已学习；短训练基线、RMSNorm+去 bias、RoPE、SwiGLU、KV Cache、GQA 的分文件代码与对照图已落地。用户明确运行过结构对比、反馈 RoPE 本块结束，并初步理解 KV Cache/GQA；助手实跑和用户实践分别记录。当前进入 3.7：QK-Norm 已接入 GQA/RoPE/KV Cache，独立参照入口、实现入口、比较工具和数值流程图已准备并经助手验证；用户新入口运行与理解反馈待补。接下来结合 lesson22 运行和解读对照，再按原计划完成模型整合、E1—E5 汇总及 Qwen3/OLMo 3/Gemma 配置比较，随后进入 3.8 MoE、3.9 混合注意力。 完整段落计数暂保留单元 2 的 1/5、单元 3 的 0/9、阶段二 5/32；不以助手代码验证代替整节完成，也不把已实现内容重新列为未开始。"
+    },
+    {
+      "old_str": "#### 📊 阶段二总量与进度：5 / 32 完整段落（单元 3 进行中，GPT-2/Llama 3/Qwen3 全景原理已覆盖；工程实验另记，2026-11-12）",
+      "new_str": "#### 📊 阶段二总量与进度：5 / 32 完整段落（单元 3 进行至 3.7 QK-Norm 实现；教学代码与短跑已开展，整段实验待办另记，2026-11-13）"
+    },
+    {
+      "old_str": "| 3 | 现代模型结构：在 124M 代码上逐个升级 + 对照实验 | 9 | 约 16 | 单卡，多次短训练 | 🟡 进行中，0/9 完整段落；GPT-2/Llama 3 前向对照已讲至 lm\\_head，含 SwiGLU、残差与权重共享；Qwen3 全景与 QK-Norm 原理已学习；短训练基线、模型改造及 E1—E7 待补 |",
+      "new_str": "| 3 | 现代模型结构：在 124M 代码上逐个升级 + 对照实验 | 9 | 约 16 | 单卡，多次短训练 | 🟡 进行中，0/9 完整段落；全景原理、短训练基线及逐项结构实现已开展，当前 3.7 QK-Norm；正式实验、整合汇总与 3.8—3.9 待补 |"
+    },
+    {
+      "old_str": "| 3.1 | <b>全景</b>：GPT-2 → Llama → Qwen3 改了哪几处、为什么改 | 画「GPT-2 vs Llama vs Qwen3」差异表 | 定下短训练基线配置（token 数、步数），先测速 | 1 | 🟡 GPT-2/Llama 3/Qwen3 结构概览原理已覆盖，初步理解；短训练基线配置与测速待做 |",
+      "new_str": "| 3.1 | <b>全景</b>：GPT-2 → Llama → Qwen3 改了哪几处、为什么改 | 画「GPT-2 vs Llama vs Qwen3」差异表 | 定下短训练基线配置（token 数、步数），先测速 | 1 | 🟡 全景原理已学习；本机小模型/数据/训练预算已确定并测速，124M/FineWeb 正式基线待准备 |"
+    },
+    {
+      "old_str": "| 3.2 | <b>RMSNorm + 去掉偏置</b>：LayerNorm 去掉减均值、为什么还能用 | 替换所有 LayerNorm；Linear 设 bias=False | <b>E1</b>：LayerNorm vs RMSNorm（val + 速度） | 1—2 | 🟡 LayerNorm/RMSNorm 原理及数学已初步理解，bias 差异已介绍；模型替换与 E1 待做 |",
+      "new_str": "| 3.2 | <b>RMSNorm + 去掉偏置</b>：LayerNorm 去掉减均值、为什么还能用 | 替换所有 LayerNorm；Linear 设 bias=False | <b>E1</b>：LayerNorm vs RMSNorm（val + 速度） | 1—2 | 🟡 原理与替换已完成；用户已运行结构对比。助手完成各 100 步 CPU 短跑；同时改 RMSNorm 与 bias，不能把差异仅归因于 RMSNorm，正式 E1 待补 |"
+    },
+    {
+      "old_str": "| 3.4 | <b>RoPE ② 实现</b>：预计算 cos/sin、作用在 q 和 k 上；rope\\_theta 与上下文扩展（YaRN） | 删掉位置嵌入表，换成 RoPE | <b>E2</b>：val 对比 + <b>外推测试</b>（用比训练更长的上下文） | 2 | 🟡 已预习 Q/K 旋转、sin/cos 与 theta；模型实现、YaRN 与 E2 待学/待做 |",
+      "new_str": "| 3.4 | <b>RoPE ② 实现</b>：预计算 cos/sin、作用在 q 和 k 上；rope\\_theta 与上下文扩展（YaRN） | 删掉位置嵌入表，换成 RoPE | <b>E2</b>：val 对比 + <b>外推测试</b>（用比训练更长的上下文） | 2 | 🟡 RoPE 实现、绝对位置表参照及各 100 步 CPU 短跑已完成，用户反馈本块结束；YaRN、长上下文外推和正式 E2 待补 |"
+    },
+    {
+      "old_str": "| 3.5 | <b>SwiGLU</b>：门控是什么、为什么三个矩阵、中间维度为什么常取 8/3 倍 | 替换 FFN | <b>E3</b>：GELU vs SwiGLU（参数量相同） | 1—2 | 🟡 SiLU、双分支门控、三矩阵及数值流程已学习；等参数 8/3 中间宽度、FFN 替换与 E3 待补 |",
+      "new_str": "| 3.5 | <b>SwiGLU</b>：门控是什么、为什么三个矩阵、中间维度为什么常取 8/3 倍 | 替换 FFN | <b>E3</b>：GELU vs SwiGLU（参数量相同） | 1—2 | 🟡 门控、三矩阵及约等参数 8/3 宽度实现已准备，助手完成 GELU/SwiGLU 各 100 步 CPU 短跑；用户运行反馈与正式 E3 待补 |"
+    },
+    {
+      "old_str": "| 3.6 | <b>KV Cache + GQA</b>：接「生成只能串行」的讨论；多头 → MQA → GQA | 生成加 KV Cache；注意力加 n\\_kv\\_head | <b>E4</b>：KV Cache 前后生成速度；<b>E5</b>：GQA 缓存大小 vs val | 2—3 | 🟡 GQA 头对应、共享 K/V、QK→A→H 与多头输出已初步理解；KV Cache、MQA 系统对照与 E4/E5 待学/待做 |",
+      "new_str": "| 3.6 | <b>KV Cache + GQA</b>：接「生成只能串行」的讨论；多头 → MQA → GQA | 生成加 KV Cache；注意力加 n\\_kv\\_head | <b>E4</b>：KV Cache 前后生成速度；<b>E5</b>：GQA 缓存大小 vs val | 2—3 | 🟡 KV Cache/GQA 原理已初步理解；两套对照代码与流程图已完成，助手验证缓存/重算一致、4Q/2KV 缓存减半。E4 本地计时已有记录；用户新入口实践、MQA 系统对照、正式性能和 E5 val 实验待补 |"
+    },
+    {
+      "old_str": "| 3.7 | <b>QK-Norm + 整合 + 对照</b>：QK-Norm 解决什么；组装成迷你 Qwen3 | 加 QK-Norm；对照 Raschka 的 Qwen3 从零实现检查代码 | 汇总 E1—E5；<b>读 Qwen3、OLMo 3、Gemma 的配置，列三家异同表</b> | 2 | 🟡 QK-Norm 原理与数值流转已预先学习；代码加入、模型整合、E1—E5 汇总及三家配置对照待做 |",
+      "new_str": "| 3.7 | <b>QK-Norm + 整合 + 对照</b>：QK-Norm 解决什么；组装成迷你 Qwen3 | 加 QK-Norm；对照 Raschka 的 Qwen3 从零实现检查代码 | 汇总 E1—E5；<b>读 Qwen3、OLMo 3、Gemma 的配置，列三家异同表</b> | 2 | 🟡 当前：QK-Norm 已接入 GQA/RoPE/KV Cache，lesson22 两入口、比较工具与数值图已准备；助手通过 17 项新旧检查及独立副本 gamma 更新验证。用户运行反馈、原计划实现对照、整合、E1—E5 汇总与三家配置比较待补 |"
+    },
+    {
+      "old_str": "> 📌 <b>待补工程与学习衔接</b>：① 2.2 独立 SDPA/词表对齐入口及同条件 CUDA 提速表；② 2.3 独立配置及多卡/GPU 实践，保留已有用户单进程记录；③ 2.4 真实 FineWeb、用户新入口/多进程及 CUDA/NCCL，保留用户完整 GPT-2 CPU 短跑与助手教学分片/Gloo 验证；④ 2.5 用户 HellaSwag 新入口、完整评测、正式训练及同口径基线对照。<b>正式配置、结果对照和原课收尾的理论已学习，不再作为下一块重复安排。</b> 当前已进入单元 3，来源为原书补充材料、论文及官方实现，不称作当前视频后续。3.1 的 Qwen3 全景及 QK-Norm 原理已学习，用户初步理解；3.7 的代码实现与整合仍待完成。下一步确定短训练基线（数据、Token 数、更新步数与测速），随后按 3.2→3.4→3.5→3.6 逐项实现和对照，再接 3.7—3.9。 未完成的代码与实验按原计划保留，无需先完成大规模运行才继续理论。",
+      "new_str": "> 📌 <b>待补工程与学习衔接</b>：① 2.2 独立 SDPA/词表对齐入口及同条件 CUDA 提速表；② 2.3 独立配置及多卡/GPU 实践，保留已有用户单进程记录；③ 2.4 真实 FineWeb、用户新入口/多进程及 CUDA/NCCL，保留用户完整 GPT-2 CPU 短跑与助手教学分片/Gloo 验证；④ 2.5 用户 HellaSwag 新入口、完整评测、正式训练及同口径基线对照。<b>正式配置、结果对照和原课收尾的理论已学习，不再作为下一块重复安排。</b> 当前已进入单元 3，来源为原书补充材料、论文及官方实现，不称作当前视频后续。当前进入 3.7：QK-Norm 已接入 GQA/RoPE/KV Cache，独立参照入口、实现入口、比较工具和数值流程图已准备并经助手验证；用户新入口运行与理解反馈待补。接下来结合 lesson22 运行和解读对照，再按原计划完成模型整合、E1—E5 汇总及 Qwen3/OLMo 3/Gemma 配置比较，随后进入 3.8 MoE、3.9 混合注意力。 未完成的代码与实验按原计划保留，无需先完成大规模运行才继续理论。"
+    },
+    {
+      "old_str": "相关笔记与图：<mention url=\"https://app.notion.com/p/410eaea3141481458aa2da19a284df9f\">LayerNorm 与 RMSNorm：计算差异、数学推导与设计取舍</mention>（含总览图、QKV→H 详细数值图及第 13—17 节前向后半段）；<mention url=\"https://app.notion.com/p/410eaea3141481f5b57cc13ed19e2f08\">二维旋转：从平面坐标到 RoPE 的数学基础</mention>（二维旋转与 RoPE）；<mention url=\"https://app.notion.com/p/415eaea3141481b19085e49d9c5d50b9\">SiLU 与 SwiGLU：双分支门控如何加工特征</mention>（SiLU/SwiGLU 独立补充文章）。新增：<mention url=\"https://app.notion.com/p/416eaea314148195aa7ecb40ce4ea5ef\">千问 Qwen3 学习：与 Llama 3 的结构对照及数值流转</mention>（含总览对照图与更新后的详细数值图）。3.1 的 Qwen3 全景及 QK-Norm 原理已学习，用户初步理解；3.7 的代码实现与整合仍待完成。下一步确定短训练基线（数据、Token 数、更新步数与测速），随后按 3.2→3.4→3.5→3.6 逐项实现和对照，再接 3.7—3.9。",
+      "new_str": "相关笔记与图：<mention url=\"https://app.notion.com/p/410eaea3141481458aa2da19a284df9f\">LayerNorm 与 RMSNorm：计算差异、数学推导与设计取舍</mention>（含总览图、QKV→H 详细数值图及第 13—17 节前向后半段）；<mention url=\"https://app.notion.com/p/410eaea3141481f5b57cc13ed19e2f08\">二维旋转：从平面坐标到 RoPE 的数学基础</mention>（二维旋转与 RoPE）；<mention url=\"https://app.notion.com/p/415eaea3141481b19085e49d9c5d50b9\">SiLU 与 SwiGLU：双分支门控如何加工特征</mention>（SiLU/SwiGLU 独立补充文章）。新增：<mention url=\"https://app.notion.com/p/416eaea314148195aa7ecb40ce4ea5ef\">千问 Qwen3 学习：与 Llama 3 的结构对照及数值流转</mention>（含总览对照图与更新后的详细数值图）。当前进入 3.7：QK-Norm 已接入 GQA/RoPE/KV Cache，独立参照入口、实现入口、比较工具和数值流程图已准备并经助手验证；用户新入口运行与理解反馈待补。接下来结合 lesson22 运行和解读对照，再按原计划完成模型整合、E1—E5 汇总及 Qwen3/OLMo 3/Gemma 配置比较，随后进入 3.8 MoE、3.9 混合注意力。 相关笔记：<mention url=\"https://app.notion.com/p/416eaea3141481a99dfacfe3abc0eca3\">KV Cache：从逐 Token 生成到历史 K/V 的工程复用</mention>（含完整图）。"
+    },
+    {
+      "old_str": "> ▶ <b>学习进度（</b><b><date start=\"2026-11-12\" /></b><b>）</b>：阶段一和阶段二单元 1 已完成；单元 2 的 2.1 已完成，2.2—2.5 视频理论主线已覆盖。2.3 优化与累积、2.4 完整 GPT-2 CPU 训练/验证/生成短跑已有用户实践；分片和 HellaSwag 的 tiny CPU/Gloo 验证是助手协作结果。单元 3 已开始：GPT-2/Llama 3 前向对照已讲到 lm\\_head，含归一化、RoPE、GQA、输出投影/残差、SiLU/SwiGLU 与权重共享，补齐 Qwen3 全景、稠密模型与 QK-Norm 原理及逐项数值流转，独立笔记和两张图已归档；模型替换、训练及性能对照尚未开展。真实 FineWeb、完整 HellaSwag、正式训练、用户新入口/多进程与 CUDA/NCCL 仍待补。单元 1 <b>4/4</b>、单元 2 <b>1/5</b>、单元 3 <b>0/9（进行中）</b>、阶段二 <b>5/32</b> 是完整段落计数，不能据此把已学概念写成尚未开始。理论覆盖、助手验证、用户实跑与独立掌握分别记录；自检供复习，不额外设门槛。",
+      "new_str": "> ▶ <b>学习进度（</b><b><date start=\"2026-11-13\" /></b><b>）</b>：阶段一和阶段二单元 1 已完成；单元 2 的 2.1 已完成，2.2—2.5 视频理论主线已覆盖。2.3 优化与累积、2.4 完整 GPT-2 CPU 训练/验证/生成短跑已有用户实践；分片和 HellaSwag 的 tiny CPU/Gloo 验证是助手协作结果。单元 3 已开始：GPT-2/Llama 3 前向对照已讲到 lm\\_head，含归一化、RoPE、GQA、输出投影/残差、SiLU/SwiGLU 与权重共享，补齐 Qwen3 全景、稠密模型与 QK-Norm 原理及逐项数值流转，独立笔记和两张图已归档；短训练基线与 RMSNorm、RoPE、SwiGLU 的教学短跑已开展，KV Cache/GQA 对照和 QK-Norm 实现已准备并经助手验证；用户已运行结构对比、反馈 RoPE 本块结束，KV Cache/GQA 初步理解。当前 3.7，后续整合及正式实验仍待补。真实 FineWeb、完整 HellaSwag、正式训练、用户新入口/多进程与 CUDA/NCCL 仍待补。单元 1 <b>4/4</b>、单元 2 <b>1/5</b>、单元 3 <b>0/9（进行中）</b>、阶段二 <b>5/32</b> 是完整段落计数，不能据此把已学概念写成尚未开始。理论覆盖、助手验证、用户实跑与独立掌握分别记录；自检供复习，不额外设门槛。"
+    }
+  ],
+  "notion_write_succeeded": true,
+  "verification": "Update returned success without warnings.",
+  "current": "3.7 QK-Norm 实现",
+  "next": "用户运行和解读 lesson22；原计划实现核对、整合、E1—E5 汇总与 Qwen3/OLMo 3/Gemma 配置比较",
+  "counts": {
+    "unit2": "1/5",
+    "unit3": "0/9",
+    "stage2": "5/32"
+  },
+  "training_run": false
+}

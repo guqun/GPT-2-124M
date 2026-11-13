@@ -1,0 +1,39 @@
+{
+  "comparison": {
+    "gelu": {
+      "updates": 100,
+      "training_tokens": 102400,
+      "initial_val_loss": 10.832003831863403,
+      "final_val_loss": 6.916340410709381,
+      "measured_updates": 98,
+      "measured_tokens_per_second": 2943.5545143199724
+    },
+    "swiglu": {
+      "updates": 100,
+      "training_tokens": 102400,
+      "initial_val_loss": 10.773668885231018,
+      "final_val_loss": 6.917344450950623,
+      "measured_updates": 98,
+      "measured_tokens_per_second": 2732.780463878279
+    },
+    "val_loss_delta_b_minus_a": 0.001004040241241455,
+    "throughput_ratio_b_over_a": 0.9283947182169354
+  },
+  "reloads": [
+    {
+      "variant": "gelu",
+      "reloaded_val_loss": 6.916340410709381,
+      "weight_tying": true
+    },
+    {
+      "variant": "swiglu",
+      "reloaded_val_loss": 6.917344450950623,
+      "weight_tying": true
+    }
+  ],
+  "original_python_files_unchanged": 30,
+  "runs_sequential": true,
+  "device": "cpu",
+  "precision": "fp32",
+  "single_seed": 42
+}

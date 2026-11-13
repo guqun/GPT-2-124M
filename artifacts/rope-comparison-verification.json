@@ -1,0 +1,36 @@
+{
+  "absolute": {
+    "updates": 100,
+    "training_tokens": 102400,
+    "initial_val_loss": 10.828861594200134,
+    "final_val_loss": 6.91641092300415,
+    "measured_updates": 98,
+    "measured_tokens_per_second": 2876.9878308776993
+  },
+  "rope": {
+    "updates": 100,
+    "training_tokens": 102400,
+    "initial_val_loss": 10.832003831863403,
+    "final_val_loss": 6.916340410709381,
+    "measured_updates": 98,
+    "measured_tokens_per_second": 2879.959454404498
+  },
+  "val_loss_delta_b_minus_a": -7.051229476928711e-05,
+  "throughput_ratio_b_over_a": 1.0010328940202338,
+  "checks": [
+    {
+      "variant": "absolute",
+      "strict_checkpoint_reload": true,
+      "reload_val_loss": 6.91641092300415
+    },
+    {
+      "variant": "rope",
+      "strict_checkpoint_reload": true,
+      "reload_val_loss": 6.916340410709381
+    }
+  ],
+  "tests_passed": 19,
+  "old_python_files_unchanged": 25,
+  "scope": "CPU/FP32 local 100 updates each; no extrapolation or CUDA/MPS validation",
+  "timing_note": "RoPE rerun alone after checks; earlier overlapping run excluded from archived comparison"
+}

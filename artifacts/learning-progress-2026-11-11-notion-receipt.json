@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-11",
+  "page_id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+  "notion_targeted_updates": 10,
+  "success": true,
+  "current": "阶段二 / 单元3 / GPT-2-Llama3前向对照至lm_head，初步理解",
+  "next": "3.1 Qwen3全景与QK-Norm概念预览，随后基线和逐项实现",
+  "completed_sections": {
+    "unit2": "1/5",
+    "unit3": "0/9",
+    "stage2": "5/32"
+  },
+  "training_code_modified": false,
+  "training_run": false
+}

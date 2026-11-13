@@ -1,0 +1,71 @@
+{
+  "source_lines": {
+    "swiglu_model.py": {
+      "experiment_settings": [
+        15,
+        22
+      ],
+      "SwiGLU": [
+        25,
+        52
+      ],
+      "build_model": [
+        55,
+        67
+      ],
+      "common_parameter_digest": [
+        70,
+        79
+      ]
+    },
+    "swiglu_training.py": {
+      "SequentialBatches": [
+        26,
+        44
+      ],
+      "learning_rate": [
+        47,
+        52
+      ],
+      "synchronize": [
+        55,
+        60
+      ],
+      "evaluate": [
+        63,
+        83
+      ],
+      "train_update": [
+        86,
+        107
+      ],
+      "resolve_device": [
+        110,
+        118
+      ],
+      "run": [
+        121,
+        221
+      ],
+      "main": [
+        224,
+        243
+      ]
+    }
+  },
+  "example_is_synthetic": true,
+  "gate": [
+    0.7310585786300049,
+    -0.2384058440442351
+  ],
+  "gated": [
+    1.4621171572600098,
+    -1.4304350642654104
+  ],
+  "output": [
+    0.03168209299459934,
+    2.8925522215254205
+  ],
+  "gelu_mlp_parameters": 131072,
+  "swiglu_mlp_parameters": 130944
+}
