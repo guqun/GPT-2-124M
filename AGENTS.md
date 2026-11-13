@@ -24,6 +24,10 @@
 - 接续 3.7 新增 QK-Norm 实现：qknorm_model.py / qknorm_experiment.py、run_qknorm_reference.py / run_qknorm.py、compare_qknorm_runs.py、lesson22、6 项专项检查与代码/数值 PNG/SVG；保留旧 Python 文件。对照固定 Transformers v4.51.3 的 QK-Norm→RoPE→cache 顺序，仍是本地相邻配对 RoPE、共享 lm_head、eps=1e-5 教学模型，不称完整 Qwen3。
 - CPU/FP32 默认实跑通过：原 GQA/新增 QK-Norm 各自缓存与重算最大 logits 差 2.38e-7/4.77e-7，贪心一致；参数 6793728→6793856，KV缓存均48128字节。独立副本做一次完整前向/反传/AdamW（无缓存、weight_decay=0），4组gamma均有非零梯度并更新，推理原模型不变。6项新测试及11项旧GQA/缓存回归通过，数值图逐项与代码复算一致。用户实践、正式训练质量/性能和3.7其余整合待办保留，Notion/完成计数未改。
 
+- 汇总提交现代结构教学实践：短训练基线、RMSNorm/去偏置、RoPE、SwiGLU、KV Cache、GQA、QK-Norm 与完整模型整合，以及对应数值流程图、讲义和实验报告，保留旧课程代码。
+- 同步本地与 Notion：用户已完成 QK-Norm 对照和整合模型 100 步训练/验证/生成/缓存检查；3.7 主线完成，下一节 3.8 MoE。正式实验与原计划源码逐项核对继续保留，完整验收计数不变。
+- 提交前 46 项相关测试全部通过，53 个新增 Python 文件语法检查、47 个 JSON 解析检查通过；敏感文件和大文件检查无异常。
+
 ### 2026-11-12
 - 新增第21块 GQA 实践：gqa_model.py / gqa_experiment.py、generate_gqa_reference.py / generate_gqa.py、compare_gqa_runs.py、lesson21、6 项专项测试及代码/数值对照 PNG/SVG；旧 Python 文件哈希保持不变。4 Q/4 KV 对照 4 Q/2 KV，K/V 分组权重均值只做初始化，Q/其余权重共同；不训练、不要求 MHA/GQA 输出等价。
 - CPU/FP32 默认实跑：各模型内部缓存/重算最大 logits 差均 2.38e-7，贪心 ID 一致；缓存 96256→48128 字节，参数 6826496→6793728。缓存路径本次中位耗时 29.29/36.98 ms，GQA 未提速，不外推 GPU 或质量；6 项新检查与 5 项缓存回归通过。图中红框标差异，实际代码分组广播、缓存不显式重复，2维数值例子单独标注。用户实践待反馈，Notion/完整段落计数未改。
