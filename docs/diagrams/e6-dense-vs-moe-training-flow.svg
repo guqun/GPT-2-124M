@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1840" viewBox="0 0 1560 1840"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#587181"/></marker></defs><g font-family="PingFang SC, Helvetica Neue, sans-serif">
+<rect x="0" y="0" width="1560" height="1840" rx="0" fill="#f5f8f9" stroke="none" stroke-width="2"/>
+<rect x="0" y="0" width="1560" height="142" rx="0" fill="#153845" stroke="none" stroke-width="2"/>
+<text x="48" y="64" font-size="44" fill="white" font-weight="700">E6   稠密 MLP 与 MoE 的短训练对照</text>
+<text x="48" y="112" font-size="24" fill="#d4e7e7" font-weight="400">追踪一个 Token 的投影预算，再追踪一批 Token 的参数更新   ·   train_e6_dense_vs_moe.py</text>
+<rect x="48" y="167" width="1464" height="148" rx="15" fill="#ffffff" stroke="#b7c8ce" stroke-width="2"/>
+<text x="73" y="211" font-size="30" fill="#234453" font-weight="700">E1   build_pair  ·  构建两套独立模型</text>
+<text x="73" y="252" font-size="22" fill="#193445" font-weight="400">公共主干用相同初值。隐藏宽度 D = 128，3 个 Block，4 个 Q 头 / 2 个 KV 头，共用相同的词表和注意力配置。</text>
+<text x="73" y="288" font-size="22" fill="#193445" font-weight="400">一个 Token 的一次乘加记 1 MAC。以下只数前向的 gate、up、down 和路由投影，按实际激活的专家计。</text>
+<path d="M397 315 L397 342" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1163 315 L1163 342" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="48" y="344" width="716" height="285" rx="15" fill="#edf4ff" stroke="#aec7e9" stroke-width="2"/>
+<text x="73" y="388" font-size="30" fill="#235496" font-weight="700">稠密侧   ·   每层执行一套 SwiGLU</text>
+<text x="73" y="429" font-size="22" fill="#193445" font-weight="400">每个 Token 的输入 z 为 128 维。</text>
+<text x="73" y="465" font-size="22" fill="#193445" font-weight="400">gate、up 各做 128 → F，down 做 F → 128。</text>
+<text x="73" y="501" font-size="22" fill="#193445" font-weight="400">每层投影用 3 × 128 × F 次乘加。</text>
+<text x="73" y="537" font-size="22" fill="#193445" font-weight="400">层 1 / 2 / 3 的 F 分别取 341 / 342 / 342。</text>
+<text x="73" y="573" font-size="22" fill="#193445" font-weight="400">三层合计 130,944 + 131,328 + 131,328</text>
+<text x="73" y="609" font-size="22" fill="#193445" font-weight="400">= 393,600 MAC / Token。</text>
+<rect x="796" y="344" width="716" height="285" rx="15" fill="#eaf7f1" stroke="#99cdb7" stroke-width="2"/>
+<text x="821" y="388" font-size="30" fill="#17694e" font-weight="700">MoE 侧   ·   8 选 2，加 1 位共享专家</text>
+<text x="821" y="429" font-size="22" fill="#193445" font-weight="400">路由器做 128 → 8，每个 Token 用 1,024 MAC。</text>
+<text x="821" y="465" font-size="22" fill="#193445" font-weight="400">每位专家的 F = 113。每层只执行 3 位专家。</text>
+<text x="821" y="501" font-size="22" fill="#193445" font-weight="400">专家投影共 3 位 × 3 张矩阵 × 128 × 113</text>
+<text x="821" y="537" font-size="22" fill="#193445" font-weight="400">= 130,176 MAC。加上路由得到 131,200。</text>
+<text x="821" y="573" font-size="22" fill="#193445" font-weight="400">三层合计 3 × 131,200</text>
+<text x="821" y="609" font-size="22" fill="#193445" font-weight="400">= 393,600 MAC / Token。</text>
+<path d="M397 629 L397 663" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1163 629 L1163 663" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="48" y="665" width="1464" height="188" rx="15" fill="#ffffff" stroke="#b7c8ce" stroke-width="2"/>
+<text x="73" y="709" font-size="30" fill="#234453" font-weight="700">E2   main / SequentialBatches  ·  两边使用同一组输入和目标</text>
+<text x="73" y="750" font-size="22" fill="#193445" font-weight="400">Tiny Shakespeare → GPT-2 Token ID → 按顺序分为 90% 训练和 10% 验证。</text>
+<text x="73" y="786" font-size="22" fill="#193445" font-weight="400">例如 ID 为 [a, b, c, d, …]，则 x 从 a 开始，目标 y 从 b 开始。每个微批的 x 和 y 各为 [2,128]。</text>
+<text x="73" y="822" font-size="22" fill="#193445" font-weight="400">一次取出 4 个微批交给两边。每组每次更新都看到同样的 2 × 128 × 4 = 1,024 个预测位置。</text>
+<path d="M397 853 L397 885" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1163 853 L1163 885" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="48" y="888" width="716" height="262" rx="15" fill="#edf4ff" stroke="#aec7e9" stroke-width="2"/>
+<text x="73" y="932" font-size="30" fill="#235496" font-weight="700">E3   E6LM.forward → ModernMLP</text>
+<text x="73" y="973" font-size="22" fill="#193445" font-weight="400">各层分别得到注意力残差 R，z = RMSNorm(R)。</text>
+<text x="73" y="1009" font-size="22" fill="#193445" font-weight="400">对每行 z 计算 gate = SiLU(z Wg)，up = z Wu。</text>
+<text x="73" y="1045" font-size="22" fill="#193445" font-weight="400">逐元素乘积再投影，y = (gate ⊙ up) Wd。</text>
+<text x="73" y="1081" font-size="22" fill="#193445" font-weight="400">每层输出 R + y，形状 [2,128,128]。</text>
+<text x="73" y="1117" font-size="22" fill="#193445" font-weight="400">三层后做最终归一化，经 lm_head 得到 logits。</text>
+<rect x="796" y="888" width="716" height="262" rx="15" fill="#eaf7f1" stroke="#99cdb7" stroke-width="2"/>
+<text x="821" y="932" font-size="30" fill="#17694e" font-weight="700">E3   E6LM.forward → SmallMoE.forward</text>
+<text x="821" y="973" font-size="22" fill="#193445" font-weight="400">各层把 z 展成 [256,128]，算 8 个路由分数。</text>
+<text x="821" y="1009" font-size="22" fill="#193445" font-weight="400">逐行 softmax → Top-2 → 两个入选权重归一化。</text>
+<text x="821" y="1045" font-size="22" fill="#193445" font-weight="400">若选中 i、j，则 y = S(z) + wᵢ Eᵢ(z) + wⱼ Eⱼ(z)。</text>
+<text x="821" y="1081" font-size="22" fill="#193445" font-weight="400">每层输出 R + y，形状 [2,128,128]，另算 Lbal。</text>
+<text x="821" y="1117" font-size="22" fill="#193445" font-weight="400">Lbal = 8 Σ fₑ Pₑ；f 为分配占比，P 为平均概率。</text>
+<path d="M397 1150 L397 1180" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1163 1150 L1163 1180" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="48" y="1183" width="1464" height="185" rx="15" fill="#ffffff" stroke="#b7c8ce" stroke-width="2"/>
+<text x="73" y="1227" font-size="30" fill="#234453" font-weight="700">E4   update  ·  梯度累积与参数更新</text>
+<text x="73" y="1268" font-size="22" fill="#193445" font-weight="400">每个微批：logits [2,128,50257] 与 y [2,128] → 256 个预测位置的平均交叉熵 CE。</text>
+<text x="73" y="1304" font-size="22" fill="#193445" font-weight="400">稠密目标 = CE。MoE 目标 = CE + 0.01 × 三层 Lbal 的平均值。每组分别将自己的目标除以 4 并反传。</text>
+<text x="73" y="1340" font-size="22" fill="#193445" font-weight="400">累计 4 个微批 → 梯度范数裁剪至 1 → 各自 AdamW 更新一次。两组使用相同学习率调度。</text>
+<path d="M780 1368 L780 1398" fill="none" stroke="#587181" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="48" y="1402" width="1464" height="109" rx="15" fill="#ffffff" stroke="#b7c8ce" stroke-width="2"/>
+<text x="73" y="1446" font-size="30" fill="#234453" font-weight="700">E5   validate / evaluate  ·  比较相同验证窗口上的 CE</text>
+<text x="73" y="1487" font-size="22" fill="#193445" font-weight="400">更新前、每 20 步及结束时，在相同的 8 个微批上评估，共 2,048 个预测位置。</text>
+<rect x="48" y="1534" width="1464" height="265" rx="15" fill="#193d49" stroke="none" stroke-width="2"/>
+<text x="73" y="1579" font-size="29" fill="white" font-weight="700">本次运行   ·   CPU / FP32，4 线程，种子 42，各训练 100 步</text>
+<text x="75" y="1629" font-size="26" fill="#d0ebdf" font-weight="700">稠密     6,975,040 个模型参数</text>
+<text x="75" y="1674" font-size="24" fill="white" font-weight="400">验证 CE     10.795082   →   6.940489</text>
+<text x="75" y="1716" font-size="24" fill="white" font-weight="400">训练吞吐     2,518.1 Token/s</text>
+<text x="795" y="1629" font-size="26" fill="#d0ebdf" font-weight="700">MoE     7,756,096 个模型参数</text>
+<text x="795" y="1674" font-size="24" fill="white" font-weight="400">验证 CE     10.794879   →   6.937529</text>
+<text x="795" y="1716" font-size="24" fill="white" font-weight="400">训练吞吐     2,241.9 Token/s</text>
+<text x="73" y="1771" font-size="22" fill="#d4e7e7" font-weight="400">吞吐统计第 2–100 步的实际训练时间，扣除取批和验证。Top-2 选择、分派、合并及反传均计入耗时。</text>
+</g></svg>

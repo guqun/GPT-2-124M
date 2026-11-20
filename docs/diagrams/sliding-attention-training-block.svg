@@ -1,0 +1,1051 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1540" height="6126" viewBox="0 0 1540 6126" role="img"><title>Transformer Block 全局因果与滑动窗口逐矩阵对比</title><rect width="100%" height="100%" fill="#f1f5f6"/><g font-family="PingFang SC,Helvetica Neue,Arial,sans-serif"><rect x="0" y="0" width="1540" height="131" rx="0" fill="#123747" stroke="none"/>
+<text x="46" y="56" font-family="inherit" font-size="40" fill="white" font-weight="700" text-anchor="start">同一个 Transformer Block：全局因果注意力与滑动窗口</text>
+<text x="47" y="101" font-family="inherit" font-size="23" fill="#d2e9e5" font-weight="400" text-anchor="start">按步骤追踪 D 预测 E。第 01–06 步共用输入、参数和原始分数；第 07 步施加不同遮罩，此后并排比较。</text>
+<rect x="28" y="150" width="1484" height="189" rx="8" fill="white" stroke="#cbd9de"/>
+<text x="52" y="183" font-family="inherit" font-size="23" fill="#173647" font-weight="700" text-anchor="start">一个 Block 内的主路径与两条残差</text>
+<rect x="54" y="202" width="85" height="42" rx="8" fill="#edf2f5" stroke="none"/>
+<text x="96.5" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">X</text>
+<text x="144" y="231" font-family="inherit" font-size="23" fill="#475f70" font-weight="650" text-anchor="start">→</text>
+<rect x="172" y="202" width="160" height="42" rx="8" fill="#edf2f5" stroke="none"/>
+<text x="252.0" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">RMSNorm₁</text>
+<text x="337" y="231" font-family="inherit" font-size="23" fill="#475f70" font-weight="650" text-anchor="start">→</text>
+<rect x="365" y="202" width="210" height="42" rx="8" fill="#c9ebdf" stroke="none"/>
+<text x="470.0" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">全局 / 窗口注意力</text>
+<text x="580" y="231" font-family="inherit" font-size="23" fill="#475f70" font-weight="650" text-anchor="start">→</text>
+<rect x="608" y="202" width="158" height="42" rx="8" fill="#e1ecfa" stroke="none"/>
+<text x="687.0" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">加 X 得 R</text>
+<text x="771" y="231" font-family="inherit" font-size="23" fill="#475f70" font-weight="650" text-anchor="start">→</text>
+<rect x="799" y="202" width="155" height="42" rx="8" fill="#edf2f5" stroke="none"/>
+<text x="876.5" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">RMSNorm₂</text>
+<text x="959" y="231" font-family="inherit" font-size="23" fill="#475f70" font-weight="650" text-anchor="start">→</text>
+<rect x="987" y="202" width="150" height="42" rx="8" fill="#edf2f5" stroke="none"/>
+<text x="1062.0" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">SwiGLU</text>
+<text x="1142" y="231" font-family="inherit" font-size="23" fill="#475f70" font-weight="650" text-anchor="start">→</text>
+<rect x="1170" y="202" width="170" height="42" rx="8" fill="#e1ecfa" stroke="none"/>
+<text x="1255.0" y="231" font-family="inherit" font-size="20" fill="#173647" font-weight="600" text-anchor="middle">加 R 得 Y</text>
+<path d="M96 245 V271 H684 V247 m-4 6 4 -6 4 6" fill="none" stroke="#245a96" stroke-width="2"/>
+<text x="390.0" y="291" font-family="inherit" font-size="16" fill="#245a96" font-weight="550" text-anchor="middle">X 直连第一次加法</text>
+<path d="M700 245 V296 H1254 V247 m-4 6 4 -6 4 6" fill="none" stroke="#245a96" stroke-width="2"/>
+<text x="977.0" y="316" font-family="inherit" font-size="16" fill="#245a96" font-weight="550" text-anchor="middle">R 直连第二次加法</text>
+<text x="1378" y="231" font-family="inherit" font-size="18" fill="#475f70" font-weight="500" text-anchor="start">→ 下一层</text>
+<rect x="28" y="354" width="1484" height="60" rx="9" fill="#1b4050" stroke="none"/>
+<text x="50" y="394" font-family="inherit" font-size="23" fill="#bde4d9" font-weight="700" text-anchor="start">Ⅰ</text>
+<text x="135" y="394" font-family="inherit" font-size="29" fill="white" font-weight="700" text-anchor="start">输入与投影</text>
+<text x="1489" y="392" font-family="inherit" font-size="20" fill="#d4e6e8" font-weight="500" text-anchor="end">一个样本 · 一层 · 两个 Q 头 · 一个共享 KV 头 · W = 3，含当前位置</text>
+<rect x="28" y="426" width="1484" height="305" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="439" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="465" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">01</text>
+<text x="108" y="467" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">Token ID 查表，得到进入 Block 的 X</text>
+<text x="1489" y="465" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">[1,5] → [1,5,4]   ·   下面省略批次轴</text>
+<path d="M70 731 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<text x="55" y="512" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Embedding 表 E  [6,4]</text>
+<text x="139.0" y="544" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">0</text>
+<text x="235.0" y="544" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">1</text>
+<text x="331.0" y="544" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">2</text>
+<text x="427.0" y="544" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">3</text>
+<text x="65" y="570.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="91.0" y="551" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="138.0" y="570.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="187.0" y="551" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="234.0" y="570.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">2</text>
+<rect x="283.0" y="551" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="330.0" y="570.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="379.0" y="551" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="426.0" y="570.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<text x="65" y="599.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="91.0" y="580" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="138.0" y="599.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="187.0" y="580" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="234.0" y="599.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="283.0" y="580" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="330.0" y="599.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">2</text>
+<rect x="379.0" y="580" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="426.0" y="599.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<text x="65" y="628.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="91.0" y="609" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="138.0" y="628.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<rect x="187.0" y="609" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="234.0" y="628.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="283.0" y="609" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="330.0" y="628.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="379.0" y="609" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="426.0" y="628.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">2</text>
+<text x="65" y="657.43" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="91.0" y="638" width="93.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="138.0" y="657.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">2</text>
+<rect x="187.0" y="638" width="93.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="234.0" y="657.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−1</text>
+<rect x="283.0" y="638" width="93.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="330.0" y="657.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1</text>
+<rect x="379.0" y="638" width="93.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="426.0" y="657.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<text x="65" y="686.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="91.0" y="667" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="138.0" y="686.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="187.0" y="667" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="234.0" y="686.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="283.0" y="667" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="330.0" y="686.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<rect x="379.0" y="667" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="426.0" y="686.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">2</text>
+<text x="65" y="715.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">F</text>
+<rect x="91.0" y="696" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="138.0" y="715.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="187.0" y="696" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="234.0" y="715.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<rect x="283.0" y="696" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="330.0" y="715.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">2</text>
+<rect x="379.0" y="696" width="93.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="426.0" y="715.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<text x="520" y="515" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">词表 A、B、C、D、E、F 的 ID 分别为 0 至 5。</text>
+<text x="520" y="553" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">输入 [A,B,C,D,E] → 查出左表前五行，组成 X [5,4]。</text>
+<text x="520" y="591" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">目标 [B,C,D,E,F] → 留到交叉熵。第 4 行 D 的目标是 E。</text>
+<text x="520" y="629" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">例：Xᴅ = [2, −1, 1, 0]。保留整个 X，供第 11 步第一次残差使用。</text>
+<rect x="520" y="663" width="905" height="42" rx="5" fill="#e2ecf8" stroke="none"/>
+<text x="532" y="692" font-family="inherit" font-size="20" fill="#245a96" font-weight="600" text-anchor="start">这是一套新的教学权重。两次独立计算从相同权重开始，只改变注意力遮罩。</text>
+<rect x="28" y="743" width="1484" height="156" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="756" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="782" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">02</text>
+<text x="108" y="784" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">对每个位置分别做第一次 RMSNorm</text>
+<text x="1489" y="782" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">X [5,4]、γ₁ [4] → U [5,4]</text>
+<path d="M70 899 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<text x="56" y="827" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">U = γ₁ ⊙ X / √(mean(X²) + ε)，沿每行的 4 个特征计算。图中各组 γ 的初值均为全 1，ε = 0.00001。</text>
+<text x="56" y="866" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">D 行的均方 = (4+1+1+0)/4 = 1.5，除以 √(1.5+ε) → Uᴅ = [1.63, −0.82, 0.82, 0.00]。</text>
+<rect x="28" y="911" width="1484" height="275" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="924" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="950" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">03</text>
+<text x="108" y="952" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">同一个 U 乘三张不同的投影矩阵</text>
+<text x="1489" y="950" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">Wq [4,4]、Wk / Wv [4,2]；权重按行向量右乘展示</text>
+<path d="M70 1186 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<text x="55" y="999" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wq  查询</text>
+<rect x="55.0" y="1015" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="88.125" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="123.25" y="1015" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="156.375" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="191.5" y="1015" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="224.625" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="259.75" y="1015" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="292.875" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="55.0" y="1048" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="88.125" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="123.25" y="1048" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="156.375" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="191.5" y="1048" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="224.625" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="259.75" y="1048" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="292.875" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="55.0" y="1081" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="88.125" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="123.25" y="1081" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="156.375" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="191.5" y="1081" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="224.625" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="259.75" y="1081" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="292.875" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<rect x="55.0" y="1114" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="88.125" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="123.25" y="1114" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="156.375" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="191.5" y="1114" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="224.625" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="259.75" y="1114" width="65.25" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="292.875" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<text x="360" y="999" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wk  匹配键</text>
+<rect x="360.0" y="1015" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="402.75" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="447.5" y="1015" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="490.25" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="360.0" y="1048" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="402.75" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="447.5" y="1048" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="490.25" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="360.0" y="1081" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="402.75" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="447.5" y="1081" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="490.25" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="360.0" y="1114" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="402.75" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="447.5" y="1114" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="490.25" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<text x="570" y="999" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wv  待读取的值</text>
+<rect x="570.0" y="1015" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="612.75" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="657.5" y="1015" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="700.25" y="1037.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="570.0" y="1048" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="612.75" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="657.5" y="1048" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="700.25" y="1070.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="570.0" y="1081" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="612.75" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="657.5" y="1081" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="700.25" y="1103.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="570.0" y="1114" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="612.75" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="657.5" y="1114" width="84.5" height="30" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="700.25" y="1136.44" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<text x="795" y="1001" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">每一列与输入做点积，得到一个输出特征。</text>
+<text x="795" y="1034" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">Q = U Wq  [5,4]    D 行 [2.45, −0.82, 1.63, −1.63]</text>
+<text x="795" y="1067" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">K = U Wk  [5,2]    D 行 [1.63, 0.00]</text>
+<text x="795" y="1100" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">V = U Wv  [5,2]    D 行 [2.45, 0.00]</text>
+<text x="795" y="1133" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">例：Kᴅ 第 1 项 = Uᴅ[0] + Uᴅ[3] = 1.63。</text>
+<rect x="28" y="1198" width="1484" height="145" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="1211" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="1237" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">04</text>
+<text x="108" y="1239" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">拆头、交换轴；两个 Q 头共享同一组 K/V</text>
+<text x="1489" y="1237" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">Q [5,4] → [5,2,2] → [2,5,2]；K、V 各 [1,5,2]</text>
+<path d="M70 1343 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<text x="56" y="1281" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">D 的 Q 行按连续两维分组：头 0 [2.45, −0.82]，头 1 [1.63, −1.63]。两个头分别打分，分别读同一组 V。</text>
+<text x="56" y="1317" font-family="inherit" font-size="22" fill="#173647" font-weight="400" text-anchor="start">变形和换轴只移动特征的位置。下文把头 0 的五行分数全部展开，再把头 1 的结果拼回。</text>
+<rect x="28" y="1355" width="1484" height="200" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="1368" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="1394" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">05</text>
+<text x="108" y="1396" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">对 Q、K 做头内 RMSNorm，再按位置做 RoPE</text>
+<text x="1489" y="1394" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">每个头：5 行 × 2 维 → 5 行 × 2 维；V 直接传给第 09 步</text>
+<path d="M70 1555 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<text x="56" y="1437" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">每个二维头分别按第 02 步的 RMS 公式归一化，使用独立的 γq、γk。位置从 0 起算，D 的旋转角 φ = 3 弧度。</text>
+<text x="56" y="1469" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">(a,b) 旋转后为 (a cosφ − b sinφ, a sinφ + b cosφ)。同一位置的 Q、K 用相同角度。</text>
+<text x="56" y="1501" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">D · 头 0 查询  [2.45, −0.82]   →   [1.34, −0.45]   →   Q′ᴅ = [−1.27, 0.63]</text>
+<text x="56" y="1533" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">D · 共享键       [1.63, 0.00]   →   [1.41, 0.00]   →   K′ᴅ = [−1.40, 0.20]</text>
+<rect x="28" y="1567" width="1484" height="60" rx="9" fill="#1b4050" stroke="none"/>
+<text x="50" y="1607" font-family="inherit" font-size="23" fill="#bde4d9" font-weight="700" text-anchor="start">Ⅱ</text>
+<text x="135" y="1607" font-family="inherit" font-size="29" fill="white" font-weight="700" text-anchor="start">从相同分数分出两条路径</text>
+<text x="1489" y="1605" font-family="inherit" font-size="20" fill="#d4e6e8" font-weight="500" text-anchor="end">Q′K′ᵀ / √2    →    加遮罩 M    →    行 softmax    →    乘 V</text>
+<rect x="28" y="1639" width="1484" height="326" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="1652" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="1678" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">06</text>
+<text x="108" y="1680" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">用 Q′ 与 K′ 做点积，算出窗口遮罩前的分数</text>
+<text x="1489" y="1678" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">展示头 0；每行一个查询位置，每列一个键位置</text>
+<path d="M70 1965 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<text x="55" y="1727" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Q′₀  [5,2]</text>
+<text x="149.0" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">0</text>
+<text x="265.0" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">1</text>
+<text x="65" y="1785.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="91.0" y="1766" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="148.0" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.00</text>
+<rect x="207.0" y="1766" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="264.0" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.00</text>
+<text x="65" y="1814.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="91.0" y="1795" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="148.0" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.30</text>
+<rect x="207.0" y="1795" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="264.0" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.38</text>
+<text x="65" y="1843.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="91.0" y="1824" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="148.0" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.03</text>
+<rect x="207.0" y="1824" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="264.0" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.96</text>
+<text x="65" y="1872.43" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="91.0" y="1853" width="113.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="148.0" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−1.27</text>
+<rect x="207.0" y="1853" width="113.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="264.0" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.63</text>
+<text x="65" y="1901.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="91.0" y="1882" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="148.0" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.07</text>
+<rect x="207.0" y="1882" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="264.0" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.92</text>
+<text x="389" y="1727" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">K′  [5,2]</text>
+<text x="483.0" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">0</text>
+<text x="599.0" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">1</text>
+<text x="399" y="1785.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="425.0" y="1766" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="482.0" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.00</text>
+<rect x="541.0" y="1766" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="598.0" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.41</text>
+<text x="399" y="1814.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="425.0" y="1795" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="482.0" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.89</text>
+<rect x="541.0" y="1795" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="598.0" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.10</text>
+<text x="399" y="1843.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="425.0" y="1824" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="482.0" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.33</text>
+<rect x="541.0" y="1824" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="598.0" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.49</text>
+<text x="399" y="1872.43" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="425.0" y="1853" width="113.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="482.0" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−1.40</text>
+<rect x="541.0" y="1853" width="113.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="598.0" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.20</text>
+<text x="399" y="1901.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="425.0" y="1882" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="482.0" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.22</text>
+<rect x="541.0" y="1882" width="113.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="598.0" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.72</text>
+<text x="767" y="1727" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">原始分数 S = Q′₀ K′ᵀ / √2  [5,5]</text>
+<text x="861.4" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="978.2" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="1095.0" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="1211.8" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="1328.6" y="1759" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="777" y="1785.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="803.0" y="1766" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="860.4" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.00</text>
+<rect x="919.8" y="1766" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="977.2" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.15</text>
+<rect x="1036.6" y="1766" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1094.0" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.59</text>
+<rect x="1153.4" y="1766" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1210.8" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.85</text>
+<rect x="1270.2" y="1766" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1327.6" y="1785.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.37</text>
+<text x="777" y="1814.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="803.0" y="1795" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="860.4" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.38</text>
+<rect x="919.8" y="1795" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="977.2" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.26</text>
+<rect x="1036.6" y="1795" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1094.0" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.76</text>
+<rect x="1153.4" y="1795" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1210.8" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.49</text>
+<rect x="1270.2" y="1795" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1327.6" y="1814.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.45</text>
+<text x="777" y="1843.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="803.0" y="1824" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="860.4" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.96</text>
+<rect x="919.8" y="1824" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="977.2" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.10</text>
+<rect x="1036.6" y="1824" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1094.0" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.63</text>
+<rect x="1153.4" y="1824" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1210.8" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.89</text>
+<rect x="1270.2" y="1824" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1327.6" y="1843.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.38</text>
+<text x="777" y="1872.43" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="803.0" y="1853" width="113.8" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="860.4" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.63</text>
+<rect x="919.8" y="1853" width="113.8" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="977.2" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.29</text>
+<rect x="1036.6" y="1853" width="113.8" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="1094.0" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.41</text>
+<rect x="1153.4" y="1853" width="113.8" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="1210.8" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.34</text>
+<rect x="1270.2" y="1853" width="113.8" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="1327.6" y="1872.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.76</text>
+<text x="777" y="1901.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="803.0" y="1882" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="860.4" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.92</text>
+<rect x="919.8" y="1882" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="977.2" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.39</text>
+<rect x="1036.6" y="1882" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1094.0" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.33</text>
+<rect x="1153.4" y="1882" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1210.8" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.19</text>
+<rect x="1270.2" y="1882" width="113.8" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1327.6" y="1901.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.45</text>
+<text x="58" y="1944" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">例如 D 对 A：[−1.27, 0.63] · [0.00, 1.41] / √2 ≈ 0.63。此时 D→A 还有数值。下步判断它是否可见。</text>
+<rect x="28" y="1977" width="1484" height="657" rx="10" fill="#f0faf5" stroke="#7bbda9"/>
+<rect x="46" y="1990" width="46" height="36" rx="6" fill="#087562" stroke="none"/>
+<text x="69" y="2016" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">07</text>
+<text x="108" y="2018" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">选择可见位置，生成加性遮罩 M</text>
+<text x="1489" y="2016" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">0 = 允许读取   /   −∞ = 屏蔽；行是查询，列是键</text>
+<path d="M70 2634 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="2037" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="2062" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="2037" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="2062" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="62" y="2113" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">M   [5,5]</text>
+<text x="159.4" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="282.2" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="405.0" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="527.8" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="650.6" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="72" y="2170.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="98.0" y="2152" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="220.8" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="281.2" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="343.6" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="404.0" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="466.4" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="526.8" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="589.2" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="72" y="2198.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="98.0" y="2180" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="220.8" y="2180" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="343.6" y="2180" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="404.0" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="466.4" y="2180" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="526.8" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="589.2" y="2180" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="72" y="2226.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="98.0" y="2208" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="220.8" y="2208" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="343.6" y="2208" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="466.4" y="2208" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="526.8" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="589.2" y="2208" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="72" y="2254.76" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="98.0" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="158.4" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="220.8" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="281.2" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="343.6" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="404.0" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="466.4" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="526.8" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="589.2" y="2236" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−∞</text>
+<text x="72" y="2282.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="98.0" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="220.8" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="343.6" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="466.4" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="526.8" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="589.2" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="649.6" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<text x="803" y="2113" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">M   [5,5]</text>
+<text x="900.4" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="1023.2" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="1146.0" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="1268.8" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="1391.6" y="2145" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="813" y="2170.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="839.0" y="2152" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="961.8" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1022.2" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1084.6" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1145.0" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1207.4" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1267.8" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1330.2" y="2152" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2171.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="813" y="2198.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="839.0" y="2180" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="961.8" y="2180" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="1084.6" y="2180" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1145.0" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1207.4" y="2180" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1267.8" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1330.2" y="2180" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2199.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="813" y="2226.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="839.0" y="2208" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="961.8" y="2208" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="1084.6" y="2208" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="1207.4" y="2208" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1267.8" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1330.2" y="2208" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2227.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="813" y="2254.76" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="839.0" y="2236" width="119.8" height="25" rx="4" fill="#f3e7df" stroke="none"/>
+<text x="899.4" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−∞</text>
+<rect x="961.8" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1022.2" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="1084.6" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1145.0" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="1207.4" y="2236" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1267.8" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0</text>
+<rect x="1330.2" y="2236" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2255.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−∞</text>
+<text x="813" y="2282.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="839.0" y="2264" width="119.8" height="25" rx="4" fill="#f3e7df" stroke="none"/>
+<text x="899.4" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="961.8" y="2264" width="119.8" height="25" rx="4" fill="#f3e7df" stroke="none"/>
+<text x="1022.2" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1084.6" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="1207.4" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1267.8" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="1330.2" y="2264" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1390.6" y="2283.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<text x="57" y="2330" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">条件：j ≤ i。D 读 A、B、C、D；E 读 A–E。</text>
+<text x="57" y="2362" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">D 行 S+M = [0.63, 1.29, 1.41, 1.34, −∞]</text>
+<text x="57" y="2394" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">E 行 S+M = [−0.92, −1.39, −1.33, −1.19, −0.45]</text>
+<text x="798" y="2330" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">条件：0 ≤ i−j &lt; 3。D 读 B、C、D；E 读 C、D、E。</text>
+<text x="798" y="2362" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">D 行 S+M = [−∞, 1.29, 1.41, 1.34, −∞]</text>
+<text x="798" y="2394" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">E 行 S+M = [−∞, −∞, −1.33, −1.19, −0.45]</text>
+<text x="62" y="2425" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">S + M  ·  遮罩后的完整分数</text>
+<text x="159.4" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="282.2" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="405.0" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="527.8" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="650.6" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="72" y="2482.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="98.0" y="2464" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.00</text>
+<rect x="220.8" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="281.2" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="343.6" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="404.0" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="466.4" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="526.8" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="589.2" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="72" y="2510.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="98.0" y="2492" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.38</text>
+<rect x="220.8" y="2492" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.26</text>
+<rect x="343.6" y="2492" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="404.0" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="466.4" y="2492" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="526.8" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="589.2" y="2492" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="72" y="2538.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="98.0" y="2520" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.96</text>
+<rect x="220.8" y="2520" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.10</text>
+<rect x="343.6" y="2520" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.63</text>
+<rect x="466.4" y="2520" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="526.8" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="589.2" y="2520" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="72" y="2566.76" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="98.0" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="158.4" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.63</text>
+<rect x="220.8" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="281.2" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.29</text>
+<rect x="343.6" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="404.0" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.41</text>
+<rect x="466.4" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="526.8" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.34</text>
+<rect x="589.2" y="2548" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="649.6" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−∞</text>
+<text x="72" y="2594.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="98.0" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.92</text>
+<rect x="220.8" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.39</text>
+<rect x="343.6" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.33</text>
+<rect x="466.4" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="526.8" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.19</text>
+<rect x="589.2" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="649.6" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.45</text>
+<text x="803" y="2425" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">S + M  ·  遮罩后的完整分数</text>
+<text x="900.4" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="1023.2" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="1146.0" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="1268.8" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="1391.6" y="2457" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="813" y="2482.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="839.0" y="2464" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.00</text>
+<rect x="961.8" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1022.2" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1084.6" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1145.0" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1207.4" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1267.8" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1330.2" y="2464" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2483.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="813" y="2510.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="839.0" y="2492" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.38</text>
+<rect x="961.8" y="2492" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.26</text>
+<rect x="1084.6" y="2492" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1145.0" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1207.4" y="2492" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1267.8" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1330.2" y="2492" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2511.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="813" y="2538.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="839.0" y="2520" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.96</text>
+<rect x="961.8" y="2520" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.10</text>
+<rect x="1084.6" y="2520" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.63</text>
+<rect x="1207.4" y="2520" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1267.8" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1330.2" y="2520" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2539.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<text x="813" y="2566.76" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="839.0" y="2548" width="119.8" height="25" rx="4" fill="#f3e7df" stroke="none"/>
+<text x="899.4" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−∞</text>
+<rect x="961.8" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1022.2" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.29</text>
+<rect x="1084.6" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1145.0" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.41</text>
+<rect x="1207.4" y="2548" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1267.8" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">1.34</text>
+<rect x="1330.2" y="2548" width="119.8" height="25" rx="4" fill="#f2f1f2" stroke="none"/>
+<text x="1390.6" y="2567.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">−∞</text>
+<text x="813" y="2594.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="839.0" y="2576" width="119.8" height="25" rx="4" fill="#f3e7df" stroke="none"/>
+<text x="899.4" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="961.8" y="2576" width="119.8" height="25" rx="4" fill="#f3e7df" stroke="none"/>
+<text x="1022.2" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−∞</text>
+<rect x="1084.6" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.33</text>
+<rect x="1207.4" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1267.8" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1.19</text>
+<rect x="1330.2" y="2576" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1390.6" y="2595.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.45</text>
+<rect x="28" y="2646" width="1484" height="438" rx="10" fill="#f0faf5" stroke="#7bbda9"/>
+<rect x="46" y="2659" width="46" height="36" rx="6" fill="#087562" stroke="none"/>
+<text x="69" y="2685" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">08</text>
+<text x="108" y="2687" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">相同的原始分数，得到不同的注意力权重</text>
+<text x="1489" y="2685" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">按行 softmax(S + M) → P [5,5]；比较 D 行第 1 列</text>
+<path d="M70 3084 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="2706" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="2731" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="2706" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="2731" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="62" y="2782" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">头 0 的 P   [5,5]</text>
+<text x="159.4" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="282.2" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="405.0" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="527.8" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="650.6" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="72" y="2839.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="98.0" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.000</text>
+<rect x="220.8" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="343.6" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="466.4" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="526.8" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="589.2" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="649.6" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<text x="72" y="2867.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="98.0" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.529</text>
+<rect x="220.8" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.471</text>
+<rect x="343.6" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="466.4" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="526.8" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="589.2" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="649.6" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<text x="72" y="2895.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="98.0" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.120</text>
+<rect x="220.8" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.285</text>
+<rect x="343.6" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.595</text>
+<rect x="466.4" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="526.8" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="589.2" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="649.6" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<text x="72" y="2923.76" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="98.0" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="158.4" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.140</text>
+<rect x="220.8" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="281.2" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.270</text>
+<rect x="343.6" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="404.0" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.304</text>
+<rect x="466.4" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="526.8" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.285</text>
+<rect x="589.2" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="649.6" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.000</text>
+<text x="72" y="2951.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="98.0" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="158.4" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.214</text>
+<rect x="220.8" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="281.2" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.134</text>
+<rect x="343.6" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="404.0" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.143</text>
+<rect x="466.4" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="526.8" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.164</text>
+<rect x="589.2" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="649.6" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.345</text>
+<text x="803" y="2782" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">头 0 的 P   [5,5]</text>
+<text x="900.4" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">A</text>
+<text x="1023.2" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">B</text>
+<text x="1146.0" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">C</text>
+<text x="1268.8" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">D</text>
+<text x="1391.6" y="2814" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">E</text>
+<text x="813" y="2839.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="839.0" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.000</text>
+<rect x="961.8" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1084.6" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1207.4" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1267.8" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1330.2" y="2821" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1390.6" y="2840.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<text x="813" y="2867.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="839.0" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.529</text>
+<rect x="961.8" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.471</text>
+<rect x="1084.6" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1207.4" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1267.8" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1330.2" y="2849" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1390.6" y="2868.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<text x="813" y="2895.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="839.0" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.120</text>
+<rect x="961.8" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.285</text>
+<rect x="1084.6" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.595</text>
+<rect x="1207.4" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1267.8" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1330.2" y="2877" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1390.6" y="2896.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<text x="813" y="2923.76" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="839.0" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="899.4" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.000</text>
+<rect x="961.8" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1022.2" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.314</text>
+<rect x="1084.6" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1145.0" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.354</text>
+<rect x="1207.4" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1267.8" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.332</text>
+<rect x="1330.2" y="2905" width="119.8" height="25" rx="4" fill="#bde6d7" stroke="none"/>
+<text x="1390.6" y="2924.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.000</text>
+<text x="813" y="2951.76" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="839.0" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="899.4" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="961.8" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1022.2" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.000</text>
+<rect x="1084.6" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1145.0" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.220</text>
+<rect x="1207.4" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1267.8" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.252</text>
+<rect x="1330.2" y="2933" width="119.8" height="25" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="1390.6" y="2952.04" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.529</text>
+<text x="57" y="2998" font-family="inherit" font-size="19.5" fill="#173647" font-weight="400" text-anchor="start">D 的 exp = [1.881, 3.618, 4.080, 3.825, 0.000]</text>
+<text x="57" y="3029" font-family="inherit" font-size="19.5" fill="#173647" font-weight="400" text-anchor="start">除以总和 13.405 → [0.140, 0.270, 0.304, 0.285, 0.000]</text>
+<text x="57" y="3060" font-family="inherit" font-size="19.5" fill="#173647" font-weight="400" text-anchor="start">A 分到 14.0%，E 作为未来位置分到 0。</text>
+<text x="798" y="2998" font-family="inherit" font-size="19.5" fill="#173647" font-weight="400" text-anchor="start">D 的 exp = [0.000, 3.618, 4.080, 3.825, 0.000]</text>
+<text x="798" y="3029" font-family="inherit" font-size="19.5" fill="#173647" font-weight="400" text-anchor="start">除以总和 11.523 → [0.000, 0.314, 0.354, 0.332, 0.000]</text>
+<text x="798" y="3060" font-family="inherit" font-size="19.5" fill="#173647" font-weight="400" text-anchor="start">A 分到 0，B、C、D 在窗口内重新归一化。</text>
+<rect x="28" y="3096" width="1484" height="422" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="3109" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="3135" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">09</text>
+<text x="108" y="3137" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">将权重 P 与同一组 V 相乘</text>
+<text x="1489" y="3135" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">P [5,5] × V [5,2] → 每个头一份 H [5,2]</text>
+<path d="M70 3518 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="3156" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="3181" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="3156" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="3181" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="65" y="3236" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">共用的 V</text>
+<text x="152.5" y="3268" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">0</text>
+<text x="255.5" y="3268" font-family="inherit" font-size="17" fill="#475f70" font-weight="600" text-anchor="middle">1</text>
+<text x="75" y="3294.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">A</text>
+<rect x="101.0" y="3275" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="151.5" y="3294.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.82</text>
+<rect x="204.0" y="3275" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="254.5" y="3294.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">2.45</text>
+<text x="75" y="3323.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">B</text>
+<rect x="101.0" y="3304" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="151.5" y="3323.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.63</text>
+<rect x="204.0" y="3304" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="254.5" y="3323.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1.63</text>
+<text x="75" y="3352.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">C</text>
+<rect x="101.0" y="3333" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="151.5" y="3352.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.82</text>
+<rect x="204.0" y="3333" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="254.5" y="3352.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−0.82</text>
+<text x="75" y="3381.43" font-family="inherit" font-size="17" fill="#087562" font-weight="650" text-anchor="middle">D</text>
+<rect x="101.0" y="3362" width="100.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="151.5" y="3381.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">2.45</text>
+<rect x="204.0" y="3362" width="100.0" height="26" rx="4" fill="#e2f2ed" stroke="none"/>
+<text x="254.5" y="3381.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="550" text-anchor="middle">0.00</text>
+<text x="75" y="3410.43" font-family="inherit" font-size="17" fill="#475f70" font-weight="650" text-anchor="middle">E</text>
+<rect x="101.0" y="3391" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="151.5" y="3410.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.00</text>
+<rect x="204.0" y="3391" width="100.0" height="26" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="254.5" y="3410.72" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−2.45</text>
+<text x="334" y="3239" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">头 0：Hᴅ = Σⱼ Pᴅⱼ Vⱼ</text>
+<text x="334" y="3272" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">第 1 维的非零权重项之和</text>
+<text x="334" y="3304" font-family="inherit" font-size="18.5" fill="#173647" font-weight="400" text-anchor="start">0.140×(0.82) + 0.270×(1.63)</text>
+<text x="334" y="3334" font-family="inherit" font-size="18.5" fill="#173647" font-weight="400" text-anchor="start">+ 0.304×(−0.82) + 0.285×(2.45) ≈ 1.006</text>
+<text x="334" y="3370" font-family="inherit" font-size="17" fill="#173647" font-weight="400" text-anchor="start">第 2 维：0.140×(2.45) + 0.270×(1.63)</text>
+<text x="334" y="3397" font-family="inherit" font-size="17" fill="#173647" font-weight="400" text-anchor="start">+ 0.304×(−0.82) + 0.285×(0.00) ≈ 0.536</text>
+<text x="62" y="3459" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">头 0 的 Hᴅ = [1.006, 0.536]</text>
+<text x="62" y="3491" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">头 1 的 Hᴅ = [1.000, 0.879]（头 1 使用自己的 P）。</text>
+<text x="810" y="3239" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">头 0：Hᴅ = Σⱼ Pᴅⱼ Vⱼ</text>
+<text x="810" y="3272" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">第 1 维的非零权重项之和</text>
+<text x="810" y="3304" font-family="inherit" font-size="18.5" fill="#173647" font-weight="400" text-anchor="start">0.314×(1.63) + 0.354×(−0.82)</text>
+<text x="810" y="3334" font-family="inherit" font-size="18.5" fill="#173647" font-weight="400" text-anchor="start">+ 0.332×(2.45) ≈ 1.037</text>
+<text x="810" y="3370" font-family="inherit" font-size="17" fill="#173647" font-weight="400" text-anchor="start">第 2 维：0.314×(1.63) + 0.354×(−0.82)</text>
+<text x="810" y="3397" font-family="inherit" font-size="17" fill="#173647" font-weight="400" text-anchor="start">+ 0.332×(0.00) ≈ 0.224</text>
+<text x="803" y="3459" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">头 0 的 Hᴅ = [1.037, 0.224]</text>
+<text x="803" y="3491" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">头 1 的 Hᴅ = [1.056, 0.398]（头 1 使用自己的 P）。</text>
+<rect x="28" y="3530" width="1484" height="299" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="3543" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="3569" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">10</text>
+<text x="108" y="3571" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">拼头，乘同一张输出投影矩阵 Wo</text>
+<text x="1489" y="3569" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">两个头 → C [5,4]；O = C Wo [5,4]</text>
+<path d="M70 3829 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="3590" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="3615" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="3590" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="3615" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="3663" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">Cᴅ = [1.01, 0.54, 1.00, 0.88]</text>
+<text x="57" y="3696" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">Oᴅ = [1.51, 0.98, 1.27, 1.38]</text>
+<text x="798" y="3663" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">Cᴅ = [1.04, 0.22, 1.06, 0.40]</text>
+<text x="798" y="3696" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">Oᴅ = [1.56, 0.42, 1.17, 0.92]</text>
+<text x="58" y="3731" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wo [4,4]，两侧共用</text>
+<rect x="58.0" y="3747" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="94.5" y="3758.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="133.0" y="3747" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="169.5" y="3758.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="208.0" y="3747" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="244.5" y="3758.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="283.0" y="3747" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="319.5" y="3758.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="58.0" y="3764" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="94.5" y="3775.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="133.0" y="3764" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="169.5" y="3775.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="208.0" y="3764" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="244.5" y="3775.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="283.0" y="3764" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="319.5" y="3775.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="58.0" y="3781" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="94.5" y="3792.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="133.0" y="3781" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="169.5" y="3792.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="208.0" y="3781" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="244.5" y="3792.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="283.0" y="3781" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="319.5" y="3792.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="58.0" y="3798" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="94.5" y="3809.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="133.0" y="3798" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="169.5" y="3809.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="208.0" y="3798" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="244.5" y="3809.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="283.0" y="3798" width="72.0" height="14" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="319.5" y="3809.56" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<text x="434" y="3767" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">每个输出特征由拼接后的四个分量按 Wo 的一列加权求和。</text>
+<rect x="28" y="3841" width="1484" height="60" rx="9" fill="#1b4050" stroke="none"/>
+<text x="50" y="3881" font-family="inherit" font-size="23" fill="#bde4d9" font-weight="700" text-anchor="start">Ⅲ</text>
+<text x="135" y="3881" font-family="inherit" font-size="29" fill="white" font-weight="700" text-anchor="start">两次残差与 SwiGLU</text>
+<text x="1489" y="3879" font-family="inherit" font-size="20" fill="#d4e6e8" font-weight="500" text-anchor="end">右乘相同的矩阵，追踪两条路径各自的 D 行</text>
+<rect x="28" y="3913" width="1484" height="186" rx="10" fill="#eff5fd" stroke="#b3c9e5"/>
+<rect x="46" y="3926" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="3952" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">11</text>
+<text x="108" y="3954" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">第一次残差：加回相同的原始输入 X</text>
+<text x="1489" y="3952" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">R = X + O，两项与结果均为 [5,4]</text>
+<path d="M70 4099 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="3973" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="3998" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="3973" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="3998" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="4045" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">Xᴅ [2.00, −1.00, 1.00, 0.00] + Oᴅ [1.51, 0.98, 1.27, 1.38]</text>
+<text x="57" y="4079" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">→ Rᴅ [3.51, −0.02, 2.27, 1.38]，保留到第 16 步。</text>
+<text x="798" y="4045" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">Xᴅ [2.00, −1.00, 1.00, 0.00] + Oᴅ [1.56, 0.42, 1.17, 0.92]</text>
+<text x="798" y="4079" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">→ Rᴅ [3.56, −0.58, 2.17, 0.92]，保留到第 16 步。</text>
+<rect x="28" y="4111" width="1484" height="183" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="4124" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="4150" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">12</text>
+<text x="108" y="4152" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">第二组 RMSNorm</text>
+<text x="1489" y="4150" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">R [5,4]、γ₂ [4] → Z [5,4]</text>
+<path d="M70 4294 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="4171" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="4196" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="4171" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="4196" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="4243" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">D 行分母 √(mean(Rᴅ²)+ε) = 2.199</text>
+<text x="57" y="4277" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">→ Zᴅ = [1.59, −0.01, 1.03, 0.63]</text>
+<text x="798" y="4243" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">D 行分母 √(mean(Rᴅ²)+ε) = 2.155</text>
+<text x="798" y="4277" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">→ Zᴅ = [1.65, −0.27, 1.01, 0.43]</text>
+<rect x="28" y="4306" width="1484" height="302" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="4319" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="4345" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">13</text>
+<text x="108" y="4347" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">Z 乘门控矩阵 Wg 与特征矩阵 Wu</text>
+<text x="1489" y="4345" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">a = Z Wg，u = Z Wu；两路 [5,4] → [5,3]</text>
+<path d="M70 4608 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="4366" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="4391" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="4366" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="4391" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="4438" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">aᴅ = [2.63, 0.62, 0.07]</text>
+<text x="57" y="4472" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">uᴅ = [0.62, 2.63, 0.39]</text>
+<text x="798" y="4438" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">aᴅ = [2.66, 0.16, −0.22]</text>
+<text x="798" y="4472" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">uᴅ = [0.16, 2.66, 0.31]</text>
+<text x="63" y="4506" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wg  [4,3]</text>
+<rect x="63.0" y="4522" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="112.0" y="4534.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="163.0" y="4522" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="212.0" y="4534.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="263.0" y="4522" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="312.0" y="4534.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<rect x="63.0" y="4541" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="112.0" y="4553.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="163.0" y="4541" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="212.0" y="4553.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="263.0" y="4541" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="312.0" y="4553.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="63.0" y="4560" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="112.0" y="4572.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="163.0" y="4560" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="212.0" y="4572.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="263.0" y="4560" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="312.0" y="4572.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="63.0" y="4579" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="112.0" y="4591.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="163.0" y="4579" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="212.0" y="4591.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="263.0" y="4579" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="312.0" y="4591.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<text x="515" y="4506" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wu  [4,3]</text>
+<rect x="515.0" y="4522" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="564.0" y="4534.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="615.0" y="4522" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="664.0" y="4534.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="715.0" y="4522" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="764.0" y="4534.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="515.0" y="4541" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="564.0" y="4553.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="615.0" y="4541" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="664.0" y="4553.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="715.0" y="4541" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="764.0" y="4553.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="515.0" y="4560" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="564.0" y="4572.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="615.0" y="4560" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="664.0" y="4572.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="715.0" y="4560" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="764.0" y="4572.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="515.0" y="4579" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="564.0" y="4591.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="615.0" y="4579" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="664.0" y="4591.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="715.0" y="4579" width="97.0" height="16" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="764.0" y="4591.92" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">−1</text>
+<rect x="28" y="4620" width="1484" height="183" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="4633" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="4659" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">14</text>
+<text x="108" y="4661" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">SiLU 激活门控，再逐元素相乘</text>
+<text x="1489" y="4659" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">g = a / (1 + exp(−a))；m = g ⊙ u，形状 [5,3]</text>
+<path d="M70 4803 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="4680" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="4705" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="4680" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="4705" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="4752" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">gᴅ = [2.45, 0.40, 0.03]</text>
+<text x="57" y="4786" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">mᴅ = [1.51, 1.05, 0.01]</text>
+<text x="798" y="4752" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">gᴅ = [2.49, 0.08, −0.10]</text>
+<text x="798" y="4786" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">mᴅ = [0.39, 0.23, −0.03]</text>
+<rect x="28" y="4815" width="1484" height="258" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="4828" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="4854" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">15</text>
+<text x="108" y="4856" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">down 投影回隐藏宽度</text>
+<text x="1489" y="4854" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">Fout = m Wd；[5,3] × [3,4] → [5,4]</text>
+<path d="M70 5073 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="4875" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="4900" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="4875" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="4900" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="4947" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">Foutᴅ = [0.77, 0.53, 1.51, 1.06]</text>
+<text x="798" y="4947" font-family="inherit" font-size="21" fill="#173647" font-weight="400" text-anchor="start">Foutᴅ = [0.16, 0.11, 0.39, 0.21]</text>
+<text x="61" y="4981" font-family="inherit" font-size="22" fill="#245a96" font-weight="650" text-anchor="start">Wd [3,4]，两侧共用</text>
+<rect x="61.0" y="4997" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="98.75" y="5011.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="138.5" y="4997" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="176.25" y="5011.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="216.0" y="4997" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="253.75" y="5011.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="293.5" y="4997" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="331.25" y="5011.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="61.0" y="5019" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="98.75" y="5033.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="138.5" y="5019" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="176.25" y="5033.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="216.0" y="5019" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="253.75" y="5033.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="293.5" y="5019" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="331.25" y="5033.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="61.0" y="5041" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="98.75" y="5055.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">1</text>
+<rect x="138.5" y="5041" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="176.25" y="5055.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="216.0" y="5041" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="253.75" y="5055.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0</text>
+<rect x="293.5" y="5041" width="74.5" height="19" rx="4" fill="#eef3f6" stroke="none"/>
+<text x="331.25" y="5055.96" font-family="Helvetica Neue, Arial, sans-serif" font-size="17.5" fill="#173647" font-weight="400" text-anchor="middle">0.5</text>
+<rect x="28" y="5085" width="1484" height="179" rx="10" fill="#eff5fd" stroke="#b3c9e5"/>
+<rect x="46" y="5098" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="5124" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">16</text>
+<text x="108" y="5126" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">第二次残差：各自加回第 11 步保留的 R</text>
+<text x="1489" y="5124" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">Y = R + Fout → [5,4]；得到整个 Block 输出</text>
+<path d="M70 5264 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="5145" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="5170" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="5145" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="5170" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="5217" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">Rᴅ [3.51, −0.02, 2.27, 1.38] + Foutᴅ [0.77, 0.53, 1.51, 1.06]</text>
+<text x="57" y="5251" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">→ Yᴅ [4.27, 0.50, 3.78, 2.44]</text>
+<text x="798" y="5217" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">Rᴅ [3.56, −0.58, 2.17, 0.92] + Foutᴅ [0.16, 0.11, 0.39, 0.21]</text>
+<text x="798" y="5251" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">→ Yᴅ [3.73, −0.46, 2.56, 1.13]</text>
+<rect x="28" y="5276" width="1484" height="60" rx="9" fill="#1b4050" stroke="none"/>
+<text x="50" y="5316" font-family="inherit" font-size="23" fill="#bde4d9" font-weight="700" text-anchor="start">Ⅳ</text>
+<text x="135" y="5316" font-family="inherit" font-size="29" fill="white" font-weight="700" text-anchor="start">比较预测、损失和反向传播</text>
+<text x="1489" y="5314" font-family="inherit" font-size="20" fill="#d4e6e8" font-weight="500" text-anchor="end">同一个目标 E   /   一次前向和一次独立的参数更新</text>
+<rect x="28" y="5348" width="1484" height="182" rx="10" fill="#ffffff" stroke="#cbd9de"/>
+<rect x="46" y="5361" width="46" height="36" rx="6" fill="#245a96" stroke="none"/>
+<text x="69" y="5387" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">17</text>
+<text x="108" y="5389" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">最终 RMSNorm → 共享词表权重 Eᵀ → 打分</text>
+<text x="1489" y="5387" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">Y → N [5,4]；N Eᵀ → logits [5,6]，列顺序 A–F</text>
+<path d="M70 5530 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="5408" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="5433" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="5408" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="5433" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="5480" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">Nᴅ = [1.37, 0.16, 1.21, 0.78]</text>
+<text x="57" y="5514" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">logitsᴅ = [0.91, 3.37, 0.36, 3.80, 1.73, 3.05]</text>
+<text x="798" y="5480" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">Nᴅ = [1.59, −0.20, 1.09, 0.48]</text>
+<text x="798" y="5514" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">logitsᴅ = [0.71, 2.47, −0.83, 4.48, 1.46, 2.86]</text>
+<rect x="28" y="5542" width="1484" height="219" rx="10" fill="#fff7ee" stroke="#d8bc99"/>
+<rect x="46" y="5555" width="46" height="36" rx="6" fill="#9b4927" stroke="none"/>
+<text x="69" y="5581" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">18</text>
+<text x="108" y="5583" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">D 行预测 E；平均五个位置的交叉熵</text>
+<text x="1489" y="5581" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">第 08 步沿位置归一化，这里沿词表归一化</text>
+<path d="M70 5761 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="5602" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="5627" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="5602" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="5627" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="57" y="5674" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">p(E | ABCD) = 0.05385，D 行交叉熵 = 2.9216</text>
+<text x="57" y="5708" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">五项损失 = [0.528, 2.180, 7.831, 2.922, 3.292]</text>
+<text x="57" y="5742" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">平均 L = 3.3505</text>
+<text x="798" y="5674" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">p(E | ABCD) = 0.03479，D 行交叉熵 = 3.3584</text>
+<text x="798" y="5708" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">五项损失 = [0.528, 2.180, 7.831, 3.358, 3.552]</text>
+<text x="798" y="5742" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">平均 L = 3.4899</text>
+<rect x="28" y="5773" width="1484" height="257" rx="10" fill="#fff7ee" stroke="#d8bc99"/>
+<rect x="46" y="5786" width="46" height="36" rx="6" fill="#9b4927" stroke="none"/>
+<text x="69" y="5812" font-family="inherit" font-size="19" fill="white" font-weight="650" text-anchor="middle">19</text>
+<text x="108" y="5814" font-family="inherit" font-size="26" fill="#173647" font-weight="700" text-anchor="start">反传 → 梯度裁剪 → 各自执行一次 AdamW</text>
+<text x="1489" y="5812" font-family="inherit" font-size="19" fill="#475f70" font-weight="500" text-anchor="end">从相同初值各做一次更新；无梯度交叉累加</text>
+<path d="M70 6030 v10 m-4 -4 4 4 4 -4" fill="none" stroke="#8096a0" stroke-width="2"/>
+<rect x="54" y="5833" width="690" height="36" rx="8" fill="#e3edf9" stroke="none"/>
+<text x="66" y="5858" font-family="inherit" font-size="19" fill="#235594" font-weight="650" text-anchor="start">全局因果  ·  可读全部过去与当前</text>
+<rect x="795" y="5833" width="690" height="36" rx="8" fill="#dbf2e6" stroke="none"/>
+<text x="807" y="5858" font-family="inherit" font-size="19" fill="#11674f" font-weight="650" text-anchor="start">滑动窗口  ·  W = 3，含当前</text>
+<text x="58" y="5904" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">头 0：∂L/∂Sᴅ = [0.0100, −0.0072, 0.0395, −0.0423, 0.0000]</text>
+<text x="58" y="5937" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">Wq[0,0] 梯度 0.211093 → 裁剪后 0.042800</text>
+<text x="58" y="5970" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">首次更新 1.000000 → 0.998900</text>
+<text x="799" y="5904" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">头 0：∂L/∂Sᴅ = [0.0000, −0.0252, 0.0890, −0.0637, 0.0000]</text>
+<text x="799" y="5937" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">Wq[0,0] 梯度 −0.012727 → 裁剪后 −0.002813</text>
+<text x="799" y="5970" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">首次更新 1.000000 → 1.000900</text>
+<text x="60" y="6011" font-family="inherit" font-size="20" fill="#173647" font-weight="400" text-anchor="start">两侧未来位置 E 的分数梯度均为 0；窗口侧额外切断了 D 对 A 的直接注意力梯度。</text>
+<text x="42" y="6071" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">教学算例：无偏置、无 dropout，共用初始权重与输入；AdamW 学习率 0.001、矩阵衰减 0.1。显示值已舍入，计算使用未舍入值。</text>
+<text x="42" y="6102" font-family="inherit" font-size="19" fill="#173647" font-weight="400" text-anchor="start">项目 modern_model.py 使用全局因果遮罩；右列演示把遮罩替换为 W=3。这里的概率和损失仅反映该输入与初始权重。</text></g></svg>

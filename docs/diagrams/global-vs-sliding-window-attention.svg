@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1980" viewBox="0 0 1560 1980" role="img"><title>全局与滑动窗口因果注意力：D 的权重和输出，以及 E 的 KV 缓存</title><g font-family="PingFang SC, Helvetica Neue, sans-serif">
+<rect x="0" y="0" width="1560" height="1980" rx="0" fill="#f1f5f6" stroke="none" stroke-width="2"/>
+<rect x="0" y="0" width="1560" height="124" rx="0" fill="#153b49" stroke="none" stroke-width="2"/>
+<text x="48" y="58" font-size="44" fill="white" font-weight="700" text-anchor="start">全局注意力与滑动窗口注意力</text>
+<text x="48" y="99" font-size="25" fill="#d6ebe9" font-weight="400" text-anchor="start">同一组 A–E  ·  跟踪单层、单头的 D，再向右滑到 E  ·  W = 3，含当前位置</text>
+<rect x="40" y="144" width="1480" height="158" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="66" y="186" font-size="28" fill="#183647" font-weight="700" text-anchor="start">01   输入：投影后的 Q、K、V</text>
+<text x="66" y="227" font-size="24" fill="#19374a" font-weight="400" text-anchor="start">查询  qᴅ = 1，qᴇ = 1</text>
+<text x="66" y="266" font-size="23" fill="#19374a" font-weight="400" text-anchor="start">头维度 d = 1，缩放因子 √d = 1</text>
+<text x="710" y="182" font-size="23" fill="#17695c" font-weight="700" text-anchor="middle">A</text>
+<text x="710" y="226" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">0</text>
+<text x="710" y="266" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">10</text>
+<text x="874" y="182" font-size="23" fill="#17695c" font-weight="700" text-anchor="middle">B</text>
+<text x="874" y="226" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">0</text>
+<text x="874" y="266" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">2</text>
+<text x="1038" y="182" font-size="23" fill="#17695c" font-weight="700" text-anchor="middle">C</text>
+<text x="1038" y="226" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">0</text>
+<text x="1038" y="266" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">4</text>
+<text x="1202" y="182" font-size="23" fill="#17695c" font-weight="700" text-anchor="middle">D</text>
+<text x="1202" y="226" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">ln 2</text>
+<text x="1202" y="266" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">6</text>
+<text x="1366" y="182" font-size="23" fill="#17695c" font-weight="700" text-anchor="middle">E</text>
+<text x="1366" y="226" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">0</text>
+<text x="1366" y="266" font-size="24" fill="#19374a" font-weight="400" text-anchor="middle">5</text>
+<text x="566" y="226" font-size="24" fill="#19374a" font-weight="700" text-anchor="start">K</text>
+<text x="566" y="266" font-size="24" fill="#19374a" font-weight="700" text-anchor="start">V</text>
+<rect x="40" y="328" width="724" height="62" rx="12" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="65" y="370" font-size="32" fill="white" font-weight="700" text-anchor="start">全局因果注意力</text>
+<path d="M402 303 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="40" y="406" width="724" height="323" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="62" y="447" font-size="28" fill="#183647" font-weight="700" text-anchor="start">02   输入查询位置，得到可见 K/V</text>
+<text x="63" y="482" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">行 = 当前 Q     列 = K/V 的位置     实心格 = 可读</text>
+<text x="216" y="519" font-size="22" fill="#275797" font-weight="700" text-anchor="middle">A</text>
+<text x="324" y="519" font-size="22" fill="#275797" font-weight="700" text-anchor="middle">B</text>
+<text x="432" y="519" font-size="22" fill="#275797" font-weight="700" text-anchor="middle">C</text>
+<text x="540" y="519" font-size="22" fill="#275797" font-weight="700" text-anchor="middle">D</text>
+<text x="648" y="519" font-size="22" fill="#275797" font-weight="700" text-anchor="middle">E</text>
+<text x="80" y="554" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q A</text>
+<rect x="168" y="530" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="216" y="552" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="276" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="324" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="384" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="432" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="492" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="540" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="600" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="648" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="80" y="592" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q B</text>
+<rect x="168" y="568" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="216" y="590" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="276" y="568" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="324" y="590" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="384" y="568" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="432" y="590" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="492" y="568" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="540" y="590" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="600" y="568" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="648" y="590" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="80" y="630" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q C</text>
+<rect x="168" y="606" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="216" y="628" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="276" y="606" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="324" y="628" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="384" y="606" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="432" y="628" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="492" y="606" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="540" y="628" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="600" y="606" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="648" y="628" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="80" y="668" font-size="21" fill="#275797" font-weight="700" text-anchor="start">Q D</text>
+<rect x="168" y="644" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="216" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="276" y="644" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="324" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="384" y="644" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="432" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="492" y="644" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="540" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="600" y="644" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="648" y="666" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="80" y="706" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q E</text>
+<rect x="168" y="682" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="216" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="276" y="682" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="324" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="384" y="682" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="432" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="492" y="682" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="540" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="600" y="682" width="96" height="30" rx="5" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="648" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<path d="M402 731 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="40" y="755" width="724" height="163" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="62" y="798" font-size="28" fill="#183647" font-weight="700" text-anchor="start">03   D 对各位置打分，再施加遮罩</text>
+<text x="62" y="839" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">sⱼ = qᴅ × kⱼ / √1，以下始终按 A、B、C、D、E 排列。</text>
+<text x="62" y="880" font-size="26" fill="#275797" font-weight="650" text-anchor="start">得分 → [ 0,  0,  0,  ln 2,  −∞ ]</text>
+<path d="M402 920 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="40" y="944" width="724" height="191" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="62" y="985" font-size="28" fill="#183647" font-weight="700" text-anchor="start">04   对 D 的这一行做 softmax</text>
+<text x="62" y="1026" font-size="23" fill="#19374a" font-weight="400" text-anchor="start">取指数 → [1, 1, 1, 2, 0]，总和 = 5</text>
+<text x="62" y="1066" font-size="24" fill="#275797" font-weight="600" text-anchor="start">每项除以 5 → [⅕, ⅕, ⅕, ⅖, 0]</text>
+<text x="62" y="1106" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">D 给自己 40% 的权重，给 A、B、C 各 20%。</text>
+<path d="M402 1137 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="40" y="1160" width="724" height="153" rx="12" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="62" y="1202" font-size="28" fill="#183647" font-weight="700" text-anchor="start">05   用 D 的权重乘各位置的 V 后求和</text>
+<text x="62" y="1244" font-size="24" fill="#19374a" font-weight="400" text-anchor="start">Hᴅ = (1×10 + 1×2 + 1×4 + 2×6) / 5</text>
+<text x="62" y="1288" font-size="28" fill="#275797" font-weight="700" text-anchor="start">D 的注意力头输出     28 / 5 = 5.6</text>
+<path d="M402 1315 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="40" y="1338" width="724" height="454" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="62" y="1380" font-size="28" fill="#183647" font-weight="700" text-anchor="start">06   解码轮转到 E，更新本层 KV 缓存</text>
+<text x="62" y="1423" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">处理完 D  ·  缓存按 Token 顺序排列</text>
+<rect x="62" y="1440" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="117" y="1474" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">A</text>
+<rect x="188" y="1440" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="243" y="1474" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">B</text>
+<rect x="314" y="1440" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="369" y="1474" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">C</text>
+<rect x="440" y="1440" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="495" y="1474" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">D</text>
+<rect x="62" y="1602" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="117" y="1636" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">A</text>
+<rect x="188" y="1602" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="243" y="1636" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">B</text>
+<rect x="314" y="1602" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="369" y="1636" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">C</text>
+<rect x="440" y="1602" width="110" height="51" rx="9" fill="#dfeafb" stroke="none" stroke-width="2"/>
+<text x="495" y="1636" font-size="27" fill="#275797" font-weight="700" text-anchor="middle">D</text>
+<rect x="566" y="1602" width="110" height="51" rx="9" fill="#275797" stroke="none" stroke-width="2"/>
+<text x="621" y="1636" font-size="27" fill="white" font-weight="700" text-anchor="middle">E</text>
+<text x="62" y="1539" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">输入 E，算出 (Kᴇ, Vᴇ) = (0, 5)，追加到末尾。</text>
+<text x="62" y="1580" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">处理 E 时可读的缓存</text>
+<text x="62" y="1698" font-size="24" fill="#275797" font-weight="650" text-anchor="start">5 对 K/V。用 qᴇ 读取 A、B、C、D、E。</text>
+<text x="62" y="1741" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">E 的权重正比于 [1, 1, 1, 2, 1]。</text>
+<text x="62" y="1774" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">Hᴇ = (10 + 2 + 4 + 2×6 + 5) / 6 = 5.5</text>
+<rect x="796" y="328" width="724" height="62" rx="12" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="821" y="370" font-size="32" fill="white" font-weight="700" text-anchor="start">滑动窗口因果注意力   ·   W = 3</text>
+<path d="M1158 303 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="796" y="406" width="724" height="323" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="818" y="447" font-size="28" fill="#183647" font-weight="700" text-anchor="start">02   输入查询位置，得到可见 K/V</text>
+<text x="819" y="482" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">行 = 当前 Q     列 = K/V 的位置     实心格 = 可读</text>
+<text x="972" y="519" font-size="22" fill="#126e5e" font-weight="700" text-anchor="middle">A</text>
+<text x="1080" y="519" font-size="22" fill="#126e5e" font-weight="700" text-anchor="middle">B</text>
+<text x="1188" y="519" font-size="22" fill="#126e5e" font-weight="700" text-anchor="middle">C</text>
+<text x="1296" y="519" font-size="22" fill="#126e5e" font-weight="700" text-anchor="middle">D</text>
+<text x="1404" y="519" font-size="22" fill="#126e5e" font-weight="700" text-anchor="middle">E</text>
+<text x="836" y="554" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q A</text>
+<rect x="924" y="530" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="972" y="552" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1032" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1080" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1140" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1188" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1248" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1296" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1356" y="530" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1404" y="552" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="836" y="592" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q B</text>
+<rect x="924" y="568" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="972" y="590" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1032" y="568" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1080" y="590" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1140" y="568" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1188" y="590" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1248" y="568" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1296" y="590" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1356" y="568" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1404" y="590" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="836" y="630" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q C</text>
+<rect x="924" y="606" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="972" y="628" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1032" y="606" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1080" y="628" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1140" y="606" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1188" y="628" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1248" y="606" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1296" y="628" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1356" y="606" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1404" y="628" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="836" y="668" font-size="21" fill="#126e5e" font-weight="700" text-anchor="start">Q D</text>
+<rect x="924" y="644" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="972" y="666" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1032" y="644" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1080" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1140" y="644" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1188" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1248" y="644" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1296" y="666" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1356" y="644" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1404" y="666" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<text x="836" y="706" font-size="21" fill="#385461" font-weight="400" text-anchor="start">Q E</text>
+<rect x="924" y="682" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="972" y="704" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1032" y="682" width="96" height="30" rx="5" fill="#edf1f2" stroke="none" stroke-width="2"/>
+<text x="1080" y="704" font-size="16" fill="#8799a0" font-weight="500" text-anchor="middle">—</text>
+<rect x="1140" y="682" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1188" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1248" y="682" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1296" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<rect x="1356" y="682" width="96" height="30" rx="5" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1404" y="704" font-size="16" fill="white" font-weight="500" text-anchor="middle">读</text>
+<path d="M1158 731 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="796" y="755" width="724" height="163" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="818" y="798" font-size="28" fill="#183647" font-weight="700" text-anchor="start">03   D 对各位置打分，再施加遮罩</text>
+<text x="818" y="839" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">sⱼ = qᴅ × kⱼ / √1，以下始终按 A、B、C、D、E 排列。</text>
+<text x="818" y="880" font-size="26" fill="#126e5e" font-weight="650" text-anchor="start">得分 → [ −∞,  0,  0,  ln 2,  −∞ ]</text>
+<path d="M1158 920 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="796" y="944" width="724" height="191" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="818" y="985" font-size="28" fill="#183647" font-weight="700" text-anchor="start">04   对 D 的这一行做 softmax</text>
+<text x="818" y="1026" font-size="23" fill="#19374a" font-weight="400" text-anchor="start">取指数 → [0, 1, 1, 2, 0]，总和 = 4</text>
+<text x="818" y="1066" font-size="24" fill="#126e5e" font-weight="600" text-anchor="start">每项除以 4 → [0, ¼, ¼, ½, 0]</text>
+<text x="818" y="1106" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">D 给自己 50% 的权重，给 B、C 各 25%。</text>
+<path d="M1158 1137 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="796" y="1160" width="724" height="153" rx="12" fill="#d9f0e8" stroke="none" stroke-width="2"/>
+<text x="818" y="1202" font-size="28" fill="#183647" font-weight="700" text-anchor="start">05   用 D 的权重乘各位置的 V 后求和</text>
+<text x="818" y="1244" font-size="24" fill="#19374a" font-weight="400" text-anchor="start">Hᴅ = (1×2 + 1×4 + 2×6) / 4</text>
+<text x="818" y="1288" font-size="28" fill="#126e5e" font-weight="700" text-anchor="start">D 的注意力头输出     18 / 4 = 4.5</text>
+<path d="M1158 1315 v17 m-5 -5 l5 5 5 -5" fill="none" stroke="#698390" stroke-width="2.5"/>
+<rect x="796" y="1338" width="724" height="454" rx="12" fill="white" stroke="none" stroke-width="2"/>
+<text x="818" y="1380" font-size="28" fill="#183647" font-weight="700" text-anchor="start">06   解码轮转到 E，更新本层 KV 缓存</text>
+<text x="818" y="1423" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">处理完 D  ·  缓存按 Token 顺序排列</text>
+<rect x="818" y="1440" width="110" height="51" rx="9" fill="#d9f0e8" stroke="none" stroke-width="2"/>
+<text x="873" y="1474" font-size="27" fill="#126e5e" font-weight="700" text-anchor="middle">B</text>
+<rect x="944" y="1440" width="110" height="51" rx="9" fill="#d9f0e8" stroke="none" stroke-width="2"/>
+<text x="999" y="1474" font-size="27" fill="#126e5e" font-weight="700" text-anchor="middle">C</text>
+<rect x="1070" y="1440" width="110" height="51" rx="9" fill="#d9f0e8" stroke="none" stroke-width="2"/>
+<text x="1125" y="1474" font-size="27" fill="#126e5e" font-weight="700" text-anchor="middle">D</text>
+<rect x="818" y="1602" width="110" height="51" rx="9" fill="#d9f0e8" stroke="none" stroke-width="2"/>
+<text x="873" y="1636" font-size="27" fill="#126e5e" font-weight="700" text-anchor="middle">C</text>
+<rect x="944" y="1602" width="110" height="51" rx="9" fill="#d9f0e8" stroke="none" stroke-width="2"/>
+<text x="999" y="1636" font-size="27" fill="#126e5e" font-weight="700" text-anchor="middle">D</text>
+<rect x="1070" y="1602" width="110" height="51" rx="9" fill="#126e5e" stroke="none" stroke-width="2"/>
+<text x="1125" y="1636" font-size="27" fill="white" font-weight="700" text-anchor="middle">E</text>
+<text x="818" y="1539" font-size="21" fill="#19374a" font-weight="400" text-anchor="start">输入 E，算出 (Kᴇ, Vᴇ) = (0, 5)，淘汰 B，写入 E。</text>
+<text x="818" y="1580" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">处理 E 时可读的缓存</text>
+<text x="818" y="1698" font-size="24" fill="#126e5e" font-weight="650" text-anchor="start">3 对 K/V。用 qᴇ 读取 C、D、E。</text>
+<text x="818" y="1741" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">E 的窗口内权重正比于 [1, 2, 1]。</text>
+<text x="818" y="1774" font-size="22" fill="#19374a" font-weight="400" text-anchor="start">Hᴇ = (4 + 2×6 + 5) / 4 = 5.25</text>
+<rect x="40" y="1816" width="1480" height="131" rx="12" fill="#183c48" stroke="none" stroke-width="2"/>
+<text x="68" y="1862" font-size="28" fill="white" font-weight="700" text-anchor="start">如何读缓存格</text>
+<text x="68" y="1900" font-size="24" fill="#e2f0ef" font-weight="400" text-anchor="start">每个字母代表该 Token 的一对 (K, V)。例如 D 一格始终是 (ln 2, 6)，到 E 这轮直接复用。</text>
+<text x="68" y="1932" font-size="21" fill="#e2f0ef" font-weight="400" text-anchor="start">D 的输出 5.6 / 4.5 属于 D 的注意力计算。E 用自己的 Q 重新求权重，得到 E 的输出。</text>
+</g></svg>
