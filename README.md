@@ -1,12 +1,14 @@
 # GPT-2 预训练工程学习
 
-**当前学习进度（2026-11-13）：3.7 主线学习完成，下一节 3.8 MoE（待开始）。** 用户已运行 QK-Norm 对照与完整模型 100 步训练/验证/生成/缓存检查；E1—E5 本地结果汇总及 Qwen3/OLMo 3/Gemma 配置学习已完成。正式实验与源码逐项核对继续保留，完整验收计数不变。详见[学习进度](docs/learning-plan-review.md)。
+**当前学习进度（2026-11-22）：阶段二 → 单元3「现代模型结构」→ 3.9 混合注意力。用户已跑通全局/滑动窗口代码对照；基础线性注意力的设计动机、固定S/z写入与读取、参数与运行特征区别、三种机制的逐步数值对照已讲解，掌握程度为理解中。下一步用独立新文件实现最简因果线性注意力，对照显式核匹配与固定状态递推；用户线性实践、Gated DeltaNet/门控注意力/MLA、原计划Qwen3.5-0.8B配置核对和E7待做。** 3.7主线与3.8小MoE/E6本机实践已完成；正式验收计数不变。详见[学习进度](docs/learning-plan-review.md)。
 
-当前新增 **第23块：完整现代模型整合**：[讲义](lesson23-modern-integration.md)、[直接构建模型](modern_model.py)、[训练入口](train_modern.py)、[重载生成](generate_modern.py)、[完整流程图](docs/diagrams/modern-integration-flow.svg)。全新随机初始化，接通训练→验证→保存/重载→KV Cache生成；默认CPU100步已由助手验证，用户运行待反馈。旧课文件保留，尚非官方Qwen3复现。
+[线性注意力笔记](docs/linear-attention-learning-notes.md) · [Notion笔记](https://app.notion.com/p/420eaea314148177b3b8cec4061c3d60) · [三种注意力逐步对照SVG](docs/diagrams/attention-three-way-parameters-detailed.svg) / [PNG](docs/diagrams/attention-three-way-parameters-detailed.png) · [已运行的窗口对照入口](compare_attention_windows.py)。
+
+前课归档 **第23块：完整现代模型整合**：[讲义](lesson23-modern-integration.md)、[直接构建模型](modern_model.py)、[训练入口](train_modern.py)、[重载生成](generate_modern.py)、[完整流程图](docs/diagrams/modern-integration-flow.svg)。全新随机初始化，接通训练→验证→保存/重载→KV Cache生成；默认CPU100步已由助手验证，用户训练/验证/生成/缓存运行报告也已确认。旧课文件保留，尚非官方Qwen3复现。
 
 [中文](README.md) | [English](README.en.md)
 
-当前接续 3.7 / QK-Norm 实现：[讲义](lesson22-qknorm.md)、[原 GQA 参照](run_qknorm_reference.py)、[新增 QK-Norm](run_qknorm.py)、[比较工具](compare_qknorm_runs.py)、[代码数值全图](docs/diagrams/qknorm-code-comparison.svg)。先头内 RMSNorm，再 RoPE/缓存；新增 128 个 gamma 参数、缓存容量不变。各模型内部缓存等价与独立副本反传检查已通过，保留所有前课代码；不是完整 Qwen3 复现。
+前课归档 3.7 / QK-Norm 实现（用户运行已确认）：[讲义](lesson22-qknorm.md)、[原 GQA 参照](run_qknorm_reference.py)、[新增 QK-Norm](run_qknorm.py)、[比较工具](compare_qknorm_runs.py)、[代码数值全图](docs/diagrams/qknorm-code-comparison.svg)。先头内 RMSNorm，再 RoPE/缓存；新增 128 个 gamma 参数、缓存容量不变。各模型内部缓存等价与独立副本反传检查已通过，保留所有前课代码；不是完整 Qwen3 复现。
 
 前一块 3.6 的 GQA 实践：[讲义](lesson21-gqa.md)、[MHA 参照](generate_gqa_reference.py)、[GQA 入口](generate_gqa.py)、[比较工具](compare_gqa_runs.py)、[代码与数值对照图](docs/diagrams/gqa-code-comparison.svg)。保留全部旧 Python 文件，4 Q/4 KV 对照 4 Q/2 KV；各模型内部核验缓存等价，实际缓存减半，不要求跨模型输出相同。CPU 已验证，用户实践待反馈。
 
@@ -24,7 +26,7 @@
 
 单元 3 · 3.1 配图：[GPT-2 与 Llama 3 前向流程对照](docs/diagrams/gpt2-vs-llama3-forward-flow.md)（[完整 PNG](docs/diagrams/gpt2-vs-llama3-forward-flow.png) / [SVG](docs/diagrams/gpt2-vs-llama3-forward-flow.svg)）。19 步逐项注明输入、计算公式与输出形状，六类差异 A—F 明确标色；阅读说明中另有三张分段细节图。维度为教学示例，后续结构课程以书籍配套材料和官方实现为依据。
 
-**当前：阶段二 → 单元 3「现代模型结构」。** 当前已进入 3.7 QK-Norm 实现（2026-11-13）。短训练基线、RMSNorm+去 bias、RoPE、SwiGLU、KV Cache 和 GQA 的教学代码与对照图已准备，助手实跑结果已归档。用户已运行结构对比、反馈 RoPE 本块结束，并初步理解 KV Cache/GQA；新 GQA/QK-Norm 入口的用户运行反馈仍待补。下一步结合 lesson22 运行和解读 QK-Norm 对照，再完成原计划的实现核对、模型整合、E1—E5 汇总及 Qwen3/OLMo 3/Gemma 配置比较。YaRN/长上下文、正式质量与 GPU 性能实验、MQA 系统对照及 3.8—3.9 保留待办；不重复安排已完成的基线准备。完整段落计数暂保留单元 2 的 1/5、单元 3 的 0/9、阶段二 5/32，助手验证不代替用户实践或整节完成。
+**当前：阶段二 → 单元3「现代模型结构」→ 3.9 混合注意力。用户已跑通全局/滑动窗口代码对照；基础线性注意力的设计动机、固定S/z写入与读取、参数与运行特征区别、三种机制的逐步数值对照已讲解，掌握程度为理解中。下一步用独立新文件实现最简因果线性注意力，对照显式核匹配与固定状态递推；用户线性实践、Gated DeltaNet/门控注意力/MLA、原计划Qwen3.5-0.8B配置核对和E7待做。** 完整验收计数保留单元2的1/5、单元3的0/9、阶段二5/32；源码核对、正式实验与既有待办见顶部学习进度。
 
 新增 [正式训练与原课收尾笔记](docs/formal-training-and-wrapup-notes.md)（[Notion](https://app.notion.com/p/40beaea314148160bf03dc6856495bb8)），重点区分“问答示范训练会更新参数”和“日常聊天推理不更新参数”。两张 loss/HellaSwag 读图示意已归档，均标明非实测；Notion 总计划已同步。
 
@@ -100,7 +102,7 @@
 
 以下保留归档时状态；2026-10-28 已先接续数据准备实践，见顶部与下方新入口。
 
-阶段一、阶段二单元 1 的 **1.1—1.4** 和单元 2 的 **2.1** 已完成。单元 2 原视频理论主线已收尾；用户已有完整 GPT-2 CPU 训练/验证/生成短跑，助手教学分片与 HellaSwag CPU/Gloo 验证另记，真实 FineWeb、完整评测、正式训练及 CUDA/NCCL 待补。**截至 2026-11-13，3.7 主线学习、用户整合模型实践与本地结果/三家配置汇总已完成，下一节为 3.8 MoE；正式实验及原计划源码逐项核对待补。** 单元 4—7 尚未开始。完整段落计数为单元 2 **1/5**、单元 3 **0/9（进行中）**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
+阶段一、阶段二单元 1 的 **1.1—1.4** 和单元 2 的 **2.1** 已完成。单元 2 原视频理论主线已收尾；用户已有完整 GPT-2 CPU 训练/验证/生成短跑，助手教学分片与 HellaSwag CPU/Gloo 验证另记，真实 FineWeb、完整评测、正式训练及 CUDA/NCCL 待补。**截至2026-11-22，3.7主线、3.8小MoE/E6本机实践与3.9窗口代码对照用户实践已完成；基础线性注意力原理与数值图已讲解，理解中，下一步独立线性代码实践。正式实验及源码逐项核对待补。** 单元 4—7 尚未开始。完整段落计数为单元 2 **1/5**、单元 3 **0/9（进行中）**、阶段二 **5/32**；详见[学习计划与证据](docs/learning-plan-review.md)。
 
 2026-10-23 已将梯度累积加入原 AdamW 笔记，并接续 2.4 的 DDP 与平均损失讨论。当时归档为答疑笔记，并按用户要求同步了 Notion 总计划；后续数据与验证内容尚未覆盖，多进程运行待实践。该历史记录不用于判断今天的位置。
 

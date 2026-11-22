@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-21",
+  "tests_passed": 5,
+  "old_tracked_python_files_unchanged": 129,
+  "original_python_files_changed": [],
+  "default_report": "artifacts/sliding-window-attention-report.json",
+  "shared_projection_parameters": true,
+  "shared_qkv": true,
+  "global_reference_max_difference": 0.0,
+  "covering_window_matches_global": true,
+  "worked_example": {
+    "global_D": 5.599999904632568,
+    "window_D": 4.5,
+    "global_D_weights": [
+      0.20000000298023224,
+      0.20000000298023224,
+      0.20000000298023224,
+      0.4000000059604645,
+      0.0
+    ],
+    "window_D_weights": [
+      0.0,
+      0.25,
+      0.25,
+      0.5,
+      0.0
+    ]
+  },
+  "scope": "CPU/FP32 single-layer forward comparison; no training, rolling-cache implementation or performance claim",
+  "user_practice_completed": false,
+  "notion_updated": false
+}

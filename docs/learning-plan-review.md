@@ -1,5 +1,20 @@
 # 大模型学习计划核对与执行修正
 
+## 2026-11-22 学习进度：3.9 窗口用户实践完成，基础线性原理已归档
+
+**当前位置：阶段二 → 单元3「现代模型结构」→ 3.9 混合注意力。用户已跑通全局/滑动窗口代码对照；基础线性注意力的设计动机、固定S/z写入与读取、参数与运行特征区别、三种机制的逐步数值对照已讲解，掌握程度为理解中。下一步用独立新文件实现最简因果线性注意力，对照显式核匹配与固定状态递推；用户线性实践、Gated DeltaNet/门控注意力/MLA、原计划Qwen3.5-0.8B配置核对和E7待做。**
+
+- 用户实践：已运行 `compare_attention_windows.py`，CPU/FP32、W=3，同一份Q/K/V、无训练；全局对齐旧层、覆盖全序列窗口等于全局、参数未变等检查通过。O最大差0.236368，独立单头D为5.6对4.5，用户反馈“大概了解了”。
+- 已讲解：线性复杂度的含义、与全局/窗口的取舍、固定状态形状和生命周期、外积写入、归一化读取、状态更新与参数更新的区别，以及窗口+全局/线性+全局的按层混合。
+- 已归档：[本地线性笔记](linear-attention-learning-notes.md) · [Notion线性笔记](https://app.notion.com/p/420eaea314148177b3b8cec4061c3d60) · [三列九步SVG](diagrams/attention-three-way-parameters-detailed.svg) / [PNG](diagrams/attention-three-way-parameters-detailed.png)。同一组X与四个W，从投影追踪到H、O；FP64复算由助手完成，不计为用户线性代码实践。
+- 后续：最简线性注意力独立实现后，再接原计划复杂状态更新与混合配置；窗口滚动缓存及绝对位置处理仍为工程待办，不再把已运行的窗口遮罩对照写成未开始。
+- 保留：3.7主线完成、3.8小MoE与E6本机实践完成；35B-A3B真实配置回补、Raschka逐项源码核对、正式质量/GPU实验、YaRN/长上下文和既有单元2工程待办不删除。
+- 完整验收计数不变：单元2为1/5、单元3为0/9、阶段二5/32；理论讲解、助手验证、用户运行和独立掌握分别记录。
+
+Notion总计划的当前位置、汇总和3.9状态已同步，旧窗口笔记已追加用户运行反馈及新笔记入口。本地与Notion凭据：`artifacts/linear-attention-learning-notion-receipt.json`。
+
+以下按日期保留历史快照，其中“当前/下一步/待运行”只代表当时状态；本节是最新进度。
+
 ## 2026-11-20 学习进度：3.9 混合注意力进行中
 
 已学滑动窗口的可见范围、softmax 前的遮罩、训练时的并行计算与推理时的滚动 KV 缓存。借助 A–E、W=3 的算例，比较了 D 对 A 的直接权重与跨层间接影响，并追踪了同一张遮罩如何影响 Block 输出、预测损失和反向梯度。已了解 SSSL 的按层排列。[Notion 笔记（含两张流程图）](https://app.notion.com/p/41eeaea3141481c7b0d1f3258ed57b75) · [窗口与缓存图](diagrams/global-vs-sliding-window-attention.svg) · [完整训练 Block 对照图](diagrams/sliding-attention-training-block.svg)

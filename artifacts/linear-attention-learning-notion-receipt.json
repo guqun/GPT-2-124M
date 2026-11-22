@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-22",
+  "page_id": "420eaea3-1414-8177-b3b8-cec4061c3d60",
+  "url": "https://app.notion.com/p/420eaea314148177b3b8cec4061c3d60",
+  "title": "3.9 线性注意力：固定状态、参数与三种机制逐步对照",
+  "local_note": "docs/linear-attention-learning-notes.md",
+  "mastery": "理解中",
+  "scope": "3.9 基础线性注意力原理与三种机制参数/特征逐步对照；窗口用户实践确认",
+  "attachments": [
+    {
+      "filename": "attention-three-way-parameters-detailed.png",
+      "file_upload_id": "420eaea3-1414-816c-8ed6-00b295e042f0",
+      "status": "uploaded",
+      "role": "embedded_image"
+    },
+    {
+      "filename": "attention-three-way-parameters-detailed.svg",
+      "file_upload_id": "420eaea3-1414-81d4-a457-00b2bf981635",
+      "status": "uploaded",
+      "role": "editable_file_attachment"
+    }
+  ],
+  "verification": {
+    "created_page_read_back": true,
+    "embedded_images": 1,
+    "svg_file_attachments": 1,
+    "source_section_present": true,
+    "original_window_note_feedback_appended": true,
+    "plan_targeted_commands": 6,
+    "plan_page_id": "340eaea3-1414-8191-97bd-e537d339d0fc",
+    "update_warnings": []
+  },
+  "learner_evidence": {
+    "window_comparison": "用户贴出compare_attention_windows.py成功运行，W=3，CPU/FP32，无训练，O最大差0.236368，单头D为5.6对4.5。",
+    "linear_attention": "原理、状态管理和参数数值图已讲解；独立线性代码实践未完成。"
+  },
+  "next": "独立新文件实现最简因果线性注意力，对照显式归一化核匹配与固定状态递推。",
+  "learning_completion_counts_changed": false,
+  "counts": {
+    "unit2": "1/5",
+    "unit3": "0/9",
+    "stage2": "5/32"
+  },
+  "committed": false,
+  "pushed": false
+}
