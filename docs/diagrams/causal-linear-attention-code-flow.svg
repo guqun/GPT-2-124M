@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="2150" viewBox="0 0 1560 2150" role="img"><title>比较因果线性注意力的显式核匹配与固定状态递推</title><rect width="100%" height="100%" fill="#f5f8f9"/><g font-family="PingFang SC, Helvetica Neue, sans-serif"><rect x="0" y="0" width="1560" height="138" fill="#163a4a" stroke="none" rx="0"/>
+<text x="44" y="60" font-size="40" fill="white" font-weight="700" text-anchor="start">因果线性注意力：逐位置匹配与固定状态递推</text>
+<text x="46" y="107" font-size="23" fill="#d5e8ea" font-weight="400" text-anchor="start">同一组 A、B、C   /   单头、CPU、FP64   /   对照入口  compare_causal_linear_attention.py</text>
+<rect x="36" y="155" width="1488" height="169" fill="white" stroke="#bfd2d6" rx="10"/>
+<text x="55" y="192" font-size="27" fill="#1c3546" font-weight="700" text-anchor="start">01   load_example  ·  输入特征与投影权重</text>
+<text x="58" y="224" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">X（A / B / C）</text>
+<rect x="58.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="107.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="159.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="208.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="58.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="107.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="159.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="208.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="58.0" y="296" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="107.0" y="316" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="159.0" y="296" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="208.0" y="316" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<text x="385" y="224" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">Wq</text>
+<rect x="385.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="434.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="486.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="535.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="385.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="434.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="486.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="535.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<text x="667" y="224" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">Wk</text>
+<rect x="667.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="716.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="768.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="817.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="667.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="716.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="768.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="817.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<text x="949" y="224" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">Wv</text>
+<rect x="949.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="998.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">10</text>
+<rect x="1050.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1099.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="949.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="998.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">4</text>
+<rect x="1050.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1099.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">8</text>
+<text x="1231" y="224" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">Wo</text>
+<rect x="1231.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1280.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="1332.0" y="236" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1381.0" y="256" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="1231.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1280.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="1332.0" y="266" width="98.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1381.0" y="286" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<path d="M780 325 v16 m-5 -5 5 5 5 -5" fill="none" stroke="#63838c" stroke-width="2.5"/>
+<rect x="36" y="346" width="1488" height="183" fill="white" stroke="#bfd2d6" rx="10"/>
+<text x="55" y="385" font-size="27" fill="#1c3546" font-weight="700" text-anchor="start">02   main  ·  Q = XWq，K = XWk，V = XWv；再对 Q、K 逐元素做 φ(x) = ELU(x) + 1</text>
+<text x="58" y="423" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">Q</text>
+<rect x="58.0" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="106.75" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="158.5" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="207.25" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="58.0" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="106.75" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="158.5" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="207.25" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="58.0" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="106.75" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="158.5" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="207.25" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<text x="367" y="423" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">K</text>
+<rect x="367.0" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="415.75" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="467.5" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="516.25" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="367.0" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="415.75" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="467.5" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="516.25" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="367.0" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="415.75" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="467.5" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="516.25" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<text x="675" y="423" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">V（直接参与混合）</text>
+<rect x="675.0" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="723.75" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">10</text>
+<rect x="775.5" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="824.25" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="675.0" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="723.75" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">4</text>
+<rect x="775.5" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="824.25" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">8</text>
+<rect x="675.0" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="723.75" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">14</text>
+<rect x="775.5" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="824.25" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">10</text>
+<text x="973" y="423" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">q̄ = φ(Q)</text>
+<rect x="973.0" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1021.75" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="1073.5" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1122.25" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="973.0" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1021.75" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="1073.5" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1122.25" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="973.0" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1021.75" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">3</text>
+<rect x="1073.5" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1122.25" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<text x="1241" y="423" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">k̄ = φ(K)</text>
+<rect x="1241.0" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1289.75" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="1341.5" y="435" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1390.25" y="455" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="1241.0" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1289.75" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">1</text>
+<rect x="1341.5" y="465" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1390.25" y="485" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="1241.0" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1289.75" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<rect x="1341.5" y="495" width="97.5" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1390.25" y="515" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<path d="M390 530 v16 m-5 -5 5 5 5 -5" fill="none" stroke="#63838c" stroke-width="2.5"/>
+<path d="M1157 530 v16 m-5 -5 5 5 5 -5" fill="none" stroke="#63838c" stroke-width="2.5"/>
+<rect x="36" y="552" width="736" height="95" fill="#26578d" stroke="none" rx="10"/>
+<text x="54" y="590" font-size="27" fill="white" font-weight="650" text-anchor="start">显式路径   ·   explicit_prefix</text>
+<text x="54" y="626" font-size="20" fill="white" font-weight="400" text-anchor="start">输入当前 q̄ 和截至本步的全部 k̄、v。</text>
+<rect x="788" y="552" width="736" height="95" fill="#106a57" stroke="none" rx="10"/>
+<text x="806" y="590" font-size="27" fill="white" font-weight="650" text-anchor="start">递推路径   ·   recurrent_step</text>
+<text x="806" y="626" font-size="20" fill="white" font-weight="400" text-anchor="start">输入当前 q̄、k̄、v 和旧状态。S₀ 为 2×2 零矩阵，z₀ = [0,0]。</text>
+<rect x="36" y="667" width="1488" height="54" fill="#e1e9ed" stroke="none" rx="10"/>
+<text x="56" y="703" font-size="25" fill="#1c3546" font-weight="650" text-anchor="start">03   处理 A     |     当前 q̄ = [2, 1]， k̄ = [2, 1]， v = [10, 2]</text>
+<rect x="36" y="730" width="736" height="278" fill="#f1f6fd" stroke="#b6cbe8" rx="10"/>
+<rect x="788" y="730" width="736" height="278" fill="#f0f8f4" stroke="#a7cfc0" rx="10"/>
+<text x="56" y="767" font-size="25" fill="#26578d" font-weight="650" text-anchor="start">逐个匹配可见位置   A</text>
+<text x="56" y="807" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">A 对 A：[2, 1] · [2, 1] = 5</text>
+<text x="56" y="898" font-size="20" fill="#1c3546" font-weight="400" text-anchor="start">归一化：[5] / 5 = [1]</text>
+<text x="56" y="936" font-size="20" fill="#1c3546" font-weight="400" text-anchor="start">按权重混合 V：1×[10, 2]</text>
+<text x="56" y="983" font-size="26" fill="#26578d" font-weight="700" text-anchor="start">显式 H = [10, 2]</text>
+<text x="808" y="767" font-size="25" fill="#106a57" font-weight="650" text-anchor="start">先写入 S、z，再用当前 q̄ 读取</text>
+<text x="808" y="804" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">旧 S</text>
+<rect x="808.0" y="816" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="844.0" y="836" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="883.0" y="816" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="919.0" y="836" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="808.0" y="846" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="844.0" y="866" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<rect x="883.0" y="846" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="919.0" y="866" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">0</text>
+<text x="1030" y="804" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">ΔS = k̄ᵀ v</text>
+<rect x="1030.0" y="816" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1066.0" y="836" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">20</text>
+<rect x="1105.0" y="816" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1141.0" y="836" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">4</text>
+<rect x="1030.0" y="846" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1066.0" y="866" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">10</text>
+<rect x="1105.0" y="846" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1141.0" y="866" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<text x="1284" y="804" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">新 S</text>
+<rect x="1284.0" y="816" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1320.0" y="836" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">20</text>
+<rect x="1359.0" y="816" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1395.0" y="836" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">4</text>
+<rect x="1284.0" y="846" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1320.0" y="866" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">10</text>
+<rect x="1359.0" y="846" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1395.0" y="866" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<text x="975" y="855" font-size="26" fill="#1c3546" font-weight="400" text-anchor="start">+</text>
+<text x="1221" y="855" font-size="26" fill="#1c3546" font-weight="400" text-anchor="start">=</text>
+<text x="808" y="908" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">z = [0, 0] + [2, 1] = [2, 1]</text>
+<text x="808" y="941" font-size="22" fill="#1c3546" font-weight="400" text-anchor="start">q̄ S = [50, 10]，  q̄ zᵀ = 5</text>
+<text x="808" y="983" font-size="25" fill="#106a57" font-weight="700" text-anchor="start">递推 H = [50, 10] / 5 = [10, 2]</text>
+<rect x="36" y="1019" width="1488" height="52" fill="#e4eded" stroke="none" rx="10"/>
+<text x="59" y="1053" font-size="23" fill="#1c3546" font-weight="650" text-anchor="start">main 逐位置核对     H 显式 ≈ H 递推 = [10, 2]     →     同乘 Wo     →     两条路径的 O 均为 [10, 12]</text>
+<path d="M1157 1073 v16 m-5 -5 5 5 5 -5" fill="none" stroke="#63838c" stroke-width="2.5"/>
+<rect x="36" y="1094" width="1488" height="54" fill="#e1e9ed" stroke="none" rx="10"/>
+<text x="56" y="1130" font-size="25" fill="#1c3546" font-weight="650" text-anchor="start">04   处理 B     |     当前 q̄ = [2, 2]， k̄ = [1, 2]， v = [4, 8]</text>
+<rect x="36" y="1157" width="736" height="278" fill="#f1f6fd" stroke="#b6cbe8" rx="10"/>
+<rect x="788" y="1157" width="736" height="278" fill="#f0f8f4" stroke="#a7cfc0" rx="10"/>
+<text x="56" y="1194" font-size="25" fill="#26578d" font-weight="650" text-anchor="start">逐个匹配可见位置   A、B</text>
+<text x="56" y="1234" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">B 对 A：[2, 2] · [2, 1] = 6</text>
+<text x="56" y="1264" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">B 对 B：[2, 2] · [1, 2] = 6</text>
+<text x="56" y="1325" font-size="20" fill="#1c3546" font-weight="400" text-anchor="start">归一化：[6, 6] / 12 = [0.5, 0.5]</text>
+<text x="56" y="1363" font-size="20" fill="#1c3546" font-weight="400" text-anchor="start">按权重混合 V：0.5×[10, 2] + 0.5×[4, 8]</text>
+<text x="56" y="1410" font-size="26" fill="#26578d" font-weight="700" text-anchor="start">显式 H = [7, 5]</text>
+<text x="808" y="1194" font-size="25" fill="#106a57" font-weight="650" text-anchor="start">先写入 S、z，再用当前 q̄ 读取</text>
+<text x="808" y="1231" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">旧 S</text>
+<rect x="808.0" y="1243" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="844.0" y="1263" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">20</text>
+<rect x="883.0" y="1243" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="919.0" y="1263" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">4</text>
+<rect x="808.0" y="1273" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="844.0" y="1293" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">10</text>
+<rect x="883.0" y="1273" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="919.0" y="1293" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">2</text>
+<text x="1030" y="1231" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">ΔS = k̄ᵀ v</text>
+<rect x="1030.0" y="1243" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1066.0" y="1263" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">4</text>
+<rect x="1105.0" y="1243" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1141.0" y="1263" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">8</text>
+<rect x="1030.0" y="1273" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1066.0" y="1293" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">8</text>
+<rect x="1105.0" y="1273" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1141.0" y="1293" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">16</text>
+<text x="1284" y="1231" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">新 S</text>
+<rect x="1284.0" y="1243" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1320.0" y="1263" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">24</text>
+<rect x="1359.0" y="1243" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1395.0" y="1263" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">12</text>
+<rect x="1284.0" y="1273" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1320.0" y="1293" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">18</text>
+<rect x="1359.0" y="1273" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1395.0" y="1293" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">18</text>
+<text x="975" y="1282" font-size="26" fill="#1c3546" font-weight="400" text-anchor="start">+</text>
+<text x="1221" y="1282" font-size="26" fill="#1c3546" font-weight="400" text-anchor="start">=</text>
+<text x="808" y="1335" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">z = [2, 1] + [1, 2] = [3, 3]</text>
+<text x="808" y="1368" font-size="22" fill="#1c3546" font-weight="400" text-anchor="start">q̄ S = [84, 60]，  q̄ zᵀ = 12</text>
+<text x="808" y="1410" font-size="25" fill="#106a57" font-weight="700" text-anchor="start">递推 H = [84, 60] / 12 = [7, 5]</text>
+<rect x="36" y="1446" width="1488" height="52" fill="#e4eded" stroke="none" rx="10"/>
+<text x="59" y="1480" font-size="23" fill="#1c3546" font-weight="650" text-anchor="start">main 逐位置核对     H 显式 ≈ H 递推 = [7, 5]     →     同乘 Wo     →     两条路径的 O 均为 [7, 12]</text>
+<path d="M1157 1500 v16 m-5 -5 5 5 5 -5" fill="none" stroke="#63838c" stroke-width="2.5"/>
+<rect x="36" y="1521" width="1488" height="54" fill="#e1e9ed" stroke="none" rx="10"/>
+<text x="56" y="1557" font-size="25" fill="#1c3546" font-weight="650" text-anchor="start">05   处理 C     |     当前 q̄ = [3, 2]， k̄ = [2, 2]， v = [14, 10]</text>
+<rect x="36" y="1584" width="736" height="278" fill="#f1f6fd" stroke="#b6cbe8" rx="10"/>
+<rect x="788" y="1584" width="736" height="278" fill="#f0f8f4" stroke="#a7cfc0" rx="10"/>
+<text x="56" y="1621" font-size="25" fill="#26578d" font-weight="650" text-anchor="start">逐个匹配可见位置   A、B、C</text>
+<text x="56" y="1661" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">C 对 A：[3, 2] · [2, 1] = 8</text>
+<text x="56" y="1691" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">C 对 B：[3, 2] · [1, 2] = 7</text>
+<text x="56" y="1721" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">C 对 C：[3, 2] · [2, 2] = 10</text>
+<text x="56" y="1752" font-size="20" fill="#1c3546" font-weight="400" text-anchor="start">归一化：[8, 7, 10] / 25 = [0.32, 0.28, 0.4]</text>
+<text x="56" y="1790" font-size="20" fill="#1c3546" font-weight="400" text-anchor="start">按权重混合 V：0.32×[10, 2] + 0.28×[4, 8] + 0.4×[14, 10]</text>
+<text x="56" y="1837" font-size="26" fill="#26578d" font-weight="700" text-anchor="start">显式 H = [9.92, 6.88]</text>
+<text x="808" y="1621" font-size="25" fill="#106a57" font-weight="650" text-anchor="start">先写入 S、z，再用当前 q̄ 读取</text>
+<text x="808" y="1658" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">旧 S</text>
+<rect x="808.0" y="1670" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="844.0" y="1690" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">24</text>
+<rect x="883.0" y="1670" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="919.0" y="1690" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">12</text>
+<rect x="808.0" y="1700" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="844.0" y="1720" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">18</text>
+<rect x="883.0" y="1700" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="919.0" y="1720" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">18</text>
+<text x="1030" y="1658" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">ΔS = k̄ᵀ v</text>
+<rect x="1030.0" y="1670" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1066.0" y="1690" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">28</text>
+<rect x="1105.0" y="1670" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1141.0" y="1690" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">20</text>
+<rect x="1030.0" y="1700" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1066.0" y="1720" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">28</text>
+<rect x="1105.0" y="1700" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1141.0" y="1720" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">20</text>
+<text x="1284" y="1658" font-size="21" fill="#1a5967" font-weight="650" text-anchor="start">新 S</text>
+<rect x="1284.0" y="1670" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1320.0" y="1690" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">52</text>
+<rect x="1359.0" y="1670" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1395.0" y="1690" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">32</text>
+<rect x="1284.0" y="1700" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1320.0" y="1720" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">46</text>
+<rect x="1359.0" y="1700" width="72.0" height="27" fill="#e4efef" stroke="none" rx="3"/>
+<text x="1395.0" y="1720" font-size="18" fill="#1c3546" font-weight="400" text-anchor="middle">38</text>
+<text x="975" y="1709" font-size="26" fill="#1c3546" font-weight="400" text-anchor="start">+</text>
+<text x="1221" y="1709" font-size="26" fill="#1c3546" font-weight="400" text-anchor="start">=</text>
+<text x="808" y="1762" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">z = [3, 3] + [2, 2] = [5, 5]</text>
+<text x="808" y="1795" font-size="22" fill="#1c3546" font-weight="400" text-anchor="start">q̄ S = [248, 172]，  q̄ zᵀ = 25</text>
+<text x="808" y="1837" font-size="25" fill="#106a57" font-weight="700" text-anchor="start">递推 H = [248, 172] / 25 = [9.92, 6.88]</text>
+<rect x="36" y="1873" width="1488" height="52" fill="#e4eded" stroke="none" rx="10"/>
+<text x="59" y="1907" font-size="23" fill="#1c3546" font-weight="650" text-anchor="start">main 逐位置核对     H 显式 ≈ H 递推 = [9.92, 6.88]     →     同乘 Wo     →     两条路径的 O 均为 [9.92, 16.8]</text>
+<rect x="36" y="1961" width="1488" height="115" fill="#173e4b" stroke="none" rx="10"/>
+<text x="59" y="2003" font-size="27" fill="white" font-weight="700" text-anchor="start">为什么两列能对上？</text>
+<text x="59" y="2044" font-size="21" fill="#dbeaeb" font-weight="400" text-anchor="start">左列先算每个 q̄·k̄ 的分数，再乘 v。右列先累加 k̄ᵀv 到 S、累加 k̄ 到 z，把同一个 q̄ 留到最后乘；分子和分母分别相等。</text>
+<text x="44" y="2117" font-size="21" fill="#1c3546" font-weight="400" text-anchor="start">S 的行表示键特征，列表示值特征。A → B → C 只改变这 4 个元素及 z 的两个元素；同一序列沿用状态，新序列从零开始。</text></g></svg>

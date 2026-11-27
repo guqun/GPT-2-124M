@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="2750" viewBox="0 0 1680 2750" role="img" aria-labelledby="t d"><title id="t">GQA 与 MLA 的 KV 缓存</title><desc id="d">四个位置的单层数值例子。B 写入缓存，D 查询缓存并得到四头及输出投影结果。</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6e8790"/></marker></defs><g font-family="PingFang SC, Helvetica Neue, sans-serif">
+<rect x="0" y="0" width="1680" height="2750" rx="0" fill="#f4f7f7" stroke="none" stroke-width="1.5"/>
+<rect x="0" y="0" width="1680" height="141" rx="0" fill="#173b48" stroke="none" stroke-width="1.5"/>
+<text x="42" y="62" font-size="46" font-weight="650" fill="white">GQA 与 MLA 的 KV 缓存</text>
+<text x="43" y="111" font-size="27" font-weight="400" fill="#deeeed">B 到来时写什么？D 怎样逐位置打分，又怎样得到注意力分支的最终输出？</text>
+<rect x="35" y="163" width="1610" height="252" rx="10" fill="white" stroke="#c0d1d7" stroke-width="1.5"/>
+<text x="57" y="207" font-size="29" font-weight="650" fill="#173746">共同输入与读图约定</text>
+<text x="57" y="250" font-size="24" font-weight="400" fill="#173746">每个 Token 的隐藏向量 x = [u, v, w, l, 1, 0]。前四维随位置变化，末两维给出旋转前的位置支路输入。</text>
+<text x="57" y="291" font-size="24" font-weight="650" fill="#435f6b">位置　　　　 A（0）　　　　　　 B（1）　　　　　　 C（2）　　　　　　 D（3）</text>
+<text x="57" y="331" font-size="23" font-weight="400" fill="#173746">[u, v, w, l]　　 [1, 0, 0, 1]　　　　　[0, 1, 1, 0]　　　　　[1, 1, 0, 1]　　　　　[2, 0, 1, 0]</text>
+<text x="57" y="373" font-size="23" font-weight="400" fill="#173746">位置键 r　　　 [1, 0]　　　　　　　 [0, 1]　　　　　　　 [−1, 0]　　　　　　 [0, −1]</text>
+<text x="57" y="400" font-size="19" font-weight="400" fill="#435f6b">教学 RoPE 每步旋转 90°。两侧均用 2 维内容键和 2 维位置键，缩放除以 √4 = 2。输入相同，内容投影可不同。</text>
+<rect x="35" y="438" width="789" height="64" rx="10" fill="#255895" stroke="none" stroke-width="1.5"/>
+<text x="56" y="481" font-size="29" font-weight="650" fill="white">GQA   /   4 个 Q 头共享 2 组 K/V</text>
+<rect x="856" y="438" width="789" height="64" rx="10" fill="#166957" stroke="none" stroke-width="1.5"/>
+<text x="877" y="481" font-size="29" font-weight="650" fill="white">MLA   /   4 个头读取同一个潜在向量</text>
+<rect x="35" y="524" width="789" height="342" rx="10" fill="white" stroke="#aec3d9" stroke-width="1.5"/>
+<text x="56" y="566" font-size="28" font-weight="650" fill="#255895">01　B 到来，投影得到两组 K/V</text>
+<text x="56" y="610" font-size="23" font-weight="400" fill="#173746">K₀ = [u, v, r₁, r₂]，V₀ = [u+v, v, w, l]</text>
+<text x="56" y="649" font-size="23" font-weight="400" fill="#173746">K₁ = [v, u, r₁, r₂]，V₁ = [v, u, l, w]</text>
+<text x="56" y="688" font-size="23" font-weight="400" fill="#173746">代入 B 的前四维 [0, 1, 1, 0]，位置键 r = [0, 1]。</text>
+<text x="56" y="727" font-size="23" font-weight="650" fill="#255895">组 0　K₀ = [0, 1, 0, 1]　 V₀ = [1, 1, 1, 0]</text>
+<text x="56" y="766" font-size="23" font-weight="650" fill="#255895">组 1　K₁ = [1, 0, 0, 1]　 V₁ = [1, 0, 0, 1]</text>
+<text x="56" y="805" font-size="23" font-weight="400" fill="#173746">将两组都写到缓存的 B 行，共 2 × (4 + 4) = 16 个数。</text>
+<rect x="856" y="524" width="789" height="342" rx="10" fill="white" stroke="#a5cdbc" stroke-width="1.5"/>
+<text x="877" y="566" font-size="28" font-weight="650" fill="#166957">01　B 到来，只写一份 c 和一个位置键</text>
+<text x="877" y="610" font-size="23" font-weight="400" fill="#173746">内容降维投影　x → c = [u, v, w, l]。</text>
+<text x="877" y="649" font-size="23" font-weight="400" fill="#173746">本例用选择前四维的 6×4 矩阵，省略潜在向量归一化。</text>
+<text x="877" y="688" font-size="23" font-weight="400" fill="#173746">位置投影取末两维，再旋转：B 的 [1, 0] → [0, 1]。</text>
+<text x="877" y="727" font-size="23" font-weight="650" fill="#166957">内容缓存　cᴮ = [0, 1, 1, 0]</text>
+<text x="877" y="766" font-size="23" font-weight="650" fill="#166957">位置缓存　rᴮ = [0, 1]</text>
+<text x="877" y="805" font-size="23" font-weight="400" fill="#173746">只将这两个向量写到 B 行，共 4 + 2 = 6 个数。</text>
+<path d="M430 868 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M1251 868 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M430 1211 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M1251 1211 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M430 1551 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M1251 1551 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M430 1870 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M1251 1870 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M430 2251 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<path d="M1251 2251 v17" stroke="#6e8790" stroke-width="2.2" marker-end="url(#arrow)"/>
+<rect x="35" y="894" width="789" height="316" rx="10" fill="white" stroke="#aec3d9" stroke-width="1.5"/>
+<text x="56" y="936" font-size="28" font-weight="650" fill="#255895">02　D 加入后，缓存有 A、B、C、D 四行</text>
+<text x="56" y="980" font-size="23" font-weight="400" fill="#173746">头 0、1 读组 0；头 2、3 读组 1。下表展开组 0。</text>
+<text x="56" y="1013" font-size="23" font-weight="400" fill="#173746">位置　　 K₀　　　　　　　　　　 V₀</text>
+<text x="56" y="1046" font-size="23" font-weight="400" fill="#173746">A　　　 [1, 0, 1, 0]　　　　　　 [1, 0, 0, 1]</text>
+<text x="56" y="1079" font-size="23" font-weight="400" fill="#173746">B　　　 [0, 1, 0, 1]　　　　　　 [1, 1, 1, 0]</text>
+<text x="56" y="1112" font-size="23" font-weight="400" fill="#173746">C　　　 [1, 1, −1, 0]　　　　　　[2, 1, 0, 1]</text>
+<text x="56" y="1145" font-size="23" font-weight="400" fill="#173746">D　　　 [2, 0, 0, −1]　　　　　　[2, 0, 1, 0]</text>
+<text x="56" y="1178" font-size="22" font-weight="650" fill="#255895">两组合计 4 × 16 = 64 个数。</text>
+<rect x="856" y="894" width="789" height="316" rx="10" fill="white" stroke="#a5cdbc" stroke-width="1.5"/>
+<text x="877" y="936" font-size="28" font-weight="650" fill="#166957">02　D 加入后，同样保留四个可访问位置</text>
+<text x="877" y="980" font-size="23" font-weight="400" fill="#173746">同一行的 c 和 r 可供所有头读取。</text>
+<text x="877" y="1013" font-size="23" font-weight="400" fill="#173746">位置　　 c　　　　　　　　　　　r</text>
+<text x="877" y="1046" font-size="23" font-weight="400" fill="#173746">A　　　 [1, 0, 0, 1]　　　　　　 [1, 0]</text>
+<text x="877" y="1079" font-size="23" font-weight="400" fill="#173746">B　　　 [0, 1, 1, 0]　　　　　　 [0, 1]</text>
+<text x="877" y="1112" font-size="23" font-weight="400" fill="#173746">C　　　 [1, 1, 0, 1]　　　　　　 [−1, 0]</text>
+<text x="877" y="1145" font-size="23" font-weight="400" fill="#173746">D　　　 [2, 0, 1, 0]　　　　　　 [0, −1]</text>
+<text x="877" y="1178" font-size="22" font-weight="650" fill="#166957">合计 4 × 6 = 24 个数。</text>
+<rect x="35" y="1238" width="789" height="312" rx="10" fill="white" stroke="#aec3d9" stroke-width="1.5"/>
+<text x="56" y="1280" font-size="28" font-weight="650" fill="#255895">03　D 的头 0 读取组 0，逐行点积</text>
+<text x="56" y="1324" font-size="23" font-weight="400" fill="#173746">给定 D 的内容查询 [1, 1]，位置查询 [0, −1]。</text>
+<text x="56" y="1362" font-size="23" font-weight="400" fill="#173746">把两者拼成 q = [1, 1, 0, −1]，与每个 K₀ 点积。</text>
+<text x="56" y="1400" font-size="23" font-weight="400" fill="#173746">内容点积（依次 A、B、C、D） = [1, 1, 2, 2]</text>
+<text x="56" y="1438" font-size="23" font-weight="400" fill="#173746">位置点积 = [0, −1, 0, 1]</text>
+<text x="56" y="1476" font-size="23" font-weight="400" fill="#173746">以 B 为例　(1 × 0 + 1 × 1 − 1 × 1) / 2 = 0</text>
+<text x="56" y="1514" font-size="23" font-weight="650" fill="#255895">四个分数 s = (内容 + 位置) / 2 = [0.5, 0, 1, 1.5]</text>
+<rect x="856" y="1238" width="789" height="312" rx="10" fill="white" stroke="#a5cdbc" stroke-width="1.5"/>
+<text x="877" y="1280" font-size="28" font-weight="650" fill="#166957">03　D 的头 0 将查询变换到潜在空间</text>
+<text x="877" y="1324" font-size="23" font-weight="400" fill="#173746">头 0 的内容键投影为 [u+w, v]，内容查询仍为 [1, 1]。</text>
+<text x="877" y="1362" font-size="23" font-weight="400" fill="#173746">点积 = u + v + w，等价查询 q′ = [1, 1, 1, 0]。</text>
+<text x="877" y="1400" font-size="23" font-weight="400" fill="#173746">q′ · c 得 [1, 2, 2, 3]；位置查询 · r 得 [0, −1, 0, 1]。</text>
+<text x="877" y="1438" font-size="23" font-weight="400" fill="#173746">以 B 为例　q′ · cᴮ = 2，[0, −1] · rᴮ = −1。</text>
+<text x="877" y="1476" font-size="23" font-weight="400" fill="#173746">B 的分数 = (2 − 1) / 2 = 0.5。</text>
+<text x="877" y="1514" font-size="23" font-weight="650" fill="#166957">四个分数 s = (内容 + 位置) / 2 = [0.5, 0.5, 1, 2]</text>
+<rect x="35" y="1578" width="789" height="291" rx="10" fill="white" stroke="#aec3d9" stroke-width="1.5"/>
+<text x="56" y="1620" font-size="28" font-weight="650" fill="#255895">04　把四个分数变成四个注意力权重</text>
+<text x="56" y="1664" font-size="23" font-weight="400" fill="#173746">每一项 aⱼ = exp(sⱼ) / Σ exp(sᵢ)，沿 A、B、C、D 归一化。</text>
+<text x="56" y="1703" font-size="23" font-weight="400" fill="#173746">指数值 ≈ [1.649, 1.000, 2.718, 4.482]</text>
+<text x="56" y="1742" font-size="23" font-weight="400" fill="#173746">指数之和 ≈ 9.8487</text>
+<text x="56" y="1781" font-size="23" font-weight="400" fill="#173746">B 的权重 ≈ 1.0000 / 9.8487 = 0.1015</text>
+<text x="56" y="1820" font-size="23" font-weight="650" fill="#255895">头 0 的权重 a ≈ [0.1674, 0.1015, 0.2760, 0.4551]</text>
+<rect x="856" y="1578" width="789" height="291" rx="10" fill="white" stroke="#a5cdbc" stroke-width="1.5"/>
+<text x="877" y="1620" font-size="28" font-weight="650" fill="#166957">04　把四个分数变成四个注意力权重</text>
+<text x="877" y="1664" font-size="23" font-weight="400" fill="#173746">每一项 aⱼ = exp(sⱼ) / Σ exp(sᵢ)，沿 A、B、C、D 归一化。</text>
+<text x="877" y="1703" font-size="23" font-weight="400" fill="#173746">指数值 ≈ [1.649, 1.649, 2.718, 7.389]</text>
+<text x="877" y="1742" font-size="23" font-weight="400" fill="#173746">指数之和 ≈ 13.4048</text>
+<text x="877" y="1781" font-size="23" font-weight="400" fill="#173746">B 的权重 ≈ 1.6487 / 13.4048 = 0.1230</text>
+<text x="877" y="1820" font-size="23" font-weight="650" fill="#166957">头 0 的权重 a ≈ [0.1230, 0.1230, 0.2028, 0.5512]</text>
+<rect x="35" y="1897" width="789" height="353" rx="10" fill="white" stroke="#aec3d9" stroke-width="1.5"/>
+<text x="56" y="1939" font-size="28" font-weight="650" fill="#255895">05　直接对缓存的 V₀ 加权求和</text>
+<text x="56" y="1983" font-size="23" font-weight="400" fill="#173746">H₀ = aᴬVᴬ + aᴮVᴮ + aᶜVᶜ + aᴰVᴰ。</text>
+<text x="56" y="2025" font-size="23" font-weight="400" fill="#173746">B 的贡献 ≈ 0.1015 × [1, 1, 1, 0]。</text>
+<text x="56" y="2067" font-size="23" font-weight="400" fill="#173746">第一维 ≈ 0.1674×1 + 0.1015×1 + 0.2760×2 + 0.4551×2。</text>
+<text x="56" y="2109" font-size="23" font-weight="650" fill="#255895">第一维 ≈ 1.7311</text>
+<text x="56" y="2151" font-size="24" font-weight="650" fill="#255895">H₀ ≈ [1.7311, 0.3775, 0.5566, 0.4434]</text>
+<text x="56" y="2193" font-size="23" font-weight="400" fill="#173746">每个 Q 头独立计算权重与 H，即使共用一组 K/V。</text>
+<rect x="856" y="1897" width="789" height="353" rx="10" fill="white" stroke="#a5cdbc" stroke-width="1.5"/>
+<text x="877" y="1939" font-size="28" font-weight="650" fill="#166957">05　先混合缓存的 c，再做一次值投影</text>
+<text x="877" y="1983" font-size="23" font-weight="400" fill="#173746">c̄ = aᴬcᴬ + aᴮcᴮ + aᶜcᶜ + aᴰcᴰ。</text>
+<text x="877" y="2025" font-size="23" font-weight="400" fill="#173746">B 的贡献 ≈ 0.1230 × [0, 1, 1, 0]。</text>
+<text x="877" y="2067" font-size="23" font-weight="650" fill="#166957">c̄ ≈ [1.4282, 0.3258, 0.6742, 0.3258]</text>
+<text x="877" y="2109" font-size="23" font-weight="400" fill="#173746">头 0 的值投影 F(c) = [u+w, v+l, u−v, w+l]。</text>
+<text x="877" y="2151" font-size="23" font-weight="650" fill="#166957">H₀ = F(c̄) ≈ [2.1025, 0.6516, 1.1025, 1.0000]</text>
+<text x="877" y="2193" font-size="23" font-weight="400" fill="#173746">线性投影满足 F(Σ aⱼcⱼ) = Σ aⱼF(cⱼ)。</text>
+<rect x="35" y="2278" width="789" height="283" rx="10" fill="white" stroke="#aec3d9" stroke-width="1.5"/>
+<text x="56" y="2320" font-size="28" font-weight="650" fill="#255895">06　其余头各自打分、读取，拼接 4 个头</text>
+<text x="56" y="2357" font-size="23" font-weight="400" fill="#173746">4 个头的内容查询依次为 [1,1]、[0,1]、[1,0]、[−1,1]。</text>
+<text x="56" y="2389" font-size="23" font-weight="400" fill="#173746">位置查询均为 [0,−1]。各头仍按 0/1→组 0，2/3→组 1 取值。</text>
+<text x="56" y="2421" font-size="22" font-weight="650" fill="#255895">H₀ ≈ [1.7311, 0.3775, 0.5566, 0.4434]</text>
+<text x="56" y="2453" font-size="22" font-weight="400" fill="#173746">H₁ ≈ [1.6225, 0.5000, 0.5000, 0.5000]</text>
+<text x="56" y="2485" font-size="22" font-weight="400" fill="#173746">H₂ ≈ [0.5000, 1.1225, 0.5000, 0.5000]</text>
+<text x="56" y="2517" font-size="22" font-weight="400" fill="#173746">H₃ ≈ [0.1824, 1.5486, 0.3532, 0.6468]</text>
+<rect x="856" y="2278" width="789" height="283" rx="10" fill="white" stroke="#a5cdbc" stroke-width="1.5"/>
+<text x="877" y="2320" font-size="28" font-weight="650" fill="#166957">06　其余头各自打分、读取，拼接 4 个头</text>
+<text x="877" y="2357" font-size="23" font-weight="400" fill="#173746">内容查询和位置查询同左。各头内容键分别投影为</text>
+<text x="877" y="2389" font-size="23" font-weight="400" fill="#173746">[u+w,v]、[u,v+l]、[v,u]、[w,l]；值取 F(c) 循环左移 h 位。</text>
+<text x="877" y="2421" font-size="22" font-weight="650" fill="#166957">H₀ ≈ [2.1025, 0.6516, 1.1025, 1.0000]</text>
+<text x="877" y="2453" font-size="22" font-weight="400" fill="#173746">H₁ ≈ [1.1525, 0.5625, 1.0000, 1.4700]</text>
+<text x="877" y="2485" font-size="22" font-weight="400" fill="#173746">H₂ ≈ [0.6225, 1.0000, 1.6225, 1.0000]</text>
+<text x="877" y="2517" font-size="22" font-weight="400" fill="#173746">H₃ ≈ [1.0000, 1.4287, 1.1391, 0.7032]</text>
+<rect x="35" y="2580" width="1610" height="146" rx="10" fill="#173b48" stroke="none" stroke-width="1.5"/>
+<text x="58" y="2619" font-size="26" font-weight="650" fill="white">同一输出投影 Wₒ（16×6）把 4 个头的 16 个数映射回隐藏宽度 6</text>
+<text x="58" y="2652" font-size="21" font-weight="400" fill="#d7e9ea">前四维取四个头的逐维平均；第 5 维取头 0 与头 2 的第 4 维之差，第 6 维取头 1 与头 3 的第 3 维之差。</text>
+<text x="58" y="2698" font-size="21" font-weight="650" fill="#d5e6ff">GQA　O ≈ [1.0090, 0.8872, 0.4775, 0.5225, -0.0566, 0.1468]</text>
+<text x="873" y="2698" font-size="21" font-weight="650" fill="#c8f2df">MLA　O ≈ [1.2193, 0.9107, 1.2160, 1.0433, 0.0000, -0.1391]</text>
+</g></svg>

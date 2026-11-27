@@ -1,6 +1,6 @@
 # GPT-2 124M Learning Lab
 
-**Learning status (2026-11-22): Stage 2 → Unit 3 → section 3.9. The learner ran the global/sliding-window comparison successfully. Basic linear-attention motivation, fixed S/z state writes and reads, parameter/feature distinctions and a three-way numerical comparison have been discussed; understanding is in progress. Next: an independent minimal causal linear-attention implementation comparing explicit kernel attention with recurrent state reads.** Section 3.7 core work and 3.8 small-MoE/E6 local practice are complete. See [progress](docs/learning-plan-review.md).
+**Learning status (2026-11-27)** — Section 3.9 mechanisms have been discussed, with an initial understanding. The learner ran the window comparison. The minimal linear-attention script is implemented and its outputs were checked by the assistant. The notes cover Gated DeltaNet, output gating and MLA. The learner chose to skip the configuration audit and E7. Unit 4 starts with section 4.1 on scaling laws, which the learner has yet to begin. See [progress](docs/learning-plan-review.md).
 
 [Linear-attention notes](docs/linear-attention-learning-notes.md) · [Notion](https://app.notion.com/p/420eaea314148177b3b8cec4061c3d60) · [Three-way SVG](docs/diagrams/attention-three-way-parameters-detailed.svg) / [PNG](docs/diagrams/attention-three-way-parameters-detailed.png).
 
@@ -30,7 +30,7 @@ New lesson: [architecture baseline setup](lesson16-architecture-baseline.md). `p
 
 ## Current progress
 
-**Current learning (2026-11-22): Stage 2 → Unit 3 → section 3.9. The learner ran the global/sliding-window comparison successfully. Basic linear-attention motivation, fixed S/z state writes and reads, parameter/feature distinctions and a three-way numerical comparison have been discussed; understanding is in progress. Next: an independent minimal causal linear-attention implementation comparing explicit kernel attention with recurrent state reads.** Gated DeltaNet/gated attention/MLA, the planned Qwen3.5-0.8B configuration audit and E7 remain pending, as do rolling-window-cache implementation and earlier formal/source-audit work. Counts remain Unit 2: 1/5, Unit 3: 0/9, Stage 2: 5/32; assistant arithmetic checks do not count as learner linear-model practice.
+**Section 3.9 evidence** — See the [attention notes](docs/linear-attention-learning-notes.md). A learner run of the linear script is unconfirmed. The rolling-window cache implementation remains open.
 
 The [formal-training and course-wrap-up notes](docs/formal-training-and-wrapup-notes.md) ([Notion](https://app.notion.com/p/40beaea314148160bf03dc6856495bb8), Chinese) clarify that SFT updates parameters using prepared demonstrations, while ordinary chat inference does not. Two archived curve illustrations are explicitly labeled as schematic, not measured results. The Notion master plan is synchronized.
 
